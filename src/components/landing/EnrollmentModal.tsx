@@ -101,7 +101,7 @@ export function EnrollmentProvider({ children }: { children: React.ReactNode }) 
       return;
     }
 
-    const razorpayKey = import.meta.env.VITE_RAZORPAY_KEY_ID || "rzp_test_YOUR_RAZORPAY_KEY_HERE";
+    const razorpayKey = import.meta.env.VITE_RAZORPAY_KEY_ID || "rzp_live_TIZdNUBnkz3PoA";
 
     const options = {
       key: razorpayKey,
