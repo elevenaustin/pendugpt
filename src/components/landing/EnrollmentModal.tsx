@@ -227,7 +227,7 @@ export function EnrollmentProvider({ children }: { children: React.ReactNode }) 
     }
 
     // 3. Send payload to Google Sheets Webhook URL if configured
-    const googleWebhookUrl = import.meta.env.VITE_GOOGLE_SHEETS_WEBHOOK_URL;
+    const googleWebhookUrl = import.meta.env.VITE_GOOGLE_SHEETS_WEBHOOK_URL || "https://script.google.com/macros/s/AKfycbynvD1F1Fs9fTPkEa7IygX2zA3S8BajsZZVur3Pg5_9yi8AiUIkD1mUCOXWxNHnFOdycQ/exec";
     if (googleWebhookUrl) {
       try {
         await fetch(googleWebhookUrl, {
