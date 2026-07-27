@@ -106,16 +106,18 @@ function AdminPage() {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    // Super Admin credentials check (must contain 'Eleven')
+    const validUser = import.meta.env.VITE_ADMIN_USER || "Eleven";
+    const validPass = import.meta.env.VITE_ADMIN_PASS || "ElevenPassword2026!";
+
     if (
-      (username.trim() === "Eleven" || username.trim() === "eleven") &&
-      (password === "ElevenPassword2026!" || password === "Eleven2026!" || password === "Eleven")
+      username.trim().toLowerCase() === validUser.toLowerCase() &&
+      password === validPass
     ) {
       sessionStorage.setItem("pendugpt_admin_auth", "true");
       setIsAuthenticated(true);
       setLoginError("");
     } else {
-      setLoginError("Invalid username or password. Username must be 'Eleven'.");
+      setLoginError("Invalid credentials. Access denied.");
     }
   };
 
@@ -199,7 +201,7 @@ function AdminPage() {
               </label>
               <input
                 type="text"
-                placeholder="Eleven"
+                placeholder="Enter username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 className="w-full rounded-xl border border-gray-700 bg-[#0a0a0a] px-3.5 py-3 text-sm font-bold text-white placeholder-gray-600 focus:border-[#d4f934] focus:outline-none transition"
@@ -213,7 +215,7 @@ function AdminPage() {
               </label>
               <input
                 type="password"
-                placeholder="ElevenPassword2026!"
+                placeholder="Enter password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full rounded-xl border border-gray-700 bg-[#0a0a0a] px-3.5 py-3 text-sm font-bold text-white placeholder-gray-600 focus:border-[#d4f934] focus:outline-none transition"
@@ -230,12 +232,6 @@ function AdminPage() {
               <span>Login as Super Admin</span>
             </button>
           </form>
-
-          <div className="mt-6 border-t border-gray-800 pt-4 text-center">
-            <p className="text-[11px] text-gray-500 font-medium">
-              Demo Credentials: Username <strong className="text-gray-300">Eleven</strong> · Password <strong className="text-gray-300">ElevenPassword2026!</strong>
-            </p>
-          </div>
         </div>
       </div>
     );
