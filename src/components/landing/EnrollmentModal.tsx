@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState } from "react";
 import { ArrowRight, CheckCircle2, Lock, MessageCircle, ShieldCheck, User, X } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
+import { supabase } from "@/integrations/supabase/client";
 
 interface EnrollmentContextType {
   isOpen: boolean;
@@ -97,7 +98,7 @@ export function EnrollmentProvider({ children }: { children: React.ReactNode }) 
       return;
     }
 
-    // Save lead into localStorage for Super Admin portal tracking
+    // Save lead into localStorage & Supabase Cloud Database for Super Admin portal tracking
     try {
       const newLead = {
         id: "LEAD-" + Math.floor(1000 + Math.random() * 9000),
@@ -111,6 +112,16 @@ export function EnrollmentProvider({ children }: { children: React.ReactNode }) 
       };
       const existing = JSON.parse(localStorage.getItem("pendugpt_leads") || "[]");
       localStorage.setItem("pendugpt_leads", JSON.stringify([newLead, ...existing]));
+
+      // Save directly to live Supabase database table
+      supabase.from("registrations").insert({
+        name: name.trim(),
+        country_code: countryCode,
+        mobile: mobile.trim(),
+        gender: gender,
+      }).then(({ error }) => {
+        if (error) console.log("Supabase direct insert status:", error.message);
+      });
     } catch (err) {
       console.error("Failed to save lead:", err);
     }

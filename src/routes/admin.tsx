@@ -20,6 +20,7 @@ import {
   Users,
 } from "lucide-react";
 import { Logo, Wordmark } from "@/components/brand/Logo";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/admin")({
   head: () => ({
@@ -71,14 +72,32 @@ function AdminPage() {
     loadLeads();
   }, []);
 
-  const loadLeads = () => {
+  const loadLeads = async () => {
     try {
       const stored = JSON.parse(localStorage.getItem("pendugpt_leads") || "[]");
-      if (stored.length === 0) {
-        localStorage.setItem("pendugpt_leads", JSON.stringify(SAMPLE_LEADS));
-        setLeads(SAMPLE_LEADS);
+      const localLeads = stored.length === 0 ? SAMPLE_LEADS : stored;
+
+      // Query live registrations from Supabase
+      const { data, error } = await supabase.from("registrations").select("*").order("created_at", { ascending: false });
+
+      if (data && data.length > 0) {
+        const remoteLeads: Lead[] = data.map((item: any, idx: number) => ({
+          id: `SUPA-${1000 + idx}`,
+          name: item.name,
+          countryCode: item.country_code || "+91",
+          mobile: item.mobile,
+          gender: item.gender,
+          date: item.created_at ? new Date(item.created_at).toISOString().replace('T', ' ').substring(0, 16) : new Date().toISOString().substring(0, 16),
+          amount: "₹99",
+          status: "Paid",
+        }));
+        
+        // Merge Supabase leads with local leads, removing duplicates by mobile
+        const combined = [...remoteLeads, ...localLeads];
+        const unique = combined.filter((v, i, a) => a.findIndex(t => t.mobile === v.mobile) === i);
+        setLeads(unique);
       } else {
-        setLeads(stored);
+        setLeads(localLeads);
       }
     } catch {
       setLeads(SAMPLE_LEADS);
