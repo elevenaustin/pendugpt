@@ -61,10 +61,55 @@ function HeroVideoPlayer() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isMuted, setIsMuted] = useState(false);
 
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    // Try playing unmuted by default when site opens
+    video.muted = false;
+    const playPromise = video.play();
+
+    if (playPromise !== undefined) {
+      playPromise
+        .then(() => {
+          setIsMuted(false);
+        })
+        .catch(() => {
+          // If browser autoplay policy blocks unmuted play before user interaction,
+          // temporarily mute to allow visual playback, and automatically unmute on user interaction / language selection
+          video.muted = true;
+          setIsMuted(true);
+          video.play().catch(() => {});
+        });
+    }
+
+    const unmuteAndPlay = () => {
+      if (video) {
+        video.muted = false;
+        setIsMuted(false);
+        video.play().catch(() => {});
+      }
+    };
+
+    window.addEventListener("unmute-video", unmuteAndPlay);
+    window.addEventListener("click", unmuteAndPlay, { once: true });
+    window.addEventListener("touchstart", unmuteAndPlay, { once: true });
+
+    return () => {
+      window.removeEventListener("unmute-video", unmuteAndPlay);
+      window.removeEventListener("click", unmuteAndPlay);
+      window.removeEventListener("touchstart", unmuteAndPlay);
+    };
+  }, []);
+
   const toggleSound = () => {
     if (videoRef.current) {
-      videoRef.current.muted = !videoRef.current.muted;
-      setIsMuted(videoRef.current.muted);
+      const nextMuted = !videoRef.current.muted;
+      videoRef.current.muted = nextMuted;
+      setIsMuted(nextMuted);
+      if (!nextMuted) {
+        videoRef.current.play().catch(() => {});
+      }
     }
   };
 
@@ -120,18 +165,18 @@ export function Hero() {
         
         {/* ----------------- MOBILE ONLY LAYOUT (sm:hidden) ----------------- */}
         <div className="block sm:hidden space-y-6">
-          {/* 1. Live AI Masterclass Badge */}
+          {/* 1. Video Player FIRST (Above title) */}
           <Reveal>
-            <div className="inline-flex items-center gap-2 rounded-full border border-red-500/30 bg-red-950/40 px-3.5 py-1.5 text-xs font-bold text-red-400 shadow-[0_0_15px_rgba(239,68,68,0.2)]">
-              <span className="h-2 w-2 rounded-full bg-red-500 animate-pulse" />
-              <span>{isPa ? "🔴 ਲਾਈਵ AI ਮਾਸਟਰਕਲਾਸ (Live AI Masterclass)" : "🔴 LIVE AI MASTERCLASS"}</span>
+            <div id="demo-mobile">
+              <HeroVideoPlayer />
             </div>
           </Reveal>
 
-          {/* 2. Video Player directly after Live AI Masterclass Title */}
+          {/* 2. Live AI Masterclass Badge */}
           <Reveal delay={0.05}>
-            <div id="demo-mobile">
-              <HeroVideoPlayer />
+            <div className="inline-flex items-center gap-2 rounded-full border border-red-500/30 bg-red-950/40 px-3.5 py-1.5 text-xs font-bold text-red-400 shadow-[0_0_15px_rgba(239,68,68,0.2)]">
+              <span className="h-2 w-2 rounded-full bg-red-500 animate-pulse" />
+              <span>{isPa ? "🔴 ਲਾਈਵ AI ਮਾਸਟਰਕਲਾਸ (Live AI Masterclass)" : "🔴 LIVE AI MASTERCLASS"}</span>
             </div>
           </Reveal>
 
@@ -186,14 +231,6 @@ export function Hero() {
                 <Rocket className="h-5 w-5" />
                 <span>{isPa ? "ਜੁਆਇਨ ਕਰੋ – ₹99 (Join Live Class)" : "Join Live Masterclass – ₹99"}</span>
               </button>
-
-              <a
-                href="#demo-mobile"
-                className="w-full flex items-center justify-center gap-2 rounded-full border border-gray-700 bg-gray-900/80 py-3.5 text-sm font-semibold text-white transition-colors"
-              >
-                <Play className="h-4 w-4 text-[#d4f934] fill-[#d4f934]" />
-                <span>{isPa ? "ਪ੍ਰੀਵਿਊ ਵੇਖੋ (Watch Preview)" : "Watch Preview"}</span>
-              </a>
             </div>
           </Reveal>
 
@@ -282,14 +319,6 @@ export function Hero() {
                   <Rocket className="h-5 w-5" />
                   <span>{isPa ? "ਜੁਆਇਨ ਕਰੋ – ₹99 (Join Live Class)" : "Join Live Masterclass – ₹99"}</span>
                 </button>
-
-                <a
-                  href="#demo"
-                  className="inline-flex items-center gap-2 rounded-full border border-gray-700 bg-gray-900/80 px-6 py-4 text-sm font-semibold text-white hover:border-[#d4f934] transition-colors"
-                >
-                  <Play className="h-4 w-4 text-[#d4f934] fill-[#d4f934]" />
-                  <span>{isPa ? "ਪ੍ਰੀਵਿਊ ਵੇਖੋ (Watch Preview)" : "Watch Preview"}</span>
-                </a>
               </div>
             </Reveal>
 
@@ -862,7 +891,10 @@ export function Instructor() {
                 <div className="relative group">
                   <div className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-[#d4f934] to-lime-500 opacity-60 blur-lg group-hover:opacity-100 transition duration-500" />
                   <img
-                    src="https://khushpreet.com/images/hero.webp"
+                    src="/mentor.png"
+                    onError={(e) => {
+                      (e.currentTarget as HTMLImageElement).src = "/instructor-about.jpg";
+                    }}
                     alt="Khushpreet Singh - PenduGPT Founder"
                     className="relative h-64 sm:h-80 w-full max-w-xs object-cover rounded-2xl border-2 border-[#d4f934]/60 shadow-2xl"
                     loading="lazy"
