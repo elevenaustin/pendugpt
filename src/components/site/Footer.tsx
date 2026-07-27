@@ -1,4 +1,4 @@
-import { Mail, Phone, MapPin, MessageCircle } from "lucide-react";
+import { Mail, Phone, MapPin, ShieldCheck, Lock } from "lucide-react";
 import { Logo, Wordmark } from "@/components/brand/Logo";
 
 export function Footer() {
@@ -64,7 +64,40 @@ export function Footer() {
         </div>
       </div>
 
-      <div className="mx-auto mt-10 max-w-7xl border-t border-gray-800 pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-500 gap-2">
+      {/* Razorpay Trust & Payment Gateway Badge Bar */}
+      <div className="mx-auto mt-10 max-w-7xl border-t border-gray-800/80 pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
+        {/* Razorpay Security Badge */}
+        <div className="flex items-center gap-3 rounded-2xl border border-gray-800 bg-[#0d0d0d] px-4 py-2.5 shadow-md">
+          <ShieldCheck className="h-5 w-5 text-[#d4f934] shrink-0" />
+          <div className="flex flex-col text-left">
+            <span className="text-[10px] uppercase font-bold tracking-wider text-gray-400 flex items-center gap-1">
+              <Lock className="h-3 w-3 text-gray-400" />
+              100% PCI-DSS Secure Payments
+            </span>
+            <div className="flex items-center gap-1.5 mt-0.5">
+              <span className="text-xs font-black text-white">Secured & Provided by</span>
+              {/* Razorpay Brand Logo Badge */}
+              <span className="inline-flex items-center gap-1.5 bg-[#031b33] border border-[#00c8ff]/40 px-2.5 py-0.5 rounded-md text-white shadow-inner">
+                <svg className="h-3.5 w-3.5 fill-[#00c8ff]" viewBox="0 0 24 24">
+                  <path d="M22.436 0l-11.91 7.773-1.174 4.276 6.625-4.323-2.671 9.722 8.788-17.448zM1.564 24l11.91-7.773 1.174-4.276-6.625 4.323 2.671-9.722-8.788 17.448z"/>
+                </svg>
+                <span className="font-extrabold text-xs tracking-wide text-white">Razorpay</span>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Accepted Payment Methods Pills */}
+        <div className="flex flex-wrap items-center justify-center gap-2 text-[10px] font-bold text-gray-400">
+          <span className="rounded-lg border border-gray-800 bg-[#121212] px-2.5 py-1 text-gray-300">UPI (GPay / PhonePe / Paytm)</span>
+          <span className="rounded-lg border border-gray-800 bg-[#121212] px-2.5 py-1 text-gray-300">Credit & Debit Cards</span>
+          <span className="rounded-lg border border-gray-800 bg-[#121212] px-2.5 py-1 text-gray-300">NetBanking</span>
+          <span className="rounded-lg border border-gray-800 bg-[#121212] px-2.5 py-1 text-gray-300">Wallets</span>
+        </div>
+      </div>
+
+      {/* Copyright & Admin Bar */}
+      <div className="mx-auto mt-6 max-w-7xl border-t border-gray-900 pt-4 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-500 gap-2">
         <p>© {year} PenduGPT (Proprietor: Khushpreet Singh). All Rights Reserved.</p>
         <a href="/admin" className="hover:text-[#d4f934] transition font-medium flex items-center gap-1">
           <span>Super Admin Portal 🛡️</span>

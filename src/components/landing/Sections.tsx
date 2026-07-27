@@ -304,102 +304,10 @@ export function Hero() {
       <div className="pointer-events-none absolute top-10 left-1/2 -translate-x-1/2 h-[350px] w-[600px] rounded-full bg-[#d4f934]/10 blur-[120px]" />
 
       <div className="mx-auto max-w-7xl">
-        
-        {/* ----------------- MOBILE ONLY LAYOUT (sm:hidden) ----------------- */}
-        <div className="block sm:hidden space-y-6">
-          {/* 1. Video Player FIRST (Above title) */}
-          <Reveal>
-            <div id="demo-mobile">
-              <HeroVideoPlayer />
-            </div>
-          </Reveal>
-
-          {/* 2. Live AI Masterclass Badge */}
-          <Reveal delay={0.05}>
-            <div className="inline-flex items-center gap-2 rounded-full border border-red-500/30 bg-red-950/40 px-3.5 py-1.5 text-xs font-bold text-red-400 shadow-[0_0_15px_rgba(239,68,68,0.2)]">
-              <span className="h-2 w-2 rounded-full bg-red-500 animate-pulse" />
-              <span>{isPa ? "🔴 ਲਾਈਵ AI ਮਾਸਟਰਕਲਾਸ (Live AI Masterclass)" : "🔴 LIVE AI MASTERCLASS"}</span>
-            </div>
-          </Reveal>
-
-          {/* 3. Learn AI Website Title */}
-          <Reveal delay={0.1}>
-            <h1 className="text-3xl font-black leading-tight text-white tracking-tight">
-              {isPa ? (
-                <>
-                  <span className="text-[#d4f934] italic">AI ਵੈੱਬਸਾਈਟ ਬਿਲਡਿੰਗ</span> ਸਿੱਖੋ ਤੇ ਫ੍ਰੀਲਾਂਸਿੰਗ ਸ਼ੁਰੂ ਕਰੋ
-                </>
-              ) : (
-                <>
-                  Learn <span className="text-[#d4f934] italic">AI Website</span> Building & Start Your Freelancing Journey
-                </>
-              )}
-            </h1>
-            <p className="mt-3 text-sm text-gray-300 leading-relaxed">
-              {isPa
-                ? "ਬਿਨਾਂ ਕੋਡਿੰਗ ਦੇ ਸੋਹਣੀਆਂ AI ਵੈੱਬਸਾਈਟਾਂ ਬਣਾਉਣਾ ਸਿੱਖੋ ਅਤੇ ਆਨਲਾਈਨ ਕਲਾਇੰਟ ਲੱਭ ਕੇ ਕਮਾਈ ਸ਼ੁਰੂ ਕਰੋ।"
-                : "Learn how to build beautiful AI-powered websites without coding and start getting clients."}
-            </p>
-          </Reveal>
-
-          {/* 4. Feature Pills */}
-          <Reveal delay={0.15}>
-            <div className="flex flex-wrap gap-2">
-              {[
-                isPa ? "ਕੋਡਿੰਗ ਦੀ ਲੋੜ ਨਹੀਂ" : "No Coding Required",
-                isPa ? "ਸ਼ੁਰੂਆਤੀ ਲੋਕਾਂ ਲਈ" : "Beginner Friendly",
-                isPa ? "ਲਾਈਵ ਪ੍ਰੈਕਟੀਕਲ" : "Live Practical Session",
-                isPa ? "ਅਸਲੀ ਵੈੱਬਸਾਈਟਾਂ" : "Build Real Websites",
-              ].map((pill) => (
-                <span
-                  key={pill}
-                  className="inline-flex items-center gap-1.5 rounded-full border border-gray-800 bg-[#121212] px-3 py-1.5 text-xs font-semibold text-gray-200"
-                >
-                  <CheckCircle2 className="h-3.5 w-3.5 text-[#d4f934]" />
-                  {pill}
-                </span>
-              ))}
-            </div>
-          </Reveal>
-
-          {/* 5. CTA Buttons */}
-          <Reveal delay={0.2}>
-            <div className="flex flex-col gap-3">
-              <button
-                type="button"
-                onClick={openModal}
-                className="lime-button w-full flex items-center justify-center gap-2 rounded-full py-4 text-base font-extrabold text-black shadow-[0_0_25px_rgba(212,249,52,0.3)] transition-all cursor-pointer"
-              >
-                <Rocket className="h-5 w-5" />
-                <span>{isPa ? "ਜੁਆਇਨ ਕਰੋ – ₹99 (Join Live Class)" : "Join Live Masterclass – ₹99"}</span>
-              </button>
-            </div>
-          </Reveal>
-
-          {/* 6. Student Social Proof */}
-          <Reveal delay={0.25}>
-            <div className="flex items-center gap-3 pt-1">
-              <div className="flex -space-x-2">
-                {[student1, student2, student3, student4].map((imgSrc, idx) => (
-                  <img
-                    key={idx}
-                    src={imgSrc}
-                    alt="Registered Student Profile"
-                    className="h-10 w-10 rounded-full border-2 border-[#d4f934] object-cover shadow-lg"
-                  />
-                ))}
-              </div>
-              <span className="text-xs font-semibold text-gray-300">
-                <strong className="text-white">1,000+</strong> {isPa ? "ਵਿਦਿਆਰਥੀ ਰਜਿਸਟਰਡ" : "students registered"}
-              </span>
-            </div>
-          </Reveal>
-        </div>
-
-        {/* ----------------- DESKTOP & TABLET LAYOUT (hidden sm:grid) ----------------- */}
-        <div className="hidden sm:grid items-center gap-8 lg:gap-12 lg:grid-cols-12">
-          {/* Left Column */}
-          <div className="lg:col-span-6">
+        <div className="grid lg:grid-cols-12 items-center gap-8 lg:gap-12">
+          
+          {/* Left Column (Text & Details) - Order 2 on Mobile, Order 1 on Desktop */}
+          <div className="lg:col-span-6 order-2 lg:order-1 space-y-6 sm:space-y-8">
             <Reveal>
               <div className="inline-flex items-center gap-2 rounded-full border border-red-500/30 bg-red-950/40 px-3.5 py-1.5 text-xs font-bold text-red-400 shadow-[0_0_15px_rgba(239,68,68,0.2)]">
                 <span className="h-2 w-2 rounded-full bg-red-500 animate-pulse" />
@@ -408,7 +316,7 @@ export function Hero() {
             </Reveal>
 
             <Reveal delay={0.05}>
-              <h1 className="mt-4 text-3xl sm:text-5xl lg:text-6xl font-black leading-tight text-white tracking-tight">
+              <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black leading-tight text-white tracking-tight">
                 {isPa ? (
                   <>
                     <span className="text-[#d4f934] italic">AI ਵੈੱਬਸਾਈਟ ਬਿਲਡਿੰਗ</span> ਸਿੱਖੋ ਤੇ ਫ੍ਰੀਲਾਂਸਿੰਗ ਸ਼ੁਰੂ ਕਰੋ
@@ -422,7 +330,7 @@ export function Hero() {
             </Reveal>
 
             <Reveal delay={0.1}>
-              <p className="mt-4 text-base sm:text-lg text-gray-300 max-w-2xl leading-relaxed">
+              <p className="text-sm sm:text-lg text-gray-300 max-w-2xl leading-relaxed">
                 {isPa
                   ? "ਬਿਨਾਂ ਕੋਡਿੰਗ ਦੇ ਸੋਹਣੀਆਂ AI ਵੈੱਬਸਾਈਟਾਂ ਬਣਾਉਣਾ ਸਿੱਖੋ ਅਤੇ ਆਨਲਾਈਨ ਕਲਾਇੰਟ ਲੱਭ ਕੇ ਕਮਾਈ ਸ਼ੁਰੂ ਕਰੋ। (Learn AI website building without coding & start freelancing)."
                   : "Learn how to build beautiful AI-powered websites without coding and start getting clients."}
@@ -431,7 +339,7 @@ export function Hero() {
 
             {/* Feature Pills */}
             <Reveal delay={0.15}>
-              <div className="mt-6 flex flex-wrap gap-2.5">
+              <div className="flex flex-wrap gap-2.5">
                 {[
                   isPa ? "ਕੋਡਿੰਗ ਦੀ ਲੋੜ ਨਹੀਂ (No Coding)" : "No Coding Required",
                   isPa ? "ਸ਼ੁਰੂਆਤੀ ਲੋਕਾਂ ਲਈ (Beginner Friendly)" : "Beginner Friendly",
@@ -450,13 +358,13 @@ export function Hero() {
               </div>
             </Reveal>
 
-            {/* CTA Buttons */}
+            {/* CTA Button */}
             <Reveal delay={0.2}>
-              <div className="mt-8 flex flex-wrap items-center gap-4">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
                 <button
                   type="button"
                   onClick={openModal}
-                  className="lime-button inline-flex items-center gap-2 rounded-full px-8 py-4 text-base font-extrabold text-black shadow-[0_0_25px_rgba(212,249,52,0.3)] hover:shadow-[0_0_35px_rgba(212,249,52,0.5)] transition-all cursor-pointer"
+                  className="lime-button w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full px-8 py-4 text-base font-extrabold text-black shadow-[0_0_25px_rgba(212,249,52,0.3)] hover:shadow-[0_0_35px_rgba(212,249,52,0.5)] transition-all cursor-pointer"
                 >
                   <Rocket className="h-5 w-5" />
                   <span>{isPa ? "ਜੁਆਇਨ ਕਰੋ – ₹99 (Join Live Class)" : "Join Live Masterclass – ₹99"}</span>
@@ -466,7 +374,7 @@ export function Hero() {
 
             {/* Student Social Proof */}
             <Reveal delay={0.25}>
-              <div className="mt-8 flex items-center gap-3">
+              <div className="flex items-center gap-3 pt-1">
                 <div className="flex -space-x-2">
                   {[student1, student2, student3, student4].map((imgSrc, idx) => (
                     <img
@@ -484,14 +392,14 @@ export function Hero() {
             </Reveal>
           </div>
 
-          {/* Right Column Video Box */}
-          <div id="demo" className="lg:col-span-6 w-full">
+          {/* Right Column: Single Video Player Instance - Order 1 on Mobile, Order 2 on Desktop */}
+          <div id="demo" className="lg:col-span-6 order-1 lg:order-2 w-full">
             <Reveal delay={0.15}>
               <HeroVideoPlayer />
             </Reveal>
           </div>
-        </div>
 
+        </div>
       </div>
     </section>
   );
