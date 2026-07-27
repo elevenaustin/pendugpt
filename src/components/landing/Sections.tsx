@@ -57,19 +57,168 @@ function SectionTitle({ title, subtitle }: { title: string; subtitle?: string })
 }
 
 /* ---------------------------------- Hero Section --------------------------------- */
+function HeroVideoPlayer() {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isMuted, setIsMuted] = useState(false);
+
+  const toggleSound = () => {
+    if (videoRef.current) {
+      videoRef.current.muted = !videoRef.current.muted;
+      setIsMuted(videoRef.current.muted);
+    }
+  };
+
+  return (
+    <div className="relative aspect-video w-full overflow-hidden rounded-2xl border-2 border-[#d4f934] bg-black shadow-[0_0_60px_rgba(212,249,52,0.45)] opacity-100">
+      <video
+        ref={videoRef}
+        src={demoVideo}
+        controls
+        autoPlay
+        playsInline
+        loop
+        preload="auto"
+        className="w-full h-full object-cover rounded-2xl bg-black opacity-100"
+        style={{ opacity: 1 }}
+      >
+        <source src={demoVideo} type="video/mp4" />
+        Your browser does not support playing MP4 videos.
+      </video>
+
+      {/* Interactive Sound Volume Button */}
+      <button
+        type="button"
+        onClick={toggleSound}
+        className="absolute top-3 right-3 z-30 flex items-center gap-1.5 rounded-full bg-black/80 border border-[#d4f934] px-3 py-1.5 text-xs font-extrabold text-white shadow-lg hover:bg-black transition cursor-pointer"
+      >
+        {isMuted ? (
+          <>
+            <VolumeX className="h-4 w-4 text-red-400" />
+            <span>Enable Sound 🔊</span>
+          </>
+        ) : (
+          <>
+            <Volume2 className="h-4 w-4 text-[#d4f934]" />
+            <span>Sound On 🔊</span>
+          </>
+        )}
+      </button>
+    </div>
+  );
+}
+
 export function Hero() {
   const { lang } = useI18n();
   const { openModal } = useEnrollmentModal();
   const isPa = lang === "pa";
-
-
 
   return (
     <section id="home" className="relative pt-28 pb-16 sm:pt-36 sm:pb-24 px-4 sm:px-6 lg:px-8 overflow-hidden bg-[#080808]">
       <div className="pointer-events-none absolute top-10 left-1/2 -translate-x-1/2 h-[350px] w-[600px] rounded-full bg-[#d4f934]/10 blur-[120px]" />
 
       <div className="mx-auto max-w-7xl">
-        <div className="grid items-center gap-8 lg:gap-12 lg:grid-cols-12">
+        
+        {/* ----------------- MOBILE ONLY LAYOUT (sm:hidden) ----------------- */}
+        <div className="block sm:hidden space-y-6">
+          {/* 1. Live AI Masterclass Badge */}
+          <Reveal>
+            <div className="inline-flex items-center gap-2 rounded-full border border-red-500/30 bg-red-950/40 px-3.5 py-1.5 text-xs font-bold text-red-400 shadow-[0_0_15px_rgba(239,68,68,0.2)]">
+              <span className="h-2 w-2 rounded-full bg-red-500 animate-pulse" />
+              <span>{isPa ? "🔴 ਲਾਈਵ AI ਮਾਸਟਰਕਲਾਸ (Live AI Masterclass)" : "🔴 LIVE AI MASTERCLASS"}</span>
+            </div>
+          </Reveal>
+
+          {/* 2. Video Player directly after Live AI Masterclass Title */}
+          <Reveal delay={0.05}>
+            <div id="demo-mobile">
+              <HeroVideoPlayer />
+            </div>
+          </Reveal>
+
+          {/* 3. Learn AI Website Title */}
+          <Reveal delay={0.1}>
+            <h1 className="text-3xl font-black leading-tight text-white tracking-tight">
+              {isPa ? (
+                <>
+                  <span className="text-[#d4f934] italic">AI ਵੈੱਬਸਾਈਟ ਬਿਲਡਿੰਗ</span> ਸਿੱਖੋ ਤੇ ਫ੍ਰੀਲਾਂਸਿੰਗ ਸ਼ੁਰੂ ਕਰੋ
+                </>
+              ) : (
+                <>
+                  Learn <span className="text-[#d4f934] italic">AI Website</span> Building & Start Your Freelancing Journey
+                </>
+              )}
+            </h1>
+            <p className="mt-3 text-sm text-gray-300 leading-relaxed">
+              {isPa
+                ? "ਬਿਨਾਂ ਕੋਡਿੰਗ ਦੇ ਸੋਹਣੀਆਂ AI ਵੈੱਬਸਾਈਟਾਂ ਬਣਾਉਣਾ ਸਿੱਖੋ ਅਤੇ ਆਨਲਾਈਨ ਕਲਾਇੰਟ ਲੱਭ ਕੇ ਕਮਾਈ ਸ਼ੁਰੂ ਕਰੋ।"
+                : "Learn how to build beautiful AI-powered websites without coding and start getting clients."}
+            </p>
+          </Reveal>
+
+          {/* 4. Feature Pills */}
+          <Reveal delay={0.15}>
+            <div className="flex flex-wrap gap-2">
+              {[
+                isPa ? "ਕੋਡਿੰਗ ਦੀ ਲੋੜ ਨਹੀਂ" : "No Coding Required",
+                isPa ? "ਸ਼ੁਰੂਆਤੀ ਲੋਕਾਂ ਲਈ" : "Beginner Friendly",
+                isPa ? "ਲਾਈਵ ਪ੍ਰੈਕਟੀਕਲ" : "Live Practical Session",
+                isPa ? "ਅਸਲੀ ਵੈੱਬਸਾਈਟਾਂ" : "Build Real Websites",
+              ].map((pill) => (
+                <span
+                  key={pill}
+                  className="inline-flex items-center gap-1.5 rounded-full border border-gray-800 bg-[#121212] px-3 py-1.5 text-xs font-semibold text-gray-200"
+                >
+                  <CheckCircle2 className="h-3.5 w-3.5 text-[#d4f934]" />
+                  {pill}
+                </span>
+              ))}
+            </div>
+          </Reveal>
+
+          {/* 5. CTA Buttons */}
+          <Reveal delay={0.2}>
+            <div className="flex flex-col gap-3">
+              <button
+                type="button"
+                onClick={openModal}
+                className="lime-button w-full flex items-center justify-center gap-2 rounded-full py-4 text-base font-extrabold text-black shadow-[0_0_25px_rgba(212,249,52,0.3)] transition-all cursor-pointer"
+              >
+                <Rocket className="h-5 w-5" />
+                <span>{isPa ? "ਜੁਆਇਨ ਕਰੋ – ₹99 (Join Live Class)" : "Join Live Masterclass – ₹99"}</span>
+              </button>
+
+              <a
+                href="#demo-mobile"
+                className="w-full flex items-center justify-center gap-2 rounded-full border border-gray-700 bg-gray-900/80 py-3.5 text-sm font-semibold text-white transition-colors"
+              >
+                <Play className="h-4 w-4 text-[#d4f934] fill-[#d4f934]" />
+                <span>{isPa ? "ਪ੍ਰੀਵਿਊ ਵੇਖੋ (Watch Preview)" : "Watch Preview"}</span>
+              </a>
+            </div>
+          </Reveal>
+
+          {/* 6. Student Social Proof */}
+          <Reveal delay={0.25}>
+            <div className="flex items-center gap-3 pt-1">
+              <div className="flex -space-x-2">
+                {[student1, student2, student3, student4].map((imgSrc, idx) => (
+                  <img
+                    key={idx}
+                    src={imgSrc}
+                    alt="Registered Student Profile"
+                    className="h-10 w-10 rounded-full border-2 border-[#d4f934] object-cover shadow-lg"
+                  />
+                ))}
+              </div>
+              <span className="text-xs font-semibold text-gray-300">
+                <strong className="text-white">1,000+</strong> {isPa ? "ਵਿਦਿਆਰਥੀ ਰਜਿਸਟਰਡ" : "students registered"}
+              </span>
+            </div>
+          </Reveal>
+        </div>
+
+        {/* ----------------- DESKTOP & TABLET LAYOUT (hidden sm:grid) ----------------- */}
+        <div className="hidden sm:grid items-center gap-8 lg:gap-12 lg:grid-cols-12">
           {/* Left Column */}
           <div className="lg:col-span-6">
             <Reveal>
@@ -164,28 +313,14 @@ export function Hero() {
             </Reveal>
           </div>
 
-          {/* Right Column Video Box - Larger & 100% Opacity */}
+          {/* Right Column Video Box */}
           <div id="demo" className="lg:col-span-6 w-full">
             <Reveal delay={0.15}>
-              <div className="relative aspect-video w-full overflow-hidden rounded-2xl border-2 border-[#d4f934] bg-black shadow-[0_0_60px_rgba(212,249,52,0.45)] opacity-100">
-                <video
-                  src={demoVideo}
-                  controls
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  preload="auto"
-                  className="w-full h-full object-cover rounded-2xl bg-black opacity-100"
-                  style={{ opacity: 1 }}
-                >
-                  <source src={demoVideo} type="video/mp4" />
-                  Your browser does not support playing MP4 videos.
-                </video>
-              </div>
+              <HeroVideoPlayer />
             </Reveal>
           </div>
         </div>
+
       </div>
     </section>
   );
