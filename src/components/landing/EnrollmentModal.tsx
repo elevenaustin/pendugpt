@@ -380,7 +380,15 @@ export function EnrollmentProvider({ children }: { children: React.ReactNode }) 
 export function useEnrollmentModal() {
   const context = useContext(EnrollmentContext);
   if (!context) {
-    throw new Error("useEnrollmentModal must be used within an EnrollmentProvider");
+    return {
+      isOpen: false,
+      openModal: () => {
+        if (typeof window !== "undefined") {
+          window.location.href = "/#pricing";
+        }
+      },
+      closeModal: () => {},
+    };
   }
   return context;
 }

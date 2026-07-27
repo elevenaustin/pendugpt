@@ -62,8 +62,8 @@ function SectionTitle({ title, subtitle }: { title: string; subtitle?: string })
 function HeroVideoPlayer() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [isMuted, setIsMuted] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [isMuted, setIsMuted] = useState(true);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [showControls, setShowControls] = useState(true);
@@ -86,34 +86,19 @@ function HeroVideoPlayer() {
     video.addEventListener("loadedmetadata", handleLoadedMetadata);
     video.addEventListener("volumechange", handleVolumeChange);
 
-    // Initial play attempt
-    video.muted = false;
-    const playPromise = video.play();
+    // Initial play attempt - start muted for 100% browser autoplay policy compliance
+    video.muted = true;
+    setIsMuted(true);
+    video.play().then(() => setIsPlaying(true)).catch(() => setIsPlaying(false));
 
-    if (playPromise !== undefined) {
-      playPromise
-        .then(() => {
-          setIsMuted(false);
-          setIsPlaying(true);
-        })
-        .catch(() => {
-          video.muted = true;
-          setIsMuted(true);
-          video.play().then(() => setIsPlaying(true)).catch(() => setIsPlaying(false));
-        });
-    }
-
-    const unmuteAndPlay = () => {
-      if (video) {
-        video.muted = false;
+    const handleUnmuteEvent = () => {
+      if (videoRef.current) {
+        videoRef.current.muted = false;
         setIsMuted(false);
-        video.play().then(() => setIsPlaying(true)).catch(() => {});
       }
     };
 
-    window.addEventListener("unmute-video", unmuteAndPlay);
-    window.addEventListener("click", unmuteAndPlay, { once: true });
-    window.addEventListener("touchstart", unmuteAndPlay, { once: true });
+    window.addEventListener("unmute-video", handleUnmuteEvent);
 
     return () => {
       video.removeEventListener("play", handlePlay);
@@ -121,28 +106,34 @@ function HeroVideoPlayer() {
       video.removeEventListener("timeupdate", handleTimeUpdate);
       video.removeEventListener("loadedmetadata", handleLoadedMetadata);
       video.removeEventListener("volumechange", handleVolumeChange);
-      window.removeEventListener("unmute-video", unmuteAndPlay);
-      window.removeEventListener("click", unmuteAndPlay);
-      window.removeEventListener("touchstart", unmuteAndPlay);
+      window.removeEventListener("unmute-video", handleUnmuteEvent);
       if (hideControlsTimeoutRef.current) clearTimeout(hideControlsTimeoutRef.current);
     };
   }, []);
 
   const togglePlay = (e?: React.MouseEvent) => {
-    if (e) e.stopPropagation();
-    if (!videoRef.current) return;
-    if (videoRef.current.paused) {
-      videoRef.current.play();
+    if (e) {
+      e.stopPropagation();
+    }
+    const video = videoRef.current;
+    if (!video) return;
+
+    if (video.paused) {
+      video.play().then(() => setIsPlaying(true)).catch(() => {});
     } else {
-      videoRef.current.pause();
+      video.pause();
+      setIsPlaying(false);
     }
   };
 
   const toggleMute = (e?: React.MouseEvent) => {
-    if (e) e.stopPropagation();
-    if (!videoRef.current) return;
-    videoRef.current.muted = !videoRef.current.muted;
-    setIsMuted(videoRef.current.muted);
+    if (e) {
+      e.stopPropagation();
+    }
+    const video = videoRef.current;
+    if (!video) return;
+    video.muted = !video.muted;
+    setIsMuted(video.muted);
   };
 
   const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {

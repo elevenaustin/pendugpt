@@ -13,6 +13,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { I18nProvider } from "@/lib/i18n";
 import { LanguageGate } from "@/components/site/LanguageGate";
+import { EnrollmentProvider } from "@/components/landing/EnrollmentModal";
 
 function NotFoundComponent() {
   return (
@@ -122,9 +123,11 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <I18nProvider>
-        <LanguageGate />
-        {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-        <Outlet />
+        <EnrollmentProvider>
+          <LanguageGate />
+          {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+          <Outlet />
+        </EnrollmentProvider>
       </I18nProvider>
     </QueryClientProvider>
   );
