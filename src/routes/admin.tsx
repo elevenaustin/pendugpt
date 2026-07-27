@@ -61,6 +61,7 @@ function AdminPage() {
   const [leads, setLeads] = useState<Lead[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [genderFilter, setGenderFilter] = useState("All");
+  const [isLoading, setIsLoading] = useState(true);
 
   // Load stored leads + pre-seed sample data if empty
   useEffect(() => {
@@ -73,6 +74,7 @@ function AdminPage() {
   }, []);
 
   const loadLeads = async () => {
+    setIsLoading(true);
     try {
       const stored = JSON.parse(localStorage.getItem("pendugpt_leads") || "[]");
       const localLeads = stored.length === 0 ? SAMPLE_LEADS : stored;
@@ -101,6 +103,8 @@ function AdminPage() {
       }
     } catch {
       setLeads(SAMPLE_LEADS);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -401,7 +405,20 @@ function AdminPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-800/60 font-medium">
-                {filteredLeads.length === 0 ? (
+                {isLoading ? (
+                  [1, 2, 3, 4, 5].map((i) => (
+                    <tr key={i}>
+                      <td className="p-4"><div className="h-4 w-16 rounded skeleton-shimmer" /></td>
+                      <td className="p-4"><div className="h-4 w-32 rounded skeleton-shimmer" /></td>
+                      <td className="p-4"><div className="h-4 w-28 rounded skeleton-shimmer" /></td>
+                      <td className="p-4"><div className="h-4 w-12 rounded skeleton-shimmer" /></td>
+                      <td className="p-4"><div className="h-4 w-24 rounded skeleton-shimmer" /></td>
+                      <td className="p-4"><div className="h-4 w-10 rounded skeleton-shimmer" /></td>
+                      <td className="p-4"><div className="h-5 w-16 rounded-full skeleton-shimmer" /></td>
+                      <td className="p-4 text-right"><div className="h-7 w-20 rounded-xl skeleton-shimmer ml-auto" /></td>
+                    </tr>
+                  ))
+                ) : filteredLeads.length === 0 ? (
                   <tr>
                     <td colSpan={8} className="p-8 text-center text-gray-500 text-sm">
                       No leads match your search filter.

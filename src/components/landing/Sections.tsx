@@ -68,6 +68,7 @@ function HeroVideoPlayer() {
   const [duration, setDuration] = useState(0);
   const [showControls, setShowControls] = useState(true);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const hideControlsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
@@ -77,7 +78,10 @@ function HeroVideoPlayer() {
     const handlePlay = () => setIsPlaying(true);
     const handlePause = () => setIsPlaying(false);
     const handleTimeUpdate = () => setCurrentTime(video.currentTime);
-    const handleLoadedMetadata = () => setDuration(video.duration);
+    const handleLoadedMetadata = () => {
+      setDuration(video.duration);
+      setIsVideoLoaded(true);
+    };
     const handleVolumeChange = () => setIsMuted(video.muted);
 
     video.addEventListener("play", handlePlay);
@@ -85,6 +89,11 @@ function HeroVideoPlayer() {
     video.addEventListener("timeupdate", handleTimeUpdate);
     video.addEventListener("loadedmetadata", handleLoadedMetadata);
     video.addEventListener("volumechange", handleVolumeChange);
+
+    if (video.readyState >= 1) {
+      setDuration(video.duration);
+      setIsVideoLoaded(true);
+    }
 
     // Initial play attempt - start muted for 100% browser autoplay policy compliance
     video.muted = true;
@@ -95,6 +104,7 @@ function HeroVideoPlayer() {
       if (videoRef.current) {
         videoRef.current.muted = false;
         setIsMuted(false);
+        videoRef.current.play().then(() => setIsPlaying(true)).catch(() => {});
       }
     };
 
@@ -193,6 +203,24 @@ function HeroVideoPlayer() {
         <source src={demoVideo} type="video/mp4" />
         Your browser does not support playing MP4 videos.
       </video>
+
+      {/* Skeleton Shimmer Loading Placeholder Overlay */}
+      {!isVideoLoaded && (
+        <div className="absolute inset-0 z-30 flex flex-col justify-between p-4 bg-[#0a0a0a] skeleton-shimmer rounded-2xl">
+          <div className="flex justify-between items-center">
+            <div className="h-5 w-28 rounded-full bg-gray-800/80" />
+            <div className="h-5 w-16 rounded-full bg-gray-800/80" />
+          </div>
+          <div className="flex flex-col items-center justify-center space-y-2">
+            <div className="h-16 w-16 rounded-full bg-gray-800/80 animate-pulse" />
+            <div className="h-3 w-40 rounded bg-gray-800/80" />
+          </div>
+          <div className="flex justify-between items-center">
+            <div className="h-6 w-32 rounded bg-gray-800/80" />
+            <div className="h-6 w-20 rounded bg-gray-800/80" />
+          </div>
+        </div>
+      )}
 
       {/* Center Huge Play/Pause Touch Overlay Button */}
       {(!isPlaying || showControls) && (
