@@ -80,14 +80,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "PenduGPT — Learn AI in Punjabi & English" },
-      { name: "description", content: "Practical AI training in Punjabi and English." },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "PenduGPT" },
-      { property: "og:description", content: "Practical AI training in Punjabi and English." },
+      { title: "PenduGPT — Learn AI Website Building & Freelancing" },
+      { name: "description", content: "Learn AI website building without coding in Punjabi & English. Live masterclass for ₹99." },
+      { name: "author", content: "PenduGPT" },
+      { property: "og:title", content: "PenduGPT — Learn AI Website Building & Freelancing" },
+      { property: "og:description", content: "Learn AI website building without coding in Punjabi & English. Live masterclass for ₹99." },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://pendugpt.shop" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
       {

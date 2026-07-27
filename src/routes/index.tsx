@@ -32,9 +32,9 @@ export const Route = createFileRoute("/")({
         property: "og:description",
         content: "Build beautiful AI-powered websites without coding and start getting clients.",
       },
-      { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://pendugpt.shop" },
     ],
-    links: [{ rel: "canonical", href: "/" }],
+    links: [{ rel: "canonical", href: "https://pendugpt.shop" }],
   }),
   component: Landing,
 });
