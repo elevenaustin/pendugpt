@@ -226,6 +226,9 @@ export function EnrollmentProvider({ children }: { children: React.ReactNode }) 
                         <Lock className="h-3 w-3 text-gray-400" />
                         <span>{isPa ? "100% ਸੁਰੱਖਿਅਤ ਚੈੱਕਆਉਟ" : "100% Secure Checkout · Instant Access"}</span>
                       </div>
+                      <p className="text-[10px] text-gray-500 text-center pt-0.5">
+                        By continuing, you agree to PenduGPT's <a href="/terms" target="_blank" className="underline hover:text-[#d4f934]">Terms</a>, <a href="/privacy" target="_blank" className="underline hover:text-[#d4f934]">Privacy</a> & <a href="/refund" target="_blank" className="underline hover:text-[#d4f934]">Refund Policy</a>.
+                      </p>
                     </form>
                   </div>
                 )}
