@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import {
   ArrowDownToLine,
   CheckCircle2,
+  Clock,
   Download,
   FileSpreadsheet,
   FileText,
@@ -17,10 +18,12 @@ import {
   ShieldCheck,
   TrendingUp,
   User,
+  UserCheck,
   Users,
 } from "lucide-react";
 import { Logo, Wordmark } from "@/components/brand/Logo";
 import { supabase } from "@/integrations/supabase/client";
+import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/admin")({
   head: () => ({
@@ -41,6 +44,7 @@ interface Lead {
   date: string;
   amount: string;
   status: string;
+  followedUp?: boolean;
 }
 
 // Pre-seeded sample leads for demonstration
@@ -59,15 +63,25 @@ function AdminPage() {
   const [loginError, setLoginError] = useState("");
 
   const [leads, setLeads] = useState<Lead[]>([]);
+  const [followedUpMap, setFollowedUpMap] = useState<Record<string, boolean>>({});
   const [searchQuery, setSearchQuery] = useState("");
   const [genderFilter, setGenderFilter] = useState("All");
+  const [followupFilter, setFollowupFilter] = useState("All");
   const [isLoading, setIsLoading] = useState(true);
 
-  // Load stored leads + pre-seed sample data if empty
+  // Load stored leads + follow-up map + pre-seed sample data
   useEffect(() => {
     const authSession = sessionStorage.getItem("pendugpt_admin_auth");
     if (authSession === "true") {
       setIsAuthenticated(true);
+    }
+
+    // Load persisted follow-up state
+    try {
+      const storedFollowups = JSON.parse(localStorage.getItem("pendugpt_followed_up_leads") || "{}");
+      setFollowedUpMap(storedFollowups);
+    } catch {
+      setFollowedUpMap({});
     }
 
     loadLeads();
@@ -76,11 +90,14 @@ function AdminPage() {
   const loadLeads = async () => {
     setIsLoading(true);
     try {
+      const storedFollowups: Record<string, boolean> = JSON.parse(localStorage.getItem("pendugpt_followed_up_leads") || "{}");
       const stored = JSON.parse(localStorage.getItem("pendugpt_leads") || "[]");
       const localLeads = stored.length === 0 ? SAMPLE_LEADS : stored;
 
       // Query live registrations from Supabase
-      const { data, error } = await supabase.from("registrations").select("*").order("created_at", { ascending: false });
+      const { data } = await supabase.from("registrations").select("*").order("created_at", { ascending: false });
+
+      let combinedLeads: Lead[] = localLeads;
 
       if (data && data.length > 0) {
         const remoteLeads: Lead[] = data.map((item: any, idx: number) => ({
@@ -96,16 +113,36 @@ function AdminPage() {
         
         // Merge Supabase leads with local leads, removing duplicates by mobile
         const combined = [...remoteLeads, ...localLeads];
-        const unique = combined.filter((v, i, a) => a.findIndex(t => t.mobile === v.mobile) === i);
-        setLeads(unique);
-      } else {
-        setLeads(localLeads);
+        combinedLeads = combined.filter((v, i, a) => a.findIndex(t => t.mobile === v.mobile) === i);
       }
+
+      // Attach followedUp boolean to each lead
+      const mapped = combinedLeads.map((l) => ({
+        ...l,
+        followedUp: !!storedFollowups[l.id] || !!storedFollowups[l.mobile],
+      }));
+
+      setLeads(mapped);
     } catch {
       setLeads(SAMPLE_LEADS);
     } finally {
       setIsLoading(false);
     }
+  };
+
+  // Toggle follow up state for a lead
+  const toggleFollowUp = (lead: Lead) => {
+    const key = lead.id;
+    const newStatus = !followedUpMap[key];
+    const updatedMap = { ...followedUpMap, [key]: newStatus, [lead.mobile]: newStatus };
+    setFollowedUpMap(updatedMap);
+    localStorage.setItem("pendugpt_followed_up_leads", JSON.stringify(updatedMap));
+
+    setLeads((prev) =>
+      prev.map((item) =>
+        item.id === lead.id || item.mobile === lead.mobile ? { ...item, followedUp: newStatus } : item
+      )
+    );
   };
 
   const handleLogin = (e: React.FormEvent) => {
@@ -137,7 +174,12 @@ function AdminPage() {
       lead.mobile.includes(searchQuery) ||
       lead.id.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesGender = genderFilter === "All" || lead.gender === genderFilter;
-    return matchesSearch && matchesGender;
+    const matchesFollowup =
+      followupFilter === "All" ||
+      (followupFilter === "FollowedUp" && lead.followedUp) ||
+      (followupFilter === "Pending" && !lead.followedUp);
+
+    return matchesSearch && matchesGender && matchesFollowup;
   });
 
   // Calculate Metrics
@@ -145,11 +187,13 @@ function AdminPage() {
   const totalRevenue = totalLeads * 99;
   const maleCount = leads.filter((l) => l.gender === "Male").length;
   const femaleCount = leads.filter((l) => l.gender === "Female").length;
+  const followedUpCount = leads.filter((l) => l.followedUp).length;
+  const pendingFollowupCount = totalLeads - followedUpCount;
 
   // Export to CSV
   const exportCSV = () => {
-    const headers = ["Lead ID", "Student Name", "Country Code", "Mobile Number", "Gender", "Registration Date", "Amount Paid", "Status"];
-    const rows = filteredLeads.map((l) => [l.id, `"${l.name}"`, l.countryCode, l.mobile, l.gender, l.date, l.amount, l.status]);
+    const headers = ["Lead ID", "Student Name", "Country Code", "Mobile Number", "Gender", "Registration Date", "Amount Paid", "Status", "Followed Up"];
+    const rows = filteredLeads.map((l) => [l.id, `"${l.name}"`, l.countryCode, l.mobile, l.gender, l.date, l.amount, l.status, l.followedUp ? "Yes" : "No"]);
     const csvContent = "data:text/csv;charset=utf-8," + [headers.join(","), ...rows.map((e) => e.join(","))].join("\n");
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
@@ -162,8 +206,8 @@ function AdminPage() {
 
   // Export to Excel Compatible (CSV with UTF-8 BOM)
   const exportXLSX = () => {
-    const headers = ["Lead ID\tStudent Name\tCountry Code\tMobile Number\tGender\tRegistration Date\tAmount Paid\tStatus"];
-    const rows = filteredLeads.map((l) => `${l.id}\t${l.name}\t${l.countryCode}\t${l.mobile}\t${l.gender}\t${l.date}\t${l.amount}\t${l.status}`);
+    const headers = ["Lead ID\tStudent Name\tCountry Code\tMobile Number\tGender\tRegistration Date\tAmount Paid\tStatus\tFollowed Up"];
+    const rows = filteredLeads.map((l) => `${l.id}\t${l.name}\t${l.countryCode}\t${l.mobile}\t${l.gender}\t${l.date}\t${l.amount}\t${l.status}\t${l.followedUp ? "Yes" : "No"}`);
     const content = "\uFEFF" + [headers, ...rows].join("\n");
     const blob = new Blob([content], { type: "application/vnd.ms-excel;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
@@ -306,6 +350,20 @@ function AdminPage() {
 
           <div className="rounded-2xl border border-gray-800 bg-[#121212] p-5">
             <div className="flex items-center justify-between text-gray-400 mb-2">
+              <span className="text-xs font-bold uppercase tracking-wider">Community Follow-up</span>
+              <UserCheck className="h-5 w-5 text-emerald-400" />
+            </div>
+            <div className="text-2xl font-black text-emerald-400">
+              {followedUpCount} <span className="text-xs font-semibold text-gray-400">Messaged</span>
+              <span className="text-xs font-normal text-gray-500 ml-2">({pendingFollowupCount} pending)</span>
+            </div>
+            <p className="text-[11px] text-gray-400 mt-1 font-medium">
+              {totalLeads > 0 ? Math.round((followedUpCount / totalLeads) * 100) : 0}% Outreach Completed
+            </p>
+          </div>
+
+          <div className="rounded-2xl border border-gray-800 bg-[#121212] p-5">
+            <div className="flex items-center justify-between text-gray-400 mb-2">
               <span className="text-xs font-bold uppercase tracking-wider">Gender Demographics</span>
               <User className="h-5 w-5 text-blue-400" />
             </div>
@@ -314,20 +372,11 @@ function AdminPage() {
             </div>
             <p className="text-[11px] text-gray-400 mt-1 font-medium">Verified Profiles</p>
           </div>
-
-          <div className="rounded-2xl border border-gray-800 bg-[#121212] p-5">
-            <div className="flex items-center justify-between text-gray-400 mb-2">
-              <span className="text-xs font-bold uppercase tracking-wider">System Status</span>
-              <Globe className="h-5 w-5 text-purple-400" />
-            </div>
-            <div className="text-2xl font-black text-green-400">Live Active</div>
-            <p className="text-[11px] text-gray-400 mt-1 font-medium">Real-time Lead Sync</p>
-          </div>
         </div>
 
         {/* Toolbar & Filters Bar */}
         <div className="rounded-2xl border border-gray-800 bg-[#121212] p-4 mb-6 flex flex-wrap items-center justify-between gap-4 print:hidden">
-          {/* Left: Search & Filter */}
+          {/* Left: Search & Filters */}
           <div className="flex flex-wrap items-center gap-3 flex-1 min-w-[280px]">
             {/* Search Input */}
             <div className="relative flex-1 min-w-[200px]">
@@ -341,13 +390,26 @@ function AdminPage() {
               />
             </div>
 
-            {/* Gender Filter */}
+            {/* Follow-up Status Filter */}
             <div className="flex items-center gap-2">
               <Filter className="h-4 w-4 text-gray-400" />
               <select
+                value={followupFilter}
+                onChange={(e) => setFollowupFilter(e.target.value)}
+                className="rounded-xl border border-gray-800 bg-[#0a0a0a] px-3 py-2.5 text-xs font-bold text-white outline-none cursor-pointer focus:border-[#d4f934]"
+              >
+                <option value="All">All Follow-up Status</option>
+                <option value="FollowedUp">✅ Messaged / Followed Up</option>
+                <option value="Pending">⏳ Pending Follow-up</option>
+              </select>
+            </div>
+
+            {/* Gender Filter */}
+            <div className="flex items-center gap-2">
+              <select
                 value={genderFilter}
                 onChange={(e) => setGenderFilter(e.target.value)}
-                className="rounded-xl border border-gray-800 bg-[#0a0a0a] px-3 py-2.5 text-xs font-bold text-white outline-none cursor-pointer"
+                className="rounded-xl border border-gray-800 bg-[#0a0a0a] px-3 py-2.5 text-xs font-bold text-white outline-none cursor-pointer focus:border-[#d4f934]"
               >
                 <option value="All">All Genders</option>
                 <option value="Male">Male</option>
@@ -400,8 +462,8 @@ function AdminPage() {
                   <th className="p-4">Gender</th>
                   <th className="p-4">Registration Date</th>
                   <th className="p-4">Amount</th>
-                  <th className="p-4">Status</th>
-                  <th className="p-4 text-right print:hidden">Actions</th>
+                  <th className="p-4">Payment</th>
+                  <th className="p-4 text-right print:hidden">Actions & Community Followup</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-800/60 font-medium">
@@ -415,7 +477,7 @@ function AdminPage() {
                       <td className="p-4"><div className="h-4 w-24 rounded skeleton-shimmer" /></td>
                       <td className="p-4"><div className="h-4 w-10 rounded skeleton-shimmer" /></td>
                       <td className="p-4"><div className="h-5 w-16 rounded-full skeleton-shimmer" /></td>
-                      <td className="p-4 text-right"><div className="h-7 w-20 rounded-xl skeleton-shimmer ml-auto" /></td>
+                      <td className="p-4 text-right"><div className="h-7 w-36 rounded-xl skeleton-shimmer ml-auto" /></td>
                     </tr>
                   ))
                 ) : filteredLeads.length === 0 ? (
@@ -426,9 +488,30 @@ function AdminPage() {
                   </tr>
                 ) : (
                   filteredLeads.map((lead) => (
-                    <tr key={lead.id} className="hover:bg-gray-800/30 transition">
+                    <tr
+                      key={lead.id}
+                      className={cn(
+                        "transition-all duration-150 border-l-4",
+                        lead.followedUp
+                          ? "bg-emerald-950/15 border-l-emerald-500 hover:bg-emerald-950/25"
+                          : "border-l-transparent hover:bg-gray-800/30"
+                      )}
+                    >
                       <td className="p-4 font-mono text-[#d4f934] font-bold">{lead.id}</td>
-                      <td className="p-4 font-bold text-white">{lead.name}</td>
+                      <td className="p-4 font-bold text-white">
+                        <div className="flex items-center gap-2">
+                          <span>{lead.name}</span>
+                          {lead.followedUp && (
+                            <span
+                              className="inline-flex items-center gap-0.5 rounded-full bg-emerald-500/20 border border-emerald-500/40 px-1.5 py-0.5 text-[9px] font-extrabold text-emerald-400"
+                              title="Community Followed Up"
+                            >
+                              <CheckCircle2 className="h-2.5 w-2.5" />
+                              <span>Done</span>
+                            </span>
+                          )}
+                        </div>
+                      </td>
                       <td className="p-4">
                         <span className="inline-flex items-center gap-1 font-bold text-gray-200">
                           <span className="text-gray-400">{lead.countryCode}</span> {lead.mobile}
@@ -448,15 +531,51 @@ function AdminPage() {
                         </span>
                       </td>
                       <td className="p-4 text-right print:hidden">
-                        <a
-                          href={`https://wa.me/${lead.countryCode.replace('+', '')}${lead.mobile}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1 rounded-lg border border-green-600/40 bg-green-950/40 px-2.5 py-1 text-[11px] font-bold text-green-400 hover:bg-green-600 hover:text-white transition"
-                        >
-                          <MessageSquare className="h-3 w-3" />
-                          <span>WhatsApp</span>
-                        </a>
+                        <div className="inline-flex items-center justify-end gap-2">
+                          {/* Follow-up Mark Toggle Button (Left of WhatsApp button) */}
+                          <button
+                            type="button"
+                            onClick={() => toggleFollowUp(lead)}
+                            className={cn(
+                              "inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-[11px] font-bold transition-all duration-200 cursor-pointer border shadow-sm",
+                              lead.followedUp
+                                ? "bg-emerald-950/90 text-emerald-400 border-emerald-500/50 hover:bg-emerald-900/60 shadow-[0_0_12px_rgba(16,185,129,0.25)]"
+                                : "bg-amber-950/40 text-amber-300/90 border-amber-500/30 hover:bg-amber-900/50 hover:text-amber-200"
+                            )}
+                            title={
+                              lead.followedUp
+                                ? "Click to toggle OFF (Mark as Pending)"
+                                : "Click to toggle ON (Mark as Messaged / Followed Up)"
+                            }
+                          >
+                            {lead.followedUp ? (
+                              <>
+                                <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
+                                <span>Messaged</span>
+                              </>
+                            ) : (
+                              <>
+                                <Clock className="h-3.5 w-3.5 text-amber-400 shrink-0" />
+                                <span>Mark Followed Up</span>
+                              </>
+                            )}
+                          </button>
+
+                          {/* WhatsApp Direct Chat Link */}
+                          <a
+                            href={`https://wa.me/${lead.countryCode.replace('+', '')}${lead.mobile}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={() => {
+                              if (!lead.followedUp) toggleFollowUp(lead);
+                            }}
+                            className="inline-flex items-center gap-1 rounded-lg border border-green-600/40 bg-green-950/40 px-2.5 py-1 text-[11px] font-bold text-green-400 hover:bg-green-600 hover:text-white transition"
+                            title="Open WhatsApp chat and auto-mark as Followed Up"
+                          >
+                            <MessageSquare className="h-3 w-3" />
+                            <span>WhatsApp</span>
+                          </a>
+                        </div>
                       </td>
                     </tr>
                   ))
