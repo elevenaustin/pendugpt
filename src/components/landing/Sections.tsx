@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
+import VimeoPlayer from "@vimeo/player";
 import student1 from "@/assets/student-1.jpg";
 import student2 from "@/assets/student-2.jpg";
 import student3 from "@/assets/student-3.jpg";
@@ -59,15 +60,255 @@ function SectionTitle({ title, subtitle }: { title: string; subtitle?: string })
 
 /* ---------------------------------- Hero Section --------------------------------- */
 function HeroVideoPlayer() {
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const playerRef = useRef<VimeoPlayer | null>(null);
+
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [isMuted, setIsMuted] = useState(true);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const [showControls, setShowControls] = useState(true);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+  const hideControlsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    if (!iframeRef.current) return;
+    const player = new VimeoPlayer(iframeRef.current);
+    playerRef.current = player;
+
+    player.on("play", () => setIsPlaying(true));
+    player.on("pause", () => setIsPlaying(false));
+    player.on("timeupdate", (data: { seconds: number }) => setCurrentTime(data.seconds));
+    player.on("loaded", async () => {
+      setIsVideoLoaded(true);
+      try {
+        const dur = await player.getDuration();
+        setDuration(dur);
+      } catch {}
+    });
+
+    player.setMuted(true).then(() => {
+      setIsMuted(true);
+      player.play().then(() => setIsPlaying(true)).catch(() => setIsPlaying(false));
+    });
+
+    const handleUnmuteEvent = () => {
+      if (playerRef.current) {
+        playerRef.current.setMuted(false);
+        setIsMuted(false);
+        playerRef.current.play().then(() => setIsPlaying(true)).catch(() => {});
+      }
+    };
+
+    window.addEventListener("unmute-video", handleUnmuteEvent);
+
+    return () => {
+      window.removeEventListener("unmute-video", handleUnmuteEvent);
+      if (hideControlsTimeoutRef.current) clearTimeout(hideControlsTimeoutRef.current);
+      player.destroy().catch(() => {});
+    };
+  }, []);
+
+  const togglePlay = (e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
+    const player = playerRef.current;
+    if (!player) return;
+
+    if (isPlaying) {
+      player.pause().then(() => setIsPlaying(false));
+    } else {
+      player.play().then(() => setIsPlaying(true));
+    }
+  };
+
+  const toggleMute = (e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
+    const player = playerRef.current;
+    if (!player) return;
+
+    const nextMuted = !isMuted;
+    player.setMuted(nextMuted).then(() => {
+      setIsMuted(nextMuted);
+      if (!nextMuted) {
+        player.setVolume(1);
+      }
+    });
+  };
+
+  const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const time = parseFloat(e.target.value);
+    if (playerRef.current) {
+      playerRef.current.setCurrentTime(time).then(() => {
+        setCurrentTime(time);
+      });
+    }
+  };
+
+  const toggleFullscreen = (e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
+    if (!containerRef.current) return;
+    if (!document.fullscreenElement) {
+      containerRef.current.requestFullscreen().then(() => setIsFullscreen(true)).catch(() => {});
+    } else {
+      document.exitFullscreen().then(() => setIsFullscreen(false)).catch(() => {});
+    }
+  };
+
+  const handleMouseMove = () => {
+    setShowControls(true);
+    if (hideControlsTimeoutRef.current) clearTimeout(hideControlsTimeoutRef.current);
+    hideControlsTimeoutRef.current = setTimeout(() => {
+      if (isPlaying) {
+        setShowControls(false);
+      }
+    }, 2500);
+  };
+
+  const formatTime = (secs: number) => {
+    if (isNaN(secs) || secs < 0) return "0:00";
+    const minutes = Math.floor(secs / 60);
+    const remainingSeconds = Math.floor(secs % 60);
+    return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`;
+  };
+
+  const progressPercent = duration > 0 ? (currentTime / duration) * 100 : 0;
+
   return (
-    <div className="group relative aspect-video w-full overflow-hidden rounded-2xl border-2 border-[#d4f934] bg-black shadow-[0_0_60px_rgba(212,249,52,0.45)]">
-      <iframe
-        src="https://player.vimeo.com/video/1213498051?title=0&byline=0&portrait=0&badge=0"
-        className="w-full h-full rounded-2xl"
-        allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media"
-        allowFullScreen
-        title="PenduGPT Masterclass Demo"
-      />
+    <div
+      ref={containerRef}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={() => isPlaying && setShowControls(false)}
+      className="group relative aspect-video w-full overflow-hidden rounded-2xl border-2 border-[#d4f934] bg-black shadow-[0_0_60px_rgba(212,249,52,0.45)] select-none cursor-pointer"
+      onClick={togglePlay}
+    >
+      {/* Vimeo Iframe scaled to fill the container without black bars */}
+      <div className="absolute inset-0 w-full h-full overflow-hidden flex items-center justify-center pointer-events-none">
+        <iframe
+          ref={iframeRef}
+          src="https://player.vimeo.com/video/1213498051?background=1&autoplay=1&loop=1&byline=0&title=0&muted=1"
+          className="w-[180%] h-[180%] max-w-none object-cover rounded-2xl border-0"
+          allow="autoplay; fullscreen; picture-in-picture"
+          title="PenduGPT Masterclass Demo"
+        />
+      </div>
+
+      {/* Skeleton Shimmer Loading Placeholder Overlay */}
+      {!isVideoLoaded && (
+        <div className="absolute inset-0 z-30 flex flex-col justify-between p-4 bg-[#0a0a0a] skeleton-shimmer rounded-2xl pointer-events-none">
+          <div className="flex justify-between items-center">
+            <div className="h-5 w-28 rounded-full bg-gray-800/80" />
+            <div className="h-5 w-16 rounded-full bg-gray-800/80" />
+          </div>
+          <div className="flex flex-col items-center justify-center space-y-2">
+            <div className="h-16 w-16 rounded-full bg-gray-800/80 animate-pulse" />
+            <div className="h-3 w-40 rounded bg-gray-800/80" />
+          </div>
+          <div className="flex justify-between items-center">
+            <div className="h-6 w-32 rounded bg-gray-800/80" />
+            <div className="h-6 w-20 rounded bg-gray-800/80" />
+          </div>
+        </div>
+      )}
+
+      {/* Center Huge Play/Pause Touch Overlay Button */}
+      {(!isPlaying || showControls) && (
+        <button
+          type="button"
+          onClick={togglePlay}
+          aria-label={isPlaying ? "Pause Video" : "Play Video"}
+          className="absolute inset-0 m-auto h-16 w-16 sm:h-20 sm:w-20 z-20 flex items-center justify-center rounded-full bg-black/60 border-2 border-[#d4f934] text-[#d4f934] shadow-[0_0_30px_rgba(212,249,52,0.5)] backdrop-blur-md transition-all duration-300 hover:scale-110 hover:bg-black/80 cursor-pointer"
+        >
+          {isPlaying ? (
+            <Pause className="h-8 w-8 sm:h-10 sm:w-10 fill-[#d4f934] text-[#d4f934]" />
+          ) : (
+            <Play className="h-8 w-8 sm:h-10 sm:w-10 fill-[#d4f934] text-[#d4f934] translate-x-0.5" />
+          )}
+        </button>
+      )}
+
+      {/* Custom Landing Page Controls Overlay Bar */}
+      <div
+        className={cn(
+          "absolute bottom-0 inset-x-0 z-30 flex flex-col gap-2 p-3 sm:p-4 bg-gradient-to-t from-black/95 via-black/80 to-transparent backdrop-blur-sm transition-opacity duration-300",
+          showControls || !isPlaying ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+        )}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Interactive Progress Scrubber / Timeline Bar */}
+        <div className="relative flex items-center w-full group/timeline cursor-pointer">
+          <input
+            type="range"
+            min={0}
+            max={duration || 100}
+            step={0.1}
+            value={currentTime}
+            onChange={handleSeek}
+            aria-label="Video Timeline"
+            className="w-full h-1.5 accent-[#d4f934] bg-gray-700/70 rounded-lg cursor-pointer appearance-none transition-all hover:h-2.5 focus:outline-none"
+            style={{
+              background: `linear-gradient(to right, #d4f934 ${progressPercent}%, rgba(75, 85, 99, 0.6) ${progressPercent}%)`,
+            }}
+          />
+        </div>
+
+        {/* Bottom Control Buttons */}
+        <div className="flex items-center justify-between text-xs font-bold text-white pt-1">
+          {/* Left: Play/Pause Button + Time Display */}
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={togglePlay}
+              className="flex items-center justify-center h-8 w-8 rounded-full bg-[#181818] border border-gray-700 text-[#d4f934] hover:border-[#d4f934] hover:bg-black transition-colors cursor-pointer"
+              title={isPlaying ? "Pause" : "Play"}
+            >
+              {isPlaying ? <Pause className="h-4 w-4 fill-[#d4f934]" /> : <Play className="h-4 w-4 fill-[#d4f934] translate-x-0.5" />}
+            </button>
+
+            <span className="font-mono text-[11px] sm:text-xs text-gray-300 tracking-wider">
+              {formatTime(currentTime)} / {formatTime(duration)}
+            </span>
+          </div>
+
+          {/* Right: Sound Toggle + Fullscreen */}
+          <div className="flex items-center gap-2">
+            {/* Custom Sound Button */}
+            <button
+              type="button"
+              onClick={toggleMute}
+              className={cn(
+                "flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-extrabold border transition-all cursor-pointer",
+                isMuted
+                  ? "bg-red-950/80 border-red-500/60 text-red-400 hover:bg-red-900"
+                  : "bg-[#121212]/90 border-[#d4f934] text-white hover:bg-black"
+              )}
+            >
+              {isMuted ? (
+                <>
+                  <VolumeX className="h-3.5 w-3.5 text-red-400" />
+                  <span>Unmute 🔊</span>
+                </>
+              ) : (
+                <>
+                  <Volume2 className="h-3.5 w-3.5 text-[#d4f934]" />
+                  <span className="text-[#d4f934]">Sound On</span>
+                </>
+              )}
+            </button>
+
+            {/* Fullscreen Button */}
+            <button
+              type="button"
+              onClick={toggleFullscreen}
+              className="flex items-center justify-center h-8 w-8 rounded-full bg-[#181818] border border-gray-700 text-gray-300 hover:text-[#d4f934] hover:border-[#d4f934] transition-colors cursor-pointer"
+              title={isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
+            >
+              {isFullscreen ? <Minimize className="h-4 w-4" /> : <Maximize className="h-4 w-4" />}
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
