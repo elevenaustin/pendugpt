@@ -125,16 +125,62 @@
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
+@keyframes cta-pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(212, 249, 52, 0.4), 0 0 35px rgba(212, 249, 52, 0.2);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 45px rgba(212, 249, 52, 0.9), 0 0 65px rgba(212, 249, 52, 0.5);
+    transform: scale(1.03);
+  }
+}
+
+@keyframes cta-shimmer-sweep {
+  0% {
+    transform: translateX(-120%) rotate(25deg);
+  }
+  30%, 100% {
+    transform: translateX(250%) rotate(25deg);
+  }
+}
+
 @utility lime-button {
-  background: #d4f934;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #d4f934 0%, #edff66 50%, #bce615 100%);
   color: #000000;
-  font-weight: 800;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 0 20px rgba(212, 249, 52, 0.25);
+  font-weight: 900;
+  letter-spacing: -0.01em;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: cta-pulse-glow 2.8s ease-in-out infinite;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: 0;
+    width: 50%;
+    height: 200%;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.9) 50%,
+      transparent 100%
+    );
+    animation: cta-shimmer-sweep 3.2s ease-in-out infinite;
+    pointer-events: none;
+  }
+
   &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 0 30px rgba(212, 249, 52, 0.45);
-    background: #e2ff4f;
+    transform: translateY(-3px) scale(1.06) !important;
+    box-shadow: 0 0 50px rgba(212, 249, 52, 1), 0 0 80px rgba(212, 249, 52, 0.6) !important;
+    background: linear-gradient(135deg, #e8ff59 0%, #ffffff 50%, #d4f934 100%) !important;
+  }
+
+  &:active {
+    transform: translateY(1px) scale(0.97) !important;
   }
 }
 

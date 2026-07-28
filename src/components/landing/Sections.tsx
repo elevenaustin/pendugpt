@@ -60,6 +60,8 @@ function SectionTitle({ title, subtitle }: { title: string; subtitle?: string })
 
 /* ---------------------------------- Hero Section --------------------------------- */
 function HeroVideoPlayer() {
+  const { lang } = useI18n();
+  const isPa = lang === "pa";
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const playerRef = useRef<VimeoPlayer | null>(null);
@@ -71,6 +73,7 @@ function HeroVideoPlayer() {
   const [showControls, setShowControls] = useState(true);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+  const [showSoundTooltip, setShowSoundTooltip] = useState(false);
   const hideControlsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
@@ -94,10 +97,15 @@ function HeroVideoPlayer() {
       player.play().then(() => setIsPlaying(true)).catch(() => setIsPlaying(false));
     });
 
+    const tooltipTimer = setTimeout(() => {
+      setShowSoundTooltip(true);
+    }, 1000);
+
     const handleUnmuteEvent = () => {
       if (playerRef.current) {
         playerRef.current.setMuted(false);
         setIsMuted(false);
+        setShowSoundTooltip(false);
         playerRef.current.play().then(() => setIsPlaying(true)).catch(() => {});
       }
     };
@@ -105,6 +113,7 @@ function HeroVideoPlayer() {
     window.addEventListener("unmute-video", handleUnmuteEvent);
 
     return () => {
+      clearTimeout(tooltipTimer);
       window.removeEventListener("unmute-video", handleUnmuteEvent);
       if (hideControlsTimeoutRef.current) clearTimeout(hideControlsTimeoutRef.current);
       player.destroy().catch(() => {});
@@ -129,6 +138,7 @@ function HeroVideoPlayer() {
     if (!player) return;
 
     const nextMuted = !isMuted;
+    setShowSoundTooltip(false);
     player.setMuted(nextMuted).then(() => {
       setIsMuted(nextMuted);
       if (!nextMuted) {
@@ -273,29 +283,44 @@ function HeroVideoPlayer() {
 
           {/* Right: Sound Toggle + Fullscreen */}
           <div className="flex items-center gap-2">
-            {/* Custom Sound Button */}
-            <button
-              type="button"
-              onClick={toggleMute}
-              className={cn(
-                "flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-extrabold border transition-all cursor-pointer",
-                isMuted
-                  ? "bg-red-950/80 border-red-500/60 text-red-400 hover:bg-red-900"
-                  : "bg-[#121212]/90 border-[#d4f934] text-white hover:bg-black"
+            {/* Custom Sound Button with Animated Popover Tooltip */}
+            <div className="relative">
+              {showSoundTooltip && isMuted && (
+                <div
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toggleMute();
+                  }}
+                  className="absolute -top-12 right-0 z-50 flex items-center gap-1.5 whitespace-nowrap rounded-xl bg-[#d4f934] px-3.5 py-1.5 text-xs font-black text-black shadow-[0_0_25px_rgba(212,249,52,0.9)] animate-bounce cursor-pointer border border-black/30"
+                >
+                  <span>{isPa ? "🔊 ਆਵਾਜ਼ ਸੁਣਨ ਲਈ ਇੱਥੇ ਦਬਾਓ!" : "🔊 Tap to turn Sound ON!"}</span>
+                  <div className="absolute -bottom-1 right-6 h-2.5 w-2.5 rotate-45 bg-[#d4f934]" />
+                </div>
               )}
-            >
-              {isMuted ? (
-                <>
-                  <VolumeX className="h-3.5 w-3.5 text-red-400" />
-                  <span>Unmute 🔊</span>
-                </>
-              ) : (
-                <>
-                  <Volume2 className="h-3.5 w-3.5 text-[#d4f934]" />
-                  <span className="text-[#d4f934]">Sound On</span>
-                </>
-              )}
-            </button>
+
+              <button
+                type="button"
+                onClick={toggleMute}
+                className={cn(
+                  "flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-extrabold border transition-all cursor-pointer",
+                  isMuted
+                    ? "bg-red-950/80 border-red-500/60 text-red-400 hover:bg-red-900 animate-pulse"
+                    : "bg-[#121212]/90 border-[#d4f934] text-white hover:bg-black"
+                )}
+              >
+                {isMuted ? (
+                  <>
+                    <VolumeX className="h-3.5 w-3.5 text-red-400" />
+                    <span>Unmute 🔊</span>
+                  </>
+                ) : (
+                  <>
+                    <Volume2 className="h-3.5 w-3.5 text-[#d4f934]" />
+                    <span className="text-[#d4f934]">Sound On</span>
+                  </>
+                )}
+              </button>
+            </div>
 
             {/* Fullscreen Button */}
             <button
