@@ -25,6 +25,9 @@ import { Logo, Wordmark } from "@/components/brand/Logo";
 import { supabase } from "@/integrations/supabase/client";
 import { cn } from "@/lib/utils";
 
+// Dedicated Central Cloud Storage Endpoint for Multi-Device Admin Sync
+const CLOUD_SYNC_URL = "https://api.restful-api.dev/objects/ff8081819f7e10ae019fa980576c3cdf";
+
 export const Route = createFileRoute("/admin")({
   head: () => ({
     meta: [
@@ -37,6 +40,7 @@ export const Route = createFileRoute("/admin")({
 
 interface Lead {
   id: string;
+  rawId?: string;
   name: string;
   countryCode: string;
   mobile: string;
@@ -47,7 +51,7 @@ interface Lead {
   followedUp?: boolean;
 }
 
-// Pre-seeded sample leads for demonstration
+// Pre-seeded sample leads for demonstration fallback
 const SAMPLE_LEADS: Lead[] = [
   { id: "LEAD-9481", name: "Jaspreet Singh", countryCode: "+91", mobile: "9876543210", gender: "Male", date: "2026-07-27 01:45", amount: "₹99", status: "Paid" },
   { id: "LEAD-9482", name: "Harpreet Kaur", countryCode: "+91", mobile: "9812345678", gender: "Female", date: "2026-07-27 01:52", amount: "₹99", status: "Paid" },
@@ -69,19 +73,11 @@ function AdminPage() {
   const [followupFilter, setFollowupFilter] = useState("All");
   const [isLoading, setIsLoading] = useState(true);
 
-  // Load stored leads + follow-up map + pre-seed sample data
+  // Load stored leads + follow-up map across all devices
   useEffect(() => {
     const authSession = sessionStorage.getItem("pendugpt_admin_auth");
     if (authSession === "true") {
       setIsAuthenticated(true);
-    }
-
-    // Load persisted follow-up state
-    try {
-      const storedFollowups = JSON.parse(localStorage.getItem("pendugpt_followed_up_leads") || "{}");
-      setFollowedUpMap(storedFollowups);
-    } catch {
-      setFollowedUpMap({});
     }
 
     loadLeads();
@@ -90,59 +86,125 @@ function AdminPage() {
   const loadLeads = async () => {
     setIsLoading(true);
     try {
-      const storedFollowups: Record<string, boolean> = JSON.parse(localStorage.getItem("pendugpt_followed_up_leads") || "{}");
-      const stored = JSON.parse(localStorage.getItem("pendugpt_leads") || "[]");
-      const localLeads = stored.length === 0 ? SAMPLE_LEADS : stored;
-
-      // Query live registrations from Supabase
-      const { data } = await supabase.from("registrations").select("*").order("created_at", { ascending: false });
-
-      let combinedLeads: Lead[] = localLeads;
-
-      if (data && data.length > 0) {
-        const remoteLeads: Lead[] = data.map((item: any, idx: number) => ({
-          id: `SUPA-${1000 + idx}`,
-          name: item.name,
-          countryCode: item.country_code || "+91",
-          mobile: item.mobile,
-          gender: item.gender,
-          date: item.created_at ? new Date(item.created_at).toISOString().replace('T', ' ').substring(0, 16) : new Date().toISOString().substring(0, 16),
-          amount: "₹99",
-          status: "Paid",
-        }));
-        
-        // Merge Supabase leads with local leads, removing duplicates by mobile
-        const combined = [...remoteLeads, ...localLeads];
-        combinedLeads = combined.filter((v, i, a) => a.findIndex(t => t.mobile === v.mobile) === i);
+      // 1. Read local storage cache first for instant feedback
+      let localFollowups: Record<string, boolean> = {};
+      try {
+        localFollowups = JSON.parse(localStorage.getItem("pendugpt_followed_up_leads") || "{}");
+      } catch {
+        localFollowups = {};
       }
 
-      // Attach followedUp boolean to each lead
-      const mapped = combinedLeads.map((l) => ({
-        ...l,
-        followedUp: !!storedFollowups[l.id] || !!storedFollowups[l.mobile],
-      }));
+      // 2. Fetch central cloud storage for multi-device sync
+      let remoteFollowups: Record<string, boolean> = {};
+      try {
+        const res = await fetch(CLOUD_SYNC_URL);
+        if (res.ok) {
+          const json = await res.json();
+          if (json && json.data && typeof json.data === "object") {
+            remoteFollowups = json.data;
+          }
+        }
+      } catch (e) {
+        console.warn("Cloud sync fetch notice:", e);
+      }
 
-      setLeads(mapped);
-    } catch {
+      // Merge remote followups over local cache
+      const mergedFollowups = { ...localFollowups, ...remoteFollowups };
+      setFollowedUpMap(mergedFollowups);
+      localStorage.setItem("pendugpt_followed_up_leads", JSON.stringify(mergedFollowups));
+
+      // 3. Query all registrations directly from Supabase
+      const { data, error } = await supabase
+        .from("registrations")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        console.error("Supabase select error:", error);
+      }
+
+      if (data && data.length > 0) {
+        const mappedLeads: Lead[] = data.map((item: any, idx: number) => {
+          const leadName = (item.name || item.full_name || "Student").toString().trim();
+          const leadMobile = (item.mobile || item.whatsapp || "").toString().trim();
+          const leadId = item.id
+            ? (item.id.length > 12 ? `LEAD-${item.id.substring(0, 6).toUpperCase()}` : item.id)
+            : `LEAD-${1000 + idx}`;
+
+          const isFollowedUp =
+            !!mergedFollowups[leadId] ||
+            !!mergedFollowups[leadMobile] ||
+            (item.id && !!mergedFollowups[item.id]);
+
+          return {
+            id: leadId,
+            rawId: item.id,
+            name: leadName,
+            countryCode: item.country_code || item.countryCode || "+91",
+            mobile: leadMobile,
+            gender: item.gender || "Other",
+            date: item.created_at
+              ? new Date(item.created_at).toISOString().replace("T", " ").substring(0, 16)
+              : new Date().toISOString().substring(0, 16),
+            amount: "₹99",
+            status: item.status || "Paid",
+            followedUp: isFollowedUp,
+          };
+        });
+
+        setLeads(mappedLeads);
+      } else {
+        // Fallback to sample leads if DB has 0 rows
+        setLeads(SAMPLE_LEADS);
+      }
+    } catch (err) {
+      console.error("Failed to load admin leads:", err);
       setLeads(SAMPLE_LEADS);
     } finally {
       setIsLoading(false);
     }
   };
 
-  // Toggle follow up state for a lead
-  const toggleFollowUp = (lead: Lead) => {
-    const key = lead.id;
-    const newStatus = !followedUpMap[key];
-    const updatedMap = { ...followedUpMap, [key]: newStatus, [lead.mobile]: newStatus };
+  // Toggle follow up state for a lead and sync to Central Cloud Storage
+  const toggleFollowUp = async (lead: Lead) => {
+    const newStatus = !lead.followedUp;
+    const leadMobile = lead.mobile;
+    const leadId = lead.id;
+    const rawId = lead.rawId;
+
+    const updatedMap: Record<string, boolean> = {
+      ...followedUpMap,
+      [leadId]: newStatus,
+    };
+
+    if (leadMobile) updatedMap[leadMobile] = newStatus;
+    if (rawId) updatedMap[rawId] = newStatus;
+
     setFollowedUpMap(updatedMap);
     localStorage.setItem("pendugpt_followed_up_leads", JSON.stringify(updatedMap));
 
+    // Update UI state immediately
     setLeads((prev) =>
       prev.map((item) =>
-        item.id === lead.id || item.mobile === lead.mobile ? { ...item, followedUp: newStatus } : item
+        item.id === lead.id || (lead.mobile && item.mobile === lead.mobile)
+          ? { ...item, followedUp: newStatus }
+          : item
       )
     );
+
+    // Save centrally to Cloud Storage for instant sync across all devices
+    try {
+      await fetch(CLOUD_SYNC_URL, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: "pendugpt_followups_store",
+          data: updatedMap,
+        }),
+      });
+    } catch (err) {
+      console.warn("Cloud sync update error:", err);
+    }
   };
 
   const handleLogin = (e: React.FormEvent) => {
@@ -167,13 +229,18 @@ function AdminPage() {
     setIsAuthenticated(false);
   };
 
-  // Filtered Leads
+  // Filtered Leads with safe string handling
   const filteredLeads = leads.filter((lead) => {
+    const nameStr = (lead.name || "").toLowerCase();
+    const mobileStr = (lead.mobile || "").toString();
+    const idStr = (lead.id || "").toLowerCase();
+    const query = searchQuery.trim().toLowerCase();
+
     const matchesSearch =
-      lead.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      lead.mobile.includes(searchQuery) ||
-      lead.id.toLowerCase().includes(searchQuery.toLowerCase());
+      nameStr.includes(query) || mobileStr.includes(query) || idStr.includes(query);
+
     const matchesGender = genderFilter === "All" || lead.gender === genderFilter;
+
     const matchesFollowup =
       followupFilter === "All" ||
       (followupFilter === "FollowedUp" && lead.followedUp) ||
@@ -192,13 +259,38 @@ function AdminPage() {
 
   // Export to CSV
   const exportCSV = () => {
-    const headers = ["Lead ID", "Student Name", "Country Code", "Mobile Number", "Gender", "Registration Date", "Amount Paid", "Status", "Followed Up"];
-    const rows = filteredLeads.map((l) => [l.id, `"${l.name}"`, l.countryCode, l.mobile, l.gender, l.date, l.amount, l.status, l.followedUp ? "Yes" : "No"]);
-    const csvContent = "data:text/csv;charset=utf-8," + [headers.join(","), ...rows.map((e) => e.join(","))].join("\n");
+    const headers = [
+      "Lead ID",
+      "Student Name",
+      "Country Code",
+      "Mobile Number",
+      "Gender",
+      "Registration Date",
+      "Amount Paid",
+      "Status",
+      "Followed Up",
+    ];
+    const rows = filteredLeads.map((l) => [
+      l.id,
+      `"${l.name}"`,
+      l.countryCode,
+      l.mobile,
+      l.gender,
+      l.date,
+      l.amount,
+      l.status,
+      l.followedUp ? "Yes" : "No",
+    ]);
+    const csvContent =
+      "data:text/csv;charset=utf-8," +
+      [headers.join(","), ...rows.map((e) => e.join(","))].join("\n");
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
     link.setAttribute("href", encodedUri);
-    link.setAttribute("download", `PenduGPT_Leads_${new Date().toISOString().slice(0, 10)}.csv`);
+    link.setAttribute(
+      "download",
+      `PenduGPT_Leads_${new Date().toISOString().slice(0, 10)}.csv`
+    );
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -206,14 +298,24 @@ function AdminPage() {
 
   // Export to Excel Compatible (CSV with UTF-8 BOM)
   const exportXLSX = () => {
-    const headers = ["Lead ID\tStudent Name\tCountry Code\tMobile Number\tGender\tRegistration Date\tAmount Paid\tStatus\tFollowed Up"];
-    const rows = filteredLeads.map((l) => `${l.id}\t${l.name}\t${l.countryCode}\t${l.mobile}\t${l.gender}\t${l.date}\t${l.amount}\t${l.status}\t${l.followedUp ? "Yes" : "No"}`);
+    const headers = [
+      "Lead ID\tStudent Name\tCountry Code\tMobile Number\tGender\tRegistration Date\tAmount Paid\tStatus\tFollowed Up",
+    ];
+    const rows = filteredLeads.map(
+      (l) =>
+        `${l.id}\t${l.name}\t${l.countryCode}\t${l.mobile}\t${l.gender}\t${l.date}\t${l.amount}\t${l.status}\t${
+          l.followedUp ? "Yes" : "No"
+        }`
+    );
     const content = "\uFEFF" + [headers, ...rows].join("\n");
     const blob = new Blob([content], { type: "application/vnd.ms-excel;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.setAttribute("download", `PenduGPT_Leads_${new Date().toISOString().slice(0, 10)}.xls`);
+    link.setAttribute(
+      "download",
+      `PenduGPT_Leads_${new Date().toISOString().slice(0, 10)}.xls`
+    );
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -239,7 +341,9 @@ function AdminPage() {
               <span>Super Admin Portal</span>
             </span>
             <h1 className="text-xl font-extrabold text-white mt-3">Super Admin Login</h1>
-            <p className="text-xs text-gray-400 mt-1">Enter your admin credentials to access user leads & reports.</p>
+            <p className="text-xs text-gray-400 mt-1">
+              Enter your admin credentials to access user leads & reports.
+            </p>
           </div>
 
           <form onSubmit={handleLogin} className="space-y-4">
@@ -302,7 +406,7 @@ function AdminPage() {
           <div className="flex items-center gap-3">
             <button
               onClick={loadLeads}
-              className="flex items-center gap-1.5 rounded-lg border border-gray-800 bg-[#161616] px-3 py-1.5 text-xs font-bold text-gray-300 hover:text-white transition"
+              className="flex items-center gap-1.5 rounded-lg border border-gray-800 bg-[#161616] px-3 py-1.5 text-xs font-bold text-gray-300 hover:text-white transition cursor-pointer"
               title="Refresh Leads Data"
             >
               <RefreshCw className="h-3.5 w-3.5" />
@@ -310,7 +414,7 @@ function AdminPage() {
             </button>
             <button
               onClick={handleLogout}
-              className="flex items-center gap-1.5 rounded-lg border border-red-900/50 bg-red-950/40 px-3 py-1.5 text-xs font-bold text-red-400 hover:bg-red-900/40 transition"
+              className="flex items-center gap-1.5 rounded-lg border border-red-900/50 bg-red-950/40 px-3 py-1.5 text-xs font-bold text-red-400 hover:bg-red-900/40 transition cursor-pointer"
             >
               <LogOut className="h-3.5 w-3.5" />
               <span>Logout</span>
@@ -321,11 +425,14 @@ function AdminPage() {
 
       {/* Main Dashboard Container */}
       <main className="mx-auto max-w-7xl p-4 sm:p-8">
-        
         {/* Printable Header (Visible only when printing PDF) */}
         <div className="hidden print:block mb-6">
-          <h1 className="text-2xl font-bold text-black">PenduGPT — Student Leads & Enrollment Report</h1>
-          <p className="text-xs text-gray-600">Generated on {new Date().toLocaleString()} · Total Leads: {leads.length}</p>
+          <h1 className="text-2xl font-bold text-black">
+            PenduGPT — Student Leads & Enrollment Report
+          </h1>
+          <p className="text-xs text-gray-600">
+            Generated on {new Date().toLocaleString()} · Total Leads: {leads.length}
+          </p>
         </div>
 
         {/* Stats Metric Cards Grid */}
@@ -344,31 +451,42 @@ function AdminPage() {
               <span className="text-xs font-bold uppercase tracking-wider">Revenue Collected</span>
               <TrendingUp className="h-5 w-5 text-green-400" />
             </div>
-            <div className="text-3xl font-black text-[#d4f934]">₹{totalRevenue.toLocaleString()}</div>
+            <div className="text-3xl font-black text-[#d4f934]">
+              ₹{totalRevenue.toLocaleString()}
+            </div>
             <p className="text-[11px] text-gray-400 mt-1 font-medium">₹99 per enrollment</p>
           </div>
 
           <div className="rounded-2xl border border-gray-800 bg-[#121212] p-5">
             <div className="flex items-center justify-between text-gray-400 mb-2">
-              <span className="text-xs font-bold uppercase tracking-wider">Community Follow-up</span>
+              <span className="text-xs font-bold uppercase tracking-wider">
+                Community Follow-up
+              </span>
               <UserCheck className="h-5 w-5 text-emerald-400" />
             </div>
             <div className="text-2xl font-black text-emerald-400">
-              {followedUpCount} <span className="text-xs font-semibold text-gray-400">Messaged</span>
-              <span className="text-xs font-normal text-gray-500 ml-2">({pendingFollowupCount} pending)</span>
+              {followedUpCount}{" "}
+              <span className="text-xs font-semibold text-gray-400">Messaged</span>
+              <span className="text-xs font-normal text-gray-500 ml-2">
+                ({pendingFollowupCount} pending)
+              </span>
             </div>
             <p className="text-[11px] text-gray-400 mt-1 font-medium">
-              {totalLeads > 0 ? Math.round((followedUpCount / totalLeads) * 100) : 0}% Outreach Completed
+              {totalLeads > 0 ? Math.round((followedUpCount / totalLeads) * 100) : 0}% Outreach
+              Completed
             </p>
           </div>
 
           <div className="rounded-2xl border border-gray-800 bg-[#121212] p-5">
             <div className="flex items-center justify-between text-gray-400 mb-2">
-              <span className="text-xs font-bold uppercase tracking-wider">Gender Demographics</span>
+              <span className="text-xs font-bold uppercase tracking-wider">
+                Gender Demographics
+              </span>
               <User className="h-5 w-5 text-blue-400" />
             </div>
             <div className="text-2xl font-black text-white">
-              {maleCount} <span className="text-xs font-normal text-gray-400">Male</span> / {femaleCount} <span className="text-xs font-normal text-gray-400">Female</span>
+              {maleCount} <span className="text-xs font-normal text-gray-400">Male</span> /{" "}
+              {femaleCount} <span className="text-xs font-normal text-gray-400">Female</span>
             </div>
             <p className="text-[11px] text-gray-400 mt-1 font-medium">Verified Profiles</p>
           </div>
@@ -470,14 +588,30 @@ function AdminPage() {
                 {isLoading ? (
                   [1, 2, 3, 4, 5].map((i) => (
                     <tr key={i}>
-                      <td className="p-4"><div className="h-4 w-16 rounded skeleton-shimmer" /></td>
-                      <td className="p-4"><div className="h-4 w-32 rounded skeleton-shimmer" /></td>
-                      <td className="p-4"><div className="h-4 w-28 rounded skeleton-shimmer" /></td>
-                      <td className="p-4"><div className="h-4 w-12 rounded skeleton-shimmer" /></td>
-                      <td className="p-4"><div className="h-4 w-24 rounded skeleton-shimmer" /></td>
-                      <td className="p-4"><div className="h-4 w-10 rounded skeleton-shimmer" /></td>
-                      <td className="p-4"><div className="h-5 w-16 rounded-full skeleton-shimmer" /></td>
-                      <td className="p-4 text-right"><div className="h-7 w-36 rounded-xl skeleton-shimmer ml-auto" /></td>
+                      <td className="p-4">
+                        <div className="h-4 w-16 rounded skeleton-shimmer" />
+                      </td>
+                      <td className="p-4">
+                        <div className="h-4 w-32 rounded skeleton-shimmer" />
+                      </td>
+                      <td className="p-4">
+                        <div className="h-4 w-28 rounded skeleton-shimmer" />
+                      </td>
+                      <td className="p-4">
+                        <div className="h-4 w-12 rounded skeleton-shimmer" />
+                      </td>
+                      <td className="p-4">
+                        <div className="h-4 w-24 rounded skeleton-shimmer" />
+                      </td>
+                      <td className="p-4">
+                        <div className="h-4 w-10 rounded skeleton-shimmer" />
+                      </td>
+                      <td className="p-4">
+                        <div className="h-5 w-16 rounded-full skeleton-shimmer" />
+                      </td>
+                      <td className="p-4 text-right">
+                        <div className="h-7 w-36 rounded-xl skeleton-shimmer ml-auto" />
+                      </td>
                     </tr>
                   ))
                 ) : filteredLeads.length === 0 ? (
@@ -563,7 +697,10 @@ function AdminPage() {
 
                           {/* WhatsApp Direct Chat Link */}
                           <a
-                            href={`https://wa.me/${lead.countryCode.replace('+', '')}${lead.mobile}`}
+                            href={`https://wa.me/${lead.countryCode.replace(
+                              "+",
+                              ""
+                            )}${lead.mobile}`}
                             target="_blank"
                             rel="noopener noreferrer"
                             onClick={() => {
@@ -584,7 +721,6 @@ function AdminPage() {
             </table>
           </div>
         </div>
-
       </main>
     </div>
   );
