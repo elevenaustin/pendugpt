@@ -116,12 +116,43 @@ export function EnrollmentProvider({ children }: { children: React.ReactNode }) 
       theme: {
         color: "#d4f934",
       },
-      handler: function (response: any) {
+      handler: async function (response: any) {
         // Payment Success!
         const rzpPaymentId = response.razorpay_payment_id || `pay_mock_${Math.random().toString(36).substr(2, 9)}`;
         setPaymentId(rzpPaymentId);
         setIsProcessing(false);
         setStep(2);
+
+        // IMMEDIATELY save payment captured lead to Supabase to prevent zero dropoff
+        try {
+          await supabase.from("registrations").insert({
+            name: `Paid Student (${countryCode} ${mobileNum})`,
+            country_code: countryCode,
+            mobile: mobileNum,
+            gender: "Paid",
+          });
+        } catch (err) {
+          console.error("Instant payment save error:", err);
+        }
+
+        // Instant notification to webhook
+        const googleWebhookUrl = import.meta.env.VITE_GOOGLE_SHEETS_WEBHOOK_URL || "https://script.google.com/macros/s/AKfycbynvD1F1Fs9fTPkEa7IygX2zA3S8BajsZZVur3Pg5_9yi8AiUIkD1mUCOXWxNHnFOdycQ/exec";
+        if (googleWebhookUrl) {
+          try {
+            fetch(googleWebhookUrl, {
+              method: "POST",
+              mode: "no-cors",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                date: new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }),
+                payment_id: rzpPaymentId,
+                whatsapp: `${countryCode} ${mobileNum}`,
+                amount: "₹99",
+                status: "Razorpay Payment Captured",
+              }),
+            });
+          } catch (e) {}
+        }
       },
       modal: {
         ondismiss: function () {
@@ -214,7 +245,7 @@ export function EnrollmentProvider({ children }: { children: React.ReactNode }) 
       console.error("Failed to save local lead:", err);
     }
 
-    // 2. Save directly to live Supabase database table
+    // 2. Insert or update in live Supabase database table with full profile details
     try {
       await supabase.from("registrations").insert({
         name: name.trim(),

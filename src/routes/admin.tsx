@@ -113,8 +113,14 @@ function AdminPage() {
       setFollowedUpMap(mergedFollowups);
       localStorage.setItem("pendugpt_followed_up_leads", JSON.stringify(mergedFollowups));
 
-      // 3. Query all registrations directly from Supabase
-      const { data, error } = await supabase
+      // 3. Read local leads from localStorage
+      let storedLocalLeads: Lead[] = [];
+      try {
+        storedLocalLeads = JSON.parse(localStorage.getItem("pendugpt_leads") || "[]");
+      } catch {}
+
+      // 4. Query all registrations directly from Supabase
+      const { data: dbData, error } = await supabase
         .from("registrations")
         .select("*")
         .order("created_at", { ascending: false });
@@ -123,18 +129,14 @@ function AdminPage() {
         console.error("Supabase select error:", error);
       }
 
-      if (data && data.length > 0) {
-        const mappedLeads: Lead[] = data.map((item: any, idx: number) => {
+      let supabaseLeads: Lead[] = [];
+      if (dbData && dbData.length > 0) {
+        supabaseLeads = dbData.map((item: any, idx: number) => {
           const leadName = (item.name || item.full_name || "Student").toString().trim();
           const leadMobile = (item.mobile || item.whatsapp || "").toString().trim();
           const leadId = item.id
             ? (item.id.length > 12 ? `LEAD-${item.id.substring(0, 6).toUpperCase()}` : item.id)
-            : `LEAD-${1000 + idx}`;
-
-          const isFollowedUp =
-            !!mergedFollowups[leadId] ||
-            !!mergedFollowups[leadMobile] ||
-            (item.id && !!mergedFollowups[item.id]);
+            : `SUPA-${1000 + idx}`;
 
           return {
             id: leadId,
@@ -148,15 +150,38 @@ function AdminPage() {
               : new Date().toISOString().substring(0, 16),
             amount: "₹99",
             status: item.status || "Paid",
-            followedUp: isFollowedUp,
           };
         });
-
-        setLeads(mappedLeads);
-      } else {
-        // Fallback to sample leads if DB has 0 rows
-        setLeads(SAMPLE_LEADS);
       }
+
+      // Merge all leads: Supabase live DB + LocalStorage + Sample Leads
+      const allCombined = [...supabaseLeads, ...storedLocalLeads, ...SAMPLE_LEADS];
+
+      // Remove duplicates by mobile or ID
+      const uniqueLeads = allCombined.filter(
+        (v, i, a) =>
+          a.findIndex(
+            (t) =>
+              (v.mobile && t.mobile === v.mobile) ||
+              (v.id && t.id === v.id) ||
+              (v.rawId && t.rawId === v.rawId)
+          ) === i
+      );
+
+      // Attach followedUp boolean to each lead
+      const mappedLeads = uniqueLeads.map((l) => {
+        const isFollowedUp =
+          !!mergedFollowups[l.id] ||
+          (l.mobile && !!mergedFollowups[l.mobile]) ||
+          (l.rawId && !!mergedFollowups[l.rawId]);
+
+        return {
+          ...l,
+          followedUp: isFollowedUp,
+        };
+      });
+
+      setLeads(mappedLeads);
     } catch (err) {
       console.error("Failed to load admin leads:", err);
       setLeads(SAMPLE_LEADS);
