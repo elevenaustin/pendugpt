@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { ArrowRight, CheckCircle2, Lock, MessageCircle, ShieldCheck, User, X, AlertTriangle, RefreshCw, Laptop, Smartphone } from "lucide-react";
+import { ArrowRight, CheckCircle2, Lock, MessageCircle, ShieldCheck, User, X, AlertTriangle, RefreshCw, Laptop, Smartphone, ExternalLink } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 import { supabase } from "@/integrations/supabase/client";
@@ -68,10 +68,13 @@ export function EnrollmentProvider({ children }: { children: React.ReactNode }) 
   const [gender, setGender] = useState<"Male" | "Female" | "Other" | "">("");
   const [hasLaptop, setHasLaptop] = useState<"Yes" | "No" | "">("Yes");
   const [registrationTime, setRegistrationTime] = useState("");
+  const [redirectCountdown, setRedirectCountdown] = useState(2);
   const [errors, setErrors] = useState<{ mobile?: string; name?: string; gender?: string; hasLaptop?: string }>({});
 
   const { lang } = useI18n();
   const isPa = lang === "pa";
+
+  const supportWhatsapp = import.meta.env.VITE_SUPPORT_WHATSAPP || "917717526430";
 
   const openModal = () => {
     setStep(1);
@@ -83,6 +86,7 @@ export function EnrollmentProvider({ children }: { children: React.ReactNode }) 
     setGender("");
     setHasLaptop("Yes");
     setRegistrationTime("");
+    setRedirectCountdown(2);
     setErrors({});
     setIsOpen(true);
   };
@@ -90,6 +94,43 @@ export function EnrollmentProvider({ children }: { children: React.ReactNode }) 
   const closeModal = () => {
     setIsOpen(false);
   };
+
+  const buildWhatsappUrl = () => {
+    const timeStr = registrationTime || new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
+    const msg = `Sir i have joined the Class and paid 99.
+
+Name: ${name || "Student"}
+Gender: ${gender || "N/A"}
+Payment Time: ${timeStr}
+Transaction ID: ${paymentId || "Confirmed"}`;
+
+    return `https://wa.me/${supportWhatsapp}?text=${encodeURIComponent(msg)}`;
+  };
+
+  // Automatic Redirection to WhatsApp on Step 3
+  useEffect(() => {
+    let timer: any;
+    let interval: any;
+
+    if (step === 3 && name && gender) {
+      setRedirectCountdown(2);
+
+      interval = setInterval(() => {
+        setRedirectCountdown((prev) => (prev > 0 ? prev - 1 : 0));
+      }, 1000);
+
+      timer = setTimeout(() => {
+        if (typeof window !== "undefined") {
+          window.location.href = buildWhatsappUrl();
+        }
+      }, 1800);
+    }
+
+    return () => {
+      if (timer) clearTimeout(timer);
+      if (interval) clearInterval(interval);
+    };
+  }, [step, name, gender, paymentId, registrationTime]);
 
   // Launch Razorpay Payment Modal
   const initiateRazorpayPayment = async (mobileNum: string) => {
@@ -280,14 +321,6 @@ export function EnrollmentProvider({ children }: { children: React.ReactNode }) 
     setErrors({});
     setStep(3);
   };
-
-  const supportWhatsapp = import.meta.env.VITE_SUPPORT_WHATSAPP || "917717526430";
-  const whatsappPreFilledMsg = `Sir i have joined the Class and paid 99.
-
-Name: ${name}
-Gender: ${gender}
-Payment Time: ${registrationTime || new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })}
-Transaction ID: ${paymentId}`;
 
   return (
     <EnrollmentContext.Provider value={{ isOpen, openModal, closeModal }}>
@@ -573,7 +606,7 @@ Transaction ID: ${paymentId}`;
               </div>
             )}
 
-            {/* ------------------- STEP 3: FINAL SEAT BOOKED CONFIRMATION ------------------- */}
+            {/* ------------------- STEP 3: FINAL SEAT BOOKED CONFIRMATION & AUTO-REDIRECT ------------------- */}
             {step === 3 && (
               <div className="text-center space-y-4 py-1">
                 <div className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-green-500/20 text-green-400 border border-green-500 shadow-md">
@@ -586,21 +619,36 @@ Transaction ID: ${paymentId}`;
                   </h3>
                   <p className="text-xs text-gray-300 mt-1 font-medium">
                     {isPa
-                      ? `ਧੰਨਵਾਦ ${name}! ਆਪਣਾ ਕਮਿਊਨਿਟੀ ਲਿੰਕ ਪ੍ਰਾਪਤ ਕਰਨ ਲਈ ਹੇਠਾਂ ਦਿੱਤੇ WhatsApp ਬਟਨ 'ਤੇ ਕਲਿੱਕ ਕਰੋ।`
-                      : `Thank you ${name}! Click below to send your details on WhatsApp and get your community link.`}
+                      ? `ਧੰਨਵਾਦ ${name}! WhatsApp ਖੁੱਲ੍ਹ ਰਿਹਾ ਹੈ...`
+                      : `Thank you ${name}! Opening WhatsApp automatically with your details...`}
                   </p>
                 </div>
 
-                {/* Primary WhatsApp Direct Action Button with Pre-filled Message */}
+                {/* Auto Redirect Countdown Notice */}
+                <div className="rounded-xl bg-green-950/30 border border-green-500/30 p-2 text-[11px] text-green-400 font-semibold flex items-center justify-center gap-1.5">
+                  <RefreshCw className="h-3.5 w-3.5 animate-spin text-green-400" />
+                  <span>
+                    {isPa
+                      ? `WhatsApp ${redirectCountdown} ਸਕਿੰਟਾਂ ਵਿੱਚ ਖੁੱਲ੍ਹੇਗਾ...`
+                      : `Redirecting to WhatsApp in ${redirectCountdown}s...`}
+                  </span>
+                </div>
+
+                {/* Primary Manual WhatsApp Action Button with Pre-filled Message */}
                 <a
-                  href={`https://wa.me/${supportWhatsapp}?text=${encodeURIComponent(whatsappPreFilledMsg)}`}
+                  href={buildWhatsappUrl()}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full flex items-center justify-center gap-2.5 rounded-xl py-3.5 px-4 text-xs sm:text-sm font-black text-white bg-[#25D366] hover:bg-[#20bd5a] transition cursor-pointer shadow-[0_0_25px_rgba(37,211,102,0.45)] animate-pulse"
                 >
                   <MessageCircle className="h-5 w-5 text-white fill-white shrink-0" />
                   <span>{isPa ? "WhatsApp 'ਤੇ ਮੈਸੇਜ ਭੇਜੋ ਅਤੇ ਲਿੰਕ ਲਵੋ 💬" : "Get Community Link on WhatsApp 💬"}</span>
+                  <ExternalLink className="h-3.5 w-3.5 ml-0.5 text-white/80" />
                 </a>
+
+                <p className="text-[10px] text-gray-400 text-center">
+                  Click the green button above if WhatsApp doesn't open automatically.
+                </p>
 
                 {/* Submitted Summary Details Box */}
                 <div className="rounded-xl border border-gray-800 bg-[#0a0a0a] p-3 text-left space-y-1.5 text-xs text-gray-300">
