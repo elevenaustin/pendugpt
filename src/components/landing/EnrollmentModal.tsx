@@ -67,6 +67,7 @@ export function EnrollmentProvider({ children }: { children: React.ReactNode }) 
   const [name, setName] = useState("");
   const [gender, setGender] = useState<"Male" | "Female" | "Other" | "">("");
   const [hasLaptop, setHasLaptop] = useState<"Yes" | "No" | "">("Yes");
+  const [registrationTime, setRegistrationTime] = useState("");
   const [errors, setErrors] = useState<{ mobile?: string; name?: string; gender?: string; hasLaptop?: string }>({});
 
   const { lang } = useI18n();
@@ -81,6 +82,7 @@ export function EnrollmentProvider({ children }: { children: React.ReactNode }) 
     setName("");
     setGender("");
     setHasLaptop("Yes");
+    setRegistrationTime("");
     setErrors({});
     setIsOpen(true);
   };
@@ -212,6 +214,8 @@ export function EnrollmentProvider({ children }: { children: React.ReactNode }) 
     setIsProcessing(true);
 
     const formattedDate = new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
+    setRegistrationTime(formattedDate);
+
     const fullMobile = `${countryCode} ${mobile.trim()}`;
     const laptopStatus = hasLaptop === "Yes" ? "Yes (Laptop/PC 💻)" : "No (Mobile / Manage 📱)";
 
@@ -276,6 +280,14 @@ export function EnrollmentProvider({ children }: { children: React.ReactNode }) 
     setErrors({});
     setStep(3);
   };
+
+  const supportWhatsapp = import.meta.env.VITE_SUPPORT_WHATSAPP || "917717526430";
+  const whatsappPreFilledMsg = `Sir i have joined the Class and paid 99.
+
+Name: ${name}
+Gender: ${gender}
+Payment Time: ${registrationTime || new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })}
+Transaction ID: ${paymentId}`;
 
   return (
     <EnrollmentContext.Provider value={{ isOpen, openModal, closeModal }}>
@@ -570,28 +582,25 @@ export function EnrollmentProvider({ children }: { children: React.ReactNode }) 
 
                 <div>
                   <h3 className="text-lg font-black text-white">
-                    {isPa ? "ਸੀਟ ਸਫਲਤਾਪੂਰਵਕ ਬੁੱਕ ਹੋ ਗਈ! 🎉" : "Your Details Have Been Submitted! 🎉"}
+                    {isPa ? "ਸੀਟ ਸਫਲਤਾਪੂਰਵਕ ਬੁੱਕ ਹੋ ਗਈ! 🎉" : "Your Seat is Confirmed! 🎉"}
                   </h3>
                   <p className="text-xs text-gray-300 mt-1 font-medium">
                     {isPa
-                      ? `ਧੰਨਵਾਦ ${name}! ਮਾਸਟਰਕਲਾਸ ਵਿੱਚ ਤੁਹਾਡੀ ਸੀਟ ਕਨਫਰਮ ਹੋ ਗਈ ਹੈ।`
-                      : `Thank you ${name}! Your masterclass seat booking is confirmed.`}
+                      ? `ਧੰਨਵਾਦ ${name}! ਆਪਣਾ ਕਮਿਊਨਿਟੀ ਲਿੰਕ ਪ੍ਰਾਪਤ ਕਰਨ ਲਈ ਹੇਠਾਂ ਦਿੱਤੇ WhatsApp ਬਟਨ 'ਤੇ ਕਲਿੱਕ ਕਰੋ।`
+                      : `Thank you ${name}! Click below to send your details on WhatsApp and get your community link.`}
                   </p>
                 </div>
 
-                {/* Displayed WhatsApp Number Highlight Box */}
-                <div className="rounded-xl border border-green-500/40 bg-green-950/40 p-3.5 text-center">
-                  <div className="flex items-center justify-center gap-1.5 text-green-400 font-bold text-xs mb-1">
-                    <MessageCircle className="h-4 w-4" />
-                    <span>{isPa ? "WhatsApp ਜਾਣਕਾਰੀ ਭੇਜੀ ਜਾਵੇਗੀ:" : "Masterclass Details Will Be Sent To:"}</span>
-                  </div>
-                  <div className="text-base sm:text-lg font-black text-[#d4f934] bg-[#090909] border border-[#d4f934]/30 py-2 px-3 rounded-lg tracking-wider inline-block mt-1">
-                    {countryCode} {mobile}
-                  </div>
-                  <p className="text-[11px] text-gray-300 mt-2 leading-snug">
-                    All session guidelines, zoom links, and prompt vaults will be sent directly to this WhatsApp number.
-                  </p>
-                </div>
+                {/* Primary WhatsApp Direct Action Button with Pre-filled Message */}
+                <a
+                  href={`https://wa.me/${supportWhatsapp}?text=${encodeURIComponent(whatsappPreFilledMsg)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full flex items-center justify-center gap-2.5 rounded-xl py-3.5 px-4 text-xs sm:text-sm font-black text-white bg-[#25D366] hover:bg-[#20bd5a] transition cursor-pointer shadow-[0_0_25px_rgba(37,211,102,0.45)] animate-pulse"
+                >
+                  <MessageCircle className="h-5 w-5 text-white fill-white shrink-0" />
+                  <span>{isPa ? "WhatsApp 'ਤੇ ਮੈਸੇਜ ਭੇਜੋ ਅਤੇ ਲਿੰਕ ਲਵੋ 💬" : "Get Community Link on WhatsApp 💬"}</span>
+                </a>
 
                 {/* Submitted Summary Details Box */}
                 <div className="rounded-xl border border-gray-800 bg-[#0a0a0a] p-3 text-left space-y-1.5 text-xs text-gray-300">
@@ -600,12 +609,22 @@ export function EnrollmentProvider({ children }: { children: React.ReactNode }) 
                     <strong className="text-white font-bold">{name}</strong>
                   </div>
                   <div className="flex justify-between border-b border-gray-800 pb-1">
+                    <span className="text-gray-400">Gender:</span>
+                    <strong className="text-white font-bold">{gender}</strong>
+                  </div>
+                  <div className="flex justify-between border-b border-gray-800 pb-1">
                     <span className="text-gray-400">WhatsApp:</span>
                     <strong className="text-[#d4f934] font-bold">{countryCode} {mobile}</strong>
                   </div>
                   <div className="flex justify-between border-b border-gray-800 pb-1">
-                    <span className="text-gray-400">Laptop/PC Access:</span>
-                    <strong className="text-white font-bold">{hasLaptop === "Yes" ? "Yes (Laptop/PC 💻)" : "No (Mobile 📱)"}</strong>
+                    <span className="text-gray-400">Transaction ID:</span>
+                    <strong className="text-white font-mono text-[11px]">{paymentId}</strong>
+                  </div>
+                  <div className="flex justify-between border-b border-gray-800 pb-1">
+                    <span className="text-gray-400">Payment Time:</span>
+                    <strong className="text-gray-300 font-medium text-[11px]">
+                      {registrationTime || new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })}
+                    </strong>
                   </div>
                   <div className="flex justify-between pt-0.5">
                     <span className="text-gray-400">Payment Status:</span>
@@ -613,12 +632,12 @@ export function EnrollmentProvider({ children }: { children: React.ReactNode }) 
                   </div>
                 </div>
 
-                <div className="pt-2">
+                <div className="pt-1">
                   <button
                     onClick={closeModal}
-                    className="w-full py-3 px-4 text-xs font-black text-black bg-[#d4f934] hover:bg-[#c2e828] rounded-xl transition cursor-pointer shadow-md"
+                    className="w-full py-2.5 px-4 text-xs font-bold text-gray-400 hover:text-white transition cursor-pointer"
                   >
-                    {isPa ? "ਠੀਕ ਹੈ / ਬੰਦ ਕਰੋ" : "Okay / Close Window"}
+                    {isPa ? "ਬੰਦ ਕਰੋ" : "Close Window"}
                   </button>
                 </div>
               </div>
