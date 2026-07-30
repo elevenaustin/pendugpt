@@ -107,6 +107,31 @@ Transaction ID: ${paymentId || "Confirmed"}`;
     return `https://wa.me/${supportWhatsapp}?text=${encodeURIComponent(msg)}`;
   };
 
+  // Preload Razorpay script on component mount
+  useEffect(() => {
+    loadRazorpayScript();
+  }, []);
+
+  // Lock body scroll & pause heavy GPU animations when modal is active
+  useEffect(() => {
+    if (typeof document !== "undefined") {
+      if (isOpen) {
+        document.body.classList.add("modal-open");
+        document.body.style.overflow = "hidden";
+        loadRazorpayScript();
+      } else {
+        document.body.classList.remove("modal-open");
+        document.body.style.overflow = "";
+      }
+    }
+    return () => {
+      if (typeof document !== "undefined") {
+        document.body.classList.remove("modal-open");
+        document.body.style.overflow = "";
+      }
+    };
+  }, [isOpen]);
+
   // Automatic Redirection to WhatsApp on Step 3
   useEffect(() => {
     let timer: any;
@@ -326,12 +351,12 @@ Transaction ID: ${paymentId || "Confirmed"}`;
     <EnrollmentContext.Provider value={{ isOpen, openModal, closeModal }}>
       {children}
 
-      {/* Modal Backdrop */}
+      {/* Modal Backdrop with Mobile Mid-Center Alignment */}
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fadeIn">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-sm md:backdrop-blur-md transform-gpu overflow-y-auto animate-fadeIn">
           
-          {/* Clean & Sleek Modal Box */}
-          <div className="relative w-full max-w-sm overflow-hidden rounded-2xl border border-gray-800 bg-[#121212] p-6 shadow-2xl text-white transition-all">
+          {/* Clean & Sleek Mid-Centered Modal Box */}
+          <div className="relative w-full max-w-sm my-auto max-h-[92vh] overflow-y-auto rounded-2xl border border-gray-800 bg-[#121212] p-5 sm:p-6 shadow-2xl text-white transition-all transform-gpu text-left custom-scrollbar">
             
             {/* Top Minimal Close Ghost Button */}
             <button

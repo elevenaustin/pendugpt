@@ -90,6 +90,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
+      { rel: "preconnect", href: "https://checkout.razorpay.com" },
+      { rel: "preconnect", href: "https://api.razorpay.com" },
+      { rel: "preconnect", href: "https://player.vimeo.com" },
       {
         rel: "stylesheet",
         href: appCss,
@@ -109,6 +112,7 @@ function RootShell({ children }: { children: ReactNode }) {
     <html lang="en">
       <head>
         <HeadContent />
+        <script src="https://checkout.razorpay.com/v1/checkout.js" async defer />
       </head>
       <body>
         {children}

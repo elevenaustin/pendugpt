@@ -266,3 +266,42 @@
   }
 }
 
+/* Pause heavy background GPU animations when payment modal is active to eliminate Razorpay popup lag */
+body.modal-open .animate-marquee-left,
+body.modal-open .animate-marquee,
+body.modal-open .lime-button,
+body.modal-open .skeleton-shimmer {
+  animation-play-state: paused !important;
+}
+
+/* Custom sleek scrollbar for mobile modal */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(212, 249, 52, 0.4) rgba(0, 0, 0, 0.3);
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 9999px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(212, 249, 52, 0.35);
+  border-radius: 9999px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(212, 249, 52, 0.7);
+}
+
+/* Hardware GPU layer promotion for smooth 60fps rendering */
+.transform-gpu {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+
