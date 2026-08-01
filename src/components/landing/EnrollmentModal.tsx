@@ -97,7 +97,7 @@ export function EnrollmentProvider({ children }: { children: React.ReactNode }) 
 
   const buildWhatsappUrl = () => {
     const timeStr = registrationTime || new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
-    const msg = `Sir i have joined the Class and paid 99.
+    const msg = `Sir i have paid the fee for Training video.
 
 Name: ${name || "Student"}
 Gender: ${gender || "N/A"}
