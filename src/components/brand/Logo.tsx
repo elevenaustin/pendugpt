@@ -8,6 +8,8 @@ export function Logo({ className, animated = false }: { className?: string; anim
     <img
       src="/pendugpt-logo.jpg"
       alt="PenduGPT Logo"
+      loading="eager"
+      decoding="async"
       className={cn("h-10 w-10 rounded-full object-cover shadow-[0_0_12px_rgba(212,249,52,0.3)]", animated && "animate-float", className)}
     />
   );

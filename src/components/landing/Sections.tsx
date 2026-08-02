@@ -425,6 +425,8 @@ export function Hero() {
                       key={idx}
                       src={imgSrc}
                       alt="Registered Student Profile"
+                      loading="eager"
+                      decoding="async"
                       className="h-10 w-10 rounded-full border-2 border-[#d4f934] object-cover shadow-lg hover:scale-110 transition-transform"
                     />
                   ))}
@@ -865,7 +867,7 @@ export function Showcase() {
               className="glass-card rounded-2xl overflow-hidden border border-gray-800 bg-[#121212] hover:border-[#d4f934]/50 transition-all hover:scale-[1.02]"
             >
               <div className="h-44 w-full overflow-hidden bg-gray-900 relative">
-                <img src={w.image} alt={w.title} className="h-full w-full object-cover opacity-80 hover:opacity-100 transition-opacity" />
+                <img src={w.image} alt={w.title} loading="lazy" decoding="async" className="h-full w-full object-cover opacity-80 hover:opacity-100 transition-opacity" />
               </div>
               <div className="p-4 text-left">
                 <h4 className="text-sm font-extrabold text-white">{w.title}</h4>

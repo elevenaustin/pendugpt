@@ -79,7 +79,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   head: () => ({
     meta: [
       { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { name: "viewport", content: "width=device-width, initial-scale=1, maximum-scale=5, viewport-fit=cover" },
+      { name: "theme-color", content: "#080808" },
+      { name: "mobile-web-app-capable", content: "yes" },
+      { name: "apple-mobile-web-app-capable", content: "yes" },
+      { name: "apple-mobile-web-app-status-bar-style", content: "black-translucent" },
+      { name: "format-detection", content: "telephone=no" },
       { title: "PenduGPT — Learn AI Website Building & Freelancing" },
       { name: "description", content: "Learn AI website building without coding in Punjabi & English. Live masterclass for ₹99." },
       { name: "author", content: "PenduGPT" },
@@ -91,8 +96,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     ],
     links: [
       { rel: "preconnect", href: "https://checkout.razorpay.com" },
+      { rel: "dns-prefetch", href: "https://checkout.razorpay.com" },
       { rel: "preconnect", href: "https://api.razorpay.com" },
+      { rel: "dns-prefetch", href: "https://api.razorpay.com" },
       { rel: "preconnect", href: "https://player.vimeo.com" },
+      { rel: "dns-prefetch", href: "https://player.vimeo.com" },
+      { rel: "preconnect", href: "https://images.unsplash.com" },
+      { rel: "dns-prefetch", href: "https://images.unsplash.com" },
       {
         rel: "stylesheet",
         href: appCss,
