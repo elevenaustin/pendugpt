@@ -70,6 +70,7 @@ function HeroVideoPlayer() {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const playerRef = useRef<VimeoPlayer | null>(null);
+  const playCountRef = useRef(0);
 
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(true);
@@ -95,6 +96,27 @@ function HeroVideoPlayer() {
         const dur = await player.getDuration();
         setDuration(dur);
       } catch {}
+    });
+
+    // Track loop count: play twice automatically, then pause until user clicks to play again
+    player.on("ended", async () => {
+      playCountRef.current += 1;
+      if (playCountRef.current < 2) {
+        try {
+          await player.setCurrentTime(0);
+          await player.play();
+          setIsPlaying(true);
+        } catch {
+          setIsPlaying(false);
+          setShowControls(true);
+        }
+      } else {
+        try {
+          await player.pause();
+        } catch {}
+        setIsPlaying(false);
+        setShowControls(true);
+      }
     });
 
     player
@@ -223,8 +245,8 @@ function HeroVideoPlayer() {
       <div className="absolute inset-0 w-full h-full overflow-hidden flex items-center justify-center pointer-events-none">
         <iframe
           ref={iframeRef}
-          src="https://player.vimeo.com/video/1215696372?background=1&autoplay=1&loop=1&autopause=0&byline=0&title=0&muted=1&playsinline=1"
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340%] h-[340%] max-w-none border-0 rounded-2xl"
+          src="https://player.vimeo.com/video/1215696372?background=1&autoplay=1&autopause=0&byline=0&title=0&muted=1&playsinline=1"
+          className="w-full h-full border-0 rounded-2xl"
           allow="autoplay; fullscreen; picture-in-picture"
           title="PenduGPT Masterclass Demo"
         />
