@@ -202,7 +202,7 @@ function HeroVideoPlayer() {
       <div className="absolute inset-0 w-full h-full overflow-hidden flex items-center justify-center pointer-events-none">
         <iframe
           ref={iframeRef}
-          src="https://player.vimeo.com/video/1213498051?background=1&autoplay=1&loop=1&byline=0&title=0&muted=1"
+          src="https://player.vimeo.com/video/1215696372?background=1&autoplay=1&loop=1&byline=0&title=0&muted=1"
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340%] h-[340%] max-w-none border-0 rounded-2xl"
           allow="autoplay; fullscreen; picture-in-picture"
           title="PenduGPT Masterclass Demo"
