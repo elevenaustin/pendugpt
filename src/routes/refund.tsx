@@ -42,7 +42,7 @@ function RefundPage() {
             <section>
               <h2 className="text-base font-bold text-white mb-2">1. Nature of Digital Products & Deliverables</h2>
               <p>
-                PenduGPT provides immediate digital enrollment for ₹99, granting students instant access to live AI masterclass seat reservations, downloadable AI prompt vaults (50+ prompts), client outreach proposal templates, freelancing invoice kits, and launch checklists (valued at ₹14,999).
+                PenduGPT provides immediate digital enrollment for ₹99, granting students instant access to live AI masterclass seat reservations, downloadable AI prompt vaults (50+ prompts), client outreach proposal templates, freelancing invoice kits, and launch checklists (valued at ₹75,000+).
               </p>
               <p className="mt-2 text-gray-300">
                 Because digital downloads, proprietary templates, and live access links are non-returnable upon instant delivery, general change-of-mind refund requests after downloading materials or joining live sessions are not accepted.

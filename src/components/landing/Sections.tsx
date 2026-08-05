@@ -201,6 +201,7 @@ function HeroVideoPlayer() {
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340%] h-[340%] max-w-none border-0 rounded-2xl"
           allow="autoplay; fullscreen; picture-in-picture"
           title="PenduGPT Masterclass Demo"
+          loading="lazy"
         />
       </div>
 
@@ -355,7 +356,7 @@ export function Hero() {
             <Reveal>
               <div className="inline-flex items-center gap-2 rounded-full border border-red-500/30 bg-red-950/40 px-3.5 py-1.5 text-xs font-bold text-red-400 shadow-[0_0_15px_rgba(239,68,68,0.2)]">
                 <span className="h-2 w-2 rounded-full bg-red-500 animate-pulse" />
-                <span>{isPa ? "🔴 ਲਾਈਵ AI ਮਾਸਟਰਕਲਾਸ (Live AI Masterclass)" : "🔴 LIVE AI MASTERCLASS"}</span>
+                <span>{isPa ? "🔴 ਲਾਈਵ ਡੈਮੋ ਕਲਾਸ (LIVE DEMO CLASS)" : "🔴 UPCOMING LIVE DEMO CLASS"}</span>
               </div>
             </Reveal>
 
@@ -363,11 +364,11 @@ export function Hero() {
               <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black leading-tight text-white tracking-tight">
                 {isPa ? (
                   <>
-                    <span className="text-[#d4f934] italic">AI ਵੈੱਬਸਾਈਟ ਬਿਲਡਿੰਗ</span> ਸਿੱਖੋ ਤੇ ਫ੍ਰੀਲਾਂਸਿੰਗ ਸ਼ੁਰੂ ਕਰੋ
+                    <span className="text-[#d4f934] italic">ਲਾਈਵ ਡੈਮੋ ਕਲਾਸ</span> ਜੁਆਇਨ ਕਰੋ ਤੇ AI ਵੈੱਬਸਾਈਟ ਬਿਲਡਿੰਗ ਸਿੱਖੋ
                   </>
                 ) : (
                   <>
-                    Learn <span className="text-[#d4f934] italic">AI Website</span> Building & Start Your Freelancing Journey
+                    Join The <span className="text-[#d4f934] italic">Live Demo Class</span> & Learn AI Website Building
                   </>
                 )}
               </h1>
@@ -376,8 +377,8 @@ export function Hero() {
             <Reveal delay={0.1}>
               <p className="text-sm sm:text-lg text-gray-300 max-w-2xl leading-relaxed">
                 {isPa
-                  ? "ਬਿਨਾਂ ਕੋਡਿੰਗ ਦੇ ਸੋਹਣੀਆਂ AI ਵੈੱਬਸਾਈਟਾਂ ਬਣਾਉਣਾ ਸਿੱਖੋ ਅਤੇ ਆਨਲਾਈਨ ਕਲਾਇੰਟ ਲੱਭ ਕੇ ਕਮਾਈ ਸ਼ੁਰੂ ਕਰੋ। (Learn AI website building without coding & start freelancing)."
-                  : "Learn how to build beautiful AI-powered websites without coding and start getting clients."}
+                  ? "ਸਾਡੀ ਲਾਈਵ ਡੈਮੋ ਕਲਾਸ ₹99 ਵਿੱਚ ਜੁਆਇਨ ਕਰੋ ਅਤੇ ਬਿਨਾਂ ਕੋਡਿੰਗ ਦੇ ਸੋਹਣੀਆਂ AI ਵੈੱਬਸਾਈਟਾਂ ਬਣਾਉਣਾ, ਆਨਲਾਈਨ ਪਬਲਿਸ਼ ਕਰਨਾ ਤੇ ਫ੍ਰੀਲਾਂਸਿੰਗ ਰਾਹੀਂ ਕਮਾਈ ਕਰਨਾ ਸਿੱਖੋ।"
+                  : "Join our live demo class for ₹99 and learn how to build professional AI-powered websites without coding, publish them online, and start getting freelance clients."}
               </p>
             </Reveal>
 
@@ -411,7 +412,7 @@ export function Hero() {
                   className="lime-button w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full px-8 py-4 text-base font-extrabold text-black shadow-[0_0_25px_rgba(212,249,52,0.3)] hover:shadow-[0_0_35px_rgba(212,249,52,0.5)] transition-all cursor-pointer"
                 >
                   <Rocket className="h-5 w-5" />
-                  <span>{isPa ? "ਜੁਆਇਨ ਕਰੋ – ₹99 (Join Live Class)" : "Join Live Masterclass – ₹99"}</span>
+                  <span>{isPa ? "ਲਾਈਵ ਡੈਮੋ ਕਲਾਸ ਜੁਆਇਨ ਕਰੋ — ₹99" : "Join Live Demo Class — ₹99"}</span>
                 </button>
               </div>
             </Reveal>
@@ -475,6 +476,241 @@ export function Stats() {
             </div>
           ))}
         </div>
+      </div>
+    </section>
+  );
+}
+
+/* -------------------------------- Limited Spots & Scarcity Urgency Section -------------------------------- */
+export function LimitedSpots() {
+  const { lang } = useI18n();
+  const { openModal } = useEnrollmentModal();
+  const isPa = lang === "pa";
+
+  const [spotsLeft, setSpotsLeft] = useState(12);
+  const [tickerIndex, setTickerIndex] = useState(0);
+
+  const notifications = [
+    isPa ? "🔥 ਗੁਰਪ੍ਰੀਤ ਐਸ. (ਲੁਧਿਆਣਾ) ਨੇ ਹੁਣੇ 1 ਸੀਟ ਬੁੱਕ ਕੀਤੀ" : "🔥 Gurpreet S. (Ludhiana) just reserved a spot!",
+    isPa ? "⚡ ਹਰਮਨ ਕੌਰ (ਅੰਮ੍ਰਿਤਸਰ) ਨੇ ਕਲਾਸ ਜੁਆਇਨ ਕੀਤੀ" : "⚡ Harman K. (Amritsar) registered for the demo class!",
+    isPa ? "✨ ਸਿਮਰਨ ਸਿੰਘ (ਜਲੰਧਰ) ਨੇ ਰਜਿਸਟ੍ਰੇਸ਼ਨ ਪੂਰੀ ਕੀਤੀ" : "✨ Simran S. (Jalandhar) completed registration!",
+    isPa ? "🚀 ਨਵਦੀਪ ਕੇ. (ਮੋਹਾਲੀ) ਨੇ ₹99 ਨਾਲ ਸੀਟ ਰਿਜ਼ਰਵ ਕੀਤੀ" : "🚀 Navdeep K. (Mohali) reserved a seat for ₹99!",
+  ];
+
+  // Animated Seat decrease simulation
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setSpotsLeft((prev) => (prev > 5 ? prev - 1 : 12));
+      setTickerIndex((prev) => (prev + 1) % notifications.length);
+    }, 12000);
+    return () => clearInterval(interval);
+  }, [notifications.length]);
+
+  // Countdown timer calculation
+  const [timeLeft, setTimeLeft] = useState({ hours: 1, minutes: 42, seconds: 18 });
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => {
+        if (prev.seconds > 0) return { ...prev, seconds: prev.seconds - 1 };
+        if (prev.minutes > 0) return { ...prev, minutes: prev.minutes - 1, seconds: 59 };
+        if (prev.hours > 0) return { hours: prev.hours - 1, minutes: 59, seconds: 59 };
+        return { hours: 0, minutes: 45, seconds: 0 };
+      });
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const totalSeats = 100;
+  const seatsFilled = totalSeats - spotsLeft;
+  const filledPercent = Math.round((seatsFilled / totalSeats) * 100);
+
+  return (
+    <section id="limited-spots" className="relative py-16 px-4 sm:px-6 lg:px-8 bg-[#090909] border-b border-[#d4f934]/20 overflow-hidden">
+      {/* Background Ambient Glow */}
+      <div className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[300px] w-[500px] rounded-full bg-red-600/10 blur-[130px]" />
+
+      <div className="mx-auto max-w-5xl relative z-10">
+        
+        {/* Dynamic Urgency Top Banner Ribbon */}
+        <Reveal>
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 rounded-2xl border border-red-500/40 bg-gradient-to-r from-red-950/80 via-[#1a0808] to-red-950/80 p-4 shadow-[0_0_30px_rgba(239,68,68,0.25)] mb-8">
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-red-600/20 text-red-500 border border-red-500/40 animate-pulse">
+                <Flame className="h-5 w-5 fill-red-500" />
+              </div>
+              <div>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-black uppercase tracking-wider text-red-400">
+                    {isPa ? "🔴 ਲਿਮਟਿਡ ਬੈਚ ਸੀਟਾਂ (HIGH DEMAND)" : "🔴 HIGH DEMAND BATCH"}
+                  </span>
+                  <span className="h-2 w-2 rounded-full bg-red-500 animate-ping" />
+                </div>
+                <p className="text-sm font-extrabold text-white mt-0.5">
+                  {isPa
+                    ? `ਅਗਲੀ ਲਾਈਵ ਡੈਮੋ ਕਲਾਸ ਲਈ ਸਿਰਫ਼ ${spotsLeft} ਸੀਟਾਂ ਬਾਕੀ ਹਨ!`
+                    : `Only ${spotsLeft} Spots Remaining for the Next Live Demo Class!`}
+                </p>
+              </div>
+            </div>
+
+            {/* Live Activity Notification Box */}
+            <div className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-xl bg-black/60 border border-red-500/30 px-3.5 py-2 text-xs font-bold text-gray-200 shadow-inner">
+              <span className="text-[#d4f934] animate-bounce">⚡</span>
+              <span className="truncate">{notifications[tickerIndex]}</span>
+            </div>
+          </div>
+        </Reveal>
+
+        {/* Main Limited Spots Urgency Card */}
+        <Reveal delay={0.05}>
+          <div className="rounded-3xl border-2 border-[#d4f934]/60 bg-[#0f1208] p-6 sm:p-10 shadow-[0_0_60px_rgba(212,249,52,0.25)] relative overflow-hidden">
+            
+            {/* Header Badge & Title */}
+            <div className="text-center max-w-2xl mx-auto">
+              <span className="inline-flex items-center gap-2 rounded-full bg-[#d4f934]/15 border border-[#d4f934]/40 px-4 py-1 text-xs font-black uppercase text-[#d4f934] mb-3">
+                <Sparkles className="h-3.5 w-3.5 text-[#d4f934]" />
+                {isPa ? "ਸੀਟਾਂ ਬਹੁਤ ਤੇਜ਼ੀ ਨਾਲ ਭਰ ਰਹੀਆਂ ਹਨ" : "FAST FILLING BATCH"}
+              </span>
+              
+              <h2 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
+                {isPa ? (
+                  <>
+                    ਲਾਈਵ ਡੈਮੋ ਕਲਾਸ ਲਈ <span className="text-[#d4f934] italic">ਆਪਣੀ ਸੀਟ</span> ਹੁਣੇ ਬੁੱਕ ਕਰੋ
+                  </>
+                ) : (
+                  <>
+                    Reserve Your Spot in the <span className="text-[#d4f934] italic">Live Demo Class</span>
+                  </>
+                )}
+              </h2>
+              
+              <p className="mt-2 text-xs sm:text-sm text-gray-300">
+                {isPa
+                  ? "ਹਰ ਬੈਚ ਦੀਆਂ ਸੀਟਾਂ ਲਿਮਟਿਡ ਹੁੰਦੀਆਂ ਹਨ ਤਾਂ ਜੋ ਹਰ ਵਿਦਿਆਰਥੀ ਨੂੰ ਲਾਈਵ ਸਵਾਲ-ਜਵਾਬ ਦਾ ਪੂਰਾ ਮੌਕਾ ਮਿਲੇ।"
+                  : "We limit seats per batch to ensure every participant gets individual Q&A attention during the live session."}
+              </p>
+            </div>
+
+            {/* Progress Bar & Seat Counter Visualizer */}
+            <div className="mt-8 bg-black/60 rounded-2xl border border-gray-800 p-5 sm:p-6 shadow-inner">
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-2 mb-3">
+                <div className="flex items-center gap-2">
+                  <Clock className="h-4 w-4 text-[#d4f934] animate-spin" style={{ animationDuration: '8s' }} />
+                  <span className="text-xs font-black text-gray-200 uppercase tracking-wide">
+                    {isPa ? "ਬੈਚ ਕਪੈਸਿਟੀ ਰਿਪੋਰਟ" : "Batch Capacity Tracker"}
+                  </span>
+                </div>
+                <div className="flex items-center gap-2 text-xs font-black">
+                  <span className="text-red-400 font-mono bg-red-950/60 border border-red-500/30 px-2 py-0.5 rounded-md">
+                    {spotsLeft} {isPa ? "ਸੀਟਾਂ ਬਾਕੀ" : "Spots Left"}
+                  </span>
+                  <span className="text-[#d4f934] font-mono bg-[#d4f934]/10 border border-[#d4f934]/30 px-2 py-0.5 rounded-md">
+                    {filledPercent}% {isPa ? "ਭਰ ਚੁੱਕੀਆਂ" : "Filled"}
+                  </span>
+                </div>
+              </div>
+
+              {/* Animated Progress Bar Track */}
+              <div className="relative h-5 w-full bg-gray-900 rounded-full overflow-hidden border border-gray-800 p-0.5">
+                <div
+                  className="h-full bg-gradient-to-r from-[#88ba00] via-[#d4f934] to-[#f5ff82] rounded-full transition-all duration-700 relative shadow-[0_0_15px_rgba(212,249,52,0.8)]"
+                  style={{ width: `${filledPercent}%` }}
+                >
+                  <div className="absolute inset-0 bg-white/20 animate-pulse" />
+                </div>
+              </div>
+
+              <div className="mt-3 flex justify-between items-center text-[11px] font-semibold text-gray-400">
+                <span>0 {isPa ? "ਸੀਟਾਂ" : "Seats"}</span>
+                <span className="text-red-400 font-bold animate-pulse">
+                  ⚠️ {isPa ? "ਰਜਿਸਟ੍ਰੇਸ਼ਨ ਜਲਦੀ ਬੰਦ ਹੋ ਰਹੀ ਹੈ" : "Registration closing soon for this batch"}
+                </span>
+                <span>100 {isPa ? "ਕੁੱਲ ਸੀਟਾਂ" : "Total Seats"}</span>
+              </div>
+            </div>
+
+            {/* Countdown Timer Grid */}
+            <div className="mt-6 grid grid-cols-3 gap-3 max-w-md mx-auto text-center">
+              <div className="rounded-xl border border-gray-800 bg-black/70 p-3 shadow-sm">
+                <span className="text-xl sm:text-3xl font-black text-[#d4f934] font-mono">
+                  {String(timeLeft.hours).padStart(2, "0")}
+                </span>
+                <p className="text-[10px] sm:text-xs font-bold text-gray-400 uppercase mt-0.5">
+                  {isPa ? "ਘੰਟੇ (Hours)" : "Hours"}
+                </p>
+              </div>
+              <div className="rounded-xl border border-gray-800 bg-black/70 p-3 shadow-sm">
+                <span className="text-xl sm:text-3xl font-black text-[#d4f934] font-mono">
+                  {String(timeLeft.minutes).padStart(2, "0")}
+                </span>
+                <p className="text-[10px] sm:text-xs font-bold text-gray-400 uppercase mt-0.5">
+                  {isPa ? "ਮਿੰਟ (Min)" : "Minutes"}
+                </p>
+              </div>
+              <div className="rounded-xl border border-gray-800 bg-black/70 p-3 shadow-sm">
+                <span className="text-xl sm:text-3xl font-black text-[#d4f934] font-mono">
+                  {String(timeLeft.seconds).padStart(2, "0")}
+                </span>
+                <p className="text-[10px] sm:text-xs font-bold text-gray-400 uppercase mt-0.5">
+                  {isPa ? "ਸਕਿੰਟ (Sec)" : "Seconds"}
+                </p>
+              </div>
+            </div>
+
+            {/* Feature Highlights Grid */}
+            <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div className="flex items-center gap-3 rounded-2xl bg-black/40 border border-gray-800 p-3.5">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#d4f934]/10 text-[#d4f934]">
+                  <Laptop className="h-5 w-5" />
+                </div>
+                <div>
+                  <h4 className="text-xs font-black text-white">{isPa ? "120 ਮਿੰਟ ਲਾਈਵ ਡੈਮੋ" : "120-Min Live Demo"}</h4>
+                  <p className="text-[11px] text-gray-400">{isPa ? "ਪੂਰਾ ਪ੍ਰੈਕਟੀਕਲ ਸੈਸ਼ਨ" : "Full practical walkthrough"}</p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3 rounded-2xl bg-black/40 border border-gray-800 p-3.5">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#d4f934]/10 text-[#d4f934]">
+                  <Gift className="h-5 w-5" />
+                </div>
+                <div>
+                  <h4 className="text-xs font-black text-white">{isPa ? "₹75,000+ ਦੇ ਬੋਨਸ" : "₹75,000+ Bonuses"}</h4>
+                  <p className="text-[11px] text-gray-400">{isPa ? "ਪ੍ਰੌਂਪਟਸ ਤੇ ਟੈਂਪਲੇਟਸ" : "Prompts & client proposal scripts"}</p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3 rounded-2xl bg-black/40 border border-gray-800 p-3.5">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#d4f934]/10 text-[#d4f934]">
+                  <ShieldCheck className="h-5 w-5" />
+                </div>
+                <div>
+                  <h4 className="text-xs font-black text-white">{isPa ? "ਸਿਰਫ਼ ₹99 ਵਿੱਚ" : "Only ₹99 Fee"}</h4>
+                  <p className="text-[11px] text-gray-400">{isPa ? "100% ਸੁਰੱਖਿਅਤ ਪੇਮੈਂਟ" : "100% money-back policy"}</p>
+                </div>
+              </div>
+            </div>
+
+            {/* High-Converting CTA Button */}
+            <div className="mt-8 text-center">
+              <button
+                type="button"
+                onClick={openModal}
+                className="lime-button w-full sm:w-auto inline-flex items-center justify-center gap-3 rounded-full px-10 py-5 text-base sm:text-xl font-black text-black shadow-[0_0_45px_rgba(212,249,52,0.6)] hover:scale-[1.02] active:scale-[0.99] transition-all cursor-pointer uppercase tracking-wider"
+              >
+                <Rocket className="h-6 w-6 text-black fill-black" />
+                <span>{isPa ? "ਲਾਈਵ ਡੈਮੋ ਕਲਾਸ ਹੁਣੇ ਜੁਆਇਨ ਕਰੋ — ₹99" : "Join Live Demo Class Now — ₹99"}</span>
+                <ArrowRight className="h-6 w-6 text-black" />
+              </button>
+
+              <p className="mt-3 text-xs font-bold text-gray-400 flex items-center justify-center gap-2">
+                <Lock className="h-3.5 w-3.5 text-[#d4f934]" />
+                <span>{isPa ? "ਤੁਰੰਤ ਵਟਸਐਪ ਗਰੁੱਪ ਲਿੰਕ ਅਤੇ ਕਲਾਸ ਐਕਸੈਸ ਮਿਲੇਗਾ" : "Instant access to private VIP WhatsApp group & class link after payment"}</span>
+              </p>
+            </div>
+
+          </div>
+        </Reveal>
       </div>
     </section>
   );
@@ -775,14 +1011,14 @@ export function Bonuses() {
   const isPa = lang === "pa";
 
   const bonuses = [
-    { title: isPa ? "AI ਵੈੱਬਸਾਈਟ ਪ੍ਰੌਂਪਟ ਪੈਕ" : "AI Website Prompt Pack", subtitle: isPa ? "50+ ਟੈਸਟਿਡ AI ਪ੍ਰੌਂਪਟਸ" : "50+ Tested AI Prompts", worth: "₹2,999", savings: "Save ₹2,999", badge: "FREE TODAY" },
-    { title: isPa ? "ਵੈੱਬਸਾਈਟ ਡਿਜ਼ਾਈਨ ਲਿਸਟ" : "Website Inspiration List", subtitle: isPa ? "ਬੈਸਟ AI ਲੇਆਉਟਸ ਕਲੈਕਸ਼ਨ" : "High-Converting AI Layouts", worth: "₹1,499", savings: "Save ₹1,499", badge: "FREE TODAY" },
-    { title: isPa ? "ਕਲਾਇੰਟ ਪ੍ਰੋਪੋਜ਼ਲ ਟੈਂਪਲੇਟ" : "Client Proposal Template", subtitle: isPa ? "ਤਿਆਰ ਫ੍ਰੀਲਾਂਸਿੰਗ ਪ੍ਰੋਪੋਜ਼ਲ" : "Ready-to-Send Proposal Kit", worth: "₹2,499", savings: "Save ₹2,499", badge: "FREE TODAY" },
-    { title: isPa ? "ਇਨਵੌਇਸ ਤੇ ਕੰਟਰੈਕਟ ਟੈਂਪਲੇਟ" : "Invoice & Contract Kit", subtitle: isPa ? "ਪ੍ਰੋਫੈਸ਼ਨਲ ਬਿਲਿੰਗ ਟੈਂਪਲੇਟ" : "Billing & Client Agreements", worth: "₹1,999", savings: "Save ₹1,999", badge: "FREE TODAY" },
-    { title: isPa ? "ਕਲਾਇੰਟ ਕੁਐਸਚਨਅਰ ਫਾਰਮ" : "Client Questionnaire", subtitle: isPa ? "ਕਲਾਇੰਟ ਇਨਫੋ ਫਾਰਮ" : "Requirement Gathering Form", worth: "₹1,499", savings: "Save ₹1,499", badge: "FREE TODAY" },
-    { title: isPa ? "ਵੈੱਬਸਾਈਟ ਲਾਂਚ ਚੈੱਕਲਿਸਟ" : "Website Launch Checklist", subtitle: isPa ? "25-ਪੁਆਇੰਟ ਕਵਾਲਿਟੀ ਗਾਈਡ" : "25-Point Quality QA Guide", worth: "₹1,999", savings: "Save ₹1,999", badge: "FREE TODAY" },
-    { title: isPa ? "AI ਟੂਲਜ਼ ਚੀਟ ਸ਼ੀਟ" : "AI Tools Cheat Sheet", subtitle: isPa ? "ਮੁਫ਼ਤ AI ਟੂਲਜ਼ ਡਾਇਰੈਕਟਰੀ" : "Free Tools & Assets Directory", worth: "₹2,499", savings: "Save ₹2,499", badge: "FREE TODAY" },
-    { title: isPa ? "ਫ੍ਰੀਲਾਂਸਿੰਗ ਪ੍ਰਾਈਸਿੰਗ ਵਾਲਟ" : "Freelance Pricing Vault", subtitle: isPa ? "ਪ੍ਰੋਜੈਕਟ ਰੇਟ ਗਾਈਡ" : "Project Rates & Client Scripts", worth: "₹1,999", savings: "Save ₹1,999", badge: "FREE TODAY" },
+    { title: isPa ? "AI ਵੈੱਬਸਾਈਟ ਪ੍ਰੌਂਪਟ ਪੈਕ" : "AI Website Prompt Pack", subtitle: isPa ? "50+ ਟੈਸਟਿਡ AI ਪ੍ਰੌਂਪਟਸ" : "50+ Tested AI Prompts", worth: "₹14,999", savings: "Save ₹14,999", badge: "FREE TODAY" },
+    { title: isPa ? "ਵੈੱਬਸਾਈਟ ਡਿਜ਼ਾਈਨ ਲਿਸਟ" : "Website Inspiration List", subtitle: isPa ? "ਬੈਸਟ AI ਲੇਆਉਟਸ ਕਲੈਕਸ਼ਨ" : "High-Converting AI Layouts", worth: "₹7,499", savings: "Save ₹7,499", badge: "FREE TODAY" },
+    { title: isPa ? "ਕਲਾਇੰਟ ਪ੍ਰੋਪੋਜ਼ਲ ਟੈਂਪਲੇਟ" : "Client Proposal Template", subtitle: isPa ? "ਤਿਆਰ ਫ੍ਰੀਲਾਂਸਿੰਗ ਪ੍ਰੋਪੋਜ਼ਲ" : "Ready-to-Send Proposal Kit", worth: "₹12,499", savings: "Save ₹12,499", badge: "FREE TODAY" },
+    { title: isPa ? "ਇਨਵੌਇਸ ਤੇ ਕੰਟਰੈਕਟ ਟੈਂਪਲੇਟ" : "Invoice & Contract Kit", subtitle: isPa ? "ਪ੍ਰੋਫੈਸ਼ਨਲ ਬਿਲਿੰਗ ਟੈਂਪਲੇਟ" : "Billing & Client Agreements", worth: "₹9,999", savings: "Save ₹9,999", badge: "FREE TODAY" },
+    { title: isPa ? "ਕਲਾਇੰਟ ਕੁਐਸਚਨਅਰ ਫਾਰਮ" : "Client Questionnaire", subtitle: isPa ? "ਕਲਾਇੰਟ ਇਨਫੋ ਫਾਰਮ" : "Requirement Gathering Form", worth: "₹6,999", savings: "Save ₹6,999", badge: "FREE TODAY" },
+    { title: isPa ? "ਵੈੱਬਸਾਈਟ ਲਾਂਚ ਚੈੱਕਲਿਸਟ" : "Website Launch Checklist", subtitle: isPa ? "25-ਪੁਆਇੰਟ ਕਵਾਲਿਟੀ ਗਾਈਡ" : "25-Point Quality QA Guide", worth: "₹8,999", savings: "Save ₹8,999", badge: "FREE TODAY" },
+    { title: isPa ? "AI ਟੂਲਜ਼ ਚੀਟ ਸ਼ੀਟ" : "AI Tools Cheat Sheet", subtitle: isPa ? "ਮੁਫ਼ਤ AI ਟੂਲਜ਼ ਡਾਇਰੈਕਟਰੀ" : "Free Tools & Assets Directory", worth: "₹9,999", savings: "Save ₹9,999", badge: "FREE TODAY" },
+    { title: isPa ? "ਫ੍ਰੀਲਾਂਸਿੰਗ ਪ੍ਰਾਈਸਿੰਗ ਵਾਲਟ" : "Freelance Pricing Vault", subtitle: isPa ? "ਪ੍ਰੋਜੈਕਟ ਰੇਟ ਗਾਈਡ" : "Project Rates & Client Scripts", worth: "₹7,999", savings: "Save ₹7,999", badge: "FREE TODAY" },
   ];
 
   return (
@@ -792,7 +1028,7 @@ export function Bonuses() {
           <div className="inline-flex items-center gap-3 rounded-full border-2 border-[#d4f934]/60 bg-[#d4f934]/15 px-6 py-2.5 shadow-[0_0_30px_rgba(212,249,52,0.3)] animate-pulse mb-6">
             <Gift className="h-5 w-5 text-[#d4f934]" />
             <span className="text-sm sm:text-base font-black uppercase tracking-wider text-white">
-              FREE BONUSES WORTH <span className="text-[#d4f934] font-black">₹14,999</span>
+              FREE BONUSES WORTH <span className="text-[#d4f934] font-black">₹75,000+</span>
             </span>
           </div>
         </Reveal>
@@ -1132,7 +1368,7 @@ export function ChoiceMotivator() {
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-[#d4f934] font-bold">✓</span>
-                    <span>{isPa ? "₹14,999 ਦੇ 8 ਪ੍ਰੀਮੀਅਮ ਬੋਨਸ ਤੇ ਪ੍ਰੌਂਪਟਸ ਮੁਫ਼ਤ ਪ੍ਰਾਪਤ ਕਰੋ" : "Get ₹14,999 worth of tested prompt vaults & client proposal templates free"}</span>
+                    <span>{isPa ? "₹75,000+ ਦੇ 8 ਪ੍ਰੀਮੀਅਮ ਬੋਨਸ ਤੇ ਪ੍ਰੌਂਪਟਸ ਮੁਫ਼ਤ ਪ੍ਰਾਪਤ ਕਰੋ" : "Get ₹75,000+ worth of tested prompt vaults & client proposal templates free"}</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-[#d4f934] font-bold">✓</span>
@@ -1146,7 +1382,7 @@ export function ChoiceMotivator() {
                 onClick={openModal}
                 className="mt-6 flex w-full items-center justify-center gap-2 rounded-full bg-[#d4f934] py-4 px-6 text-sm sm:text-base font-black text-black shadow-[0_0_30px_rgba(212,249,52,0.5)] hover:bg-[#c4eb25] hover:scale-[1.02] transition-all cursor-pointer"
               >
-                <span>{isPa ? "ਗੰਭੀਰ ਵਿਦਿਆਰਥੀ ਹੁਣੇ ਸੀਟ ਬੁੱਕ ਕਰਨ — ₹99" : "Serious Students Book Seat Now — ₹99"}</span>
+                <span>{isPa ? "ਲਾਈਵ ਡੈਮੋ ਕਲਾਸ ਜੁਆਇਨ ਕਰੋ — ₹99" : "Join Live Demo Class Now — ₹99"}</span>
                 <ArrowRight className="h-5 w-5" />
               </button>
             </div>
@@ -1190,8 +1426,8 @@ export function Offer() {
         <Reveal delay={0.05}>
           <p className="mt-2.5 text-xs sm:text-sm text-gray-400 max-w-lg mx-auto font-medium">
             {isPa
-              ? "120 ਮਿੰਟ ਦੀ ਲਾਈਵ AI ਮਾਸਟਰਕਲਾਸ + ₹14,999 ਦੀ ਕੀਮਤ ਦੇ 8 ਪ੍ਰੀਮੀਅਮ ਬੋਨਸ ਸ਼ਾਮਲ ਹਨ!"
-              : "120-Min Live AI Masterclass + 8 Premium Bonuses Included (Worth ₹14,999)!"}
+              ? "120 ਮਿੰਟ ਦੀ ਲਾਈਵ AI ਡੈਮੋ ਕਲਾਸ + ₹75,000+ ਦੀ ਕੀਮਤ ਦੇ 8 ਪ੍ਰੀਮੀਅਮ ਬੋਨਸ ਸ਼ਾਮਲ ਹਨ!"
+              : "120-Min Live AI Demo Class + 8 Premium Bonuses Included (Worth ₹75,000+)!"}
           </p>
         </Reveal>
 
@@ -1205,7 +1441,7 @@ export function Offer() {
               {[
                 "Full Live AI Website Masterclass (120 Mins)",
                 "Zero-Coding Practical Building Demo",
-                "All 8 Bonuses Included (Worth ₹14,999)",
+                "All 8 Premium Bonuses Included (Worth ₹75,000+)",
                 "Client Acquisition & Pitching Scripts",
                 "50+ AI Prompts & Tool Stack Vault",
                 "Lifetime Class Recording Replay Access",
@@ -1238,7 +1474,7 @@ export function Offer() {
               className="mt-3 flex w-full items-center justify-center gap-3 rounded-full bg-[#d4f934] py-4 px-6 text-base sm:text-xl font-black text-black shadow-[0_0_40px_rgba(212,249,52,0.6)] hover:bg-[#c2e828] hover:scale-[1.02] active:scale-[0.99] transition-all cursor-pointer border-2 border-white/20 uppercase tracking-wide"
             >
               <Rocket className="h-5 w-5 text-black fill-black" />
-              <span>{isPa ? "ਬੁੱਕ ਕਰੋ ਆਪਣੀ ਸੀਟ — ₹99" : "Book Your Seat Now — ₹99"}</span>
+              <span>{isPa ? "ਲਾਈਵ ਡੈਮੋ ਕਲਾਸ ਹੁਣੇ ਜੁਆਇਨ ਕਰੋ — ₹99" : "Join Live Demo Class Now — ₹99"}</span>
               <ArrowRight className="h-5 w-5 text-black" />
             </button>
 
@@ -1287,8 +1523,8 @@ export function Faq() {
     {
       q: isPa ? "ਕੀ ਮੈਨੂੰ ਸਰਟੀਫਿਕੇਟ ਤੇ ਬੋਨਸ ਮਿਲਣਗੇ? (Will I get certificate & bonuses?)" : "Will I get a certificate and all 8 bonuses?",
       a: isPa
-        ? "ਹਾਂਜੀ! ਕਲਾਸ ਪੂਰੀ ਕਰਨ 'ਤੇ ਤੁਹਾਨੂੰ ਕੰਪਲੀਸ਼ਨ ਸਰਟੀਫਿਕੇਟ ਅਤੇ ਸਾਰੇ 8 ਪ੍ਰੀਮੀਅਮ ਬੋਨਸ (₹14,999 ਦੇ) ਬਿਲਕੁਲ ਮੁਫ਼ਤ ਮਿਲਣਗੇ।"
-        : "Yes! You will receive a certificate of completion and instant access to all 8 premium bonus resources (Worth ₹14,999).",
+        ? "ਹਾਂਜੀ! ਕਲਾਸ ਪੂਰੀ ਕਰਨ 'ਤੇ ਤੁਹਾਨੂੰ ਕੰਪਲੀਸ਼ਨ ਸਰਟੀਫਿਕੇਟ ਅਤੇ ਸਾਰੇ 8 ਪ੍ਰੀਮੀਅਮ ਬੋਨਸ (₹75,000+ ਦੇ) ਬਿਲਕੁਲ ਮੁਫ਼ਤ ਮਿਲਣਗੇ।"
+        : "Yes! You will receive a certificate of completion and instant access to all 8 premium bonus resources (Worth ₹75,000+).",
     },
     {
       q: isPa ? "ਕੀ 30 ਦਿਨਾਂ ਦੀ ਮਨੀ-ਬੈਕ ਗਾਰੰਟੀ ਹੈ? (Is there a 30-day refund guarantee?)" : "Is there a 30-day money-back guarantee?",

@@ -12,6 +12,7 @@ import {
   Faq,
   Hero,
   Instructor,
+  LimitedSpots,
   Offer,
   Showcase,
   Stats,
@@ -21,13 +22,13 @@ import {
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "PenduGPT — Learn AI Website Building & Freelancing" },
+      { title: "PenduGPT — Join Live Demo Class & Learn AI Website Building" },
       {
         name: "description",
         content:
-          "Learn AI website building without coding and start your freelancing journey. Live masterclass for ₹99.",
+          "Join our live demo class and learn AI website building without coding. Limited spots available for ₹99.",
       },
-      { property: "og:title", content: "PenduGPT — Learn AI Website Building" },
+      { property: "og:title", content: "PenduGPT — Join Live Demo Class" },
       {
         property: "og:description",
         content: "Build beautiful AI-powered websites without coding and start getting clients.",
@@ -48,6 +49,7 @@ function Landing() {
         <main>
           <Hero />
           <Stats />
+          <LimitedSpots />
           <Audience />
           <Curriculum />
           <Bonuses />

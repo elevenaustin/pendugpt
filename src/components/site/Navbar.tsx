@@ -71,7 +71,7 @@ export function Navbar() {
               onClick={openModal}
               className="lime-button hidden sm:inline-flex items-center gap-2 rounded-full px-5 py-2 text-xs sm:text-sm font-extrabold text-black shadow-[0_0_20px_rgba(212,249,52,0.4)] cursor-pointer"
             >
-              <span>{lang === "pa" ? "ਸੀਟ ਬੁੱਕ ਕਰੋ — ₹99" : "Book Seat — ₹99"}</span>
+              <span>{lang === "pa" ? "ਡੈਮੋ ਕਲਾਸ ਜੁਆਇਨ ਕਰੋ — ₹99" : "Join Demo Class — ₹99"}</span>
               <ArrowRight className="h-4 w-4" />
             </button>
           </div>

@@ -51,7 +51,7 @@ function TermsPage() {
             <section>
               <h2 className="text-base font-bold text-white mb-2">4. Digital Product Non-Refundable & Refund Policy</h2>
               <p>
-                Because enrollment triggers instant electronic access to downloadable digital assets worth ₹14,999 and live event seat allocation, digital purchases are generally non-refundable once delivered.
+                Because enrollment triggers instant electronic access to downloadable digital assets worth ₹75,000+ and live event seat allocation, digital purchases are generally non-refundable once delivered.
               </p>
               <p className="mt-2">
                 In eligible refund scenarios (duplicate payment or technical non-delivery), approved refunds will be processed within 5-7 business days back to the original payment method as detailed in our <a href="/refund" className="text-[#d4f934] underline font-semibold">Refund Policy</a>.

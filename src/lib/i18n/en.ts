@@ -25,11 +25,11 @@ export const en = {
     language: "Language",
   },
   hero: {
-    badge: "LIVE AI MASTERCLASS",
-    titleA: "Learn AI Website Building &",
-    titleB: "Start Your Freelancing Journey",
+    badge: "UPCOMING LIVE DEMO CLASS",
+    titleA: "Join The Live Demo Class &",
+    titleB: "Learn AI Website Building",
     subtitle:
-      "Learn how to build beautiful AI-powered websites without coding, publish them online, and understand how freelancers find clients and deliver real projects.",
+      "Join our live demo class and learn how to build professional AI-powered websites without coding, publish them online, and start getting freelance clients.",
     bullets: [
       "No Coding Required",
       "Beginner Friendly",
@@ -37,10 +37,20 @@ export const en = {
       "Build Real Websites",
       "Learn Modern AI Tools",
     ],
-    primary: "Join Live Masterclass",
+    primary: "Join Live Demo Class — ₹99",
     secondary: "Watch Preview",
     videoCaption: "Preview: what you will learn in the live class",
     videoFallback: "Preview video coming soon",
+  },
+  limitedSpots: {
+    eyebrow: "HIGH DEMAND BATCH",
+    title: "Limited Spots Available For Next Live Demo Class",
+    subtitle: "Seats fill fast for every batch. Reserve your spot before registration closes.",
+    seatsRemaining: "Spots Remaining",
+    seatsFilled: "Batch Capacity Filled",
+    closingSoon: "Registration Closing Soon",
+    cta: "Join Demo Class Now — ₹99",
+    guarantee: "100% Satisfaction Guarantee · Instant Access to Class Link & Bonuses",
   },
   price: {
     fee: "Registration Fee",
