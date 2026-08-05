@@ -39,9 +39,14 @@ import {
   HelpCircle,
   BookOpen,
   DollarSign,
-  Tag,
-  MapPin,
   Code2,
+  Globe,
+  Wrench,
+  RefreshCw,
+  Type,
+  Wand2,
+  FolderCheck,
+  Server,
 } from "lucide-react";
 import { Counter, Reveal } from "@/components/fx";
 import { useI18n } from "@/lib/i18n";
@@ -1008,69 +1013,255 @@ export function Curriculum() {
 /* -------------------------------- Reference-Layout Bonus Section -------------------------------- */
 export function Bonuses() {
   const { lang } = useI18n();
+  const { openModal } = useEnrollmentModal();
   const isPa = lang === "pa";
 
   const bonuses = [
-    { title: isPa ? "AI ਵੈੱਬਸਾਈਟ ਪ੍ਰੌਂਪਟ ਪੈਕ" : "AI Website Prompt Pack", subtitle: isPa ? "50+ ਟੈਸਟਿਡ AI ਪ੍ਰੌਂਪਟਸ" : "50+ Tested AI Prompts", worth: "₹14,999", savings: "Save ₹14,999", badge: "FREE TODAY" },
-    { title: isPa ? "ਵੈੱਬਸਾਈਟ ਡਿਜ਼ਾਈਨ ਲਿਸਟ" : "Website Inspiration List", subtitle: isPa ? "ਬੈਸਟ AI ਲੇਆਉਟਸ ਕਲੈਕਸ਼ਨ" : "High-Converting AI Layouts", worth: "₹7,499", savings: "Save ₹7,499", badge: "FREE TODAY" },
-    { title: isPa ? "ਕਲਾਇੰਟ ਪ੍ਰੋਪੋਜ਼ਲ ਟੈਂਪਲੇਟ" : "Client Proposal Template", subtitle: isPa ? "ਤਿਆਰ ਫ੍ਰੀਲਾਂਸਿੰਗ ਪ੍ਰੋਪੋਜ਼ਲ" : "Ready-to-Send Proposal Kit", worth: "₹12,499", savings: "Save ₹12,499", badge: "FREE TODAY" },
-    { title: isPa ? "ਇਨਵੌਇਸ ਤੇ ਕੰਟਰੈਕਟ ਟੈਂਪਲੇਟ" : "Invoice & Contract Kit", subtitle: isPa ? "ਪ੍ਰੋਫੈਸ਼ਨਲ ਬਿਲਿੰਗ ਟੈਂਪਲੇਟ" : "Billing & Client Agreements", worth: "₹9,999", savings: "Save ₹9,999", badge: "FREE TODAY" },
-    { title: isPa ? "ਕਲਾਇੰਟ ਕੁਐਸਚਨਅਰ ਫਾਰਮ" : "Client Questionnaire", subtitle: isPa ? "ਕਲਾਇੰਟ ਇਨਫੋ ਫਾਰਮ" : "Requirement Gathering Form", worth: "₹6,999", savings: "Save ₹6,999", badge: "FREE TODAY" },
-    { title: isPa ? "ਵੈੱਬਸਾਈਟ ਲਾਂਚ ਚੈੱਕਲਿਸਟ" : "Website Launch Checklist", subtitle: isPa ? "25-ਪੁਆਇੰਟ ਕਵਾਲਿਟੀ ਗਾਈਡ" : "25-Point Quality QA Guide", worth: "₹8,999", savings: "Save ₹8,999", badge: "FREE TODAY" },
-    { title: isPa ? "AI ਟੂਲਜ਼ ਚੀਟ ਸ਼ੀਟ" : "AI Tools Cheat Sheet", subtitle: isPa ? "ਮੁਫ਼ਤ AI ਟੂਲਜ਼ ਡਾਇਰੈਕਟਰੀ" : "Free Tools & Assets Directory", worth: "₹9,999", savings: "Save ₹9,999", badge: "FREE TODAY" },
-    { title: isPa ? "ਫ੍ਰੀਲਾਂਸਿੰਗ ਪ੍ਰਾਈਸਿੰਗ ਵਾਲਟ" : "Freelance Pricing Vault", subtitle: isPa ? "ਪ੍ਰੋਜੈਕਟ ਰੇਟ ਗਾਈਡ" : "Project Rates & Client Scripts", worth: "₹7,999", savings: "Save ₹7,999", badge: "FREE TODAY" },
+    {
+      title: isPa ? "Official Lovable ਪ੍ਰੀਮੀਅਮ ਸਬਸਕ੍ਰਿਪਸ਼ਨ" : "Official Lovable Premium Subscription",
+      subtitle: isPa ? "ਆਫਿਸ਼ੀਅਲ ਪ੍ਰੀਮੀਅਮ ਸਬਸਕ੍ਰਿਪਸ਼ਨ ਸ਼ਾਮਲ" : "Official Premium Subscription Included",
+      worth: "₹20,000+ Value",
+      badge: isPa ? "FREE ਸਾਡੇ ਵੱਲੋਂ" : "FREE From Our Side",
+      isFree: true,
+      Icon: Sparkles,
+    },
+    {
+      title: isPa ? "ਡੋਮੇਨ + ਹੋਸਟਿੰਗ" : "Domain + Hosting",
+      subtitle: isPa ? "ਅਨਲਿਮਟਿਡ ਲਰਨਿੰਗ ਪ੍ਰੋਜੈਕਟਸ ਲਾਈਵ ਕਰੋ" : "Deploy Unlimited Learning Projects",
+      worth: "₹5,000+ Value",
+      badge: isPa ? "FREE ਸਾਡੇ ਵੱਲੋਂ" : "FREE From Our Side",
+      isFree: true,
+      Icon: Globe,
+    },
+    {
+      title: isPa ? "ਪ੍ਰੀਮੀਅਮ AI ਪ੍ਰੌਂਪਟ ਲਾਇਬ੍ਰੇਰੀ" : "Premium AI Prompt Library",
+      subtitle: isPa ? "ਤਿਆਰ-ਬਰ-ਤਿਆਰ ਵੈੱਬਸਾਈਟ ਪ੍ਰੌਂਪਟਸ" : "Ready-to-Use Website Prompts",
+      worth: "₹4,999",
+      badge: isPa ? "Included" : "Included",
+      isFree: false,
+      Icon: Wand2,
+    },
+    {
+      title: isPa ? "ਪ੍ਰੀਮੀਅਮ ਵੈੱਬਸਾਈਟ ਟੈਂਪਲੇਟਸ" : "Premium Website Templates",
+      subtitle: isPa ? "ਮਾਡਰਨ ਲੈਂਡਿੰਗ ਪੇਜ ਤੇ ਬਿਜ਼ਨਸ ਵੈੱਬਸਾਈਟਾਂ" : "Modern Landing Pages & Business Websites",
+      worth: "₹7,999",
+      badge: isPa ? "Included" : "Included",
+      isFree: false,
+      Icon: Layout,
+    },
+    {
+      title: isPa ? "ਪ੍ਰੀਮੀਅਮ ਫੋਂਟਸ ਤੇ UI ਐਸੇਟਸ" : "Premium Fonts & UI Assets",
+      subtitle: isPa ? "ਪ੍ਰੋਫੈਸ਼ਨਲ ਫੋਂਟਸ, ਆਈਕਨਜ਼ ਤੇ UI ਕੰਪੋਨੈਂਟਸ" : "Professional Fonts, Icons & UI Components",
+      worth: "₹2,999",
+      badge: isPa ? "Included" : "Included",
+      isFree: false,
+      Icon: Type,
+    },
+    {
+      title: isPa ? "ਵੈੱਬਸਾਈਟ ਬਗ ਫਿਕਸਿੰਗ ਸਿਸਟਮ" : "Website Bug Fixing System",
+      subtitle: isPa ? "ਪ੍ਰੋਫੈਸ਼ਨਲ ਵਾਂਗ ਐਰਰ ਤੇ ਬਗਸ ਫਿਕਸ ਕਰੋ" : "Fix Errors Like a Professional",
+      worth: "₹4,999",
+      badge: isPa ? "Included" : "Included",
+      isFree: false,
+      Icon: Wrench,
+    },
+    {
+      title: isPa ? "ਵੈੱਬਸਾਈਟ ਸਕਿਓਰਿਟੀ" : "Website Security",
+      subtitle: isPa ? "ਹਰੇਕ ਵੈੱਬਸਾਈਟ ਨੂੰ ਸਕਿਓਰ ਤੇ ਸੁਰੱਖਿਅਤ ਕਰੋ" : "Secure & Protect Every Website",
+      worth: "₹3,999",
+      badge: isPa ? "Included" : "Included",
+      isFree: false,
+      Icon: ShieldCheck,
+    },
+    {
+      title: isPa ? "ਵੈੱਬਸਾਈਟ ਅੱਪਡੇਟਸ ਤੇ ਮੇਨਟੇਨੈਂਸ" : "Website Updates & Maintenance",
+      subtitle: isPa ? "ਵੈੱਬਸਾਈਟਾਂ ਐਡਿਟ, ਇੰਪਰੂਵ ਤੇ ਮੇਨਟੇਨ ਕਰੋ" : "Edit, Improve & Maintain Websites",
+      worth: "₹4,999",
+      badge: isPa ? "Included" : "Included",
+      isFree: false,
+      Icon: RefreshCw,
+    },
+    {
+      title: isPa ? "ਵੈੱਬਸਾਈਟ ਹੈਂਡਓਵਰ ਸਿਸਟਮ" : "Website Handover System",
+      subtitle: isPa ? "ਕਲਾਇੰਟਸ ਨੂੰ ਪ੍ਰੋਫੈਸ਼ਨਲ ਪ੍ਰੋਜੈਕਟ ਡਿਲੀਵਰੀ" : "Professional Project Delivery",
+      worth: "₹2,999",
+      badge: isPa ? "Included" : "Included",
+      isFree: false,
+      Icon: FolderCheck,
+    },
+    {
+      title: isPa ? "ਕਮਿਊਨਿਟੀ ਸਪੋਰਟ" : "Community Support",
+      subtitle: isPa ? "ਨਵੇਂ ਅੱਪਡੇਟਸ ਤੇ ਪ੍ਰਾਇਓਰਿਟੀ ਸਪੋਰਟ" : "Future Updates & Priority Support",
+      worth: "₹9,999",
+      badge: isPa ? "Included" : "Included",
+      isFree: false,
+      Icon: Users,
+    },
   ];
 
   return (
-    <section id="bonuses" className="py-20 px-4 sm:px-6 lg:px-8 bg-[#080808] border-t border-[#d4f934]/20">
-      <div className="mx-auto max-w-6xl text-center">
+    <section id="bonuses" className="py-20 px-4 sm:px-6 lg:px-8 bg-[#06070a] border-t border-[#d4f934]/20 relative overflow-hidden">
+      {/* Background Ambient Lighting */}
+      <div className="pointer-events-none absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[500px] w-[800px] rounded-full bg-purple-600/10 blur-[150px]" />
+
+      <div className="mx-auto max-w-7xl text-center relative z-10">
+        
+        {/* Header Ribbon & Title */}
         <Reveal>
-          <div className="inline-flex items-center gap-3 rounded-full border-2 border-[#d4f934]/60 bg-[#d4f934]/15 px-6 py-2.5 shadow-[0_0_30px_rgba(212,249,52,0.3)] animate-pulse mb-6">
-            <Gift className="h-5 w-5 text-[#d4f934]" />
-            <span className="text-sm sm:text-base font-black uppercase tracking-wider text-white">
-              FREE BONUSES WORTH <span className="text-[#d4f934] font-black">₹75,000+</span>
-            </span>
+          <div className="inline-flex items-center gap-2 rounded-full border border-purple-500/40 bg-purple-950/40 px-5 py-2 text-xs font-black uppercase tracking-wider text-purple-300 shadow-[0_0_25px_rgba(168,85,247,0.3)] mb-4">
+            <Gift className="h-4 w-4 text-[#d4f934]" />
+            <span>{isPa ? "🎁 ਸਭ ਕੁਝ ਜੋ ਤੁਹਾਨੂੰ ਮਿਲੇਗਾ (EVERYTHING YOU GET)" : "🎁 EVERYTHING YOU GET"}</span>
           </div>
         </Reveal>
 
         <Reveal delay={0.05}>
-          <h2 className="text-4xl sm:text-6xl font-serif font-bold text-white tracking-tight">
-            {isPa ? "ਸਭ ਕੁਝ ਅੱਜ ਬਿਲਕੁਲ ਮੁਫ਼ਤ" : "All Free Today"}
+          <h2 className="text-3xl sm:text-6xl font-extrabold text-white tracking-tight">
+            {isPa ? (
+              <>
+                ਸਭ ਕੁਝ <span className="text-purple-400">ਅੱਜ ਸ਼ਾਮਲ</span> ਹੈ
+              </>
+            ) : (
+              <>
+                Everything <span className="text-purple-400">Included Today</span>
+              </>
+            )}
           </h2>
+          <p className="mt-3 text-sm sm:text-lg text-gray-400 font-semibold max-w-2xl mx-auto">
+            {isPa
+              ? "ਪ੍ਰੋਫੈਸ਼ਨਲ ਟੂਲਜ਼ • ਲਾਈਵ ਟ੍ਰੇਨਿੰਗ • ਪ੍ਰੀਮੀਅਮ ਰਿਸੋਰਸਜ਼"
+              : "Professional Tools • Live Training • Premium Resources"}
+          </p>
         </Reveal>
 
-        <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-          {bonuses.map((b, idx) => (
-            <Reveal key={b.title} delay={idx * 0.03}>
-              <div className="glass-card flex flex-col items-center justify-between rounded-2xl p-6 border border-gray-800 bg-[#121212] transition-all duration-300 hover:scale-[1.03] hover:border-[#d4f934] hover:bg-[#161616] hover:shadow-[0_0_30px_rgba(212,249,52,0.15)] h-full group text-center">
-                <div className="w-full">
-                  <div className="flex items-center justify-between gap-2 mb-4">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#d4f934]/15 border border-[#d4f934]/40 text-[#d4f934] group-hover:bg-[#d4f934] group-hover:text-black transition-colors">
-                      <Gift className="h-4 w-4" />
+        {/* 10 Bonus Cards Grid matching the attached image design */}
+        <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 text-left">
+          {bonuses.map((b, idx) => {
+            const ItemIcon = b.Icon;
+            return (
+              <Reveal key={b.title} delay={idx * 0.02}>
+                <div
+                  className={cn(
+                    "flex flex-col justify-between rounded-2xl p-5 border transition-all duration-300 hover:scale-[1.03] h-full group relative overflow-hidden",
+                    b.isFree
+                      ? "border-emerald-500/50 bg-gradient-to-b from-[#0f1f17] to-[#0a140e] shadow-[0_0_25px_rgba(16,185,129,0.15)] hover:border-emerald-400"
+                      : "border-gray-800 bg-[#0d0e12] hover:border-[#d4f934]/60 hover:bg-[#12141a] hover:shadow-[0_0_25px_rgba(212,249,52,0.15)]"
+                  )}
+                >
+                  <div>
+                    {/* Header Icon + Title */}
+                    <div className="flex items-start gap-3 mb-3">
+                      <div
+                        className={cn(
+                          "flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border font-bold shadow-md",
+                          b.isFree
+                            ? "bg-emerald-500/20 border-emerald-400/50 text-emerald-300"
+                            : "bg-[#d4f934]/15 border-[#d4f934]/40 text-[#d4f934] group-hover:bg-[#d4f934] group-hover:text-black transition-colors"
+                        )}
+                      >
+                        <ItemIcon className="h-5 w-5" />
+                      </div>
+                      <div>
+                        <h3 className="text-sm font-extrabold text-white leading-snug group-hover:text-[#d4f934] transition-colors">
+                          {b.title}
+                        </h3>
+                        <span className="text-[11px] font-bold text-gray-500 line-through mt-0.5 block">
+                          {b.worth}
+                        </span>
+                      </div>
                     </div>
-                    <span className="rounded-full bg-[#d4f934] px-2.5 py-0.5 text-[10px] font-black uppercase text-black shadow-md">
-                      {b.badge}
-                    </span>
+
+                    {/* Badge Pill */}
+                    <div className="mb-3">
+                      <span
+                        className={cn(
+                          "inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-black uppercase shadow-sm",
+                          b.isFree
+                            ? "bg-emerald-500 text-black shadow-[0_0_15px_rgba(16,185,129,0.4)]"
+                            : "bg-emerald-600/90 text-white"
+                        )}
+                      >
+                        <CheckCircle2 className="h-3.5 w-3.5 fill-black text-emerald-500" />
+                        {b.badge}
+                      </span>
+                    </div>
+
+                    {/* Subtitle / Description */}
+                    <p className="text-xs text-gray-300 font-medium leading-relaxed">
+                      {b.subtitle}
+                    </p>
                   </div>
-
-                  <h3 className="text-base font-extrabold text-white group-hover:text-[#d4f934] transition-colors">
-                    {b.title}
-                  </h3>
-                  <p className="mt-1 text-xs text-gray-400 font-medium leading-relaxed">
-                    {b.subtitle}
-                  </p>
                 </div>
+              </Reveal>
+            );
+          })}
+        </div>
 
-                <div className="mt-5 w-full border-t border-gray-800/80 pt-3 flex items-center justify-between">
-                  <span className="text-xs font-bold text-gray-500 line-through">{b.worth}</span>
-                  <span className="text-xs font-extrabold text-emerald-400 bg-emerald-950/60 px-2 py-0.5 rounded-md border border-emerald-500/30">
-                    {b.savings}
+        {/* Bottom Total Value & Price Banner (Matching Image Footer) */}
+        <Reveal delay={0.25}>
+          <div className="mt-12 rounded-3xl border-2 border-purple-500/40 bg-gradient-to-r from-[#0d091a] via-[#120c24] to-[#0d091a] p-6 sm:p-8 shadow-[0_0_50px_rgba(168,85,247,0.25)] flex flex-col md:flex-row items-center justify-between gap-6">
+            
+            {/* Total Value Gold Badge */}
+            <div className="flex items-center gap-4 rounded-2xl border border-yellow-500/40 bg-gradient-to-b from-yellow-950/40 to-black p-4 shadow-[0_0_30px_rgba(234,179,8,0.2)]">
+              <div className="text-left">
+                <span className="text-[10px] font-black uppercase tracking-widest text-yellow-400 block">
+                  TOTAL VALUE
+                </span>
+                <span className="text-3xl sm:text-4xl font-extrabold text-yellow-300 font-sans tracking-tight">
+                  ₹75,000+
+                </span>
+              </div>
+            </div>
+
+            {/* Regular Price Cross-out */}
+            <div className="text-center md:text-left">
+              <span className="text-[10px] font-black uppercase tracking-wider text-gray-400 block">
+                REGULAR PRICE
+              </span>
+              <span className="text-2xl sm:text-3xl font-extrabold text-gray-500 line-through">
+                ₹9,999
+              </span>
+            </div>
+
+            {/* Live Masterclass Offer Box */}
+            <div className="w-full md:w-auto flex-1 flex flex-col sm:flex-row items-center justify-between gap-4 rounded-2xl border border-purple-400/50 bg-gradient-to-r from-purple-900/90 via-indigo-900/90 to-purple-900/90 p-5 shadow-[0_0_40px_rgba(168,85,247,0.4)]">
+              <div>
+                <span className="inline-flex items-center gap-1.5 text-xs font-black uppercase text-purple-200">
+                  🎉 {isPa ? "ਅੱਜ ਦੀ ਲਾਈਵ ਡੈਮੋ ਆਫਰ" : "TODAY'S LIVE DEMO OFFER"}
+                </span>
+                <div className="flex items-baseline gap-2 mt-1">
+                  <span className="text-4xl sm:text-5xl font-black text-white font-sans">
+                    ₹99
+                  </span>
+                  <span className="text-lg font-black uppercase text-purple-200">
+                    ONLY
                   </span>
                 </div>
               </div>
-            </Reveal>
-          ))}
-        </div>
+
+              <div className="flex flex-col gap-2 w-full sm:w-auto">
+                <button
+                  type="button"
+                  onClick={openModal}
+                  className="lime-button w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm sm:text-base font-extrabold text-black shadow-[0_0_25px_rgba(212,249,52,0.5)] hover:scale-105 transition-all cursor-pointer"
+                >
+                  <Rocket className="h-5 w-5" />
+                  <span>{isPa ? "ਹੁਣੇ ਜੁਆਇਨ ਕਰੋ — ₹99" : "Join Demo Class — ₹99"}</span>
+                </button>
+
+                <div className="flex items-center justify-center gap-3 text-[11px] font-bold text-purple-200">
+                  <span className="bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 px-2 py-0.5 rounded-full">
+                    ✓ {isPa ? "ਸਿਰਫ਼ ₹99 ਵਿੱਚ ਪੂਰਾ ਪੈਕੇਜ" : "Save ₹9,900 Today"}
+                  </span>
+                  <span className="bg-red-500/20 text-red-300 border border-red-500/40 px-2 py-0.5 rounded-full">
+                    🔥 {isPa ? "ਲਿਮਟਿਡ ਸੀਟਾਂ" : "Limited Time"}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </Reveal>
+
       </div>
     </section>
   );
