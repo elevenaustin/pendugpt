@@ -71,6 +71,7 @@ function HeroVideoPlayer() {
   const containerRef = useRef<HTMLDivElement>(null);
   const playerRef = useRef<VimeoPlayer | null>(null);
   const playCountRef = useRef(0);
+  const isHandlingEndRef = useRef(false);
 
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(true);
@@ -82,6 +83,33 @@ function HeroVideoPlayer() {
   const [showSoundTooltip, setShowSoundTooltip] = useState(false);
   const hideControlsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
+  const handleVideoCycleEnd = async (player: VimeoPlayer) => {
+    if (isHandlingEndRef.current) return;
+    isHandlingEndRef.current = true;
+    playCountRef.current += 1;
+
+    if (playCountRef.current < 2) {
+      try {
+        await player.setCurrentTime(0);
+        await player.play();
+        setIsPlaying(true);
+      } catch {
+        setIsPlaying(false);
+        setShowControls(true);
+      } finally {
+        setTimeout(() => {
+          isHandlingEndRef.current = false;
+        }, 1500);
+      }
+    } else {
+      try {
+        await player.pause();
+      } catch {}
+      setIsPlaying(false);
+      setShowControls(true);
+    }
+  };
+
   useEffect(() => {
     if (!iframeRef.current) return;
     const player = new VimeoPlayer(iframeRef.current);
@@ -89,34 +117,20 @@ function HeroVideoPlayer() {
 
     player.on("play", () => setIsPlaying(true));
     player.on("pause", () => setIsPlaying(false));
-    player.on("timeupdate", (data: { seconds: number }) => setCurrentTime(data.seconds));
+    player.on("timeupdate", (data: { seconds: number; percent: number }) => {
+      setCurrentTime(data.seconds);
+      if (data.percent >= 0.98 && !isHandlingEndRef.current) {
+        handleVideoCycleEnd(player);
+      }
+    });
+    player.on("ended", () => handleVideoCycleEnd(player));
+
     player.on("loaded", async () => {
       setIsVideoLoaded(true);
       try {
         const dur = await player.getDuration();
         setDuration(dur);
       } catch {}
-    });
-
-    // Track loop count: play twice automatically, then pause until user clicks to play again
-    player.on("ended", async () => {
-      playCountRef.current += 1;
-      if (playCountRef.current < 2) {
-        try {
-          await player.setCurrentTime(0);
-          await player.play();
-          setIsPlaying(true);
-        } catch {
-          setIsPlaying(false);
-          setShowControls(true);
-        }
-      } else {
-        try {
-          await player.pause();
-        } catch {}
-        setIsPlaying(false);
-        setShowControls(true);
-      }
     });
 
     player
@@ -173,6 +187,7 @@ function HeroVideoPlayer() {
         .then(() => setIsPlaying(false))
         .catch(() => setIsPlaying(false));
     } else {
+      isHandlingEndRef.current = false;
       player
         .play()
         .then(() => setIsPlaying(true))
@@ -241,11 +256,11 @@ function HeroVideoPlayer() {
       className="group relative aspect-video w-full overflow-hidden rounded-2xl border-2 border-[#d4f934] bg-black shadow-[0_0_60px_rgba(212,249,52,0.45)] select-none cursor-pointer"
       onClick={togglePlay}
     >
-      {/* Vimeo Iframe scaled to fill the container completely without black bars */}
+      {/* Vimeo Iframe fitted to the container aspect-video */}
       <div className="absolute inset-0 w-full h-full overflow-hidden flex items-center justify-center pointer-events-none">
         <iframe
           ref={iframeRef}
-          src="https://player.vimeo.com/video/1215696372?background=1&autoplay=1&autopause=0&byline=0&title=0&muted=1&playsinline=1"
+          src="https://player.vimeo.com/video/1215696372?autoplay=1&autopause=0&byline=0&title=0&muted=1&playsinline=1&controls=0&loop=0"
           className="w-full h-full border-0 rounded-2xl"
           allow="autoplay; fullscreen; picture-in-picture"
           title="PenduGPT Masterclass Demo"
