@@ -3,7 +3,9 @@ import { Navbar } from "@/components/site/Navbar";
 import { Footer } from "@/components/site/Footer";
 import { CursorGlow } from "@/components/fx";
 import { PurchaseToast } from "@/components/landing/PurchaseToast";
-import { EnrollmentProvider } from "@/components/landing/EnrollmentModal";
+import { EnrollmentProvider, useEnrollmentModal } from "@/components/landing/EnrollmentModal";
+import { AutoUrgencyPopup } from "@/components/landing/AutoUrgencyPopup";
+import { FloatingSupport } from "@/components/site/FloatingSupport";
 import {
   Audience,
   Bonuses,
@@ -40,29 +42,43 @@ export const Route = createFileRoute("/")({
   component: Landing,
 });
 
+function LandingPageInner() {
+  const { openModal } = useEnrollmentModal();
+
+  return (
+    <div className="relative min-h-screen overflow-x-hidden bg-[#080808] text-white">
+      <CursorGlow />
+      <Navbar />
+      <main>
+        <Hero />
+        <Stats />
+        <LimitedSpots />
+        <Audience />
+        <Curriculum />
+        <Bonuses />
+        <Showcase />
+        <Testimonials />
+        <Instructor />
+        <ChoiceMotivator />
+        <Offer />
+        <Faq />
+      </main>
+      <Footer />
+      <PurchaseToast />
+      
+      {/* Auto Urgency Popup triggered after 6s */}
+      <AutoUrgencyPopup onClaim={() => openModal()} />
+
+      {/* Floating WhatsApp Support Button */}
+      <FloatingSupport />
+    </div>
+  );
+}
+
 function Landing() {
   return (
     <EnrollmentProvider>
-      <div className="relative min-h-screen overflow-x-hidden bg-[#080808] text-white">
-        <CursorGlow />
-        <Navbar />
-        <main>
-          <Hero />
-          <Stats />
-          <LimitedSpots />
-          <Audience />
-          <Curriculum />
-          <Bonuses />
-          <Showcase />
-          <Testimonials />
-          <Instructor />
-          <ChoiceMotivator />
-          <Offer />
-          <Faq />
-        </main>
-        <Footer />
-        <PurchaseToast />
-      </div>
+      <LandingPageInner />
     </EnrollmentProvider>
   );
 }

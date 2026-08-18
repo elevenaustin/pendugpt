@@ -1,8 +1,8 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
-import { ArrowLeft, ArrowRight, CheckCircle2, Lock, ShieldCheck, Phone, User, Video, Calendar, Sparkles, Clock, Check } from "lucide-react";
+import { ArrowRight, CheckCircle2, Lock, ShieldCheck, User, Video, Calendar, Sparkles, Clock, RefreshCw, MessageCircle } from "lucide-react";
 import { Logo, Wordmark } from "@/components/brand/Logo";
-import { cn } from "@/lib/utils";
+import { FloatingSupport } from "@/components/site/FloatingSupport";
 import { supabase } from "@/integrations/supabase/client";
 
 declare global {
@@ -27,6 +27,7 @@ const COUNTRY_CODES = [
 ];
 
 const CALENDLY_URL = "https://cal.com/khushpreet-singh-9nry5f/30min/";
+const SUPPORT_WHATSAPP = import.meta.env.VITE_SUPPORT_WHATSAPP || "917717526430";
 
 const loadRazorpayScript = () => {
   return new Promise<boolean>((resolve) => {
@@ -57,7 +58,11 @@ function BookCallPage() {
     loadRazorpayScript();
   }, []);
 
-  // Countdown auto-redirect to Cal.com on payment success
+  const whatsappSuccessUrl = `https://wa.me/${SUPPORT_WHATSAPP}?text=${encodeURIComponent(
+    `Sir I have paid ₹499 for 45-Min 1-on-1 Call.\nName: ${name}\nPayment ID: ${paymentId}`
+  )}`;
+
+  // Countdown auto-redirect on payment success to Cal.com & WhatsApp
   useEffect(() => {
     let timer: any;
     let interval: any;
@@ -155,7 +160,7 @@ function BookCallPage() {
           });
         } catch (err) {}
 
-        // Send to Webhook if available
+        // Send to Webhook
         const googleWebhookUrl = import.meta.env.VITE_GOOGLE_SHEETS_WEBHOOK_URL || "https://script.google.com/macros/s/AKfycbynvD1F1Fs9fTPkEa7IygX2zA3S8BajsZZVur3Pg5_9yi8AiUIkD1mUCOXWxNHnFOdycQ/exec";
         if (googleWebhookUrl) {
           try {
@@ -196,7 +201,6 @@ function BookCallPage() {
       rzp.open();
     } catch (err) {
       console.error("Razorpay error:", err);
-      // Fallback in preview environment
       setIsProcessing(false);
       setStep("success");
     }
@@ -204,55 +208,68 @@ function BookCallPage() {
 
   return (
     <div className="min-h-screen bg-[#080808] text-white flex flex-col justify-between p-4 sm:p-6 relative overflow-hidden font-sans select-none">
-      {/* Background Ambient Lighting Effects */}
+      {/* Ambient Lighting Effects */}
       <div className="pointer-events-none absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[450px] w-[500px] rounded-full bg-[#d4f934]/10 blur-[140px]" />
       <div className="pointer-events-none absolute bottom-10 right-10 h-64 w-64 rounded-full bg-purple-600/10 blur-[120px]" />
 
-      {/* Top Navigation Row */}
+      {/* Top Header (Standalone Branding - NO Back to Main Site link) */}
       <header className="mx-auto max-w-xl w-full flex items-center justify-between z-10 py-1">
-        <Link to="/" className="flex items-center gap-2.5">
+        <div className="flex items-center gap-2.5">
           <Logo className="h-8 w-8" />
           <Wordmark />
-        </Link>
+        </div>
 
-        <Link
-          to="/"
-          className="inline-flex items-center gap-1.5 rounded-full border border-gray-800 bg-[#121212] px-3 py-1.5 text-xs font-bold text-gray-300 hover:text-[#d4f934] hover:border-[#d4f934]/40 transition"
-        >
-          <ArrowLeft className="h-3.5 w-3.5" />
-          <span>Main Site</span>
-        </Link>
+        <span className="inline-flex items-center gap-1.5 rounded-full border border-[#d4f934]/40 bg-[#121808] px-3 py-1 text-[11px] font-black text-[#d4f934]">
+          <Clock className="h-3 w-3" />
+          <span>45-Min Private Session</span>
+        </span>
       </header>
 
-      {/* Main Center Form Card (Clean & Compact Fit) */}
+      {/* Main Center Form Card */}
       <main className="mx-auto max-w-md w-full my-auto py-3 z-10">
         {step === "success" ? (
-          <div className="rounded-3xl border-2 border-[#d4f934]/60 bg-[#101507] p-6 sm:p-8 text-center shadow-[0_0_60px_rgba(212,249,52,0.25)] animate-fadeIn">
-            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-[#d4f934] text-black shadow-[0_0_25px_rgba(212,249,52,0.6)]">
+          <div className="rounded-3xl border-2 border-[#d4f934]/60 bg-[#101507] p-6 sm:p-8 text-center shadow-[0_0_60px_rgba(212,249,52,0.25)] animate-fadeIn space-y-4">
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[#d4f934] text-black shadow-[0_0_25px_rgba(212,249,52,0.6)]">
               <CheckCircle2 className="h-8 w-8" />
             </div>
 
-            <span className="inline-flex items-center gap-1 rounded-full bg-[#d4f934]/20 border border-[#d4f934]/50 px-3 py-1 text-xs font-extrabold text-[#d4f934] uppercase tracking-wider mb-2">
+            <span className="inline-flex items-center gap-1 rounded-full bg-[#d4f934]/20 border border-[#d4f934]/50 px-3 py-1 text-xs font-extrabold text-[#d4f934] uppercase tracking-wider">
               ✓ Payment Confirmed (₹499)
             </span>
 
-            <h2 className="text-xl sm:text-2xl font-black text-white mt-1">
-              Select Your 45-Min Time Slot!
+            <h2 className="text-xl sm:text-2xl font-black text-white">
+              45-Min Strategy Call Booked!
             </h2>
             
-            <p className="text-xs text-gray-300 mt-2 leading-relaxed">
-              Redirecting to Cal.com in <strong className="text-[#d4f934] text-sm font-black">{countdown}s</strong> to pick your preferred date & time slot.
+            <p className="text-xs text-gray-300 leading-relaxed">
+              Redirecting to Cal.com in <strong className="text-[#d4f934] text-sm font-black">{countdown}s</strong> to pick your time slot.
             </p>
+
+            {/* Countdown notice pill */}
+            <div className="rounded-xl bg-green-950/40 border border-green-500/40 p-2.5 text-xs text-green-400 font-bold flex items-center justify-center gap-2">
+              <RefreshCw className="h-4 w-4 animate-spin text-[#d4f934]" />
+              <span>Redirecting automatically in {countdown}s...</span>
+            </div>
 
             <a
               href={CALENDLY_URL}
-              className="lime-button mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full py-4 px-6 text-sm font-black text-black shadow-[0_0_25px_rgba(212,249,52,0.5)] cursor-pointer hover:scale-105 transition-all"
+              className="lime-button inline-flex w-full items-center justify-center gap-2 rounded-full py-3.5 px-6 text-sm font-black text-black shadow-lg cursor-pointer hover:scale-105 transition-all"
             >
-              <span>Pick Date & Time Slot Now</span>
+              <span>Pick Your Date & Time Slot Now</span>
               <ArrowRight className="h-4 w-4" />
             </a>
 
-            <p className="text-[11px] text-gray-400 mt-3 font-semibold">
+            <a
+              href={whatsappSuccessUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-full py-3 px-6 text-xs font-extrabold text-white bg-[#25D366] hover:bg-[#20bd5a] transition cursor-pointer"
+            >
+              <MessageCircle className="h-4 w-4 fill-white" />
+              <span>Send Confirmation on WhatsApp</span>
+            </a>
+
+            <p className="text-[11px] text-gray-400 font-semibold">
               Transaction ID: {paymentId || "Confirmed"}
             </p>
           </div>
@@ -280,7 +297,7 @@ function BookCallPage() {
                   45 Mins Private Call
                 </span>
                 
-                {/* Price Tag with Bold Red Strikethrough */}
+                {/* Price Tag */}
                 <div className="flex items-baseline gap-1.5">
                   <span className="line-through decoration-red-600 decoration-2 text-gray-400 font-extrabold text-xs sm:text-sm">₹2,999</span>
                   <span className="text-xl sm:text-2xl font-black text-[#d4f934] font-sans">₹499 ONLY</span>
@@ -403,7 +420,7 @@ function BookCallPage() {
                 <Lock className="h-3 w-3 text-[#d4f934]" /> 100% Secure PCI-DSS
               </span>
               <span className="flex items-center gap-1 text-[#d4f934]">
-                <Calendar className="h-3 w-3" /> Auto Cal.com Redirect
+                <Calendar className="h-3 w-3" /> Auto Redirect
               </span>
             </div>
           </div>
@@ -414,6 +431,9 @@ function BookCallPage() {
       <footer className="mx-auto max-w-xl w-full text-center text-[11px] text-gray-500 z-10 py-1">
         © {new Date().getFullYear()} PenduGPT • 45-Min Private Strategy Session
       </footer>
+
+      {/* Floating WhatsApp Support Button */}
+      <FloatingSupport />
     </div>
   );
 }
