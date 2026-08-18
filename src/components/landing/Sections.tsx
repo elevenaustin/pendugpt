@@ -1169,84 +1169,52 @@ export function Bonuses() {
 
   const bonuses = [
     {
-      title: isPa ? "Official Lovable ਪ੍ਰੀਮੀਅਮ ਸਬਸਕ੍ਰਿਪਸ਼ਨ" : "Official Lovable Premium Subscription",
-      subtitle: isPa ? "ਆਫਿਸ਼ੀਅਲ ਪ੍ਰੀਮੀਅਮ ਸਬਸਕ੍ਰਿਪਸ਼ਨ ਸ਼ਾਮਲ" : "Official Premium Subscription Included",
-      worth: "₹20,000+ Value",
-      badge: isPa ? "FREE ਸਾਡੇ ਵੱਲੋਂ" : "FREE From Our Side",
-      isFree: true,
-      Icon: Sparkles,
-    },
-    {
-      title: isPa ? "ਡੋਮੇਨ + ਹੋਸਟਿੰਗ" : "Domain + Hosting",
-      subtitle: isPa ? "ਅਨਲਿਮਟਿਡ ਲਰਨਿੰਗ ਪ੍ਰੋਜੈਕਟਸ ਲਾਈਵ ਕਰੋ" : "Deploy Unlimited Learning Projects",
-      worth: "₹5,000+ Value",
-      badge: isPa ? "FREE ਸਾਡੇ ਵੱਲੋਂ" : "FREE From Our Side",
-      isFree: true,
-      Icon: Globe,
-    },
-    {
-      title: isPa ? "ਪ੍ਰੀਮੀਅਮ AI ਪ੍ਰੌਂਪਟ ਲਾਇਬ੍ਰੇਰੀ" : "Premium AI Prompt Library",
-      subtitle: isPa ? "ਤਿਆਰ-ਬਰ-ਤਿਆਰ ਵੈੱਬਸਾਈਟ ਪ੍ਰੌਂਪਟਸ" : "Ready-to-Use Website Prompts",
+      title: isPa ? "ਲਾਈਵ 120-ਮਿੰਟ ਡੈਮੋ ਕਲਾਸ" : "Live 120-Min Demo Class",
+      subtitle: isPa ? "ਅੱਖਾਂ ਦੇ ਸਾਹਮਣੇ ਵੈੱਬਸਾਈਟ ਬਿਲਡਿੰਗ ਲਾਈਵ ਵੇਖੋ" : "Full Practical Step-by-Step Walkthrough",
       worth: "₹4,999",
-      badge: isPa ? "Included" : "Included",
-      isFree: false,
+      badge: isPa ? "Live Session" : "Live Session",
+      isFree: true,
+      Icon: Video,
+    },
+    {
+      title: isPa ? "50+ AI ਪ੍ਰੌਂਪਟ ਵੋਲਟ" : "50+ AI Prompt Vault",
+      subtitle: isPa ? "ਤਿਆਰ-ਬਰ-ਤਿਆਰ ਵੈੱਬਸਾਈਟ ਪ੍ਰੌਂਪਟਸ" : "Ready-to-Use Website Copy & Layout Prompts",
+      worth: "₹3,999",
+      badge: isPa ? "FREE ਬੋਨਸ" : "FREE Bonus",
+      isFree: true,
       Icon: Wand2,
     },
     {
-      title: isPa ? "ਪ੍ਰੀਮੀਅਮ ਵੈੱਬਸਾਈਟ ਟੈਂਪਲੇਟਸ" : "Premium Website Templates",
-      subtitle: isPa ? "ਮਾਡਰਨ ਲੈਂਡਿੰਗ ਪੇਜ ਤੇ ਬਿਜ਼ਨਸ ਵੈੱਬਸਾਈਟਾਂ" : "Modern Landing Pages & Business Websites",
-      worth: "₹7,999",
-      badge: isPa ? "Included" : "Included",
-      isFree: false,
-      Icon: Layout,
-    },
-    {
-      title: isPa ? "ਪ੍ਰੀਮੀਅਮ ਫੋਂਟਸ ਤੇ UI ਐਸੇਟਸ" : "Premium Fonts & UI Assets",
-      subtitle: isPa ? "ਪ੍ਰੋਫੈਸ਼ਨਲ ਫੋਂਟਸ, ਆਈਕਨਜ਼ ਤੇ UI ਕੰਪੋਨੈਂਟਸ" : "Professional Fonts, Icons & UI Components",
+      title: isPa ? "ਕਲਾਇੰਟ ਪਿਚਿੰਗ ਅਤੇ ਆਊਟਰੀਚ ਸਕ੍ਰਿਪਟਸ" : "Client Acquisition Pitch Scripts",
+      subtitle: isPa ? "ਕਲਾਇੰਟਸ ਨੂੰ ਅਪਰੋਚ ਕਰਨ ਲਈ ਮੈਸੇਜ ਟੈਂਪਲੇਟਸ" : "Outreach Templates to Pitch Real Clients",
       worth: "₹2,999",
-      badge: isPa ? "Included" : "Included",
-      isFree: false,
-      Icon: Type,
+      badge: isPa ? "FREE ਬੋਨਸ" : "FREE Bonus",
+      isFree: true,
+      Icon: Briefcase,
     },
     {
-      title: isPa ? "ਵੈੱਬਸਾਈਟ ਬਗ ਫਿਕਸਿੰਗ ਸਿਸਟਮ" : "Website Bug Fixing System",
-      subtitle: isPa ? "ਪ੍ਰੋਫੈਸ਼ਨਲ ਵਾਂਗ ਐਰਰ ਤੇ ਬਗਸ ਫਿਕਸ ਕਰੋ" : "Fix Errors Like a Professional",
-      worth: "₹4,999",
-      badge: isPa ? "Included" : "Included",
+      title: isPa ? "ਪ੍ਰਾਈਵੇਟ VIP ਵਟਸਐਪ ਕਮਿਊਨਿਟੀ" : "Private VIP WhatsApp Group",
+      subtitle: isPa ? "ਕਲਾਸ ਲਿੰਕ ਅਤੇ ਅੱਪਡੇਟਸ ਤੁਰੰਤ ਪ੍ਰਾਪਤ ਕਰੋ" : "Instant Live Class Link & Group Updates",
+      worth: "₹1,999",
+      badge: isPa ? "Instant Access" : "Instant Access",
       isFree: false,
-      Icon: Wrench,
+      Icon: MessageCircle,
     },
     {
-      title: isPa ? "ਵੈੱਬਸਾਈਟ ਸਕਿਓਰਿਟੀ" : "Website Security",
-      subtitle: isPa ? "ਹਰੇਕ ਵੈੱਬਸਾਈਟ ਨੂੰ ਸਕਿਓਰ ਤੇ ਸੁਰੱਖਿਅਤ ਕਰੋ" : "Secure & Protect Every Website",
-      worth: "₹3,999",
-      badge: isPa ? "Included" : "Included",
-      isFree: false,
-      Icon: ShieldCheck,
-    },
-    {
-      title: isPa ? "ਵੈੱਬਸਾਈਟ ਅੱਪਡੇਟਸ ਤੇ ਮੇਨਟੇਨੈਂਸ" : "Website Updates & Maintenance",
-      subtitle: isPa ? "ਵੈੱਬਸਾਈਟਾਂ ਐਡਿਟ, ਇੰਪਰੂਵ ਤੇ ਮੇਨਟੇਨ ਕਰੋ" : "Edit, Improve & Maintain Websites",
-      worth: "₹4,999",
-      badge: isPa ? "Included" : "Included",
-      isFree: false,
-      Icon: RefreshCw,
-    },
-    {
-      title: isPa ? "ਵੈੱਬਸਾਈਟ ਹੈਂਡਓਵਰ ਸਿਸਟਮ" : "Website Handover System",
-      subtitle: isPa ? "ਕਲਾਇੰਟਸ ਨੂੰ ਪ੍ਰੋਫੈਸ਼ਨਲ ਪ੍ਰੋਜੈਕਟ ਡਿਲੀਵਰੀ" : "Professional Project Delivery",
+      title: isPa ? "ਲਾਈਫਟਾਈਮ ਰਿਕਾਰਡਿੰਗ ਰੀਪਲੇਅ" : "Lifetime Recording Replay",
+      subtitle: isPa ? "ਜਦੋਂ ਚਾਹੋ ਦੁਬਾਰਾ ਵੇਖੋ ਤੇ ਪ੍ਰੈਕਟਿਸ ਕਰੋ" : "Watch & Practice Anytime at Your Own Pace",
       worth: "₹2,999",
-      badge: isPa ? "Included" : "Included",
+      badge: isPa ? "Lifetime Access" : "Lifetime Access",
       isFree: false,
-      Icon: FolderCheck,
+      Icon: Clock,
     },
     {
-      title: isPa ? "ਕਮਿਊਨਿਟੀ ਸਪੋਰਟ" : "Community Support",
-      subtitle: isPa ? "ਨਵੇਂ ਅੱਪਡੇਟਸ ਤੇ ਪ੍ਰਾਇਓਰਿਟੀ ਸਪੋਰਟ" : "Future Updates & Priority Support",
-      worth: "₹9,999",
-      badge: isPa ? "Included" : "Included",
-      isFree: false,
-      Icon: Users,
+      title: isPa ? "ਡੈਮੋ ਕਲਾਸ ਸਰਟੀਫਿਕੇਟ" : "Demo Class Certificate",
+      subtitle: isPa ? "Pendugpt ਵੱਲੋਂ ਡਿਜੀਟਲ ਸਰਟੀਫਿਕੇਟ" : "Official Digital Participation Certificate",
+      worth: "₹1,499",
+      badge: isPa ? "FREE ਬੋਨਸ" : "FREE Bonus",
+      isFree: true,
+      Icon: Award,
     },
   ];
 
@@ -1261,7 +1229,7 @@ export function Bonuses() {
         <Reveal>
           <div className="inline-flex items-center gap-2 rounded-full border border-purple-500/40 bg-purple-950/40 px-5 py-2 text-xs font-black uppercase tracking-wider text-purple-300 shadow-[0_0_25px_rgba(168,85,247,0.3)] mb-4">
             <Gift className="h-4 w-4 text-[#d4f934]" />
-            <span>{isPa ? "🎁 ਸਭ ਕੁਝ ਜੋ ਤੁਹਾਨੂੰ ਮਿਲੇਗਾ (EVERYTHING YOU GET)" : "🎁 EVERYTHING YOU GET"}</span>
+            <span>{isPa ? "🎁 ਡੈਮੋ ਕਲਾਸ ਵਿੱਚ ਕੀ ਸ਼ਾਮਲ ਹੈ" : "🎁 DEMO CLASS BUNDLE"}</span>
           </div>
         </Reveal>
 
@@ -1269,33 +1237,33 @@ export function Bonuses() {
           <h2 className="text-3xl sm:text-6xl font-extrabold text-white tracking-tight">
             {isPa ? (
               <>
-                ਸਭ ਕੁਝ <span className="text-purple-400">ਅੱਜ ਸ਼ਾਮਲ</span> ਹੈ
+                ਡੈਮੋ ਕਲਾਸ ਵਿੱਚ <span className="text-[#d4f934]">ਸਭ ਕੁਝ ਸ਼ਾਮਲ ਹੈ</span>
               </>
             ) : (
               <>
-                Everything <span className="text-purple-400">Included Today</span>
+                Everything Included In <span className="text-[#d4f934]">Demo Class</span>
               </>
             )}
           </h2>
           <p className="mt-3 text-sm sm:text-lg text-gray-400 font-semibold max-w-2xl mx-auto">
             {isPa
-              ? "ਪ੍ਰੋਫੈਸ਼ਨਲ ਟੂਲਜ਼ • ਲਾਈਵ ਟ੍ਰੇਨਿੰਗ • ਪ੍ਰੀਮੀਅਮ ਰਿਸੋਰਸਜ਼"
-              : "Professional Tools • Live Training • Premium Resources"}
+              ? "ਲਾਈਵ ਡੈਮੋ ਸੈਸ਼ਨ • AI ਪ੍ਰੌਂਪਟ ਵੋਲਟ • ਕਲਾਇੰਟ ਸਕ੍ਰਿਪਟਸ • VIP ਵਟਸਐਪ ਐਕਸੈਸ"
+              : "Live Demo Training • 50+ AI Prompts • Pitch Scripts • VIP Community Access"}
           </p>
         </Reveal>
 
-        {/* 10 Bonus Cards Grid matching the attached image design */}
-        <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 text-left">
+        {/* Bonus Cards Grid matching Demo Class inclusions */}
+        <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 text-left">
           {bonuses.map((b, idx) => {
             const ItemIcon = b.Icon;
             return (
-              <Reveal key={b.title} delay={idx * 0.02}>
+              <Reveal key={b.title} delay={idx * 0.04}>
                 <div
                   className={cn(
-                    "flex flex-col justify-between rounded-2xl p-5 border transition-all duration-300 hover:scale-[1.03] h-full group relative overflow-hidden",
+                    "flex flex-col justify-between rounded-2xl p-6 border transition-all duration-300 hover:scale-[1.02] h-full group relative overflow-hidden transform-gpu",
                     b.isFree
-                      ? "border-emerald-500/50 bg-gradient-to-b from-[#0f1f17] to-[#0a140e] shadow-[0_0_25px_rgba(16,185,129,0.15)] hover:border-emerald-400"
-                      : "border-gray-800 bg-[#0d0e12] hover:border-[#d4f934]/60 hover:bg-[#12141a] hover:shadow-[0_0_25px_rgba(212,249,52,0.15)]"
+                      ? "border-[#d4f934]/40 bg-gradient-to-b from-[#101705] to-[#0a0f03] shadow-[0_0_25px_rgba(212,249,52,0.12)] hover:border-[#d4f934]"
+                      : "border-gray-800 bg-[#0d0e12] hover:border-[#d4f934]/60 hover:bg-[#12141a]"
                   )}
                 >
                   <div>
@@ -1303,19 +1271,19 @@ export function Bonuses() {
                     <div className="flex items-start gap-3 mb-3">
                       <div
                         className={cn(
-                          "flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border font-bold shadow-md",
+                          "flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border font-bold shadow-md",
                           b.isFree
-                            ? "bg-emerald-500/20 border-emerald-400/50 text-emerald-300"
-                            : "bg-[#d4f934]/15 border-[#d4f934]/40 text-[#d4f934] group-hover:bg-[#d4f934] group-hover:text-black transition-colors"
+                            ? "bg-[#d4f934]/20 border-[#d4f934]/50 text-[#d4f934]"
+                            : "bg-[#d4f934]/10 border-[#d4f934]/30 text-[#d4f934] group-hover:bg-[#d4f934] group-hover:text-black transition-colors"
                         )}
                       >
                         <ItemIcon className="h-5 w-5" />
                       </div>
                       <div>
-                        <h3 className="text-sm font-extrabold text-white leading-snug group-hover:text-[#d4f934] transition-colors">
+                        <h3 className="text-base font-black text-white leading-snug group-hover:text-[#d4f934] transition-colors">
                           {b.title}
                         </h3>
-                        <span className="text-[11px] font-bold text-gray-500 line-through mt-0.5 block">
+                        <span className="text-xs font-bold text-gray-400 line-through mt-0.5 block">
                           {b.worth}
                         </span>
                       </div>
@@ -1325,13 +1293,13 @@ export function Bonuses() {
                     <div className="mb-3">
                       <span
                         className={cn(
-                          "inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-black uppercase shadow-sm",
+                          "inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[10px] font-black uppercase tracking-wider shadow-sm",
                           b.isFree
-                            ? "bg-emerald-500 text-black shadow-[0_0_15px_rgba(16,185,129,0.4)]"
-                            : "bg-emerald-600/90 text-white"
+                            ? "bg-[#d4f934] text-black shadow-[0_0_15px_rgba(212,249,52,0.4)]"
+                            : "bg-gray-800 text-gray-200 border border-gray-700"
                         )}
                       >
-                        <CheckCircle2 className="h-3.5 w-3.5 fill-black text-emerald-500" />
+                        <CheckCircle2 className="h-3.5 w-3.5 fill-black text-[#d4f934]" />
                         {b.badge}
                       </span>
                     </div>
@@ -1347,18 +1315,18 @@ export function Bonuses() {
           })}
         </div>
 
-        {/* Bottom Total Value & Price Banner (Matching Image Footer) */}
+        {/* Bottom Total Value & Price Banner */}
         <Reveal delay={0.25}>
-          <div className="mt-12 rounded-3xl border-2 border-purple-500/40 bg-gradient-to-r from-[#0d091a] via-[#120c24] to-[#0d091a] p-6 sm:p-8 shadow-[0_0_50px_rgba(168,85,247,0.25)] flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="mt-12 rounded-3xl border-2 border-[#d4f934]/40 bg-gradient-to-r from-[#0c1203] via-[#141d06] to-[#0c1203] p-6 sm:p-8 shadow-[0_0_50px_rgba(212,249,52,0.2)] flex flex-col md:flex-row items-center justify-between gap-6">
             
             {/* Total Value Gold Badge */}
             <div className="flex items-center gap-4 rounded-2xl border border-yellow-500/40 bg-gradient-to-b from-yellow-950/40 to-black p-4 shadow-[0_0_30px_rgba(234,179,8,0.2)]">
               <div className="text-left">
                 <span className="text-[10px] font-black uppercase tracking-widest text-yellow-400 block">
-                  TOTAL VALUE
+                  TOTAL BUNDLE VALUE
                 </span>
                 <span className="text-3xl sm:text-4xl font-extrabold text-yellow-300 font-sans tracking-tight">
-                  ₹75,000+
+                  ₹18,494
                 </span>
               </div>
             </div>
@@ -1369,7 +1337,7 @@ export function Bonuses() {
                 REGULAR PRICE
               </span>
               <span className="text-2xl sm:text-3xl font-extrabold text-gray-500 line-through">
-                ₹9,999
+                ₹1,000
               </span>
             </div>
 
