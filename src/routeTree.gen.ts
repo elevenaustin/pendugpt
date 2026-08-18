@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminRouteImport } from './routes/admin'
+import { Route as BookCallRouteImport } from './routes/book-call'
 import { Route as CancellationRouteImport } from './routes/cancellation'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as DisclaimerRouteImport } from './routes/disclaimer'
@@ -27,6 +28,11 @@ const IndexRoute = IndexRouteImport.update({
 const AdminRoute = AdminRouteImport.update({
   id: '/admin',
   path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BookCallRoute = BookCallRouteImport.update({
+  id: '/book-call',
+  path: '/book-call',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CancellationRoute = CancellationRouteImport.update({
@@ -68,6 +74,7 @@ const TermsRoute = TermsRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
+  '/book-call': typeof BookCallRoute
   '/cancellation': typeof CancellationRoute
   '/contact': typeof ContactRoute
   '/disclaimer': typeof DisclaimerRoute
@@ -79,6 +86,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
+  '/book-call': typeof BookCallRoute
   '/cancellation': typeof CancellationRoute
   '/contact': typeof ContactRoute
   '/disclaimer': typeof DisclaimerRoute
@@ -91,6 +99,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
+  '/book-call': typeof BookCallRoute
   '/cancellation': typeof CancellationRoute
   '/contact': typeof ContactRoute
   '/disclaimer': typeof DisclaimerRoute
@@ -104,6 +113,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/admin'
+    | '/book-call'
     | '/cancellation'
     | '/contact'
     | '/disclaimer'
@@ -115,6 +125,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/admin'
+    | '/book-call'
     | '/cancellation'
     | '/contact'
     | '/disclaimer'
@@ -126,6 +137,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/admin'
+    | '/book-call'
     | '/cancellation'
     | '/contact'
     | '/disclaimer'
@@ -138,6 +150,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRoute
+  BookCallRoute: typeof BookCallRoute
   CancellationRoute: typeof CancellationRoute
   ContactRoute: typeof ContactRoute
   DisclaimerRoute: typeof DisclaimerRoute
@@ -161,6 +174,13 @@ declare module '@tanstack/react-router' {
       path: '/admin'
       fullPath: '/admin'
       preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/book-call': {
+      id: '/book-call'
+      path: '/book-call'
+      fullPath: '/book-call'
+      preLoaderRoute: typeof BookCallRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/cancellation': {
@@ -218,6 +238,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRoute,
+  BookCallRoute: BookCallRoute,
   CancellationRoute: CancellationRoute,
   ContactRoute: ContactRoute,
   DisclaimerRoute: DisclaimerRoute,
