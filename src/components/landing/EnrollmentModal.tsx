@@ -388,10 +388,10 @@ Transaction ID: ${paymentId || "Confirmed"}`;
                     <div className="mb-5">
                       <div className="flex items-center gap-2 mb-1">
                         <span className="text-[10px] font-extrabold uppercase tracking-widest text-[#d4f934]">
-                          {isPa ? "ਲਾਈਵ ਮਾਸਟਰਕਲਾਸ" : "Live Masterclass"}
+                          {isPa ? "ਲਾਈਵ ਡੈਮੋ ਕਲਾਸ" : "Live Demo Class"}
                         </span>
                         <span className="inline-flex items-center gap-1 rounded-full bg-[#d4f934]/15 border border-[#d4f934]/40 px-2 py-0.5 text-[10px] font-extrabold text-[#d4f934]">
-                          <span className="line-through text-gray-400">₹1,000</span>
+                          <span className="line-through decoration-red-600 decoration-2 text-gray-400 font-bold">₹1,000</span>
                           <span>₹99</span>
                         </span>
                       </div>

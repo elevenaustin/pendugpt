@@ -468,7 +468,7 @@ export function Hero() {
             {/* High-Converting Price Tag Callout Badge (₹1,000 -> ₹99) */}
             <Reveal delay={0.18}>
               <div className="inline-flex items-center gap-3 rounded-2xl border border-[#d4f934]/40 bg-[#121706] px-4 py-2.5 shadow-[0_0_20px_rgba(212,249,52,0.15)]">
-                <span className="text-sm sm:text-base font-bold text-gray-400 line-through">₹1,000</span>
+                <span className="text-sm sm:text-base font-extrabold text-gray-400 line-through decoration-red-600 decoration-2">₹1,000</span>
                 <span className="text-2xl sm:text-3xl font-black text-[#d4f934] font-sans tracking-tight">₹99 ONLY</span>
                 <span className="rounded-full bg-[#d4f934]/20 border border-[#d4f934]/50 px-2.5 py-0.5 text-[11px] font-black uppercase text-[#d4f934]">
                   90% OFF
@@ -488,11 +488,11 @@ export function Hero() {
                   <span>
                     {isPa ? (
                       <>
-                        ਲਾਈਵ ਡੈਮੋ ਕਲਾਸ ਜੁਆਇਨ ਕਰੋ — <span className="line-through opacity-70">₹1,000</span> ₹99
+                        ਲਾਈਵ ਡੈਮੋ ਕਲਾਸ ਜੁਆਇਨ ਕਰੋ — <span className="line-through decoration-red-600 decoration-2 text-black/80 font-bold">₹1,000</span> ₹99
                       </>
                     ) : (
                       <>
-                        Join Live Demo Class — <span className="line-through opacity-70">₹1,000</span> ₹99
+                        Join Live Demo Class — <span className="line-through decoration-red-600 decoration-2 text-black/80 font-bold">₹1,000</span> ₹99
                       </>
                     )}
                   </span>
@@ -786,11 +786,11 @@ export function LimitedSpots() {
                 <span>
                   {isPa ? (
                     <>
-                      ਲਾਈਵ ਡੈਮੋ ਕਲਾਸ ਹੁਣੇ ਜੁਆਇਨ ਕਰੋ — <span className="line-through opacity-70">₹1,000</span> ₹99
+                      ਲਾਈਵ ਡੈਮੋ ਕਲਾਸ ਹੁਣੇ ਜੁਆਇਨ ਕਰੋ — <span className="line-through decoration-red-600 decoration-2 text-black/80 font-bold">₹1,000</span> ₹99
                     </>
                   ) : (
                     <>
-                      Join Live Demo Class Now — <span className="line-through opacity-70">₹1,000</span> ₹99
+                      Join Live Demo Class Now — <span className="line-through decoration-red-600 decoration-2 text-black/80 font-bold">₹1,000</span> ₹99
                     </>
                   )}
                 </span>
@@ -1185,12 +1185,12 @@ export function Bonuses() {
       Icon: Wand2,
     },
     {
-      title: isPa ? "ਕਲਾਇੰਟ ਪਿਚਿੰਗ ਅਤੇ ਆਊਟਰੀਚ ਸਕ੍ਰਿਪਟਸ" : "Client Acquisition Pitch Scripts",
-      subtitle: isPa ? "ਕਲਾਇੰਟਸ ਨੂੰ ਅਪਰੋਚ ਕਰਨ ਲਈ ਮੈਸੇਜ ਟੈਂਪਲੇਟਸ" : "Outreach Templates to Pitch Real Clients",
+      title: isPa ? "ਜ਼ੀਰੋ-ਕੋਡਿੰਗ AI ਸੈੱਟਅੱਪ ਚੈੱਕਲਿਸਟ" : "Zero-Coding AI Setup Checklist",
+      subtitle: isPa ? "ਕਲਾਸ ਦੇ ਟੂਲਜ਼ ਤੇ ਪ੍ਰੋਸੈਸ ਦੀ ਪੂਰੀ ਗਾਈਡ" : "Step-by-Step AI Tools & Workflow Checklist",
       worth: "₹2,999",
       badge: isPa ? "FREE ਬੋਨਸ" : "FREE Bonus",
       isFree: true,
-      Icon: Briefcase,
+      Icon: CheckCircle2,
     },
     {
       title: isPa ? "ਪ੍ਰਾਈਵੇਟ VIP ਵਟਸਐਪ ਕਮਿਊਨਿਟੀ" : "Private VIP WhatsApp Group",
@@ -1209,12 +1209,12 @@ export function Bonuses() {
       Icon: Clock,
     },
     {
-      title: isPa ? "ਡੈਮੋ ਕਲਾਸ ਸਰਟੀਫਿਕੇਟ" : "Demo Class Certificate",
-      subtitle: isPa ? "Pendugpt ਵੱਲੋਂ ਡਿਜੀਟਲ ਸਰਟੀਫਿਕੇਟ" : "Official Digital Participation Certificate",
-      worth: "₹1,499",
+      title: isPa ? "AI ਵੈੱਬਸਾਈਟ ਲਾਂਚ ਪਲੇਬੁੱਕ" : "AI Website Launch Playbook",
+      subtitle: isPa ? "ਵੈੱਬਸਾਈਟ ਡਿਜ਼ਾਈਨ ਤੇ ਲਾਂਚ ਕਰਨ ਦੀ ਪੂਰੀ ਗਾਈਡ" : "Complete Guide to Design & Deploy Websites",
+      worth: "₹2,499",
       badge: isPa ? "FREE ਬੋਨਸ" : "FREE Bonus",
       isFree: true,
-      Icon: Award,
+      Icon: BookOpen,
     },
   ];
 
@@ -1751,8 +1751,8 @@ export function Offer() {
               {[
                 "Full Live AI Website Demo Class (120 Mins)",
                 "Zero-Coding Practical Building Demo",
-                "All 8 Premium Bonuses Included (Worth ₹75,000+)",
-                "Client Acquisition & Pitching Scripts",
+                "All Premium Demo Class Bonuses Included",
+                "Step-by-Step Zero-Coding AI Setup Checklist",
                 "50+ AI Prompts & Tool Stack Vault",
                 "Lifetime Class Recording Replay Access",
                 "Instant Access & Live Class Link",
@@ -1768,7 +1768,7 @@ export function Offer() {
 
             {/* Compact Price Strikethrough Row */}
             <div className="flex items-center justify-center gap-4 py-4 border-t border-gray-800/80">
-              <span className="text-2xl sm:text-3xl font-bold text-gray-500 line-through">₹1,000</span>
+              <span className="text-2xl sm:text-3xl font-extrabold text-gray-400 line-through decoration-red-600 decoration-2">₹1,000</span>
               <span className="text-4xl sm:text-6xl font-black text-[#d4f934] tracking-tight drop-shadow-[0_0_20px_rgba(212,249,52,0.4)]">
                 ₹99
               </span>
@@ -1787,11 +1787,11 @@ export function Offer() {
               <span>
                 {isPa ? (
                   <>
-                    ਲਾਈਵ ਡੈਮੋ ਕਲਾਸ ਹੁਣੇ ਜੁਆਇਨ ਕਰੋ — <span className="line-through opacity-70">₹1,000</span> ₹99
+                    ਲਾਈਵ ਡੈਮੋ ਕਲਾਸ ਹੁਣੇ ਜੁਆਇਨ ਕਰੋ — <span className="line-through decoration-red-600 decoration-2 text-black/80 font-bold">₹1,000</span> ₹99
                   </>
                 ) : (
                   <>
-                    Join Live Demo Class Now — <span className="line-through opacity-70">₹1,000</span> ₹99
+                    Join Live Demo Class Now — <span className="line-through decoration-red-600 decoration-2 text-black/80 font-bold">₹1,000</span> ₹99
                   </>
                 )}
               </span>

@@ -95,11 +95,11 @@ export function Navbar() {
               <span>
                 {lang === "pa" ? (
                   <>
-                    ਬੁੱਕ ਕਰੋ — <span className="line-through opacity-70">₹1,000</span> <span className="font-black text-black">₹99</span>
+                    ਬੁੱਕ ਕਰੋ — <span className="line-through decoration-red-600 decoration-2 text-black/80 font-bold">₹1,000</span> <span className="font-black text-black">₹99</span>
                   </>
                 ) : (
                   <>
-                    Book Your Seat — <span className="line-through opacity-70">₹1,000</span> <span className="font-black text-black">₹99</span>
+                    Book Your Seat — <span className="line-through decoration-red-600 decoration-2 text-black/80 font-bold">₹1,000</span> <span className="font-black text-black">₹99</span>
                   </>
                 )}
               </span>
