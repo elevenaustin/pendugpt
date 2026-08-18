@@ -15,6 +15,7 @@ import { Route as BookCallRouteImport } from './routes/book-call'
 import { Route as CancellationRouteImport } from './routes/cancellation'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as DisclaimerRouteImport } from './routes/disclaimer'
+import { Route as FullClassRouteImport } from './routes/full-class'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as RefundRouteImport } from './routes/refund'
 import { Route as ShippingRouteImport } from './routes/shipping'
@@ -50,6 +51,11 @@ const DisclaimerRoute = DisclaimerRouteImport.update({
   path: '/disclaimer',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FullClassRoute = FullClassRouteImport.update({
+  id: '/full-class',
+  path: '/full-class',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PrivacyRoute = PrivacyRouteImport.update({
   id: '/privacy',
   path: '/privacy',
@@ -78,6 +84,7 @@ export interface FileRoutesByFullPath {
   '/cancellation': typeof CancellationRoute
   '/contact': typeof ContactRoute
   '/disclaimer': typeof DisclaimerRoute
+  '/full-class': typeof FullClassRoute
   '/privacy': typeof PrivacyRoute
   '/refund': typeof RefundRoute
   '/shipping': typeof ShippingRoute
@@ -90,6 +97,7 @@ export interface FileRoutesByTo {
   '/cancellation': typeof CancellationRoute
   '/contact': typeof ContactRoute
   '/disclaimer': typeof DisclaimerRoute
+  '/full-class': typeof FullClassRoute
   '/privacy': typeof PrivacyRoute
   '/refund': typeof RefundRoute
   '/shipping': typeof ShippingRoute
@@ -103,6 +111,7 @@ export interface FileRoutesById {
   '/cancellation': typeof CancellationRoute
   '/contact': typeof ContactRoute
   '/disclaimer': typeof DisclaimerRoute
+  '/full-class': typeof FullClassRoute
   '/privacy': typeof PrivacyRoute
   '/refund': typeof RefundRoute
   '/shipping': typeof ShippingRoute
@@ -117,6 +126,7 @@ export interface FileRouteTypes {
     | '/cancellation'
     | '/contact'
     | '/disclaimer'
+    | '/full-class'
     | '/privacy'
     | '/refund'
     | '/shipping'
@@ -129,6 +139,7 @@ export interface FileRouteTypes {
     | '/cancellation'
     | '/contact'
     | '/disclaimer'
+    | '/full-class'
     | '/privacy'
     | '/refund'
     | '/shipping'
@@ -141,6 +152,7 @@ export interface FileRouteTypes {
     | '/cancellation'
     | '/contact'
     | '/disclaimer'
+    | '/full-class'
     | '/privacy'
     | '/refund'
     | '/shipping'
@@ -154,6 +166,7 @@ export interface RootRouteChildren {
   CancellationRoute: typeof CancellationRoute
   ContactRoute: typeof ContactRoute
   DisclaimerRoute: typeof DisclaimerRoute
+  FullClassRoute: typeof FullClassRoute
   PrivacyRoute: typeof PrivacyRoute
   RefundRoute: typeof RefundRoute
   ShippingRoute: typeof ShippingRoute
@@ -204,6 +217,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DisclaimerRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/full-class': {
+      id: '/full-class'
+      path: '/full-class'
+      fullPath: '/full-class'
+      preLoaderRoute: typeof FullClassRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/privacy': {
       id: '/privacy'
       path: '/privacy'
@@ -242,6 +262,7 @@ const rootRouteChildren: RootRouteChildren = {
   CancellationRoute: CancellationRoute,
   ContactRoute: ContactRoute,
   DisclaimerRoute: DisclaimerRoute,
+  FullClassRoute: FullClassRoute,
   PrivacyRoute: PrivacyRoute,
   RefundRoute: RefundRoute,
   ShippingRoute: ShippingRoute,
