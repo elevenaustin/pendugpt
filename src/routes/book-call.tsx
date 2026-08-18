@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
-import { ArrowLeft, ArrowRight, CheckCircle2, Lock, ShieldCheck, Phone, User, Video, Calendar, Sparkles } from "lucide-react";
+import { ArrowLeft, ArrowRight, CheckCircle2, Lock, ShieldCheck, Phone, User, Video, Calendar, Sparkles, Clock, Check } from "lucide-react";
 import { Logo, Wordmark } from "@/components/brand/Logo";
 import { cn } from "@/lib/utils";
 import { supabase } from "@/integrations/supabase/client";
@@ -46,7 +46,7 @@ function BookCallPage() {
   const [name, setName] = useState("");
   const [countryCode, setCountryCode] = useState("+91");
   const [mobile, setMobile] = useState("");
-  const [topic, setTopic] = useState("AI Website Guidance");
+  const [topic, setTopic] = useState("AI Website Guidance & Building");
   const [isProcessing, setIsProcessing] = useState(false);
   const [errors, setErrors] = useState<{ name?: string; mobile?: string }>({});
   const [step, setStep] = useState<"form" | "processing" | "success" | "failed">("form");
@@ -113,8 +113,8 @@ function BookCallPage() {
       key: razorpayKey,
       amount: 49900, // ₹499 in paise
       currency: "INR",
-      name: "PenduGPT 1-on-1 Call",
-      description: "30-Min Strategy Call Reservation with Khushpreet (₹499)",
+      name: "PenduGPT 1-on-1 Strategy Call",
+      description: "45-Min Private Strategy Call Reservation with Khushpreet (₹499)",
       image: "/favicon.svg",
       prefill: {
         name: name.trim(),
@@ -139,7 +139,7 @@ function BookCallPage() {
             topic,
             amount: "₹499",
             date: formattedDate,
-            type: "1-on-1 Call",
+            type: "45-Min Private Call",
           };
           const existing = JSON.parse(localStorage.getItem("pendugpt_call_leads") || "[]");
           localStorage.setItem("pendugpt_call_leads", JSON.stringify([newCallLead, ...existing]));
@@ -148,7 +148,7 @@ function BookCallPage() {
         // Save lead to Supabase
         try {
           await supabase.from("registrations").insert({
-            name: `1-on-1 Call: ${name.trim()} (${topic})`,
+            name: `45-Min Call: ${name.trim()} (${topic})`,
             country_code: countryCode,
             mobile: cleanedMobile,
             gender: "Paid ₹499",
@@ -170,7 +170,7 @@ function BookCallPage() {
                 whatsapp: fullMobile,
                 topic,
                 amount: "₹499",
-                status: "1-on-1 Call Booked & Paid",
+                status: "45-Min Private Call Booked & Paid",
               }),
             });
           } catch (e) {}
@@ -196,19 +196,20 @@ function BookCallPage() {
       rzp.open();
     } catch (err) {
       console.error("Razorpay error:", err);
-      // Fallback in preview if SDK missing
+      // Fallback in preview environment
       setIsProcessing(false);
       setStep("success");
     }
   };
 
   return (
-    <div className="min-h-screen bg-[#080808] text-white flex flex-col justify-between p-4 sm:p-6 relative overflow-hidden font-sans">
-      {/* Background Ambient Glow */}
-      <div className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[450px] w-[500px] rounded-full bg-[#d4f934]/10 blur-[130px]" />
+    <div className="min-h-screen bg-[#080808] text-white flex flex-col justify-between p-4 sm:p-6 relative overflow-hidden font-sans select-none">
+      {/* Background Ambient Lighting Effects */}
+      <div className="pointer-events-none absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[450px] w-[500px] rounded-full bg-[#d4f934]/10 blur-[140px]" />
+      <div className="pointer-events-none absolute bottom-10 right-10 h-64 w-64 rounded-full bg-purple-600/10 blur-[120px]" />
 
-      {/* Top Header Row */}
-      <header className="mx-auto max-w-xl w-full flex items-center justify-between z-10">
+      {/* Top Navigation Row */}
+      <header className="mx-auto max-w-xl w-full flex items-center justify-between z-10 py-1">
         <Link to="/" className="flex items-center gap-2.5">
           <Logo className="h-8 w-8" />
           <Wordmark />
@@ -216,38 +217,38 @@ function BookCallPage() {
 
         <Link
           to="/"
-          className="inline-flex items-center gap-1.5 text-xs font-bold text-gray-400 hover:text-[#d4f934] transition"
+          className="inline-flex items-center gap-1.5 rounded-full border border-gray-800 bg-[#121212] px-3 py-1.5 text-xs font-bold text-gray-300 hover:text-[#d4f934] hover:border-[#d4f934]/40 transition"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
           <span>Main Site</span>
         </Link>
       </header>
 
-      {/* Main Center Card (Zero Scroll Fit) */}
-      <main className="mx-auto max-w-md w-full my-auto py-4 z-10">
+      {/* Main Center Form Card (Clean & Compact Fit) */}
+      <main className="mx-auto max-w-md w-full my-auto py-3 z-10">
         {step === "success" ? (
-          <div className="rounded-3xl border border-[#d4f934]/50 bg-[#12140c] p-6 sm:p-8 text-center shadow-[0_0_50px_rgba(212,249,52,0.2)] animate-fadeIn">
-            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-[#d4f934] text-black shadow-[0_0_20px_rgba(212,249,52,0.5)]">
+          <div className="rounded-3xl border-2 border-[#d4f934]/60 bg-[#101507] p-6 sm:p-8 text-center shadow-[0_0_60px_rgba(212,249,52,0.25)] animate-fadeIn">
+            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-[#d4f934] text-black shadow-[0_0_25px_rgba(212,249,52,0.6)]">
               <CheckCircle2 className="h-8 w-8" />
             </div>
 
             <span className="inline-flex items-center gap-1 rounded-full bg-[#d4f934]/20 border border-[#d4f934]/50 px-3 py-1 text-xs font-extrabold text-[#d4f934] uppercase tracking-wider mb-2">
-              Payment Successful (₹499)
+              ✓ Payment Confirmed (₹499)
             </span>
 
             <h2 className="text-xl sm:text-2xl font-black text-white mt-1">
-              Select Your Call Time Slot!
+              Select Your 45-Min Time Slot!
             </h2>
             
             <p className="text-xs text-gray-300 mt-2 leading-relaxed">
-              Redirecting to Cal.com in <strong className="text-[#d4f934] text-sm">{countdown}s</strong> to pick your preferred 30-min date & time.
+              Redirecting to Cal.com in <strong className="text-[#d4f934] text-sm font-black">{countdown}s</strong> to pick your preferred date & time slot.
             </p>
 
             <a
               href={CALENDLY_URL}
-              className="lime-button mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full py-4 px-6 text-sm font-black text-black shadow-lg cursor-pointer"
+              className="lime-button mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full py-4 px-6 text-sm font-black text-black shadow-[0_0_25px_rgba(212,249,52,0.5)] cursor-pointer hover:scale-105 transition-all"
             >
-              <span>Pick Your Time Slot Now</span>
+              <span>Pick Date & Time Slot Now</span>
               <ArrowRight className="h-4 w-4" />
             </a>
 
@@ -259,7 +260,7 @@ function BookCallPage() {
           <div className="rounded-3xl border border-red-500/50 bg-[#1a0c0c] p-6 sm:p-8 text-center shadow-xl">
             <h2 className="text-lg font-black text-red-400">Payment Unsuccessful</h2>
             <p className="text-xs text-gray-300 mt-2">
-              Your payment could not be completed. Please try again to reserve your 1-on-1 call slot.
+              Your payment could not be completed. Please try again to reserve your 45-min call.
             </p>
             <button
               onClick={() => setStep("form")}
@@ -269,29 +270,45 @@ function BookCallPage() {
             </button>
           </div>
         ) : (
-          <div className="rounded-3xl border border-[#d4f934]/30 bg-[#111215] p-5 sm:p-7 shadow-[0_0_40px_rgba(0,0,0,0.8)] text-left backdrop-blur-md relative overflow-hidden">
+          <div className="rounded-3xl border border-[#d4f934]/40 bg-gradient-to-b from-[#12141a] via-[#0d0e12] to-[#0a0b0e] p-5 sm:p-7 shadow-[0_0_50px_rgba(0,0,0,0.9)] text-left backdrop-blur-md relative overflow-hidden">
             
             {/* Header Badge & Title */}
-            <div className="mb-5 border-b border-gray-800/80 pb-4">
+            <div className="mb-4 border-b border-gray-800/80 pb-4">
               <div className="flex items-center justify-between gap-2 mb-2">
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-[#d4f934]/15 border border-[#d4f934]/40 px-3 py-1 text-[10px] font-black uppercase text-[#d4f934] tracking-wider">
-                  <Video className="h-3.5 w-3.5" />
-                  1-on-1 Personal Strategy Call
+                  <Clock className="h-3.5 w-3.5" />
+                  45 Mins Private Call
                 </span>
                 
                 {/* Price Tag with Bold Red Strikethrough */}
                 <div className="flex items-baseline gap-1.5">
-                  <span className="line-through decoration-red-600 decoration-2 text-gray-400 font-bold text-xs">₹2,999</span>
-                  <span className="text-xl font-black text-[#d4f934] font-sans">₹499</span>
+                  <span className="line-through decoration-red-600 decoration-2 text-gray-400 font-extrabold text-xs sm:text-sm">₹2,999</span>
+                  <span className="text-xl sm:text-2xl font-black text-[#d4f934] font-sans">₹499 ONLY</span>
                 </div>
               </div>
 
               <h1 className="text-xl sm:text-2xl font-black text-white tracking-tight leading-tight">
-                Book 1-on-1 Call with Khushpreet
+                Book 45-Min Call with Khushpreet
               </h1>
               <p className="text-xs text-gray-400 mt-1 font-medium leading-relaxed">
-                30-min private session for personal guidance, portfolio review & direct Q&A.
+                45-minute private 1-on-1 strategy session for personal guidance, roadmap & Q&A.
               </p>
+
+              {/* 3 Value Bullet Pills */}
+              <div className="mt-3 grid grid-cols-3 gap-1.5 text-[10px] font-extrabold text-gray-300">
+                <div className="flex items-center gap-1 rounded-lg bg-black/40 border border-gray-800 p-1.5 justify-center">
+                  <Sparkles className="h-3 w-3 text-[#d4f934]" />
+                  <span>1-on-1 Direct</span>
+                </div>
+                <div className="flex items-center gap-1 rounded-lg bg-black/40 border border-gray-800 p-1.5 justify-center">
+                  <Video className="h-3 w-3 text-[#d4f934]" />
+                  <span>45 Mins Live</span>
+                </div>
+                <div className="flex items-center gap-1 rounded-lg bg-black/40 border border-gray-800 p-1.5 justify-center">
+                  <ShieldCheck className="h-3 w-3 text-[#d4f934]" />
+                  <span>Custom Plan</span>
+                </div>
+              </div>
             </div>
 
             {/* Step 1 Form */}
@@ -306,13 +323,13 @@ function BookCallPage() {
                   <input
                     type="text"
                     required
-                    placeholder="Enter your name"
+                    placeholder="Enter your full name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     className="w-full bg-transparent text-xs sm:text-sm font-bold text-white placeholder-gray-600 outline-none"
                   />
                 </div>
-                {errors.name && <p className="text-[11px] text-red-400 mt-1">{errors.name}</p>}
+                {errors.name && <p className="text-[11px] text-red-400 mt-1 font-medium">{errors.name}</p>}
               </div>
 
               {/* WhatsApp Number with Country Code */}
@@ -343,23 +360,23 @@ function BookCallPage() {
                     className="flex-1 min-w-0 bg-transparent px-3 py-2.5 text-xs sm:text-sm font-bold text-white placeholder-gray-600 outline-none"
                   />
                 </div>
-                {errors.mobile && <p className="text-[11px] text-red-400 mt-1">{errors.mobile}</p>}
+                {errors.mobile && <p className="text-[11px] text-red-400 mt-1 font-medium">{errors.mobile}</p>}
               </div>
 
               {/* Discussion Topic */}
               <div>
                 <label className="block text-[11px] font-extrabold uppercase tracking-wider text-gray-300 mb-1">
-                  Discussion Topic
+                  Primary Topic for 45-Min Call
                 </label>
                 <select
                   value={topic}
                   onChange={(e) => setTopic(e.target.value)}
                   className="w-full rounded-xl border border-gray-800 bg-[#080808] px-3 py-2.5 text-xs font-bold text-white outline-none focus:border-[#d4f934] transition cursor-pointer"
                 >
-                  <option value="AI Website Guidance">AI Website Building & Guidance</option>
-                  <option value="Freelance & Agency Roadmap">Freelancing & Agency Scaling</option>
-                  <option value="Portfolio Review">Portfolio Review & Design Feedback</option>
-                  <option value="General Q&A">General Technical / Career Q&A</option>
+                  <option value="AI Website Guidance & Building">AI Website Building & Guidance</option>
+                  <option value="Freelance & Agency Scaling">Freelancing & Agency Scaling</option>
+                  <option value="Portfolio Review & Design">Portfolio Review & Design Feedback</option>
+                  <option value="General Technical / Career Q&A">General Technical / Career Q&A</option>
                 </select>
               </div>
 
@@ -367,13 +384,13 @@ function BookCallPage() {
               <button
                 type="submit"
                 disabled={isProcessing}
-                className="lime-button w-full flex items-center justify-center gap-2 rounded-full py-3.5 px-4 text-xs sm:text-sm font-black text-black shadow-lg cursor-pointer mt-2"
+                className="lime-button w-full flex items-center justify-center gap-2 rounded-full py-3.5 px-4 text-xs sm:text-sm font-black text-black shadow-[0_0_25px_rgba(212,249,52,0.4)] cursor-pointer mt-2 hover:scale-[1.02] transition-all"
               >
                 {isProcessing ? (
                   <span>Opening Razorpay Checkout...</span>
                 ) : (
                   <>
-                    <span>Proceed to Pay ₹499 & Pick Time Slot</span>
+                    <span>Proceed to Pay ₹499 & Select Time Slot</span>
                     <ArrowRight className="h-4 w-4" />
                   </>
                 )}
@@ -383,7 +400,7 @@ function BookCallPage() {
             {/* Footer Trust Bar */}
             <div className="mt-4 pt-3 border-t border-gray-800/80 flex items-center justify-between text-[10px] font-bold text-gray-400">
               <span className="flex items-center gap-1">
-                <Lock className="h-3 w-3 text-[#d4f934]" /> 100% Encrypted Payment
+                <Lock className="h-3 w-3 text-[#d4f934]" /> 100% Secure PCI-DSS
               </span>
               <span className="flex items-center gap-1 text-[#d4f934]">
                 <Calendar className="h-3 w-3" /> Auto Cal.com Redirect
@@ -394,8 +411,8 @@ function BookCallPage() {
       </main>
 
       {/* Minimal Footer Row */}
-      <footer className="mx-auto max-w-xl w-full text-center text-[11px] text-gray-500 z-10 py-2">
-        © {new Date().getFullYear()} PenduGPT. All rights reserved. • 1-on-1 Consultation
+      <footer className="mx-auto max-w-xl w-full text-center text-[11px] text-gray-500 z-10 py-1">
+        © {new Date().getFullYear()} PenduGPT • 45-Min Private Strategy Session
       </footer>
     </div>
   );
