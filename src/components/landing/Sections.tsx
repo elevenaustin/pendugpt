@@ -813,39 +813,125 @@ export function LimitedSpots() {
 /* -------------------------------- Audience Section -------------------------------- */
 export function Audience() {
   const { lang } = useI18n();
+  const { openModal } = useEnrollmentModal();
   const isPa = lang === "pa";
 
-  const items = [
-    { title: isPa ? "ਵਿਦਿਆਰਥੀ (Students)" : "Students", desc: isPa ? "ਪੜ੍ਹਾਈ ਦੇ ਨਾਲ ਨਵੇਂ ਹੁਨਰ ਸਿੱਖੋ" : "Learn future-ready skills", icon: GraduationCap },
-    { title: isPa ? "ਫ੍ਰੀਲਾਂਸਰ (Freelancers)" : "Freelancers", desc: isPa ? "ਆਪਣੀ ਫ੍ਰੀਲਾਂਸਿੰਗ ਸ਼ੁਰੂ ਕਰੋ" : "Start your freelancing career", icon: Briefcase },
-    { title: isPa ? "ਕਾਰੋਬਾਰੀ (Business Owners)" : "Business Owners", desc: isPa ? "ਆਪਣਾ ਬਜ਼ਨੈੱਸ ਆਨਲਾਈਨ ਵਧਾਓ" : "Grow your business with websites", icon: Store },
-    { title: isPa ? "ਕ੍ਰੀਏਟਰ (Creators)" : "Creators", desc: isPa ? "ਆਪਣੀ ਆਨਲਾਈਨ ਪਛਾਣ ਬਣਾਓ" : "Build your online presence", icon: Video },
-    { title: isPa ? "ਏਜੰਸੀ ਮਾਲਕ (Agency Owners)" : "Agency Owners", desc: isPa ? "ਆਪਣੀਆਂ ਸਰਵਿਸਾਂ ਵਧਾਓ" : "Add websites to your services", icon: Users },
-    { title: isPa ? "ਨੌਕਰੀ ਲੱਭਣ ਵਾਲੇ (Job Seekers)" : "Job Seekers", desc: isPa ? "ਰੋਜ਼ਗਾਰ ਲਈ ਹੁਨਰ ਸਿੱਖੋ" : "Boost your profile & get better jobs", icon: UserCheck },
-    { title: isPa ? "ਸ਼ੁਰੂਆਤੀ ਲੋਕ (Beginners)" : "Beginners", desc: isPa ? "ਕੋਈ ਪਹਿਲਾ ਤਜਰਬਾ ਨਹੀਂ ਚਾਹੀਦਾ" : "No experience? No problem!", icon: Sparkles },
+  const requirements = [
+    {
+      step: "01",
+      icon: Laptop,
+      badge: isPa ? "ਲੈਪਟਾਪ / ਪੀਸੀ ਜ਼ਰੂਰੀ" : "Practical Requirement",
+      title: isPa ? "1. ਲੈਪਟਾਪ ਜਾਂ ਪੀਸੀ ਹੋਣਾ ਚਾਹੀਦਾ ਹੈ" : "1. Has Access to a Laptop or PC",
+      subtitle: isPa ? "ਪ੍ਰੈਕਟੀਕਲ ਲਾਈਵ ਸੈਸ਼ਨ" : "Hands-On Practice Ready",
+      desc: isPa
+        ? "ਇਹ 100% ਲਾਈਵ ਪ੍ਰੈਕਟੀਕਲ ਸੈਸ਼ਨ ਹੈ। ਕਲਾਸ ਦੇ ਨਾਲ-ਨਾਲ ਵੈੱਬਸਾਈਟ ਬਣਾਉਣ ਲਈ ਤੁਹਾਡੇ ਕੋਲ ਕੰਪਿਊਟਰ ਜਾਂ ਲੈਪਟਾਪ ਹੋਣਾ ਜ਼ਰੂਰੀ ਹੈ।"
+        : "This is a 100% live practical session. You need a computer or laptop to follow along and build websites live.",
+      accent: "border-[#d4f934]/40 bg-[#121805]",
+      iconBg: "bg-[#d4f934]/15 border-[#d4f934]/40 text-[#d4f934]",
+    },
+    {
+      step: "02",
+      icon: Rocket,
+      badge: isPa ? "ਗੰਭੀਰ ਸਿੱਖਣ ਵਾਲੇ" : "Action-Takers Only",
+      title: isPa ? "2. ਸਿੱਖਣ ਅਤੇ ਕੰਮ ਕਰਨ ਦਾ ਸੱਚਾ ਸ਼ੌਕ" : "2. Truly Interested to Learn & Do",
+      subtitle: isPa ? "ਮਿਹਨਤੀ ਤੇ ਨਵੇਂ ਹੁਨਰ ਲਈ" : "Eager to Build Real Skills",
+      desc: isPa
+        ? "ਉਹਨਾਂ ਲੋਕਾਂ ਲਈ ਜੋ AI ਟੂਲਜ਼ ਸਿੱਖਣਾ, ਅਸਲੀ ਵੈੱਬਸਾਈਟਾਂ ਬਣਾਉਣਾ ਅਤੇ ਆਪਣਾ ਫ੍ਰੀਲਾਂਸਿੰਗ ਕੈਰੀਅਰ ਸ਼ੁਰੂ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹਨ।"
+        : "For action-takers looking to master modern AI tools, build real websites, and launch their freelance career.",
+      accent: "border-[#d4f934]/40 bg-[#121805]",
+      iconBg: "bg-[#d4f934]/15 border-[#d4f934]/40 text-[#d4f934]",
+    },
+    {
+      step: "03",
+      icon: Clock,
+      badge: isPa ? "ਅਸਲੀ ਹੁਨਰ · ਕੋਈ ਜੂਆ ਨਹੀਂ 🎯" : "Real Skill · Not a Blackjack Game 🎯",
+      title: isPa ? "3. ਸਿੱਖਣ ਲਈ ਸਮਾਂ ਦੇਣ ਲਈ ਤਿਆਰ" : "3. Ready to Invest Time & Effort",
+      subtitle: isPa ? "ਧਿਆਨ ਤੇ ਲਗਨ ਦੀ ਲੋੜ" : "Requires Focus & Dedication",
+      desc: isPa
+        ? "ਅਸਲੀ ਹੁਨਰ ਸਿੱਖਣ ਲਈ ਸਮਾਂ ਅਤੇ ਧਿਆਨ ਚਾਹੀਦਾ ਹੈ। ਇਹ ਇੱਕ ਪ੍ਰੈਕਟੀਕਲ ਕਲਾਸ ਹੈ — ਕੋਈ ਕੈਸੀਨੋ, ਲਾਟਰੀ ਜਾਂ ਬਲੈਕਜੈਕ ਜੂਆ ਨਹੀਂ।"
+        : "Building a real skill takes dedicated time and focus. This is a practical skill workshop — NOT a casino, lottery, or get-rich-quick Blackjack gamble.",
+      accent: "border-[#d4f934]/60 bg-[#171f05] shadow-[0_0_30px_rgba(212,249,52,0.15)]",
+      iconBg: "bg-[#d4f934] text-black shadow-md font-bold",
+    },
   ];
 
   return (
-    <section id="audience" className="py-16 px-4 sm:px-6 lg:px-8 bg-[#080808]">
-      <div className="mx-auto max-w-7xl">
-        <SectionTitle title={isPa ? "ਇਹ ਕਲਾਸ ਕਿਸ ਲਈ ਹੈ? (Who Should Join?)" : "Who Should Join?"} />
+    <section id="audience" className="py-16 px-4 sm:px-6 lg:px-8 bg-[#080808] border-t border-b border-gray-900">
+      <div className="mx-auto max-w-6xl">
+        <SectionTitle
+          title={isPa ? "ਇਹ ਕਲਾਸ ਕਿਸ ਲਈ ਹੈ? (ਕੌਣ ਜੁਆਇਨ ਕਰੇ)" : "Who Should Join?"}
+          subtitle={isPa ? "ਇਹ ਡੈਮੋ ਕਲਾਸ ਜੁਆਇਨ ਕਰਨ ਲਈ 3 ਜ਼ਰੂਰੀ ਸ਼ਰਤਾਂ" : "3 Essential Rules Before You Book Your Spot"}
+        />
 
-        <div className="mt-8 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-3">
-          {items.map((item, idx) => {
+        {/* 3 High-Impact Cards Grid */}
+        <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
+          {requirements.map((item, idx) => {
             const Icon = item.icon;
             return (
-              <Reveal key={item.title} delay={idx * 0.04}>
-                <div className="glass-card flex flex-col items-center justify-center rounded-xl p-4 text-center h-full hover:border-[#d4f934]/50 transition-colors">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#d4f934]/10 border border-[#d4f934]/30 mb-3">
-                    <Icon className="h-6 w-6 text-[#d4f934]" />
+              <Reveal key={item.step} delay={idx * 0.08}>
+                <div
+                  className={cn(
+                    "rounded-3xl border p-6 sm:p-7 h-full flex flex-col justify-between transition-all duration-300 transform-gpu hover:-translate-y-1 relative overflow-hidden",
+                    item.accent
+                  )}
+                >
+                  <div>
+                    {/* Top Row: Icon + Badge */}
+                    <div className="flex items-center justify-between gap-2 mb-4">
+                      <div className={cn("flex h-12 w-12 items-center justify-center rounded-2xl border", item.iconBg)}>
+                        <Icon className="h-6 w-6" />
+                      </div>
+                      <span className="inline-flex items-center gap-1 rounded-full bg-black/40 border border-gray-800 px-3 py-1 text-[11px] font-extrabold text-[#d4f934] uppercase tracking-wider">
+                        {item.badge}
+                      </span>
+                    </div>
+
+                    <h3 className="text-lg sm:text-xl font-black text-white leading-snug tracking-tight mb-1">
+                      {item.title}
+                    </h3>
+                    <p className="text-xs font-bold text-[#d4f934] mb-3">{item.subtitle}</p>
+                    <p className="text-xs sm:text-sm text-gray-300 leading-relaxed font-medium">{item.desc}</p>
                   </div>
-                  <h3 className="text-xs sm:text-sm font-bold text-white">{item.title}</h3>
-                  <p className="mt-1 text-[11px] text-gray-400 leading-snug">{item.desc}</p>
+
+                  <div className="mt-6 pt-4 border-t border-gray-800/80 flex items-center justify-between text-[11px] font-bold text-gray-400">
+                    <span>{isPa ? "ਸ਼ਰਤ" : "Rule"} {item.step} / 03</span>
+                    <span className="text-[#d4f934]">✓ {isPa ? "ਮਨਜ਼ੂਰ" : "Required"}</span>
+                  </div>
                 </div>
               </Reveal>
             );
           })}
         </div>
+
+        {/* Bottom Warning Alert Box */}
+        <Reveal delay={0.3}>
+          <div className="mt-8 rounded-2xl border border-red-500/40 bg-gradient-to-r from-red-950/70 via-[#180909] to-red-950/70 p-4 sm:p-5 shadow-lg flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-red-600/20 text-red-400 border border-red-500/50 animate-pulse">
+                <ShieldCheck className="h-5 w-5 text-red-400" />
+              </div>
+              <div>
+                <h4 className="text-xs font-black uppercase tracking-wider text-red-400">
+                  ⚠️ {isPa ? "ਇਹ ਕੈਸੀਨੋ ਜਾਂ ਜੂਆ ਨਹੀਂ ਹੈ" : "NOT A GET-RICH-QUICK GAMBLE"}
+                </h4>
+                <p className="text-xs sm:text-sm font-semibold text-gray-200 mt-0.5 max-w-2xl">
+                  {isPa
+                    ? "ਜੇਕਰ ਤੁਸੀਂ ਕੋਈ ਸ਼ੌਰਟਕਟ ਜਾਦੂਈ ਬਟਨ ਲੱਭ ਰਹੇ ਹੋ, ਤਾਂ ਇਹ ਕਲਾਸ ਤੁਹਾਡੇ ਲਈ ਨਹੀਂ ਹੈ। ਅਸੀਂ ਅਸਲੀ ਵੈੱਬਸਾਈਟ ਸਕਿੱਲ ਸਿਖਾਉਂਦੇ ਹਾਂ।"
+                    : "If you are looking for a magic push-button trick or casino gambling, this class is NOT for you. We teach real, high-value AI website building."}
+                </p>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              onClick={openModal}
+              className="lime-button shrink-0 w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-xs sm:text-sm font-extrabold text-black cursor-pointer shadow-md"
+            >
+              <span>{isPa ? "ਸੀਟ ਬੁੱਕ ਕਰੋ — ₹99" : "Book Your Seat — ₹99"}</span>
+              <ArrowRight className="h-4 w-4" />
+            </button>
+          </div>
+        </Reveal>
       </div>
     </section>
   );
