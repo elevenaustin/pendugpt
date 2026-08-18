@@ -947,88 +947,64 @@ export function Curriculum() {
   const modules = [
     {
       num: "01",
-      title: isPa ? "01. ਜਾਣ-ਪਛਾਣ ਤੇ ਓਵਰਵਿਊ (Welcome & Introduction)" : "01. Welcome & Introduction",
-      duration: "5 mins",
+      title: isPa ? "01. AI ਵੈੱਬਸਾਈਟ ਡਿਜ਼ਾਈਨਿੰਗ ਕੀ ਹੈ? (What is AI Website Designing)" : "01. What is AI Website Designing",
+      duration: "15 mins",
       bullets: [
-        isPa ? "AI ਵੈੱਬਸਾਈਟ ਬਿਲਡਿੰਗ ਕਿਵੇਂ ਕੰਮ ਕਰਦੀ ਹੈ" : "How AI website building works today",
-        isPa ? "ਜ਼ੀਰੋ-ਕੋਡਿੰਗ ਸਿੱਖਣ ਦੀ ਮਾਨਸਿਕਤਾ" : "Zero-coding mindset & workflow setup",
+        isPa ? "AI ਵੈੱਬਸਾਈਟ ਡਿਜ਼ਾਈਨਿੰਗ ਦਾ ਓਵਰਵਿਊ" : "Overview of modern AI web creation",
+        isPa ? "ਬਿਨਾਂ ਕੋਡਿੰਗ ਤੇਜ਼ੀ ਨਾਲ ਵੈੱਬਸਾਈਟਾਂ ਬਣਾਉਣਾ" : "How prompt-based design saves weeks of work",
       ],
       details: isPa
-        ? "ਇਸ ਪਹਿਲੇ ਸੈਸ਼ਨ ਵਿੱਚ ਅਸੀਂ ਵੇਖਾਂਗੇ ਕਿ AI ਟੂਲਜ਼ ਕਿਵੇਂ ਟਰੈਡੀਸ਼ਨਲ ਵੈੱਬ ਡਿਵੈਲਪਮੈਂਟ ਦੇ ਹਫ਼ਤਿਆਂ ਦੇ ਕੰਮ ਨੂੰ ਮਿੰਟਾਂ ਵਿੱਚ ਬਦਲ ਦਿੰਦੇ ਹਨ।"
-        : "Understand how modern AI tools generate code, designs, and content in real-time without manual programming.",
+        ? "ਇਸ ਪਹਿਲੇ ਭਾਗ ਵਿੱਚ ਤੁਸੀਂ ਸਮਝੋਗੇ ਕਿ AI ਵੈੱਬਸਾਈਟ ਡਿਜ਼ਾਈਨਿੰਗ ਕੀ ਹੈ ਅਤੇ ਕਿਵੇਂ AI ਟੂਲਜ਼ ਬਿਨਾਂ ਕੋਡ ਲਿਖੇ ਸੁੰਦਰ, ਰਿਸਪੌਂਸਿਵ ਵੈੱਬਸਾਈਟਾਂ ਤਿਆਰ ਕਰਦੇ ਹਨ।"
+        : "Introduction to AI website designing and how artificial intelligence builds modern, responsive websites without manual coding.",
     },
     {
       num: "02",
-      title: isPa ? "02. AI ਵੈੱਬਸਾਈਟ ਬਿਲਡਿੰਗ ਕਿਉਂ? (Why AI Website Building?)" : "02. Why AI Website Building?",
-      duration: "10 mins",
+      title: isPa ? "02. ਕੰਮ ਦਾ ਬੁਨਿਆਦੀ ਟਿਊਟੋਰੀਅਲ (Basic Tutorial of What the Work Is)" : "02. Basic Tutorial of What the Work Is",
+      duration: "25 mins",
       bullets: [
-        isPa ? "ਟਰੈਡੀਸ਼ਨਲ ਡਿਵੈਲਪਮੈਂਟ VS AI ਬਿਲਡਿੰਗ" : "Traditional web dev vs AI speed",
-        isPa ? "ਬਜ਼ਾਰ ਵਿੱਚ ਵੈੱਬਸਾਈਟਾਂ ਦੀ ਮੰਗ" : "High market demand for fast business sites",
+        isPa ? "ਕੰਮ ਦੀ ਪੂਰੀ ਸਟ੍ਰਕਚਰ ਤੇ ਪ੍ਰੋਸੈਸ" : "Step-by-step task breakdown & structure",
+        isPa ? "ਲੇਆਉਟ, ਕਲਰ, ਟੈਕਸਟ ਤੇ ਇਮੇਜ ਸੈਟਿੰਗ" : "Layouts, colors, assets & text generation",
       ],
       details: isPa
-        ? "ਸਿੱਖੋ ਕਿਵੇਂ ਹਰ ਛੋਟੇ ਅਤੇ ਵੱਡੇ ਬਜ਼ਨੈੱਸ ਨੂੰ ਆਨਲਾਈਨ ਵੈੱਬਸਾਈਟ ਦੀ ਲੋੜ ਹੁੰਦੀ ਹੈ ਅਤੇ AI ਨਾਲ ਤੁਸੀਂ ਕਿਵੇਂ ਤੇਜ਼ੀ ਨਾਲ ਸੇਵਾ ਦੇ ਸਕਦੇ ਹੋ।"
-        : "Discover why local businesses prefer fast, beautiful AI-built websites and how you can position yourself.",
+        ? "ਇੱਕ ਸਪੱਸ਼ਟ ਟਿਊਟੋਰੀਅਲ ਜਿਸ ਵਿੱਚ ਤੁਸੀਂ ਵੈੱਬਸਾਈਟ ਬਣਾਉਣ ਦੇ ਸਾਰੇ ਕੰਮ ਦੀ ਬੁਨਿਆਦੀ ਜਾਣਕਾਰੀ ਅਤੇ ਸਟੈੱਪ-ਬਾਈ-ਸਟੈੱਪ ਪ੍ਰੋਸੈਸ ਸਿੱਖੋਗੇ।"
+        : "A clear tutorial explaining the exact work involved in building AI websites, structuring pages, and creating client-ready layouts.",
     },
     {
       num: "03",
-      title: isPa ? "03. ਲੋੜੀਂਦੇ AI ਟੂਲ (AI Tools You'll Need)" : "03. AI Tools You'll Need",
-      duration: "10 mins",
+      title: isPa ? "03. ਸਾਰੇ ਕੰਮ ਦਾ ਲਾਈਵ ਡੈਮੋ (A Quick Demo of All the Work)" : "03. A Quick Demo of All the Work",
+      duration: "35 mins",
+      isLive: true,
       bullets: [
-        isPa ? "ChatGPT, Midjourney, v0 ਤੇ Framer" : "ChatGPT, Midjourney, v0 & Framer",
-        isPa ? "ਮੁਫ਼ਤ AI ਪ੍ਰੌਂਪਟ ਟੈਂਪਲੇਟਸ" : "Free AI prompt templates & assets",
+        isPa ? "ਇੱਕ ਪ੍ਰੌਂਪਟ ਤੋਂ ਪੂਰੀ ਵੈੱਬਸਾਈਟ ਲਾਈਵ ਤਿਆਰ" : "Live practical website creation from 1 prompt",
+        isPa ? "ਅੱਖਾਂ ਦੇ ਸਾਹਮਣੇ ਪੂਰਾ ਕੰਮ ਹੁੰਦਾ ਵੇਖੋ" : "Watch a complete landing page built in real-time",
       ],
       details: isPa
-        ? "ਕਿਹੜੇ ਮੁਫ਼ਤ ਤੇ ਬੈਸਟ AI ਟੂਲ ਵਰਤਣੇ ਹਨ। ਅਸੀਂ ਸਾਰੀ ਟੂਲਕਿੱਟ ਲਾਈਵ ਕਲਾਸ ਵਿੱਚ ਮੁਹੱਈਆ ਕਰਵਾਵਾਂਗੇ।"
-        : "Learn the core toolkit including layout generators, image creators, and prompt templates to build complete pages.",
+        ? "ਸਭ ਤੋਂ ਮਹੱਤਵਪੂਰਨ ਪ੍ਰੈਕਟੀਕਲ ਭਾਗ! ਆਪਣੀਆਂ ਅੱਖਾਂ ਦੇ ਸਾਹਮਣੇ ਸ਼ੁਰੂ ਤੋਂ ਲੈ ਕੇ ਅੰਤ ਤੱਕ ਪੂਰੀ ਵੈੱਬਸਾਈਟ ਬਣਦੀ ਲਾਈਵ ਵੇਖੋ।"
+        : "Watch a live step-by-step demo of the entire work being done from start to finish right in front of your eyes.",
     },
     {
       num: "04",
-      title: isPa ? "04. ਲਾਈਵ ਵੈੱਬਸਾਈਟ ਬਿਲਡਿੰਗ ਡੈਮੋ (Live Website Building Demo)" : "04. Live Website Building Demo",
-      duration: "45 mins",
-      isLive: true,
+      title: isPa ? "04. ਕਿਹੜੇ AI ਟੂਲਜ਼ ਵਰਤਣੇ ਹਨ ਤੇ ਅੱਗੇ ਵਧਣ ਦਾ ਫੈਸਲਾ (Which Tools You Can Use & Decide)" : "04. Which AI Tools You Can Use & Decide to Continue",
+      duration: "20 mins",
       bullets: [
-        isPa ? "ਇੱਕ ਪ੍ਰੌਂਪਟ ਤੋਂ ਪੂਰੀ ਵੈੱਬਸਾਈਟ ਤਿਆਰ" : "Full business website generated live from 1 prompt",
-        isPa ? "ਟੈਕਸਟ, ਰੰਗ ਤੇ ਇਮੇਜ ਬਦਲਣਾ" : "Customizing layout, colors, copy & assets",
+        isPa ? "ChatGPT, Framer, v0 ਤੇ Midjourney ਓਵਰਵਿਊ" : "Overview of ChatGPT, Framer, v0 & Midjourney",
+        isPa ? "ਕੰਮ ਸਮਝ ਕੇ ਅੱਗੇ ਵਧਣ ਦਾ ਸਹੀ ਫੈਸਲਾ ਕਰੋ" : "Evaluate the work & decide if it suits your goals",
       ],
       details: isPa
-        ? "ਸਭ ਤੋਂ ਮੁੱਖ ਲਾਈਵ ਸੈਸ਼ਨ! ਅੱਖਾਂ ਦੇ ਸਾਹਮਣੇ ਇੱਕ ਬਜ਼ਨੈੱਸ ਲਈ ਕੰਪਲੀਟ ਵੈੱਬਸਾਈਟ AI ਨਾਲ ਬਣਾ ਕੇ ਵੇਖੋਗੇ।"
-        : "Watch step-by-step as we construct a complete multi-section business website live during the session.",
+        ? "ਇਹ ਡੈਮੋ ਕਲਾਸ ਤੁਹਾਨੂੰ ਕੰਮ ਸਮਝਾਉਣ ਲਈ ਹੈ ਤਾਂ ਜੋ ਤੁਸੀਂ ਵੇਖ ਸਕੋ ਕਿ ਕਿਹੜੇ ਟੂਲਜ਼ ਵਰਤਣੇ ਹਨ ਅਤੇ ਫੈਸਲਾ ਕਰ ਸਕੋ ਕਿ ਤੁਸੀਂ ਅੱਗੇ ਵਧਣਾ ਚਾਹੁੰਦੇ ਹੋ ਜਾਂ ਨਹੀਂ।"
+        : "Learn which AI tools are used for website creation so you can evaluate the work firsthand and choose whether to pursue this skill.",
     },
     {
       num: "05",
-      title: isPa ? "05. ਵੈੱਬਸਾਈਟ ਲਾਈਵ ਪਬਲਿਸ਼ ਕਰਨਾ (Publish the Website)" : "05. Publish the Website",
-      duration: "10 mins",
+      title: isPa ? "05. ਫੁੱਲ ਕਲਾਸ ਵਿੱਚ ਇਹ ਸਕਿੱਲ ਪੂਰੀ ਤਰ੍ਹਾਂ ਕਿਵੇਂ ਸਿੱਖਣੀ (How to Completely Learn in Full Class)" : "05. How You Can Completely Learn This Skill in Full Class",
+      duration: "25 mins",
       bullets: [
-        isPa ? "ਇੱਕ ਕਲਿੱਕ ਵਿੱਚ ਹੋਸਟਿੰਗ ਲਾਈਵ" : "One-click instant cloud publishing",
-        isPa ? "ਕਸਟਮ ਡੋਮੇਨ ਕਨੈਕਟ ਕਰਨਾ (.com / .in)" : "Connecting custom domain names cleanly",
+        isPa ? "ਪੂਰੀ ਵੈੱਬ ਡਿਵੈਲਪਮੈਂਟ ਸਕਿੱਲ ਮਾਸਟਰ ਕਰੋ" : "Full roadmap to master AI web development",
+        isPa ? "ਕਲਾਇੰਟਸ ਲੱਭਣ, ਪ੍ਰਾਈਸਿੰਗ ਤੇ ਕਮਾਈ ਦਾ ਰੋਡਮੈਪ" : "Client acquisition, pricing & scaling strategy",
       ],
       details: isPa
-        ? "ਆਪਣੀ ਬਣੀ ਹੋਈ ਵੈੱਬਸਾਈਟ ਨੂੰ ਇੰਟਰਨੈੱਟ 'ਤੇ ਲਾਈਵ ਕਿਵੇਂ ਕਰਨਾ ਹੈ ਤਾਂ ਜੋ ਦੁਨੀਆ ਵਿੱਚ ਕੋਈ ਵੀ ਵੇਖ ਸਕੇ।"
-        : "Learn how to deploy your website live onto the web with secure HTTPS and custom domain mapping.",
-    },
-    {
-      num: "06",
-      title: isPa ? "06. ਪਹਿਲਾ ਕਲਾਇੰਟ ਕਿਵੇਂ ਲੱਭਣਾ (Getting Your First Client)" : "06. Getting Your First Client",
-      duration: "15 mins",
-      bullets: [
-        isPa ? "ਲੋਕਲ ਕਾਰੋਬਾਰੀਆਂ ਨਾਲ ਸੰਪਰਕ" : "Local & international client outreach scripts",
-        isPa ? "ਪ੍ਰੋਪੋਜ਼ਲ ਤੇ ਪ੍ਰਾਈਸਿੰਗ ਤਿਆਰ ਕਰਨਾ" : "Pricing projects between ₹5,000 to ₹25,000",
-      ],
-      details: isPa
-        ? "ਸਿੱਖੋ ਕਿਵੇਂ ਪੰਜਾਬ ਅਤੇ ਬਾਹਰਲੇ ਦੇਸ਼ਾਂ ਵਿੱਚ ਕਲਾਇੰਟਸ ਨੂੰ ਅਪਰੋਚ ਕਰਨਾ ਹੈ ਅਤੇ ₹5,000 - ₹25,000 ਤੱਕ ਚਾਰਜ ਕਰਨਾ ਹੈ।"
-        : "Master client acquisition scripts, proposals, and pricing models to pitch local businesses successfully.",
-    },
-    {
-      num: "07",
-      title: isPa ? "07. ਅਗਲਾ ਰੋਡਮੈਪ ਤੇ ਸਕੇਲਿੰਗ (Next Steps & Roadmap)" : "07. Next Steps & Roadmap",
-      duration: "10 mins",
-      bullets: [
-        isPa ? "ਪੋਰਟਫੋਲੀਓ ਬਣਾਉਣਾ" : "Building your portfolio showcase",
-        isPa ? "ਕਮਿਊਨਿਟੀ ਤੇ ਲਾਈਫਟਾਈਮ ਸਪੋਰਟ" : "Joining private student community",
-      ],
-      details: isPa
-        ? "ਮਾਸਟਰਕਲਾਸ ਤੋਂ ਬਾਅਦ ਅਗਲੇ 30 ਦਿਨਾਂ ਦਾ ਸਟੈੱਪ-ਬਾਈ-ਸਟੈੱਪ ਪਲਾਨ ਅਤੇ ਲਾਈਫਟਾਈਮ ਗਰੁੱਪ ਸਪੋਰਟ।"
-        : "Receive a 30-day action plan, portfolio templates, and entry into our active student support community.",
+        ? "ਆਖਰੀ ਹਿੱਸੇ ਵਿੱਚ ਤੁਸੀਂ ਦੇਖੋਗੇ ਕਿ ਫੁੱਲ ਕਲਾਸ ਵਿੱਚ ਤੁਸੀਂ ਇਹ ਸਕਿੱਲ ਪੂਰੀ ਤਰ੍ਹਾਂ ਕਿਵੇਂ ਮਾਸਟਰ ਕਰ ਸਕਦੇ ਹੋ, ਕਲਾਇੰਟਸ ਕਿਵੇਂ ਲੱਭਣੇ ਹਨ ਅਤੇ ਆਪਣੀ ਇਨਕਮ ਸਕੇਲ ਕਰਨੀ ਹੈ।"
+        : "Final practical roadmap showing how you can completely master this skill, get paid clients (charging ₹5,000–₹25,000), and scale in the full class.",
     },
   ];
 
