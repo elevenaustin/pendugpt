@@ -1,8 +1,8 @@
 export const SITE = {
   name: "PenduGPT",
-  tagline: "Live AI Website Building Masterclass",
+  tagline: "AI Website Building Demo Class",
   priceNow: 99,
-  priceOriginal: 999,
+  priceOriginal: 1000,
   totalSeats: 300,
   seatsTaken: 247,
   /** Placeholder — replace with the real class date/time. */

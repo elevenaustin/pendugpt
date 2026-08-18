@@ -426,11 +426,11 @@ export function Hero() {
               <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black leading-tight text-white tracking-tight">
                 {isPa ? (
                   <>
-                    <span className="text-[#d4f934] italic">ਲਾਈਵ ਡੈਮੋ ਕਲਾਸ</span> ਜੁਆਇਨ ਕਰੋ ਤੇ AI ਵੈੱਬਸਾਈਟ ਬਿਲਡਿੰਗ ਸਿੱਖੋ
+                    <span className="font-serif italic text-[#d4f934]">ਲਾਈਵ ਡੈਮੋ ਕਲਾਸ</span> ਜੁਆਇਨ ਕਰੋ ਤੇ AI ਵੈੱਬਸਾਈਟ ਬਿਲਡਿੰਗ ਸਿੱਖੋ
                   </>
                 ) : (
                   <>
-                    Join The <span className="text-[#d4f934] italic">Live Demo Class</span> & Learn AI Website Building
+                    Join The <span className="font-serif italic text-[#d4f934]">Live Demo Class</span> & Learn AI Website Building
                   </>
                 )}
               </h1>
@@ -465,6 +465,17 @@ export function Hero() {
               </div>
             </Reveal>
 
+            {/* High-Converting Price Tag Callout Badge (₹1,000 -> ₹99) */}
+            <Reveal delay={0.18}>
+              <div className="inline-flex items-center gap-3 rounded-2xl border border-[#d4f934]/40 bg-[#121706] px-4 py-2.5 shadow-[0_0_20px_rgba(212,249,52,0.15)]">
+                <span className="text-sm sm:text-base font-bold text-gray-400 line-through">₹1,000</span>
+                <span className="text-2xl sm:text-3xl font-black text-[#d4f934] font-sans tracking-tight">₹99 ONLY</span>
+                <span className="rounded-full bg-[#d4f934]/20 border border-[#d4f934]/50 px-2.5 py-0.5 text-[11px] font-black uppercase text-[#d4f934]">
+                  90% OFF
+                </span>
+              </div>
+            </Reveal>
+
             {/* CTA Button */}
             <Reveal delay={0.2}>
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
@@ -474,7 +485,18 @@ export function Hero() {
                   className="lime-button w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full px-8 py-4 text-base font-extrabold text-black shadow-[0_0_25px_rgba(212,249,52,0.3)] hover:shadow-[0_0_35px_rgba(212,249,52,0.5)] transition-all cursor-pointer"
                 >
                   <Rocket className="h-5 w-5" />
-                  <span>{isPa ? "ਲਾਈਵ ਡੈਮੋ ਕਲਾਸ ਜੁਆਇਨ ਕਰੋ — ₹99" : "Join Live Demo Class — ₹99"}</span>
+                  <span>
+                    {isPa ? (
+                      <>
+                        ਲਾਈਵ ਡੈਮੋ ਕਲਾਸ ਜੁਆਇਨ ਕਰੋ — <span className="line-through opacity-70">₹1,000</span> ₹99
+                      </>
+                    ) : (
+                      <>
+                        Join Live Demo Class — <span className="line-through opacity-70">₹1,000</span> ₹99
+                      </>
+                    )}
+                  </span>
+                  <ArrowRight className="h-4 w-4" />
                 </button>
               </div>
             </Reveal>
@@ -761,7 +783,17 @@ export function LimitedSpots() {
                 className="lime-button w-full sm:w-auto inline-flex items-center justify-center gap-3 rounded-full px-10 py-5 text-base sm:text-xl font-black text-black shadow-[0_0_45px_rgba(212,249,52,0.6)] hover:scale-[1.02] active:scale-[0.99] transition-all cursor-pointer uppercase tracking-wider"
               >
                 <Rocket className="h-6 w-6 text-black fill-black" />
-                <span>{isPa ? "ਲਾਈਵ ਡੈਮੋ ਕਲਾਸ ਹੁਣੇ ਜੁਆਇਨ ਕਰੋ — ₹99" : "Join Live Demo Class Now — ₹99"}</span>
+                <span>
+                  {isPa ? (
+                    <>
+                      ਲਾਈਵ ਡੈਮੋ ਕਲਾਸ ਹੁਣੇ ਜੁਆਇਨ ਕਰੋ — <span className="line-through opacity-70">₹1,000</span> ₹99
+                    </>
+                  ) : (
+                    <>
+                      Join Live Demo Class Now — <span className="line-through opacity-70">₹1,000</span> ₹99
+                    </>
+                  )}
+                </span>
                 <ArrowRight className="h-6 w-6 text-black" />
               </button>
 
@@ -923,14 +955,14 @@ export function Curriculum() {
             <span className="h-2.5 w-2.5 rounded-full bg-red-500" />
             <span>
               {isPa
-                ? "🔴 100% ਲਾਈਵ ਪ੍ਰੈਕਟੀਕਲ ਕਲਾਸ (ਕੋਈ ਰਿਕਾਰਡਿਡ ਵੀਡੀਓ ਨਹੀਂ)"
-                : "🔴 100% LIVE INTERACTIVE MASTERCLASS (NO RECORDED VIDEOS)"}
+                ? "🔴 100% ਲਾਈਵ ਪ੍ਰੈਕਟੀਕਲ ਡੈਮੋ ਕਲਾਸ (ਕੋਈ ਰਿਕਾਰਡਿਡ ਵੀਡੀਓ ਨਹੀਂ)"
+                : "🔴 100% LIVE INTERACTIVE DEMO CLASS (NO RECORDED VIDEOS)"}
             </span>
           </span>
         </div>
 
         <SectionTitle
-          title={isPa ? "ਮਾਸਟਰਕਲਾਸ ਵਿੱਚ ਕੀ ਸਿੱਖੋਗੇ?" : "What You'll Learn In This Masterclass"}
+          title={isPa ? "ਡੈਮੋ ਕਲਾਸ ਵਿੱਚ ਕੀ ਸਿੱਖੋਗੇ?" : "What You'll Learn In This Demo Class"}
           subtitle={isPa ? "ਪ੍ਰੌਂਪਟ ਲਿਖਣ ਤੋਂ ਲੈ ਕੇ ਪਹਿਲਾ ਕਲਾਇੰਟ ਲੱਭਣ ਤੱਕ ਪੂਰਾ ਸਟੈੱਪ-ਬਾਈ-ਸਟੈੱਪ ਰੋਡਮੈਪ" : "A step-by-step practical roadmap from your first prompt to getting paid clients."}
         />
 
@@ -1504,7 +1536,7 @@ export function Instructor() {
                 <p className="mt-4 text-xs sm:text-sm text-gray-300 leading-relaxed font-medium">
                   {isPa
                     ? "ਮੈਂ ਖੁਸ਼ਪ੍ਰੀਤ ਸਿੰਘ ਹਾਂ। ਮੈਂ ਪਿਛਲੇ ਕਈ ਸਾਲਾਂ ਤੋਂ ਟੈਕਨਾਲੋਜੀ ਅਤੇ AI ਡਿਵੈਲਪਮੈਂਟ ਵਿੱਚ ਕੰਮ ਕਰ ਰਿਹਾ ਹਾਂ। PenduGPT ਦੇ ਜ਼ਰੀਏ ਸਾਡਾ ਟੀਚਾ ਹਰ ਪੰਜਾਬੀ ਨੌਜਵਾਨ ਨੂੰ ਬਿਨਾਂ ਕੋਡਿੰਗ AI ਵੈੱਬਸਾਈਟਾਂ ਬਣਾਉਣਾ ਸਿਖਾਉਣਾ ਹੈ ਤਾਂ ਜੋ ਉਹ ਘਰ ਬੈਠੇ ਆਪਣਾ ਫ੍ਰੀਲਾਂਸਿੰਗ ਕੰਮ ਸ਼ੁਰੂ ਕਰ ਸਕਣ।"
-                    : "Hi, I'm Khushpreet Singh. Over the years, I've helped hundreds of creators and agency owners build software and websites using AI tools. In this masterclass, I share my exact step-by-step framework to build high-converting websites using AI."}
+                    : "Hi, I'm Khushpreet Singh. Over the years, I've helped hundreds of creators and agency owners build software and websites using AI tools. In this demo class, I share my exact step-by-step framework to build high-converting websites using AI."}
                 </p>
 
                 {/* Key Achievements Grid */}
@@ -1607,7 +1639,7 @@ export function ChoiceMotivator() {
               <div>
                 <div className="flex items-center gap-3 mb-4">
                   <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#d4f934]/20 text-[#d4f934] font-black text-lg">✓</span>
-                  <h3 className="text-lg font-black text-[#d4f934]">{isPa ? "ਵਿਕਲਪ B: ਲਾਈਵ ਮਾਸਟਰਕਲਾਸ" : "Option B: Join Live Masterclass"}</h3>
+                  <h3 className="text-lg font-black text-[#d4f934]">{isPa ? "ਵਿਕਲਪ B: ਲਾਈਵ ਡੈਮੋ ਕਲਾਸ" : "Option B: Join Live Demo Class"}</h3>
                 </div>
                 <ul className="flex flex-col gap-3 text-xs sm:text-sm text-gray-100">
                   <li className="flex items-start gap-2">
@@ -1687,7 +1719,7 @@ export function Offer() {
             {/* Compact 2-Column Checklist Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
               {[
-                "Full Live AI Website Masterclass (120 Mins)",
+                "Full Live AI Website Demo Class (120 Mins)",
                 "Zero-Coding Practical Building Demo",
                 "All 8 Premium Bonuses Included (Worth ₹75,000+)",
                 "Client Acquisition & Pitching Scripts",
@@ -1706,7 +1738,7 @@ export function Offer() {
 
             {/* Compact Price Strikethrough Row */}
             <div className="flex items-center justify-center gap-4 py-4 border-t border-gray-800/80">
-              <span className="text-2xl sm:text-3xl font-bold text-gray-500 line-through">₹999</span>
+              <span className="text-2xl sm:text-3xl font-bold text-gray-500 line-through">₹1,000</span>
               <span className="text-4xl sm:text-6xl font-black text-[#d4f934] tracking-tight drop-shadow-[0_0_20px_rgba(212,249,52,0.4)]">
                 ₹99
               </span>
@@ -1722,7 +1754,17 @@ export function Offer() {
               className="mt-3 flex w-full items-center justify-center gap-3 rounded-full bg-[#d4f934] py-4 px-6 text-base sm:text-xl font-black text-black shadow-[0_0_40px_rgba(212,249,52,0.6)] hover:bg-[#c2e828] hover:scale-[1.02] active:scale-[0.99] transition-all cursor-pointer border-2 border-white/20 uppercase tracking-wide"
             >
               <Rocket className="h-5 w-5 text-black fill-black" />
-              <span>{isPa ? "ਲਾਈਵ ਡੈਮੋ ਕਲਾਸ ਹੁਣੇ ਜੁਆਇਨ ਕਰੋ — ₹99" : "Join Live Demo Class Now — ₹99"}</span>
+              <span>
+                {isPa ? (
+                  <>
+                    ਲਾਈਵ ਡੈਮੋ ਕਲਾਸ ਹੁਣੇ ਜੁਆਇਨ ਕਰੋ — <span className="line-through opacity-70">₹1,000</span> ₹99
+                  </>
+                ) : (
+                  <>
+                    Join Live Demo Class Now — <span className="line-through opacity-70">₹1,000</span> ₹99
+                  </>
+                )}
+              </span>
               <ArrowRight className="h-5 w-5 text-black" />
             </button>
 
@@ -1747,14 +1789,14 @@ export function Faq() {
     {
       q: isPa ? "ਕੀ ਇਹ ਲਾਈਵ ਕਲਾਸ ਹੈ ਜਾਂ ਰਿਕਾਰਡਿਡ? (Is this live or recorded?)" : "Is this a Live class or recorded videos?",
       a: isPa
-        ? "ਇਹ 100% ਲਾਈਵ ਪ੍ਰੈਕਟੀਕਲ ਮਾਸਟਰਕਲਾਸ ਹੈ! ਕੋਈ ਰਿਕਾਰਡਿਡ ਵੀਡੀਓਜ਼ ਨਹੀਂ ਹਨ। ਤੁਸੀਂ ਲਾਈਵ ਆਪਣੇ ਸਵਾਲ ਪੁੱਛ ਸਕੋਗੇ ਅਤੇ ਅੱਖਾਂ ਦੇ ਸਾਹਮਣੇ ਵੈੱਬਸਾਈਟ ਬਣਦੀ ਵੇਖੋਗੇ।"
-        : "This is a 100% LIVE interactive masterclass! There are NO pre-recorded videos. You can ask your questions live during the session.",
+        ? "ਇਹ 100% ਲਾਈਵ ਪ੍ਰੈਕਟੀਕਲ ਡੈਮੋ ਕਲਾਸ ਹੈ! ਕੋਈ ਰਿਕਾਰਡਿਡ ਵੀਡੀਓਜ਼ ਨਹੀਂ ਹਨ। ਤੁਸੀਂ ਲਾਈਵ ਆਪਣੇ ਸਵਾਲ ਪੁੱਛ ਸਕੋਗੇ ਅਤੇ ਅੱਖਾਂ ਦੇ ਸਾਹਮਣੇ ਵੈੱਬਸਾਈਟ ਬਣਦੀ ਵੇਖੋਗੇ।"
+        : "This is a 100% LIVE interactive demo class! There are NO pre-recorded videos. You can ask your questions live during the session.",
     },
     {
       q: isPa ? "ਕੀ ਮੈਨੂੰ ਕੋਡਿੰਗ ਆਉਣੀ ਚਾਹੀਦੀ ਹੈ? (Do I need coding knowledge?)" : "Do I need coding knowledge?",
       a: isPa
         ? "ਨਹੀਂ, ਕੋਡਿੰਗ ਦੀ ਬਿਲਕੁਲ ਲੋੜ ਨਹੀਂ! ਇਹ ਕਲਾਸ ਖਾਸ ਤੌਰ 'ਤੇ ਜ਼ੀਰੋ-ਕੋਡਿੰਗ ਸ਼ੁਰੂਆਤੀ ਲੋਕਾਂ ਲਈ ਬਣਾਈ ਗਈ ਹੈ। ਅਸੀਂ ਨੋ-ਕੋਡ AI ਟੂਲਜ਼ ਦੀ ਵਰਤੋਂ ਕਰਾਂਗੇ।"
-        : "No coding knowledge is required! This masterclass is specially designed for complete beginners using modern no-code AI tools.",
+        : "No coding knowledge is required! This demo class is specially designed for complete beginners using modern no-code AI tools.",
     },
     {
       q: isPa ? "ਕੀ ਮੈਂ ਇਹ ਲੈਪਟੌਪ 'ਤੇ ਕਰ ਸਕਦਾ ਹਾਂ? (Can I do this on a laptop?)" : "Can I do this on a laptop?",

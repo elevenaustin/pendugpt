@@ -175,8 +175,8 @@ Transaction ID: ${paymentId || "Confirmed"}`;
       key: razorpayKey,
       amount: 9900, // ₹99 in paise
       currency: "INR",
-      name: "PenduGPT AI Masterclass",
-      description: "Live AI Masterclass Seat Reservation (₹99)",
+      name: "PenduGPT AI Demo Class",
+      description: "Live AI Demo Class Seat Reservation (₹99)",
       image: "/favicon.svg",
       prefill: {
         contact: `${countryCode}${mobileNum}`,
@@ -386,9 +386,15 @@ Transaction ID: ${paymentId || "Confirmed"}`;
                   <div>
                     {/* Header */}
                     <div className="mb-5">
-                      <span className="text-[10px] font-extrabold uppercase tracking-widest text-[#d4f934]">
-                        {isPa ? "ਲਾਈਵ ਮਾਸਟਰਕਲਾਸ · ₹99" : "Live Masterclass · ₹99"}
-                      </span>
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="text-[10px] font-extrabold uppercase tracking-widest text-[#d4f934]">
+                          {isPa ? "ਲਾਈਵ ਮਾਸਟਰਕਲਾਸ" : "Live Masterclass"}
+                        </span>
+                        <span className="inline-flex items-center gap-1 rounded-full bg-[#d4f934]/15 border border-[#d4f934]/40 px-2 py-0.5 text-[10px] font-extrabold text-[#d4f934]">
+                          <span className="line-through text-gray-400">₹1,000</span>
+                          <span>₹99</span>
+                        </span>
+                      </div>
                       <h2 className="text-lg font-black text-white mt-1">
                         {isPa ? "ਮੋਬਾਈਲ ਨੰਬਰ ਦਰਜ ਕਰੋ" : "Enter WhatsApp Number"}
                       </h2>
@@ -527,7 +533,7 @@ Transaction ID: ${paymentId || "Confirmed"}`;
                         {isPa ? "ਆਪਣਾ ਵੇਰਵਾ ਭਰੋ" : "Complete Your Profile"}
                       </h2>
                       <p className="text-xs text-gray-400 mt-1">
-                        {isPa ? "ਸੀਟ ਟਿਕਟ ਜਾਰੀ ਕਰਨ ਲਈ ਆਪਣਾ ਨਾਮ ਅਤੇ ਲਿੰਗ ਚੁਣੋ:" : "Enter your name and details to issue your masterclass ticket:"}
+                        {isPa ? "ਸੀਟ ਟਿਕਟ ਜਾਰੀ ਕਰਨ ਲਈ ਆਪਣਾ ਨਾਮ ਅਤੇ ਲਿੰਗ ਚੁਣੋ:" : "Enter your name and details to issue your demo class ticket:"}
                       </p>
                     </div>
 

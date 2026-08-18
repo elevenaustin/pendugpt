@@ -295,7 +295,7 @@ export const en = {
     title: "Complete your registration",
     subtitle: "You are one step away from your seat.",
     summary: "Order summary",
-    item: "Live AI Website Building Masterclass",
+    item: "Live AI Website Building Demo Class",
     total: "Total payable",
     pay: "Pay ₹99 securely",
     processing: "Processing payment…",
@@ -307,7 +307,7 @@ export const en = {
   },
   thankyou: {
     title: "You're in!",
-    subtitle: "Your seat for the live AI Website Building Masterclass is confirmed.",
+    subtitle: "Your seat for the live AI Website Building Demo Class is confirmed.",
     step1: "Join the private WhatsApp community",
     step1d: "All updates, resources and the joining link are shared there.",
     step2: "Check your WhatsApp and email",

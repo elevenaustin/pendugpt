@@ -14,11 +14,11 @@ export function Aurora({ className }: { variant?: string; className?: string }) 
   );
 }
 
-/** Scroll-reveal wrapper with minimal overhead. */
+/** Scroll-reveal wrapper with minimal overhead & ultra-fast rendering. */
 export function Reveal({
   children,
   delay = 0,
-  y = 16,
+  y = 12,
   className,
 }: {
   children: ReactNode;
@@ -29,11 +29,11 @@ export function Reveal({
   const reduce = useReducedMotion();
   return (
     <motion.div
-      className={className}
+      className={cn("transform-gpu", className)}
       initial={reduce ? false : { opacity: 0, y }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-40px" }}
-      transition={{ duration: 0.4, delay, ease: "easeOut" }}
+      viewport={{ once: true, margin: "-20px" }}
+      transition={{ duration: 0.22, delay, ease: "easeOut" }}
     >
       {children}
     </motion.div>

@@ -12,7 +12,16 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    let ticking = false;
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setScrolled(window.scrollY > 20);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -20,13 +29,25 @@ export function Navbar() {
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 transition-all duration-300">
+      {/* High-Converting Neon Yellow Top Announcement Bar (Reference Style) */}
+      <div className="w-full bg-[#d4f934] text-black py-1.5 px-3 text-center text-[11px] sm:text-xs font-black tracking-tight border-b border-black/10 shadow-sm flex items-center justify-center gap-2">
+        <span className="inline-flex items-center gap-1 rounded-full bg-black/10 px-2 py-0.5 text-[10px] font-black uppercase tracking-wider text-black border border-black/20">
+          🚫 NO UPSELLS. EVER.
+        </span>
+        <span className="font-extrabold truncate">
+          {lang === "pa"
+            ? "ਜੇ ਅਸੀਂ ਐਡਵਾਂਸ ਕੋਰਸ ਅੱਪਸੈੱਲ ਕੀਤਾ ਤਾਂ ਸਾਡੇ 'ਤੇ ਕੇਸ ਕਰ ਸਕਦੇ ਹੋ।"
+            : "Sue us if we upsell advanced course."}
+        </span>
+      </div>
+
       {/* Main Navbar Header Row */}
       <nav
         className={cn(
-          "w-full transition-all duration-300",
+          "w-full transition-all duration-300 transform-gpu",
           scrolled
-            ? "bg-[#080808]/90 backdrop-blur-md border-b border-[#d4f934]/20 py-3 shadow-xl"
-            : "bg-gradient-to-b from-[#080808]/90 to-transparent py-4"
+            ? "bg-[#080808]/90 backdrop-blur-md border-b border-[#d4f934]/20 py-2.5 shadow-xl"
+            : "bg-gradient-to-b from-[#080808]/90 to-transparent py-3"
         )}
       >
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
@@ -65,13 +86,23 @@ export function Navbar() {
               </button>
             </div>
 
-            {/* High-Impact Direct CTA Button */}
+            {/* High-Impact Direct CTA Button with Price Strikethrough ₹1,000 -> ₹99 */}
             <button
               type="button"
               onClick={openModal}
               className="lime-button hidden sm:inline-flex items-center gap-2 rounded-full px-5 py-2 text-xs sm:text-sm font-extrabold text-black shadow-[0_0_20px_rgba(212,249,52,0.4)] cursor-pointer"
             >
-              <span>{lang === "pa" ? "ਡੈਮੋ ਕਲਾਸ ਜੁਆਇਨ ਕਰੋ — ₹99" : "Join Demo Class — ₹99"}</span>
+              <span>
+                {lang === "pa" ? (
+                  <>
+                    ਬੁੱਕ ਕਰੋ — <span className="line-through opacity-70">₹1,000</span> <span className="font-black text-black">₹99</span>
+                  </>
+                ) : (
+                  <>
+                    Book Your Seat — <span className="line-through opacity-70">₹1,000</span> <span className="font-black text-black">₹99</span>
+                  </>
+                )}
+              </span>
               <ArrowRight className="h-4 w-4" />
             </button>
           </div>
@@ -80,3 +111,4 @@ export function Navbar() {
     </header>
   );
 }
+
