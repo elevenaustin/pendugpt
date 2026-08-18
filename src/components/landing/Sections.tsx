@@ -749,7 +749,7 @@ export function LimitedSpots() {
                   <Laptop className="h-5 w-5" />
                 </div>
                 <div>
-                  <h4 className="text-xs font-black text-white">{isPa ? "120 ਮਿੰਟ ਲਾਈਵ ਡੈਮੋ" : "120-Min Live Demo"}</h4>
+                  <h4 className="text-xs font-black text-white">{isPa ? "31 ਮਿੰਟ 55 ਸੈਕਿੰਡ ਡੈਮੋ" : "31 Mins 55 Secs Demo"}</h4>
                   <p className="text-[11px] text-gray-400">{isPa ? "ਪੂਰਾ ਪ੍ਰੈਕਟੀਕਲ ਸੈਸ਼ਨ" : "Full practical walkthrough"}</p>
                 </div>
               </div>
@@ -1113,7 +1113,7 @@ export function Curriculum() {
                 <span className="text-xs font-bold uppercase tracking-wider text-gray-400">Total Duration</span>
                 <span className="inline-flex items-center gap-1 text-xs font-bold text-[#d4f934] bg-[#d4f934]/10 px-2.5 py-1 rounded-full border border-[#d4f934]/30">
                   <Clock className="h-3.5 w-3.5" />
-                  <span>90 – 120 Mins</span>
+                  <span>31 Mins 55 Secs</span>
                 </span>
               </div>
 
@@ -1169,10 +1169,10 @@ export function Bonuses() {
 
   const bonuses = [
     {
-      title: isPa ? "ਲਾਈਵ 120-ਮਿੰਟ ਡੈਮੋ ਕਲਾਸ" : "Live 120-Min Demo Class",
+      title: isPa ? "ਡੈਮੋ ਕਲਾਸ (31 ਮਿੰਟ 55 ਸੈਕਿੰਡ)" : "Demo Class (31 Mins 55 Secs)",
       subtitle: isPa ? "ਅੱਖਾਂ ਦੇ ਸਾਹਮਣੇ ਵੈੱਬਸਾਈਟ ਬਿਲਡਿੰਗ ਲਾਈਵ ਵੇਖੋ" : "Full Practical Step-by-Step Walkthrough",
       worth: "₹4,999",
-      badge: isPa ? "Live Session" : "Live Session",
+      badge: isPa ? "Full Access" : "Full Access",
       isFree: true,
       Icon: Video,
     },
@@ -1191,14 +1191,6 @@ export function Bonuses() {
       badge: isPa ? "FREE ਬੋਨਸ" : "FREE Bonus",
       isFree: true,
       Icon: CheckCircle2,
-    },
-    {
-      title: isPa ? "ਪ੍ਰਾਈਵੇਟ VIP ਵਟਸਐਪ ਕਮਿਊਨਿਟੀ" : "Private VIP WhatsApp Group",
-      subtitle: isPa ? "ਕਲਾਸ ਲਿੰਕ ਅਤੇ ਅੱਪਡੇਟਸ ਤੁਰੰਤ ਪ੍ਰਾਪਤ ਕਰੋ" : "Instant Live Class Link & Group Updates",
-      worth: "₹1,999",
-      badge: isPa ? "Instant Access" : "Instant Access",
-      isFree: false,
-      Icon: MessageCircle,
     },
     {
       title: isPa ? "ਲਾਈਫਟਾਈਮ ਰਿਕਾਰਡਿੰਗ ਰੀਪਲੇਅ" : "Lifetime Recording Replay",
@@ -1674,15 +1666,15 @@ export function ChoiceMotivator() {
                 <ul className="flex flex-col gap-3 text-xs sm:text-sm text-gray-100">
                   <li className="flex items-start gap-2">
                     <span className="text-[#d4f934] font-bold">✓</span>
-                    <span>{isPa ? "2 ਘੰਟਿਆਂ ਵਿੱਚ ਬਿਨਾਂ ਕੋਡਿੰਗ AI ਵੈੱਬਸਾਈਟ ਬਣਾਉਣਾ ਸਿੱਖੋ" : "Master AI website creation without coding in just 120 mins"}</span>
+                    <span>{isPa ? "31 ਮਿੰਟ 55 ਸੈਕਿੰਡ ਵਿੱਚ ਬਿਨਾਂ ਕੋਡਿੰਗ AI ਵੈੱਬਸਾਈਟ ਬਣਾਉਣਾ ਸਿੱਖੋ" : "Master AI website creation without coding in 31 Mins 55 Secs"}</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-[#d4f934] font-bold">✓</span>
-                    <span>{isPa ? "₹75,000+ ਦੇ 8 ਪ੍ਰੀਮੀਅਮ ਬੋਨਸ ਤੇ ਪ੍ਰੌਂਪਟਸ ਮੁਫ਼ਤ ਪ੍ਰਾਪਤ ਕਰੋ" : "Get ₹75,000+ worth of tested prompt vaults & client proposal templates free"}</span>
+                    <span>{isPa ? "ਪ੍ਰੀਮੀਅਮ ਬੋਨਸ ਤੇ ਪ੍ਰੌਂਪਟਸ ਮੁਫ਼ਤ ਪ੍ਰਾਪਤ ਕਰੋ" : "Get tested prompt vaults & setup checklists free"}</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-[#d4f934] font-bold">✓</span>
-                    <span>{isPa ? "ਫ੍ਰੀਲਾਂਸਰ ਵਜੋਂ ਪੰਜਾਬ ਅਤੇ ਗਲੋਬਲ ਕਲਾਇੰਟਸ ਨੂੰ ਸਰਵਿਸ ਦਿਓ" : "Start pitching real clients and launch your freelance website agency"}</span>
+                    <span>{isPa ? "ਬਿਨਾਂ ਕੋਡਿੰਗ AI ਟੂਲਜ਼ ਨਾਲ ਵੈੱਬਸਾਈਟਾਂ ਬਣਾਉਣਾ ਸਿੱਖੋ" : "Learn step-by-step website building with no-code AI tools"}</span>
                   </li>
                 </ul>
               </div>
@@ -1736,8 +1728,8 @@ export function Offer() {
         <Reveal delay={0.05}>
           <p className="mt-2.5 text-xs sm:text-sm text-gray-400 max-w-lg mx-auto font-medium">
             {isPa
-              ? "120 ਮਿੰਟ ਦੀ ਲਾਈਵ AI ਡੈਮੋ ਕਲਾਸ + ₹75,000+ ਦੀ ਕੀਮਤ ਦੇ 8 ਪ੍ਰੀਮੀਅਮ ਬੋਨਸ ਸ਼ਾਮਲ ਹਨ!"
-              : "120-Min Live AI Demo Class + 8 Premium Bonuses Included (Worth ₹75,000+)!"}
+              ? "31 ਮਿੰਟ 55 ਸੈਕਿੰਡ ਦੀ AI ਡੈਮੋ ਕਲਾਸ + ਪ੍ਰੀਮੀਅਮ ਬੋਨਸ ਸ਼ਾਮਲ ਹਨ!"
+              : "AI Demo Class (31 Mins 55 Secs) + Premium Bonuses Included!"}
           </p>
         </Reveal>
 
@@ -1749,13 +1741,13 @@ export function Offer() {
             {/* Compact 2-Column Checklist Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
               {[
-                "Full Live AI Website Demo Class (120 Mins)",
+                "Full AI Website Demo Class (31 Mins 55 Secs)",
                 "Zero-Coding Practical Building Demo",
                 "All Premium Demo Class Bonuses Included",
                 "Step-by-Step Zero-Coding AI Setup Checklist",
                 "50+ AI Prompts & Tool Stack Vault",
                 "Lifetime Class Recording Replay Access",
-                "Instant Access & Live Class Link",
+                "Instant Access & Demo Class Link",
               ].map((item) => (
                 <div key={item} className="flex items-center gap-2.5 text-xs sm:text-sm font-extrabold text-gray-100">
                   <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#d4f934]/20 border border-[#d4f934]/50 text-[#d4f934]">
@@ -1855,14 +1847,14 @@ export function Faq() {
     {
       q: isPa ? "ਪੇਮੈਂਟ ਤੋਂ ਬਾਅਦ ਐਕਸੈਸ ਕਿਵੇਂ ਮਿਲੇਗਾ? (How do I get access after payment?)" : "How do I get access after payment?",
       a: isPa
-        ? "₹99 ਭਰਨ ਤੋਂ ਤੁਰੰਤ ਬਾਅਦ ਤੁਹਾਨੂੰ ਸਾਡੇ ਪ੍ਰਾਈਵੇਟ VIP ਵਟਸਐਪ ਗਰੁੱਪ ਦਾ ਲਿੰਕ ਅਤੇ ਈਮੇਲ ਕਨਫਰਮੇਸ਼ਨ ਮਿਲ ਜਾਵੇਗੀ।"
-        : "Immediately after paying ₹99, you will be redirected to join our private VIP WhatsApp group & receive email confirmation.",
+        ? "₹99 ਭਰਨ ਤੋਂ ਤੁਰੰਤ ਬਾਅਦ ਤੁਹਾਨੂੰ ਡੈਮੋ ਕਲਾਸ (31 ਮਿੰਟ 55 ਸੈਕਿੰਡ) ਅਤੇ ਸਾਰੇ AI ਪ੍ਰੌਂਪਟਸ ਦਾ ਤੁਰੰਤ ਐਕਸੈਸ ਮਿਲ ਜਾਵੇਗਾ।"
+        : "Immediately after paying ₹99, you will get instant access to the demo class video (31 Mins 55 Secs) & downloadable prompt resources.",
     },
     {
-      q: isPa ? "ਕੀ ਮੈਂ ਇਸ ਤੋਂ ਬਾਅਦ ਕਲਾਇੰਟਸ ਲਈ ਕੰਮ ਕਰ ਸਕਦਾ ਹਾਂ? (Can I earn after this?)" : "Can I start offering freelance web design services after this?",
+      q: isPa ? "ਕੀ ਮੈਂ ਇਸ ਤੋਂ ਬਾਅਦ ਵੈੱਬਸਾਈਟ ਬਣਾ ਸਕਦਾ ਹਾਂ? (Can I build websites after this?)" : "Can I build websites without coding after watching this demo?",
       a: isPa
-        ? "ਬਿਲਕੁਲ! ਕਲਾਸ ਵਿੱਚ ਅਸੀਂ ਕਲਾਇੰਟਸ ਨੂੰ ਅਪਰੋਚ ਕਰਨ ਦੇ ਤਰੀਕੇ ਅਤੇ ਪ੍ਰਾਈਸਿੰਗ ਸਕ੍ਰਿਪਟਸ ਵੀ ਸਿਖਾਵਾਂਗੇ।"
-        : "Absolutely! We dedicate an entire section to client acquisition scripts and pricing models for local/global clients.",
+        ? "ਬਿਲਕੁਲ! ਕਲਾਸ ਵਿੱਚ ਅਸੀਂ ਬਿਨਾਂ ਕੋਡਿੰਗ AI ਨਾਲ ਵੈੱਬਸਾਈਟ ਬਣਾਉਣ ਦਾ ਪੂਰਾ ਪ੍ਰੈਕਟੀਕਲ ਤਰੀਕਾ ਸਿਖਾਇਆ ਹੈ।"
+        : "Absolutely! The demo class shows step-by-step how to construct, design, and publish custom websites using no-code AI tools.",
     },
   ];
 
