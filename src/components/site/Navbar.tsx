@@ -10,6 +10,21 @@ export function Navbar() {
   const { lang, setLang } = useI18n();
   const { openModal } = useEnrollmentModal();
   const [scrolled, setScrolled] = useState(false);
+  const [timeLeft, setTimeLeft] = useState({ mins: 14, secs: 55 });
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTimeLeft((prev) => {
+        if (prev.secs > 0) {
+          return { ...prev, secs: prev.secs - 1 };
+        } else if (prev.mins > 0) {
+          return { mins: prev.mins - 1, secs: 59 };
+        }
+        return { mins: 14, secs: 55 };
+      });
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     let ticking = false;
@@ -27,17 +42,32 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  const formattedMins = String(timeLeft.mins).padStart(2, "0");
+  const formattedSecs = String(timeLeft.secs).padStart(2, "0");
+
   return (
     <header className="fixed inset-x-0 top-0 z-50 transition-all duration-300">
-      {/* High-Converting Neon Yellow Top Announcement Bar (Reference Style) */}
-      <div className="w-full bg-[#d4f934] text-black py-1.5 px-3 text-center text-[11px] sm:text-xs font-black tracking-tight border-b border-black/10 shadow-sm flex items-center justify-center gap-2">
-        <span className="inline-flex items-center gap-1 rounded-full bg-black/10 px-2 py-0.5 text-[10px] font-black uppercase tracking-wider text-black border border-black/20">
-          🚫 NO UPSELLS. EVER.
+      {/* High-Converting Electric Top Announcement Bar with Live Sales Timer */}
+      <div 
+        onClick={openModal}
+        className="w-full bg-[#d4f934] text-black py-1.5 px-3 text-center text-[11px] sm:text-xs font-black tracking-tight border-b border-black/10 shadow-md flex items-center justify-center gap-2 cursor-pointer hover:bg-[#c6ec22] transition-colors select-none"
+      >
+        <span className="inline-flex items-center gap-1 rounded-full bg-black px-2 py-0.5 text-[10px] font-black uppercase tracking-wider text-[#d4f934]">
+          🔥 {lang === "pa" ? "ਡੈਮੋ ਆਫਰ" : "DEMO SALE"}
         </span>
         <span className="font-extrabold truncate">
-          {lang === "pa"
-            ? "ਜੇ ਅਸੀਂ ਐਡਵਾਂਸ ਕੋਰਸ ਅੱਪਸੈੱਲ ਕੀਤਾ ਤਾਂ ਸਾਡੇ 'ਤੇ ਕੇਸ ਕਰ ਸਕਦੇ ਹੋ।"
-            : "Sue us if we upsell advanced course."}
+          {lang === "pa" ? (
+            <>
+              31 ਮਿੰਟ 55 ਸੈਕਿੰਡ ਡੈਮੋ ਕਲਾਸ — <span className="line-through decoration-red-600 decoration-2 text-black/80 font-bold">₹1,000</span> <span className="font-black text-black">₹99</span>
+            </>
+          ) : (
+            <>
+              31m 55s AI Demo Class — <span className="line-through decoration-red-600 decoration-2 text-black/80 font-bold">₹1,000</span> <span className="font-black text-black">₹99</span>
+            </>
+          )}
+        </span>
+        <span className="hidden sm:inline-flex items-center gap-1 rounded-full bg-black/10 border border-black/20 px-2 py-0.5 text-[10px] font-black text-black ml-1">
+          ⏱️ {lang === "pa" ? "ਆਫਰ ਖ਼ਤਮ:" : "Ends In:"} {formattedMins}m {formattedSecs}s
         </span>
       </div>
 
