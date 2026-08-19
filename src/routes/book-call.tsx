@@ -2,7 +2,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { ArrowRight, CheckCircle2, Lock, ShieldCheck, User, Video, Calendar, Sparkles, Clock, RefreshCw, MessageCircle } from "lucide-react";
 import { Logo, Wordmark } from "@/components/brand/Logo";
-import { FloatingSupport } from "@/components/site/FloatingSupport";
 import { supabase } from "@/integrations/supabase/client";
 
 declare global {
@@ -58,9 +57,26 @@ function BookCallPage() {
     loadRazorpayScript();
   }, []);
 
-  const whatsappSuccessUrl = `https://wa.me/${SUPPORT_WHATSAPP}?text=${encodeURIComponent(
-    `Sir I have paid ₹499 for 45-Min 1-on-1 Call.\nName: ${name}\nPayment ID: ${paymentId}`
-  )}`;
+  const timeStr = new Date().toLocaleString("en-IN", {
+    dateStyle: "medium",
+    timeStyle: "short",
+    timeZone: "Asia/Kolkata",
+  });
+
+  const whatsappMsg = `🎉 *PenduGPT 1-on-1 Call - Payment Successful* 🎉
+
+👤 *Customer Name:* ${name.trim() || "Student"}
+📱 *WhatsApp Number:* ${countryCode} ${mobile.trim()}
+🎯 *Discussion Topic:* ${topic || "General AI Strategy"}
+💳 *Amount Paid:* ₹499
+🆔 *Transaction ID:* ${paymentId || "Confirmed"}
+📅 *Transaction Date & Time:* ${timeStr}
+📞 *Booking For:* 45-Min Private Strategy Call
+
+Please confirm my 1-on-1 booking and share available calendar time slots!`;
+
+  const whatsappSuccessUrl = `https://wa.me/${SUPPORT_WHATSAPP}?text=${encodeURIComponent(whatsappMsg)}`;
+
 
   // Countdown auto-redirect on payment success to Cal.com & WhatsApp
   useEffect(() => {
@@ -343,7 +359,7 @@ function BookCallPage() {
                     placeholder="Enter your full name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="w-full bg-transparent text-xs sm:text-sm font-bold text-white placeholder-gray-600 outline-none"
+                    className="w-full bg-transparent text-base font-bold text-white placeholder-gray-600 outline-none"
                   />
                 </div>
                 {errors.name && <p className="text-[11px] text-red-400 mt-1 font-medium">{errors.name}</p>}
@@ -358,7 +374,7 @@ function BookCallPage() {
                   <select
                     value={countryCode}
                     onChange={(e) => setCountryCode(e.target.value)}
-                    className="w-24 shrink-0 bg-[#141414] px-2 py-2.5 border-r border-gray-800 text-xs font-bold text-white outline-none cursor-pointer text-center"
+                    className="w-24 shrink-0 bg-[#141414] px-2 py-2.5 border-r border-gray-800 text-base sm:text-xs font-bold text-white outline-none cursor-pointer text-center"
                   >
                     {COUNTRY_CODES.map((c, idx) => (
                       <option key={`${c.code}-${idx}`} value={c.code} className="bg-[#141414] text-white">
@@ -374,7 +390,7 @@ function BookCallPage() {
                     placeholder="9876543210"
                     value={mobile}
                     onChange={(e) => setMobile(e.target.value.replace(/\D/g, ""))}
-                    className="flex-1 min-w-0 bg-transparent px-3 py-2.5 text-xs sm:text-sm font-bold text-white placeholder-gray-600 outline-none"
+                    className="flex-1 min-w-0 bg-transparent px-3 py-2.5 text-base font-bold text-white placeholder-gray-600 outline-none"
                   />
                 </div>
                 {errors.mobile && <p className="text-[11px] text-red-400 mt-1 font-medium">{errors.mobile}</p>}
@@ -388,7 +404,7 @@ function BookCallPage() {
                 <select
                   value={topic}
                   onChange={(e) => setTopic(e.target.value)}
-                  className="w-full rounded-xl border border-gray-800 bg-[#080808] px-3 py-2.5 text-xs font-bold text-white outline-none focus:border-[#d4f934] transition cursor-pointer"
+                  className="w-full rounded-xl border border-gray-800 bg-[#080808] px-3 py-2.5 text-base sm:text-xs font-bold text-white outline-none focus:border-[#d4f934] transition cursor-pointer"
                 >
                   <option value="AI Website Guidance & Building">AI Website Building & Guidance</option>
                   <option value="Freelance & Agency Scaling">Freelancing & Agency Scaling</option>
@@ -431,9 +447,6 @@ function BookCallPage() {
       <footer className="mx-auto max-w-xl w-full text-center text-[11px] text-gray-500 z-10 py-1">
         © {new Date().getFullYear()} PenduGPT • 45-Min Private Strategy Session
       </footer>
-
-      {/* Floating WhatsApp Support Button */}
-      <FloatingSupport />
     </div>
   );
 }

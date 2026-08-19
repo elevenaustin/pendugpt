@@ -7,7 +7,6 @@ import {
 } from "lucide-react";
 import { Footer } from "@/components/site/Footer";
 import { Logo, Wordmark } from "@/components/brand/Logo";
-import { FloatingSupport } from "@/components/site/FloatingSupport";
 import { useI18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 import { supabase } from "@/integrations/supabase/client";
@@ -69,9 +68,26 @@ function FullClassPage() {
     loadRazorpayScript();
   }, []);
 
-  const whatsappRedirectUrl = `https://wa.me/${supportWhatsapp}?text=${encodeURIComponent(
-    `Sir I have paid ₹4,999 for Full AI Masterclass.\nName: ${name}\nPayment ID: ${paymentId}`
-  )}`;
+  const timeStr = new Date().toLocaleString("en-IN", {
+    dateStyle: "medium",
+    timeStyle: "short",
+    timeZone: "Asia/Kolkata",
+  });
+
+  const fullClassWhatsappMsg = `🎉 *PenduGPT Full Masterclass - Payment Successful* 🎉
+
+👤 *Customer Name:* ${name.trim() || "Student"}
+📱 *WhatsApp Number:* ${countryCode} ${mobile.trim()}
+👨‍👩‍👧 *Gender:* ${gender || "N/A"}
+💳 *Amount Paid:* ₹4,999
+🆔 *Transaction ID:* ${paymentId || "Confirmed"}
+📅 *Transaction Date & Time:* ${timeStr}
+🚀 *Enrollment For:* Full Masterclass + 10 Premium Bonuses
+
+Please grant my full masterclass access and add me to the VIP community group!`;
+
+  const whatsappRedirectUrl = `https://wa.me/${supportWhatsapp}?text=${encodeURIComponent(fullClassWhatsappMsg)}`;
+
 
   // Auto-redirect to WhatsApp on payment success
   useEffect(() => {
@@ -700,7 +716,7 @@ function FullClassPage() {
                       placeholder="Enter your name"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
-                      className="w-full rounded-xl border border-gray-800 bg-[#080808] p-3 text-xs font-bold text-white outline-none focus:border-[#d4f934]"
+                      className="w-full rounded-xl border border-gray-800 bg-[#080808] p-3 text-base font-bold text-white outline-none focus:border-[#d4f934]"
                     />
                     {errors.name && <p className="text-[11px] text-red-400 mt-1">{errors.name}</p>}
                   </div>
@@ -713,7 +729,7 @@ function FullClassPage() {
                       <select
                         value={countryCode}
                         onChange={(e) => setCountryCode(e.target.value)}
-                        className="w-24 shrink-0 bg-[#141414] px-2 py-3 border-r border-gray-800 text-xs font-bold text-white outline-none text-center"
+                        className="w-24 shrink-0 bg-[#141414] px-2 py-3 border-r border-gray-800 text-base sm:text-xs font-bold text-white outline-none text-center"
                       >
                         {COUNTRY_CODES.map((c, idx) => (
                           <option key={`${c.code}-${idx}`} value={c.code} className="bg-[#141414] text-white">
@@ -729,7 +745,7 @@ function FullClassPage() {
                         placeholder="9876543210"
                         value={mobile}
                         onChange={(e) => setMobile(e.target.value.replace(/\D/g, ""))}
-                        className="flex-1 min-w-0 bg-transparent p-3 text-xs font-bold text-white outline-none"
+                        className="flex-1 min-w-0 bg-transparent p-3 text-base font-bold text-white outline-none"
                       />
                     </div>
                     {errors.mobile && <p className="text-[11px] text-red-400 mt-1">{errors.mobile}</p>}
@@ -780,9 +796,6 @@ function FullClassPage() {
       )}
 
       <Footer />
-
-      {/* Floating WhatsApp Support Button */}
-      <FloatingSupport />
     </div>
   );
 }

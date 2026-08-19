@@ -12,6 +12,18 @@ export const pa: Dict = {
     english: "English",
     hint: "ਤੁਸੀਂ ਇਸਨੂੰ ਕਦੇ ਵੀ ਮੀਨੂ ਤੋਂ ਬਦਲ ਸਕਦੇ ਹੋ।",
   },
+  urgencyPopup: {
+    badge: "ਸੀਮਤ ਸੀਟਾਂ ਦੀ ਚੇਤਾਵਨੀ",
+    headlineA: "ਸਿਰਫ਼",
+    headlineB: "7 ਸੀਟਾਂ ਬਾਕੀ",
+    headlineC: "₹99 ਵਿੱਚ!",
+    description: "ਸਪੈਸ਼ਲ ਡੈਮੋ ਕਲਾਸ ਦੀ ਰਜਿਸਟ੍ਰੇਸ਼ਨ ਜਲਦੀ ਬੰਦ ਹੋ ਰਹੀ ਹੈ। AI ਵੈੱਬਸਾਈਟਾਂ ਬਣਾਉਣਾ ਸਿੱਖਣ ਦਾ ਮੌਕਾ ਨਾ ਗੁਆਓ!",
+    timerLabel: "ਆਫਰ ਖ਼ਤਮ ਹੋਣ ਵਿੱਚ:",
+    originalPrice: "₹1,000",
+    offerPrice: "ਸਿਰਫ਼ ₹99",
+    claimBtn: "ਆਪਣੀ ₹99 ਦੀ ਸੀਟ ਹੁਣੇ ਬੁੱਕ ਕਰੋ",
+    guarantee: "100% ਮਨੀ-ਬੈਕ ਸੰਤੁਸ਼ਟੀ ਗਾਰੰਟੀ",
+  },
   nav: {
     curriculum: "ਕੋਰਸ",
     demo: "ਲਾਈਵ ਡੈਮੋ",

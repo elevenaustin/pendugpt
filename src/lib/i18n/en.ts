@@ -13,6 +13,18 @@ export const en = {
     english: "English",
     hint: "You can change this anytime from the menu.",
   },
+  urgencyPopup: {
+    badge: "LIMITED SPOTS ALERT",
+    headlineA: "Only",
+    headlineB: "7 Seats Left",
+    headlineC: "At ₹99!",
+    description: "Special Demo Class enrollment is closing soon. Don't miss out on learning how to build AI websites!",
+    timerLabel: "OFFER EXPIRES IN",
+    originalPrice: "₹1,000",
+    offerPrice: "₹99 ONLY",
+    claimBtn: "Claim Your ₹99 Seat Now",
+    guarantee: "100% Money-Back Satisfaction Guarantee",
+  },
   nav: {
     curriculum: "Curriculum",
     demo: "Live Demo",

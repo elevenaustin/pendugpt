@@ -5,7 +5,6 @@ import { CursorGlow } from "@/components/fx";
 import { PurchaseToast } from "@/components/landing/PurchaseToast";
 import { EnrollmentProvider, useEnrollmentModal } from "@/components/landing/EnrollmentModal";
 import { AutoUrgencyPopup } from "@/components/landing/AutoUrgencyPopup";
-import { FloatingSupport } from "@/components/site/FloatingSupport";
 import {
   Audience,
   Bonuses,
@@ -68,9 +67,6 @@ function LandingPageInner() {
       
       {/* Auto Urgency Popup triggered after 6s */}
       <AutoUrgencyPopup onClaim={() => openModal()} />
-
-      {/* Floating WhatsApp Support Button */}
-      <FloatingSupport />
     </div>
   );
 }

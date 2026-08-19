@@ -96,16 +96,28 @@ export function EnrollmentProvider({ children }: { children: React.ReactNode }) 
   };
 
   const buildWhatsappUrl = () => {
-    const timeStr = registrationTime || new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
-    const msg = `Sir i have paid the fee for Training video.
+    const timeStr = registrationTime || new Date().toLocaleString("en-IN", {
+      dateStyle: "medium",
+      timeStyle: "short",
+      timeZone: "Asia/Kolkata",
+    });
 
-Name: ${name || "Student"}
-Gender: ${gender || "N/A"}
-Payment Time: ${timeStr}
-Transaction ID: ${paymentId || "Confirmed"}`;
+    const msg = `🎉 *PenduGPT AI Demo Class - Payment Successful* 🎉
+
+👤 *Customer Name:* ${name || "Student"}
+📱 *WhatsApp Number:* ${countryCode} ${mobile}
+👨‍👩‍👧 *Gender:* ${gender || "N/A"}
+💻 *Laptop/PC:* ${hasLaptop || "N/A"}
+💳 *Amount Paid:* ₹99
+🆔 *Transaction ID:* ${paymentId || "Confirmed"}
+📅 *Transaction Date & Time:* ${timeStr}
+📚 *Course:* 31m 55s Live AI Demo Class
+
+Please confirm my seat reservation and share the live session link!`;
 
     return `https://wa.me/${supportWhatsapp}?text=${encodeURIComponent(msg)}`;
   };
+
 
   // Preload Razorpay script on component mount
   useEffect(() => {
@@ -395,12 +407,12 @@ Transaction ID: ${paymentId || "Confirmed"}`;
                           <span>₹99</span>
                         </span>
                       </div>
-                      <h2 className="text-lg font-black text-white mt-1">
+                      <h2 className="text-xl font-black text-white mt-1">
                         {isPa ? "ਮੋਬਾਈਲ ਨੰਬਰ ਦਰਜ ਕਰੋ" : "Enter WhatsApp Number"}
                       </h2>
                       <p className="text-xs text-gray-400 mt-1">
                         {isPa
-                          ? "ਭੁਗਤਾਨ ਕਰਨ ਅਤੇ WhatsApp 'ਤੇ ਜਾਣਕਾਰੀ ਪ੍ਰਾਪਤ ਕਰਨ ਲਈ:"
+                          ? "ਸੀਟ ਕਨਫਰਮੇਸ਼ਨ ਅਤੇ ਲਿੰਕ WhatsApp 'ਤੇ ਭੇਜਿਆ ਜਾਵੇਗਾ:"
                           : "We will send your masterclass seat details on WhatsApp."}
                       </p>
                     </div>
@@ -411,12 +423,12 @@ Transaction ID: ${paymentId || "Confirmed"}`;
                           {isPa ? "ਮੋਬਾਈਲ ਨੰਬਰ (WhatsApp)" : "Mobile Number (WhatsApp)"}
                         </label>
                         
-                        {/* Sleek Worldwide Country Code Input Group */}
+                        {/* Sleek Worldwide Country Code Input Group with text-base to prevent mobile auto-zoom */}
                         <div className="flex items-center rounded-xl border border-gray-700 bg-[#0a0a0a] focus-within:border-[#d4f934] transition overflow-hidden">
                           <select
                             value={countryCode}
                             onChange={(e) => setCountryCode(e.target.value)}
-                            className="w-24 shrink-0 bg-[#1a1a1a] px-2 py-3 border-r border-gray-700 text-xs font-bold text-white outline-none cursor-pointer hover:bg-gray-800 transition text-center"
+                            className="w-24 shrink-0 bg-[#1a1a1a] px-2 py-3 border-r border-gray-700 text-base sm:text-xs font-bold text-white outline-none cursor-pointer hover:bg-gray-800 transition text-center"
                           >
                             {COUNTRY_CODES.map((c, idx) => (
                               <option key={`${c.code}-${idx}`} value={c.code} className="bg-[#141414] text-white py-1">
@@ -431,7 +443,7 @@ Transaction ID: ${paymentId || "Confirmed"}`;
                             placeholder="9876543210"
                             value={mobile}
                             onChange={(e) => setMobile(e.target.value.replace(/\D/g, ""))}
-                            className="flex-1 min-w-0 bg-transparent px-3 py-3 text-sm font-bold text-white placeholder-gray-600 focus:outline-none tracking-wide"
+                            className="flex-1 min-w-0 bg-transparent px-3 py-3 text-base font-bold text-white placeholder-gray-600 focus:outline-none tracking-wide"
                             autoFocus
                           />
                         </div>
@@ -550,7 +562,7 @@ Transaction ID: ${paymentId || "Confirmed"}`;
                             placeholder={isPa ? "ਜਸਪ੍ਰੀਤ ਸਿੰਘ" : "e.g. Jaspreet Singh"}
                             value={name}
                             onChange={(e) => setName(e.target.value)}
-                            className="w-full rounded-xl border border-gray-700 bg-[#0a0a0a] pl-9 pr-3 py-2.5 text-sm font-bold text-white placeholder-gray-600 focus:border-[#d4f934] focus:outline-none transition"
+                            className="w-full rounded-xl border border-gray-700 bg-[#0a0a0a] pl-9 pr-3 py-2.5 text-base font-bold text-white placeholder-gray-600 focus:border-[#d4f934] focus:outline-none transition"
                             autoFocus
                           />
                         </div>
