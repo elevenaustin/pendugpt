@@ -84,38 +84,38 @@ function LandingPageInner() {
       <CursorGlow />
       <Navbar />
       <main>
-        {/* 01 — HERO */}
+        {/* 01 — HERO (Main Text & Start Learning Now Button) */}
         <Hero />
 
-        {/* 02 — THE ZERO EXPENSE AI FORMULA (STATS) */}
-        <Stats />
-
-        {/* 03 — THE REAL PROBLEM (Mobile-Friendly & Clean) */}
-        <TheProblem />
-
-        {/* 04 — THE TRANSFORMATION (Outcomes) */}
-        <Audience />
-
-        {/* 05 — STUDENT REVIEWS (Real WhatsApp Screenshots & Proof) */}
-        <Testimonials />
-
-        {/* 06 — WHAT YOU WILL LEARN (7-Class Practical Curriculum) */}
-        <Curriculum />
-
-        {/* 07 — THE COMPLETE SYSTEM (Google Drive Vault + Bonuses) */}
-        <Bonuses />
-
-        {/* 08 — FREQUENTLY ASKED QUESTIONS (FAQ) */}
-        <Faq />
-
-        {/* 09 — SOCIAL PROOF & FAST CHAT HIGHLIGHTS */}
+        {/* 02 — QUICK STUDENT PROOF ("ਸਭ ਤੋਂ ਪਹਿਲਾਂ ਸਾਡੇ ਵਿਦਿਆਰਥੀਆਂ ਦੀ ਗੱਲ ਸੁਣੋ / ਦੇਖੋ" + 2 WhatsApp Screenshots) */}
         <HeroTestimonialProof />
 
-        {/* 10 — THE COMPARISON SECTION (Path A vs Path B) */}
+        {/* 03 — WHAT YOU WILL LEARN (7-Class Step-by-Step Curriculum) */}
+        <Curriculum />
+
+        {/* 04 — THE ZERO-EXPENSE AI FORMULA (2x2 Stats Dashboard) */}
+        <Stats />
+
+        {/* 05 — THE REAL PROBLEM (Tutorial & Subscription Traps) */}
+        <TheProblem />
+
+        {/* 06 — THE TRANSFORMATION (Build → Create → Deploy → Sell → Earn) */}
+        <Audience />
+
+        {/* 07 — THE COMPLETE SYSTEM (Google Drive Vault + 6 Bonus Deliverables) */}
+        <Bonuses />
+
+        {/* 08 — EXTENDED STUDENT TESTIMONIALS (Akash & Student Reviews) */}
+        <Testimonials />
+
+        {/* 09 — THE COMPARISON SECTION (Path A: Reels vs Path B: Build & Earn) */}
         <TwoPathsComparison />
 
-        {/* 11 — ABOUT US / INSTRUCTOR CREDIBILITY */}
+        {/* 10 — ABOUT US / INSTRUCTOR CREDIBILITY (Khushpreet Singh) */}
         <Instructor />
+
+        {/* 11 — FREQUENTLY ASKED QUESTIONS (FAQ) */}
+        <Faq />
 
         {/* 12 — ₹999 OFFER & FINAL POWER CTA BUTTONS */}
         <Offer />

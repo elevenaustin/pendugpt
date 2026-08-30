@@ -517,57 +517,127 @@ export function HeroTestimonialProof() {
   const { openModal } = useEnrollmentModal();
 
   return (
-    <section className="py-10 sm:py-14 bg-[#080808] relative overflow-hidden">
+    <section className="py-10 sm:py-16 bg-[#080808] relative overflow-hidden border-t border-gray-800/80">
       {/* Background glow */}
       <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
         <div className="h-64 w-3/4 rounded-full bg-[#d4f934]/5 blur-[120px]" />
       </div>
 
-      <div className="mx-auto max-w-xl px-4 sm:px-6 relative">
-        <div className="text-center mb-6">
+      <div className="mx-auto max-w-5xl px-4 sm:px-6 relative">
+        <div className="text-center mb-8">
           <div className="inline-flex items-center gap-2 rounded-full bg-[#1b2207] border border-[#d4f934]/40 px-4 py-1.5 text-xs font-black text-[#d4f934] shadow-[0_0_20px_rgba(212,249,52,0.2)]">
             <span className="flex h-2 w-2 rounded-full bg-[#d4f934] animate-ping" />
-            <span>{isPa ? "PenduGPT ਨਾਲ ਪਹਿਲਾਂ ਹੀ ਸਿੱਖ ਰਹੇ ਹਨ 👇" : "Already learning with PenduGPT 👇"}</span>
+            <span>{isPa ? "ਸਭ ਤੋਂ ਪਹਿਲਾਂ ਸਾਡੇ ਵਿਦਿਆਰਥੀਆਂ ਦੀ ਗੱਲ ਸੁਣੋ / ਦੇਖੋ 👇" : "Firstly, see what our students are saying 👇"}</span>
           </div>
-          <h3 className="text-xl sm:text-2xl font-serif font-black text-white mt-2">
-            {isPa ? "ਅਸਲ ਵਿਦਿਆਰਥੀਆਂ ਦੇ ਨਤੀਜੇ ਤੇ ਰੀਵਿਊ" : "Real Student Feedback • WhatsApp Review"}
+          <h3 className="text-2xl sm:text-4xl font-serif font-black text-white mt-3 leading-tight">
+            {isPa ? (
+              <>
+                PenduGPT ਨਾਲ ਪਹਿਲਾਂ ਹੀ ਸਿੱਖ ਰਹੇ ਵਿਦਿਆਰਥੀਆਂ ਦੇ <span className="text-[#d4f934]">ਅਸਲ ਨਤੀਜੇ</span>
+              </>
+            ) : (
+              <>
+                Real Feedback from Students Already <span className="text-[#d4f934]">Building with PenduGPT</span>
+              </>
+            )}
           </h3>
+          <p className="mt-2 text-xs sm:text-sm text-gray-400 max-w-lg mx-auto">
+            {isPa
+              ? "100% ਅਸਲੀ WhatsApp ਸੁਨੇਹੇ — ਬਿਨਾਂ ਕਿਸੇ ਫੇਕ ਰਿਵਿਊ ਦੇ।"
+              : "100% authentic student chats straight from WhatsApp."}
+          </p>
         </div>
 
-        {/* Real WhatsApp Chat Screenshot Container */}
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.4 }}
-          className="rounded-3xl border-2 border-[#d4f934]/40 bg-[#0d1015] p-3 sm:p-4 shadow-[0_20px_60px_rgba(0,0,0,0.85)]"
-        >
-          {/* Screenshot Container */}
-          <div className="overflow-hidden rounded-2xl border border-gray-800/80 bg-black flex items-center justify-center">
-            <img
-              src="/whatsapp-review-1.jpg"
-              alt="Real WhatsApp Chat Review - Paras Ghai"
-              loading="eager"
-              decoding="async"
-              fetchPriority="high"
-              className="w-full h-auto max-h-[440px] object-cover rounded-xl"
-            />
-          </div>
+        {/* 2 WhatsApp Screenshots Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6">
+          {/* Review 1: Paras Ghai */}
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4 }}
+            className="rounded-3xl border-2 border-[#d4f934]/40 bg-[#0d1015] p-3.5 sm:p-4 shadow-[0_20px_60px_rgba(0,0,0,0.85)] flex flex-col justify-between"
+          >
+            {/* Top WhatsApp Header */}
+            <div className="flex items-center justify-between pb-2.5 mb-2.5 border-b border-gray-800 px-1">
+              <span className="text-xs font-bold text-white flex items-center gap-1.5">
+                <MessageCircle className="h-4 w-4 text-emerald-400" /> Paras Ghai
+              </span>
+              <span className="text-[10px] font-bold text-[#d4f934] bg-[#1b2207] px-2 py-0.5 rounded-full border border-[#d4f934]/30">
+                5 Classes Watched ✓
+              </span>
+            </div>
 
-          {/* Bottom Verification & Direct Join Action */}
-          <div className="mt-4 pt-3 border-t border-gray-800/80 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-gray-400">
-            <span className="flex items-center gap-1.5 text-emerald-400 font-semibold">
-              <CheckCircle2 className="h-4 w-4 shrink-0" /> 100% Genuine Student Message
-            </span>
-            <button
-              type="button"
-              onClick={openModal}
-              className="text-[#d4f934] font-bold hover:underline inline-flex items-center gap-1 cursor-pointer shrink-0"
-            >
-              Join 1,200+ Students for ₹999 <ArrowRight className="h-3.5 w-3.5" />
-            </button>
-          </div>
-        </motion.div>
+            {/* Screenshot Container */}
+            <div className="overflow-hidden rounded-2xl border border-gray-800/80 bg-black flex items-center justify-center">
+              <img
+                src="/whatsapp-review-1.jpg"
+                alt="Real WhatsApp Chat Review - Paras Ghai"
+                loading="eager"
+                decoding="async"
+                fetchPriority="high"
+                className="w-full h-auto max-h-[420px] object-cover rounded-xl"
+              />
+            </div>
+
+            {/* Bottom Caption */}
+            <div className="mt-3 pt-2 border-t border-gray-800/80 text-center">
+              <p className="text-xs text-gray-300 italic font-medium">
+                "Bro mein tuhadiya 5 classes dekhiya c vdiya smjandhe ho. Keep it up bro👍"
+              </p>
+            </div>
+          </motion.div>
+
+          {/* Review 2: MALHI */}
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4, delay: 0.1 }}
+            className="rounded-3xl border-2 border-[#d4f934]/40 bg-[#0d1015] p-3.5 sm:p-4 shadow-[0_20px_60px_rgba(0,0,0,0.85)] flex flex-col justify-between"
+          >
+            {/* Top WhatsApp Header */}
+            <div className="flex items-center justify-between pb-2.5 mb-2.5 border-b border-gray-800 px-1">
+              <span className="text-xs font-bold text-white flex items-center gap-1.5">
+                <MessageCircle className="h-4 w-4 text-emerald-400" /> MALHI
+              </span>
+              <span className="text-[10px] font-bold text-[#d4f934] bg-[#1b2207] px-2 py-0.5 rounded-full border border-[#d4f934]/30">
+                Verified Student ✓
+              </span>
+            </div>
+
+            {/* Screenshot Container */}
+            <div className="overflow-hidden rounded-2xl border border-gray-800/80 bg-black flex items-center justify-center">
+              <img
+                src="/whatsapp-review-2.jpg"
+                alt="Real WhatsApp Chat Review - MALHI"
+                loading="lazy"
+                decoding="async"
+                className="w-full h-auto max-h-[420px] object-cover rounded-xl"
+              />
+            </div>
+
+            {/* Bottom Caption */}
+            <div className="mt-3 pt-2 border-t border-gray-800/80 text-center">
+              <p className="text-xs text-gray-300 italic font-medium">
+                "Bamb, koka, jehr, sira👍🫡 😂❤️"
+              </p>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Bottom Verification Strip */}
+        <div className="mt-6 rounded-2xl bg-[#11141a] border border-gray-800 p-3 sm:p-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left shadow-lg">
+          <span className="flex items-center gap-1.5 text-emerald-400 font-semibold text-xs">
+            <CheckCircle2 className="h-4 w-4 shrink-0" /> 100% Genuine Unedited Student WhatsApp Messages
+          </span>
+          <button
+            type="button"
+            onClick={openModal}
+            className="text-[#d4f934] font-bold hover:underline inline-flex items-center gap-1 cursor-pointer shrink-0 text-xs"
+          >
+            Start Building with PenduGPT for ₹999 <ArrowRight className="h-3.5 w-3.5" />
+          </button>
+        </div>
       </div>
     </section>
   );

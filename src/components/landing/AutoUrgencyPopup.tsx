@@ -7,22 +7,25 @@ interface AutoUrgencyPopupProps {
 }
 
 export function AutoUrgencyPopup({ onClaim }: AutoUrgencyPopupProps) {
-  const { t } = useI18n();
+  const { lang } = useI18n();
+  const isPa = lang === "pa";
   const [isOpen, setIsOpen] = useState(false);
   const [minutes, setMinutes] = useState(4);
   const [seconds, setSeconds] = useState(55);
 
-  const strings = t.urgencyPopup || {
-    badge: "LIMITED SPOTS ALERT",
-    headlineA: "Only",
-    headlineB: "5 Seats Left",
-    headlineC: "At ₹999!",
-    description: "Complete AI Website Masterclass 80% discount offer is ending soon. Build & monetize AI websites in 7 days!",
-    timerLabel: "OFFER EXPIRES IN",
+  const strings = {
+    badge: isPa ? "ਸੀਮਤ ਸੀਟਾਂ ਦੀ ਚੇਤਾਵਨੀ" : "LIMITED SPOTS ALERT",
+    headlineA: isPa ? "ਸਿਰਫ਼" : "Only",
+    headlineB: isPa ? "5 ਸੀਟਾਂ ਬਾਕੀ" : "5 Seats Left",
+    headlineC: isPa ? "₹999 ਵਿੱਚ!" : "At ₹999!",
+    description: isPa
+      ? "ਸੰਪੂਰਨ AI ਵੈੱਬਸਾਈਟ ਮਾਸਟਰਕਲਾਸ (7 ਕਲਾਸਾਂ + ਗੂਗਲ ਡਰਾਈਵ ਫੋਲਡਰ) 80% ਛੋਟ ਆਫਰ ਜਲਦੀ ਬੰਦ ਹੋ ਰਿਹਾ ਹੈ!"
+      : "Complete AI Website Masterclass (7 Classes + Google Drive Vault) 80% discount is ending soon!",
+    timerLabel: isPa ? "ਆਫਰ ਖ਼ਤਮ ਹੋਣ ਵਿੱਚ:" : "OFFER EXPIRES IN",
     originalPrice: "₹4,999",
-    offerPrice: "₹999 ONLY",
-    claimBtn: "Claim Your ₹999 Masterclass Now",
-    guarantee: "100% Risk-Free Satisfaction Guarantee",
+    offerPrice: isPa ? "ਸਿਰਫ਼ ₹999" : "₹999 ONLY",
+    claimBtn: isPa ? "ਮਾਸਟਰਕਲਾਸ ਐਕਸੈਸ ਲਵੋ — ₹999" : "Claim Your ₹999 Masterclass Now",
+    guarantee: isPa ? "100% ਰਿਸਕ-ਫ੍ਰੀ ਸੰਤੁਸ਼ਟੀ ਗਾਰੰਟੀ" : "100% Risk-Free Satisfaction Guarantee",
   };
 
   useEffect(() => {
