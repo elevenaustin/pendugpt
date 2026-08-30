@@ -84,39 +84,41 @@ function LandingPageInner() {
       <CursorGlow />
       <Navbar />
       <main>
-        {/* 01 — HERO (Stop watching people use AI. Start building with it.) */}
+        {/* 01 — HERO */}
         <Hero />
+
+        {/* 02 — THE ZERO EXPENSE AI FORMULA (STATS) */}
         <Stats />
 
-        {/* 02 — QUICK PROOF (Students are already learning with PenduGPT / Real WhatsApp screenshot) */}
-        <HeroTestimonialProof />
-
-        {/* 03 — THE PROBLEM (AI is everywhere. But most people still don't know what to actually DO with it.) */}
+        {/* 03 — THE REAL PROBLEM (Mobile-Friendly & Clean) */}
         <TheProblem />
 
-        {/* 04 — THE TRANSFORMATION (After this Masterclass: Build → Create → Deploy → Sell → Earn) */}
+        {/* 04 — THE TRANSFORMATION (Outcomes) */}
         <Audience />
 
-        {/* 06 — COMPLETE CURRICULUM (7 classes + Capstone) */}
-        <Curriculum />
-
-        {/* 08 — WHAT YOU GET (GDrive + resources + prompts + projects + Distinct Deliverables Vault) */}
-        <Bonuses />
-
-        {/* 09 — WHO IS PENDUGPT? (Khushpreet's face + story + credibility) */}
-        <Instructor />
-
-        {/* 10 — STUDENT PROOF (WhatsApp screenshots & reviews) */}
+        {/* 05 — STUDENT REVIEWS (Real WhatsApp Screenshots & Proof) */}
         <Testimonials />
 
-        {/* 12 — ₹999 OFFER (Complete Masterclass — ₹999) */}
-        <Offer />
+        {/* 06 — WHAT YOU WILL LEARN (7-Class Practical Curriculum) */}
+        <Curriculum />
 
-        {/* 13 — FAQ */}
+        {/* 07 — THE COMPLETE SYSTEM (Google Drive Vault + Bonuses) */}
+        <Bonuses />
+
+        {/* 08 — FREQUENTLY ASKED QUESTIONS (FAQ) */}
         <Faq />
 
-        {/* 14 — FINAL CTA (Two Paths Comparison + Stop watching / Start building CTA) */}
+        {/* 09 — SOCIAL PROOF & FAST CHAT HIGHLIGHTS */}
+        <HeroTestimonialProof />
+
+        {/* 10 — THE COMPARISON SECTION (Path A vs Path B) */}
         <TwoPathsComparison />
+
+        {/* 11 — ABOUT US / INSTRUCTOR CREDIBILITY */}
+        <Instructor />
+
+        {/* 12 — ₹999 OFFER & FINAL POWER CTA BUTTONS */}
+        <Offer />
         <Showcase />
       </main>
       <Footer />

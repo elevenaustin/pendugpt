@@ -30,11 +30,11 @@ export function AutoUrgencyPopup({ onClaim }: AutoUrgencyPopupProps) {
     const hasSeen = sessionStorage.getItem("pendugpt_urgency_shown");
     if (hasSeen) return;
 
-    // Trigger popup after exactly 6 seconds of opening site
+    // Trigger popup after exactly 10 seconds of opening site
     const timer = setTimeout(() => {
       setIsOpen(true);
       sessionStorage.setItem("pendugpt_urgency_shown", "true");
-    }, 6000);
+    }, 10000);
 
     return () => clearTimeout(timer);
   }, []);

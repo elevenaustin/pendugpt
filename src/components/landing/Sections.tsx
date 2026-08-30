@@ -86,13 +86,13 @@ export function Hero() {
       </div>
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
-        {/* Launch Discount Badge — Ultra-Sleek Dual Pill */}
+        {/* Launch Discount Badge — Dual Pill (Desktop & Tablets only, hidden on mobile) */}
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
           onClick={openModal}
-          className="group inline-flex items-center gap-2.5 rounded-full bg-[#0d1015]/95 border border-[#d4f934]/50 p-1 pr-4 text-xs font-semibold text-gray-200 shadow-[0_0_30px_rgba(212,249,52,0.22)] backdrop-blur-xl mb-6 cursor-pointer hover:border-[#d4f934] hover:shadow-[0_0_40px_rgba(212,249,52,0.4)] transition-all duration-300 transform-gpu hover:scale-[1.02]"
+          className="hidden sm:inline-flex group items-center gap-2.5 rounded-full bg-[#0d1015]/95 border border-[#d4f934]/50 p-1 pr-4 text-xs font-semibold text-gray-200 shadow-[0_0_30px_rgba(212,249,52,0.22)] backdrop-blur-xl mb-6 cursor-pointer hover:border-[#d4f934] hover:shadow-[0_0_40px_rgba(212,249,52,0.4)] transition-all duration-300 transform-gpu hover:scale-[1.02]"
         >
           {/* Inner Highlight Pill */}
           <div className="inline-flex items-center gap-1.5 rounded-full bg-[#d4f934] px-3 py-1 text-[11px] font-black text-black shadow-sm">
@@ -623,7 +623,7 @@ export function TheProblem() {
           }
         />
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 sm:gap-6 mt-6 sm:mt-12">
           {problems.map((p, idx) => (
             <motion.div
               key={idx}
@@ -631,27 +631,27 @@ export function TheProblem() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.35, delay: idx * 0.08 }}
-              className="rounded-3xl border border-red-900/30 bg-gradient-to-b from-[#140a0a] via-[#0d0707] to-[#070404] p-6 sm:p-7 flex flex-col justify-between shadow-[0_0_25px_rgba(239,68,68,0.06)]"
+              className="rounded-2xl sm:rounded-3xl border border-red-900/30 bg-gradient-to-b from-[#140a0a] via-[#0d0707] to-[#070404] p-4 sm:p-7 flex flex-col justify-between shadow-[0_0_25px_rgba(239,68,68,0.06)]"
             >
               <div>
-                <div className="flex items-center justify-between mb-4">
-                  <span className="rounded-full bg-red-500/15 border border-red-500/30 px-3 py-0.5 text-[10px] font-black uppercase text-red-400">
+                <div className="flex items-center justify-between mb-3 sm:mb-4">
+                  <span className="rounded-full bg-red-500/15 border border-red-500/30 px-2.5 sm:px-3 py-0.5 text-[9px] sm:text-[10px] font-black uppercase text-red-400">
                     {p.tag}
                   </span>
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-red-950/60 border border-red-500/30">
+                  <div className="flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-xl bg-red-950/60 border border-red-500/30">
                     {p.icon}
                   </div>
                 </div>
 
-                <h3 className="text-lg font-bold text-gray-100 leading-snug">
+                <h3 className="text-base sm:text-lg font-bold text-gray-100 leading-snug">
                   {p.title}
                 </h3>
-                <p className="mt-2.5 text-xs sm:text-[13px] text-gray-400 leading-relaxed">
+                <p className="mt-1.5 sm:mt-2.5 text-xs sm:text-[13px] text-gray-400 leading-relaxed">
                   {p.desc}
                 </p>
               </div>
 
-              <div className="mt-6 pt-3 border-t border-red-900/30 text-[11px] text-red-400 font-semibold flex items-center gap-1.5">
+              <div className="mt-4 sm:mt-6 pt-2.5 sm:pt-3 border-t border-red-900/30 text-[10px] sm:text-[11px] text-red-400 font-semibold flex items-center gap-1.5">
                 <span>🚫 Broken Old Approach</span>
               </div>
             </motion.div>
@@ -737,7 +737,7 @@ export function Audience() {
           }
         />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-6 mt-6 sm:mt-12">
           {outcomes.map((item, idx) => (
             <motion.div
               key={idx}
@@ -745,15 +745,15 @@ export function Audience() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: idx * 0.07 }}
-              className="glass-card rounded-2xl p-6 border border-gray-800/80 hover:border-[#d4f934]/40 bg-gradient-to-b from-[#121212] to-[#0a0a0a] transition-all hover:-translate-y-1 group"
+              className="glass-card rounded-2xl p-4 sm:p-6 border border-gray-800/80 hover:border-[#d4f934]/40 bg-gradient-to-b from-[#121212] to-[#0a0a0a] transition-all hover:-translate-y-1 group"
             >
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#d4f934]/10 border border-[#d4f934]/20 mb-5 group-hover:scale-110 transition-transform">
+              <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-xl bg-[#d4f934]/10 border border-[#d4f934]/20 mb-3 sm:mb-5 group-hover:scale-110 transition-transform">
                 {item.icon}
               </div>
-              <h3 className="text-lg font-extrabold text-white group-hover:text-[#d4f934] transition-colors">
+              <h3 className="text-base sm:text-lg font-extrabold text-white group-hover:text-[#d4f934] transition-colors">
                 {item.title}
               </h3>
-              <p className="mt-2 text-xs sm:text-sm text-gray-400 leading-relaxed">{item.desc}</p>
+              <p className="mt-1.5 sm:mt-2 text-xs sm:text-sm text-gray-400 leading-relaxed">{item.desc}</p>
             </motion.div>
           ))}
 
