@@ -193,8 +193,57 @@ Please confirm my masterclass enrollment and grant full access to the resources 
       prefill: {
         contact: `${countryCode}${mobileNum}`,
       },
+      notes: {
+        course: "PenduGPT AI Website Masterclass (₹999 Lifetime)",
+        mobile: `${countryCode} ${mobileNum}`,
+      },
       theme: {
         color: "#d4f934",
+        backdrop_color: "rgba(0, 0, 0, 0.85)",
+      },
+      send_sms_hash: true,
+      remember_customer: false,
+      retry: {
+        enabled: true,
+        max_count: 4,
+      },
+      config: {
+        display: {
+          blocks: {
+            upi: {
+              name: "Instant UPI & QR (PhonePe / GPay / Paytm / BHIM)",
+              instruments: [
+                {
+                  method: "upi",
+                  flows: ["intent", "qr", "collect"],
+                  apps: ["phonepe", "google_pay", "paytm", "bhim", "cred"],
+                },
+              ],
+            },
+            cards_and_more: {
+              name: "Cards, Net Banking & Wallets",
+              instruments: [
+                { method: "card" },
+                { method: "netbanking" },
+                { method: "wallet" },
+              ],
+            },
+          },
+          sequence: ["block.upi", "block.cards_and_more"],
+          preferences: {
+            show_default_blocks: true,
+          },
+        },
+      },
+      modal: {
+        confirm_close: true,
+        backdropclose: false,
+        escape: true,
+        handleback: true,
+        ondismiss: function () {
+          setIsProcessing(false);
+          setStep("failed");
+        },
       },
       handler: async function (response: any) {
         // Payment Success!
@@ -234,12 +283,6 @@ Please confirm my masterclass enrollment and grant full access to the resources 
             });
           } catch (e) {}
         }
-      },
-      modal: {
-        ondismiss: function () {
-          setIsProcessing(false);
-          setStep("failed");
-        },
       },
     };
 

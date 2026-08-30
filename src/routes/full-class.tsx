@@ -153,6 +153,50 @@ Please grant my full masterclass access and add me to the VIP community group!`;
       },
       theme: {
         color: "#d4f934",
+        backdrop_color: "rgba(0, 0, 0, 0.85)",
+      },
+      send_sms_hash: true,
+      remember_customer: false,
+      retry: {
+        enabled: true,
+        max_count: 4,
+      },
+      config: {
+        display: {
+          blocks: {
+            upi: {
+              name: "Instant UPI & QR (PhonePe / GPay / Paytm / BHIM)",
+              instruments: [
+                {
+                  method: "upi",
+                  flows: ["intent", "qr", "collect"],
+                  apps: ["phonepe", "google_pay", "paytm", "bhim", "cred"],
+                },
+              ],
+            },
+            cards_and_more: {
+              name: "Cards, Net Banking & Wallets",
+              instruments: [
+                { method: "card" },
+                { method: "netbanking" },
+                { method: "wallet" },
+              ],
+            },
+          },
+          sequence: ["block.upi", "block.cards_and_more"],
+          preferences: {
+            show_default_blocks: true,
+          },
+        },
+      },
+      modal: {
+        confirm_close: true,
+        backdropclose: false,
+        escape: true,
+        handleback: true,
+        ondismiss: function () {
+          setIsProcessing(false);
+        },
       },
       handler: async function (response: any) {
         const rzpPaymentId = response.razorpay_payment_id || `pay_full_${Math.random().toString(36).substr(2, 9)}`;
