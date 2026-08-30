@@ -102,18 +102,18 @@ export function EnrollmentProvider({ children }: { children: React.ReactNode }) 
       timeZone: "Asia/Kolkata",
     });
 
-    const msg = `🎉 *PenduGPT AI Demo Class - Payment Successful* 🎉
+    const msg = `🎉 *PenduGPT AI Website Full Masterclass - Payment Successful* 🎉
 
 👤 *Customer Name:* ${name || "Student"}
 📱 *WhatsApp Number:* ${countryCode} ${mobile}
 👨‍👩‍👧 *Gender:* ${gender || "N/A"}
 💻 *Laptop/PC:* ${hasLaptop || "N/A"}
-💳 *Amount Paid:* ₹99
+💳 *Amount Paid:* ₹999
 🆔 *Transaction ID:* ${paymentId || "Confirmed"}
 📅 *Transaction Date & Time:* ${timeStr}
-📚 *Course:* 31m 55s Live AI Demo Class
+📚 *Course:* Complete AI Website Masterclass (7 Classes + Final Capstone + Drive Folder + Prompts)
 
-Please confirm my seat reservation and share the live session link!`;
+Please confirm my masterclass enrollment and grant full access to the resources & VIP community!`;
 
     return `https://wa.me/${supportWhatsapp}?text=${encodeURIComponent(msg)}`;
   };
@@ -185,10 +185,10 @@ Please confirm my seat reservation and share the live session link!`;
 
     const options = {
       key: razorpayKey,
-      amount: 9900, // ₹99 in paise
+      amount: 99900, // ₹999 in paise
       currency: "INR",
-      name: "PenduGPT AI Demo Class",
-      description: "Live AI Demo Class Seat Reservation (₹99)",
+      name: "PenduGPT AI Full Masterclass",
+      description: "Complete AI Web Building Masterclass + Resources (₹999)",
       image: "/favicon.svg",
       prefill: {
         contact: `${countryCode}${mobileNum}`,
@@ -227,7 +227,8 @@ Please confirm my seat reservation and share the live session link!`;
                 date: new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }),
                 payment_id: rzpPaymentId,
                 whatsapp: `${countryCode} ${mobileNum}`,
-                amount: "₹99",
+                amount: "₹999",
+                course: "PenduGPT Full Masterclass",
                 status: "Razorpay Payment Captured",
               }),
             });
@@ -304,7 +305,7 @@ Please confirm my seat reservation and share the live session link!`;
       whatsapp: fullMobile,
       gender: gender,
       has_laptop: laptopStatus,
-      amount: "₹99",
+      amount: "₹999",
       status: "Paid & Confirmed",
     };
 
@@ -318,7 +319,7 @@ Please confirm my seat reservation and share the live session link!`;
         gender,
         hasLaptop: laptopStatus,
         date: formattedDate,
-        amount: "₹99",
+        amount: "₹999",
         status: "Paid",
       };
       const existing = JSON.parse(localStorage.getItem("pendugpt_leads") || "[]");
@@ -390,7 +391,7 @@ Please confirm my seat reservation and share the live session link!`;
                         {isPa ? "Razorpay ਪੇਮੈਂਟ ਖੁੱਲ੍ਹ ਰਹੀ ਹੈ..." : "Opening Razorpay Checkout..."}
                       </h3>
                       <p className="text-xs text-gray-400 mt-0.5">
-                        {isPa ? "ਕਿਰਪਾ ਕਰਕੇ ₹99 ਦਾ ਭੁਗਤਾਨ ਪੂਰਾ ਕਰੋ" : "Complete ₹99 payment in Razorpay popup..."}
+                        {isPa ? "ਕਿਰਪਾ ਕਰਕੇ ₹999 ਦਾ ਭੁਗਤਾਨ ਪੂਰਾ ਕਰੋ" : "Complete ₹999 payment in Razorpay popup..."}
                       </p>
                     </div>
                   </div>
@@ -400,11 +401,11 @@ Please confirm my seat reservation and share the live session link!`;
                     <div className="mb-5">
                       <div className="flex items-center gap-2 mb-1">
                         <span className="text-[10px] font-extrabold uppercase tracking-widest text-[#d4f934]">
-                          {isPa ? "ਲਾਈਵ ਡੈਮੋ ਕਲਾਸ" : "Live Demo Class"}
+                          {isPa ? "AI ਮਾਸਟਰਕਲਾਸ" : "Full AI Masterclass"}
                         </span>
                         <span className="inline-flex items-center gap-1 rounded-full bg-[#d4f934]/15 border border-[#d4f934]/40 px-2 py-0.5 text-[10px] font-extrabold text-[#d4f934]">
-                          <span className="line-through decoration-red-600 decoration-2 text-gray-400 font-bold">₹1,000</span>
-                          <span>₹99</span>
+                          <span className="line-through decoration-red-600 decoration-2 text-gray-400 font-bold">₹4,999</span>
+                          <span>₹999</span>
                         </span>
                       </div>
                       <h2 className="text-xl font-black text-white mt-1">
@@ -412,8 +413,8 @@ Please confirm my seat reservation and share the live session link!`;
                       </h2>
                       <p className="text-xs text-gray-400 mt-1">
                         {isPa
-                          ? "ਸੀਟ ਕਨਫਰਮੇਸ਼ਨ ਅਤੇ ਲਿੰਕ WhatsApp 'ਤੇ ਭੇਜਿਆ ਜਾਵੇਗਾ:"
-                          : "We will send your masterclass seat details on WhatsApp."}
+                          ? "ਮਾਸਟਰਕਲਾਸ ਐਕਸੈਸ ਅਤੇ Google Drive ਲਿੰਕ WhatsApp 'ਤੇ ਭੇਜਿਆ ਜਾਵੇਗਾ:"
+                          : "We will send your masterclass folder & access details on WhatsApp."}
                       </p>
                     </div>
 
@@ -454,7 +455,7 @@ Please confirm my seat reservation and share the live session link!`;
                         type="submit"
                         className="w-full flex items-center justify-center gap-2 rounded-xl py-3.5 px-4 text-sm font-black text-black bg-[#d4f934] hover:bg-[#c2e828] transition cursor-pointer shadow-md"
                       >
-                        <span>{isPa ? "ਪੇਮੈਂਟ ਲਈ ਅੱਗੇ ਵਧੋ (₹99) →" : "Proceed to Pay ₹99 →"}</span>
+                        <span>{isPa ? "ਪੇਮੈਂਟ ਲਈ ਅੱਗੇ ਵਧੋ (₹999) →" : "Proceed to Pay ₹999 →"}</span>
                       </button>
 
                       <div className="flex items-center justify-center gap-1.5 text-[11px] text-gray-400 pt-1">
@@ -483,8 +484,8 @@ Please confirm my seat reservation and share the live session link!`;
                   </h3>
                   <p className="text-xs text-gray-300 mt-1">
                     {isPa
-                      ? "ਤੁਹਾਡਾ ₹99 ਦਾ ਭੁਗਤਾਨ ਪੂਰਾ ਨਹੀਂ ਹੋਇਆ। ਘਬਰਾਓ ਨਾ, ਤੁਹਾਡੀ ਸੀਟ ਅਜੇ ਸੁਰੱਖਿਅਤ ਹੈ।"
-                      : "Your seat reservation payment of ₹99 was not completed."}
+                      ? "ਤੁਹਾਡਾ ₹999 ਦਾ ਭੁਗਤਾਨ ਪੂਰਾ ਨਹੀਂ ਹੋਇਆ। ਘਬਰਾਓ ਨਾ, ਤੁਹਾਡੀ ਸੀਟ ਅਜੇ ਸੁਰੱਖਿਅਤ ਹੈ।"
+                      : "Your masterclass enrollment payment of ₹999 was not completed."}
                   </p>
                 </div>
 
@@ -505,7 +506,7 @@ Please confirm my seat reservation and share the live session link!`;
                     className="w-full flex items-center justify-center gap-2 rounded-xl py-3.5 px-4 text-sm font-black text-black bg-[#d4f934] hover:bg-[#c2e828] transition cursor-pointer shadow-lg"
                   >
                     <RefreshCw className="h-4 w-4" />
-                    <span>{isPa ? "ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ (Retry Pay ₹99) 🔄" : "Retry Payment ₹99 🔄"}</span>
+                    <span>{isPa ? "ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ (Retry Pay ₹999) 🔄" : "Retry Payment ₹999 🔄"}</span>
                   </button>
 
                   <button
@@ -530,7 +531,7 @@ Please confirm my seat reservation and share the live session link!`;
                         {isPa ? "ਸੀਟ ਕਨਫਰਮ ਹੋ ਰਹੀ ਹੈ..." : "Saving Your Registration..."}
                       </h3>
                       <p className="text-xs text-gray-400 mt-0.5">
-                        {isPa ? "Google Sheet 'ਚ ਐਂਟਰੀ ਦਰਜ ਹੋ ਰਹੀ ਹੈ..." : "Updating Google Sheet & issuing ticket..."}
+                        {isPa ? "Google Sheet 'ਚ ਐਂਟਰੀ ਦਰਜ ਹੋ ਰਹੀ ਹੈ..." : "Updating Google Sheet & issuing access..."}
                       </p>
                     </div>
                   </div>
@@ -539,13 +540,13 @@ Please confirm my seat reservation and share the live session link!`;
                     <div className="mb-4">
                       <div className="inline-flex items-center gap-1.5 rounded-full bg-green-950/80 border border-green-500/50 px-2.5 py-0.5 text-[11px] font-bold text-green-400 mb-2">
                         <CheckCircle2 className="h-3.5 w-3.5" />
-                        <span>{isPa ? "ਭੁਗਤਾਨ ਸਫਲ ਰਿਹਾ (₹99 Received)" : "Payment Successful (₹99 Received)"}</span>
+                        <span>{isPa ? "ਭੁਗਤਾਨ ਸਫਲ ਰਿਹਾ (₹999 Received)" : "Payment Successful (₹999 Received)"}</span>
                       </div>
                       <h2 className="text-lg font-black text-white">
                         {isPa ? "ਆਪਣਾ ਵੇਰਵਾ ਭਰੋ" : "Complete Your Profile"}
                       </h2>
                       <p className="text-xs text-gray-400 mt-1">
-                        {isPa ? "ਸੀਟ ਟਿਕਟ ਜਾਰੀ ਕਰਨ ਲਈ ਆਪਣਾ ਨਾਮ ਅਤੇ ਲਿੰਗ ਚੁਣੋ:" : "Enter your name and details to issue your demo class ticket:"}
+                        {isPa ? "ਮਾਸਟਰਕਲਾਸ ਐਕਸੈਸ ਜਾਰੀ ਕਰਨ ਲਈ ਆਪਣਾ ਨਾਮ ਅਤੇ ਲਿੰਗ ਚੁਣੋ:" : "Enter your name and details to issue your masterclass access:"}
                       </p>
                     </div>
 
@@ -633,7 +634,7 @@ Please confirm my seat reservation and share the live session link!`;
                           </button>
                         </div>
                         <p className="text-[10px] text-gray-400 mt-1.5 leading-tight">
-                          💡 A Laptop or PC is recommended for the best hands-on practice experience during the live masterclass.
+                          💡 A Laptop or PC is recommended for hands-on website building and customization.
                         </p>
                       </div>
 
@@ -641,7 +642,7 @@ Please confirm my seat reservation and share the live session link!`;
                         type="submit"
                         className="w-full flex items-center justify-center gap-2 rounded-xl py-3 px-4 text-sm font-black text-black bg-[#d4f934] hover:bg-[#c2e828] transition cursor-pointer shadow-md mt-2"
                       >
-                        <span>{isPa ? "ਸੀਟ ਪੱਕੀ ਕਰੋ 🎉" : "Submit Details & Complete Booking 🎉"}</span>
+                        <span>{isPa ? "ਐਕਸੈਸ ਪ੍ਰਾਪਤ ਕਰੋ 🎉" : "Submit Details & Complete Enrollment 🎉"}</span>
                       </button>
                     </form>
                   </div>
@@ -658,12 +659,12 @@ Please confirm my seat reservation and share the live session link!`;
 
                 <div>
                   <h3 className="text-lg font-black text-white">
-                    {isPa ? "ਸੀਟ ਸਫਲਤਾਪੂਰਵਕ ਬੁੱਕ ਹੋ ਗਈ! 🎉" : "Your Seat is Confirmed! 🎉"}
+                    {isPa ? "ਐਨਰੋਲਮੈਂਟ ਸਫਲ ਰਹੀ! 🎉" : "Enrollment Confirmed! 🎉"}
                   </h3>
                   <p className="text-xs text-gray-300 mt-1 font-medium">
                     {isPa
-                      ? `ਧੰਨਵਾਦ ${name}! WhatsApp ਖੁੱਲ੍ਹ ਰਿਹਾ ਹੈ...`
-                      : `Thank you ${name}! Opening WhatsApp automatically with your details...`}
+                      ? `ਧੰਨਵਾਦ ${name}! Masterclass WhatsApp ਗਰੁੱਪ ਖੁੱਲ੍ਹ ਰਿਹਾ ਹੈ...`
+                      : `Thank you ${name}! Opening WhatsApp with your Google Drive & Masterclass link...`}
                   </p>
                 </div>
 
@@ -685,7 +686,7 @@ Please confirm my seat reservation and share the live session link!`;
                   className="w-full flex items-center justify-center gap-2.5 rounded-xl py-3.5 px-4 text-xs sm:text-sm font-black text-white bg-[#25D366] hover:bg-[#20bd5a] transition cursor-pointer shadow-[0_0_25px_rgba(37,211,102,0.45)] animate-pulse"
                 >
                   <MessageCircle className="h-5 w-5 text-white fill-white shrink-0" />
-                  <span>{isPa ? "WhatsApp 'ਤੇ ਮੈਸੇਜ ਭੇਜੋ ਅਤੇ ਲਿੰਕ ਲਵੋ 💬" : "Get Community Link on WhatsApp 💬"}</span>
+                  <span>{isPa ? "Masterclass Drive ਲਿੰਕ ਲਵੋ 💬" : "Get Masterclass Drive Link on WhatsApp 💬"}</span>
                   <ExternalLink className="h-3.5 w-3.5 ml-0.5 text-white/80" />
                 </a>
 
@@ -719,7 +720,7 @@ Please confirm my seat reservation and share the live session link!`;
                   </div>
                   <div className="flex justify-between pt-0.5">
                     <span className="text-gray-400">Payment Status:</span>
-                    <span className="text-green-400 font-bold uppercase">Paid (₹99) ✔</span>
+                    <span className="text-green-400 font-bold uppercase">Paid (₹999) ✔</span>
                   </div>
                 </div>
 

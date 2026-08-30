@@ -22,7 +22,7 @@ function TermsPage() {
             <FileText className="h-8 w-8 text-[#d4f934]" />
             <div>
               <h1 className="text-2xl sm:text-4xl font-extrabold text-white">Terms & Conditions</h1>
-              <p className="text-xs text-gray-400 mt-1">Last Updated: July 2026 · PenduGPT (Proprietorship / Khushpreet Singh)</p>
+              <p className="text-xs text-gray-400 mt-1">Last Updated: August 2026 · PenduGPT (Proprietorship / Khushpreet Singh)</p>
             </div>
           </div>
 
@@ -30,31 +30,31 @@ function TermsPage() {
             <section>
               <h2 className="text-base font-bold text-white mb-2">1. Agreement to Terms</h2>
               <p>
-                Welcome to PenduGPT ("Platform", "We", "Us", or "Our"), operated by <strong>Khushpreet Singh</strong> (Sole Proprietor, located in Sangrur, Punjab, India - 148001). By enrolling in, purchasing, or accessing the PenduGPT Live AI Masterclass and associated digital bundles ("Services"), you agree to comply with and be bound by these Terms and Conditions. If you disagree with any part of these terms, please do not access or use our Service.
+                Welcome to PenduGPT ("Platform", "We", "Us", or "Our"), operated by <strong>Khushpreet Singh</strong> (Sole Proprietor, located in Sangrur, Punjab, India - 148001). By enrolling in, purchasing, or accessing the PenduGPT Complete AI Website Masterclass and associated Google Drive digital repository ("Services"), you agree to comply with and be bound by these Terms and Conditions. If you disagree with any part of these terms, please do not access or use our Service.
               </p>
             </section>
 
             <section>
               <h2 className="text-base font-bold text-white mb-2">2. Services & Digital Deliverables</h2>
               <p>
-                PenduGPT provides digital educational training in AI-assisted website development, prompt engineering, and online freelancing strategies. Enrollment includes access to live online sessions, downloadable prompt repositories, client proposal scripts, invoice templates, and community discussion groups.
+                PenduGPT provides digital educational training in AI-assisted website development, prompt engineering, code customization, domain deployment, and online freelancing client acquisition. Enrollment includes full lifetime access to 7 practical HD class recordings, 1 Final Capstone project, 100+ tested AI website prompt templates, full source code repositories, client handover contracts, and student support.
               </p>
             </section>
 
             <section className="bg-[#0c0c0c] border border-gray-800 p-5 rounded-2xl">
               <h2 className="text-base font-bold text-[#d4f934] mb-2">3. Pricing, Payments & Currency</h2>
               <p className="text-gray-200">
-                All prices for our courses and digital bundles are displayed in <strong>Indian Rupees (INR - ₹)</strong>. Enrollment fees (e.g. ₹99 special offer) are inclusive of applicable taxes. Payments are processed securely using PCI-DSS compliant third-party payment gateways (Razorpay). You agree to provide current, complete, and accurate purchase information.
+                All prices for our masterclass and digital bundles are displayed in <strong>Indian Rupees (INR - ₹)</strong>. The standard lifetime enrollment fee is <strong>₹999 (slashed from regular price ₹4,999)</strong> inclusive of applicable taxes. Payments are processed securely using PCI-DSS compliant third-party payment gateways (Razorpay). You agree to provide current, complete, and accurate purchase information.
               </p>
             </section>
 
             <section>
               <h2 className="text-base font-bold text-white mb-2">4. Digital Product Non-Refundable & Refund Policy</h2>
               <p>
-                Because enrollment triggers instant electronic access to downloadable digital assets worth ₹75,000+ and live event seat allocation, digital purchases are generally non-refundable once delivered.
+                Because enrollment triggers instant electronic access to our Google Drive course folder, proprietary 100+ prompt vaults, and downloadable project starter repositories, digital purchases are non-refundable once delivered.
               </p>
               <p className="mt-2">
-                In eligible refund scenarios (duplicate payment or technical non-delivery), approved refunds will be processed within 5-7 business days back to the original payment method as detailed in our <a href="/refund" className="text-[#d4f934] underline font-semibold">Refund Policy</a>.
+                In eligible refund scenarios (such as duplicate transactions or technical non-delivery), approved refunds will be processed within 5-7 business days back to the original payment method as detailed in our <a href="/refund" className="text-[#d4f934] underline font-semibold">Refund Policy</a>.
               </p>
             </section>
 

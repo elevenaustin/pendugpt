@@ -83,22 +83,22 @@ export function PurchaseToast() {
               <ShieldCheck className="h-6 w-6 text-[#d4f934]" />
             </div>
 
-            {/* Notification Details (Includes ₹99 Amount & Verified Status) */}
-            <div className="flex-1 pr-4">
-              <h4 className="text-xs sm:text-sm font-extrabold text-white leading-tight">
-                {item.name} from {item.location}
-              </h4>
+              {/* Notification Details (Includes ₹999 Amount & Verified Status) */}
+              <div className="flex-1 pr-4">
+                <h4 className="text-xs sm:text-sm font-extrabold text-white leading-tight">
+                  {item.name} from {item.location}
+                </h4>
 
-              <div className="flex items-center gap-1.5 text-xs text-gray-300 font-medium mt-0.5">
-                <span className="text-white font-bold">₹99 Paid</span>
-                <span>•</span>
-                <span className="text-[#d4f934] font-bold">{isPa ? "ਪੇਮੈਂਟ ਵੈਰੀਫਾਈਡ ✓" : "Payment Verified ✓"}</span>
+                <div className="flex items-center gap-1.5 text-xs text-gray-300 font-medium mt-0.5">
+                  <span className="text-white font-bold">₹999 Paid</span>
+                  <span>•</span>
+                  <span className="text-[#d4f934] font-bold">{isPa ? "ਮਾਸਟਰਕਲਾਸ ਐਕਸੈਸ ✓" : "Masterclass Access ✓"}</span>
+                </div>
+
+                <p className="text-[10px] text-gray-400 font-medium mt-0.5">
+                  {isPa ? "ਗੂਗਲ ਡਰਾਈਵ ਐਕਸੈਸ ਜਾਰੀ" : "Drive Folder Access Issued"} · {item.timeAgo}
+                </p>
               </div>
-
-              <p className="text-[10px] text-gray-400 font-medium mt-0.5">
-                {isPa ? "ਤੁਰੰਤ ਐਕਸੈਸ ਕਨਫਰਮ ਹੋ ਗਿਆ" : "Seat Confirmed"} · {item.timeAgo}
-              </p>
-            </div>
 
             {/* Close Button */}
             <button

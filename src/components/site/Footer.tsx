@@ -23,9 +23,9 @@ export function Footer() {
           <h4 className="text-xs font-bold uppercase tracking-wider text-white">Quick Links</h4>
           <ul className="mt-3 flex flex-col gap-2 text-xs text-gray-400">
             <li><a href="/" className="hover:text-[#d4f934]">Home</a></li>
-            <li><a href="/#curriculum" className="hover:text-[#d4f934]">Curriculum</a></li>
-            <li><a href="/#demo" className="hover:text-[#d4f934]">Live Demo</a></li>
-            <li><a href="/#testimonials" className="hover:text-[#d4f934]">Reviews</a></li>
+            <li><a href="/#curriculum" className="hover:text-[#d4f934]">Class Syllabus</a></li>
+            <li><a href="/#included" className="hover:text-[#d4f934]">What's Included</a></li>
+            <li><a href="/#proof" className="hover:text-[#d4f934]">Student Proof</a></li>
             <li><a href="/#faq" className="hover:text-[#d4f934]">FAQ</a></li>
             <li><a href="/contact" className="hover:text-[#d4f934]">Contact Us</a></li>
           </ul>

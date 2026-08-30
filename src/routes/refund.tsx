@@ -22,7 +22,7 @@ function RefundPage() {
             <RefreshCw className="h-8 w-8 text-[#d4f934]" />
             <div>
               <h1 className="text-2xl sm:text-4xl font-extrabold text-white">Refund & Return Policy</h1>
-              <p className="text-xs text-gray-400 mt-1">Last Updated: July 2026 · PenduGPT (Proprietorship / Khushpreet Singh)</p>
+              <p className="text-xs text-gray-400 mt-1">Last Updated: August 2026 · PenduGPT (Proprietorship / Khushpreet Singh)</p>
             </div>
           </div>
 
@@ -42,10 +42,10 @@ function RefundPage() {
             <section>
               <h2 className="text-base font-bold text-white mb-2">1. Nature of Digital Products & Deliverables</h2>
               <p>
-                PenduGPT provides immediate digital enrollment for ₹99, granting students instant access to live AI masterclass seat reservations, downloadable AI prompt vaults (50+ prompts), client outreach proposal templates, freelancing invoice kits, and launch checklists (valued at ₹75,000+).
+                PenduGPT provides immediate digital enrollment for <strong>₹999 (slashed from regular price ₹4,999)</strong>, granting students instant lifetime access to the complete Google Drive course folder, 7 practical HD classes, 1 Final Capstone project, 100+ tested AI website prompt templates, all source code starter kits, and client outreach handover kits.
               </p>
               <p className="mt-2 text-gray-300">
-                Because digital downloads, proprietary templates, and live access links are non-returnable upon instant delivery, general change-of-mind refund requests after downloading materials or joining live sessions are not accepted.
+                Because digital downloads, Google Drive shared folders, and proprietary developer templates are non-returnable upon instant electronic delivery, change-of-mind refund requests after accessing or downloading the course materials are not accepted.
               </p>
             </section>
 
@@ -55,9 +55,9 @@ function RefundPage() {
                 We prioritize customer satisfaction and trust. Refunds are guaranteed under the following conditions:
               </p>
               <ul className="mt-3 flex flex-col gap-2 pl-4 text-gray-300 list-disc">
-                <li><strong>Duplicate Transactions:</strong> If your bank account was debited multiple times for the same order due to a network glitch.</li>
-                <li><strong>Payment Debited But Access Not Granted:</strong> If payment was debited but our system failed to deliver enrollment access, and our technical support team is unable to resolve your access within 48 hours of reporting.</li>
-                <li><strong>Event Cancellation by PenduGPT:</strong> In the rare event that a live session is canceled by PenduGPT without a rescheduled date or recording alternative.</li>
+                <li><strong>Duplicate Transactions:</strong> If your bank account or UPI was debited multiple times for the same order due to a network glitch.</li>
+                <li><strong>Payment Debited But Access Not Granted:</strong> If payment was successfully debited but our system failed to deliver masterclass folder access on WhatsApp/email, and our technical support team is unable to resolve your access within 48 hours of reporting.</li>
+                <li><strong>Service Non-Delivery:</strong> In the event that course materials cannot be delivered or accessed due to an irremediable technical failure on our platform.</li>
               </ul>
             </section>
 

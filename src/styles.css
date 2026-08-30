@@ -112,19 +112,30 @@
     background: #d4f934;
     color: #000000;
   }
+  img {
+    content-visibility: auto;
+  }
 }
 
 @utility glass {
   background: var(--glass);
   border: 1px solid var(--glass-border);
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 @utility glass-card {
-  background: rgba(18, 18, 18, 0.75);
+  background: rgba(18, 18, 18, 0.85);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+@media (max-width: 768px) {
+  .glass-card {
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
 }
 
 @keyframes cta-pulse-glow {
@@ -326,5 +337,22 @@ html {
   }
 }
 
+/* Infinite horizontal review marquee (Right to Left) */
+@keyframes marquee-left {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
 
+.animate-marquee-left {
+  display: flex;
+  width: max-content;
+  animation: marquee-left 32s linear infinite;
+}
 
+.animate-marquee-left:hover {
+  animation-play-state: paused;
+}

@@ -53,16 +53,16 @@ export function Navbar() {
         className="w-full bg-[#d4f934] text-black py-1.5 px-3 text-center text-[11px] sm:text-xs font-black tracking-tight border-b border-black/10 shadow-md flex items-center justify-center gap-2 cursor-pointer hover:bg-[#c6ec22] transition-colors select-none"
       >
         <span className="inline-flex items-center gap-1 rounded-full bg-black px-2 py-0.5 text-[10px] font-black uppercase tracking-wider text-[#d4f934]">
-          🔥 {lang === "pa" ? "ਡੈਮੋ ਆਫਰ" : "DEMO SALE"}
+          🔥 {lang === "pa" ? "ਮਾਸਟਰਕਲਾਸ ਆਫਰ" : "MASTERCLASS OFFER"}
         </span>
         <span className="font-extrabold truncate">
           {lang === "pa" ? (
             <>
-              31 ਮਿੰਟ 55 ਸੈਕਿੰਡ ਡੈਮੋ ਕਲਾਸ — <span className="line-through decoration-red-600 decoration-2 text-black/80 font-bold">₹1,000</span> <span className="font-black text-black">₹99</span>
+              ਸੰਪੂਰਨ AI ਵੈੱਬਸਾਈਟ ਮਾਸਟਰਕਲਾਸ — <span className="line-through decoration-red-600 decoration-2 text-black/80 font-bold">₹4,999</span> <span className="font-black text-black">₹999</span> (80% ਛੋਟ)
             </>
           ) : (
             <>
-              31m 55s AI Demo Class — <span className="line-through decoration-red-600 decoration-2 text-black/80 font-bold">₹1,000</span> <span className="font-black text-black">₹99</span>
+              Complete AI Website Masterclass — <span className="line-through decoration-red-600 decoration-2 text-black/80 font-bold">₹4,999</span> <span className="font-black text-black">₹999</span> (80% OFF)
             </>
           )}
         </span>
@@ -76,8 +76,8 @@ export function Navbar() {
         className={cn(
           "w-full transition-all duration-300 transform-gpu",
           scrolled
-            ? "bg-[#080808]/90 backdrop-blur-md border-b border-[#d4f934]/20 py-2.5 shadow-xl"
-            : "bg-gradient-to-b from-[#080808]/90 to-transparent py-3"
+            ? "bg-[#080808]/95 backdrop-blur-md border-b border-[#d4f934]/20 py-2.5 shadow-xl"
+            : "bg-gradient-to-b from-[#080808]/95 to-transparent py-3"
         )}
       >
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
@@ -86,15 +86,34 @@ export function Navbar() {
             <Wordmark />
           </Link>
 
+          {/* Desktop Nav Anchor Links */}
+          <div className="hidden lg:flex items-center gap-6 text-xs font-semibold text-gray-300">
+            <a href="#curriculum" className="hover:text-[#d4f934] transition-colors">
+              {lang === "pa" ? "ਸਿਲੇਬਸ" : "Classes"}
+            </a>
+            <a href="#included" className="hover:text-[#d4f934] transition-colors">
+              {lang === "pa" ? "ਕੀ ਸ਼ਾਮਲ ਹੈ" : "What's Included"}
+            </a>
+            <a href="#proof" className="hover:text-[#d4f934] transition-colors">
+              {lang === "pa" ? "ਵਿਦਿਆਰਥੀਆਂ ਦੇ ਨਤੀਜੇ" : "Student Proof"}
+            </a>
+            <a href="#outcomes" className="hover:text-[#d4f934] transition-colors">
+              {lang === "pa" ? "ਤੁਸੀਂ ਕੀ ਸਿੱਖੋਗੇ" : "What You'll Learn"}
+            </a>
+            <a href="#faq" className="hover:text-[#d4f934] transition-colors">
+              {lang === "pa" ? "ਸਵਾਲ-ਜਵਾਬ" : "FAQ"}
+            </a>
+          </div>
+
           {/* Right Actions: Segmented Language Toggle Switch + Direct CTA Button */}
-          <div className="flex items-center gap-3 sm:gap-4">
+          <div className="flex items-center gap-2 sm:gap-4">
             {/* Segmented Language Toggle Switch */}
             <div className="flex items-center rounded-full border border-gray-800 bg-[#121212] p-1 shadow-inner">
               <button
                 type="button"
                 onClick={() => setLang("pa")}
                 className={cn(
-                  "px-3 py-1 text-xs font-black rounded-full transition-all duration-300 cursor-pointer",
+                  "px-2.5 py-1 text-xs font-black rounded-full transition-all duration-300 cursor-pointer",
                   lang === "pa"
                     ? "bg-[#d4f934] text-black shadow-[0_0_15px_rgba(212,249,52,0.5)] scale-105"
                     : "text-gray-400 hover:text-white"
@@ -106,7 +125,7 @@ export function Navbar() {
                 type="button"
                 onClick={() => setLang("en")}
                 className={cn(
-                  "px-3 py-1 text-xs font-black rounded-full transition-all duration-300 cursor-pointer",
+                  "px-2.5 py-1 text-xs font-black rounded-full transition-all duration-300 cursor-pointer",
                   lang === "en"
                     ? "bg-[#d4f934] text-black shadow-[0_0_15px_rgba(212,249,52,0.5)] scale-105"
                     : "text-gray-400 hover:text-white"
@@ -116,24 +135,24 @@ export function Navbar() {
               </button>
             </div>
 
-            {/* High-Impact Direct CTA Button with Price Strikethrough ₹1,000 -> ₹99 */}
+            {/* High-Impact Direct CTA Button with Price Strikethrough ₹4,999 -> ₹999 */}
             <button
               type="button"
               onClick={openModal}
-              className="lime-button hidden sm:inline-flex items-center gap-2 rounded-full px-5 py-2 text-xs sm:text-sm font-extrabold text-black shadow-[0_0_20px_rgba(212,249,52,0.4)] cursor-pointer"
+              className="lime-button flex items-center gap-2 rounded-full px-4 sm:px-5 py-2 text-xs sm:text-sm font-extrabold text-black shadow-[0_0_20px_rgba(212,249,52,0.4)] cursor-pointer"
             >
               <span>
                 {lang === "pa" ? (
                   <>
-                    ਬੁੱਕ ਕਰੋ — <span className="line-through decoration-red-600 decoration-2 text-black/80 font-bold">₹1,000</span> <span className="font-black text-black">₹99</span>
+                    ਸ਼ੁਰੂ ਕਰੋ — <span className="line-through decoration-red-600 decoration-2 text-black/80 font-bold">₹4,999</span> <span className="font-black text-black">₹999</span>
                   </>
                 ) : (
                   <>
-                    Book Your Seat — <span className="line-through decoration-red-600 decoration-2 text-black/80 font-bold">₹1,000</span> <span className="font-black text-black">₹99</span>
+                    Enroll — <span className="line-through decoration-red-600 decoration-2 text-black/80 font-bold">₹4,999</span> <span className="font-black text-black">₹999</span>
                   </>
                 )}
               </span>
-              <ArrowRight className="h-4 w-4" />
+              <ArrowRight className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
             </button>
           </div>
         </div>

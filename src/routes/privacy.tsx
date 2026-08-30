@@ -22,7 +22,7 @@ function PrivacyPage() {
             <ShieldCheck className="h-8 w-8 text-[#d4f934]" />
             <div>
               <h1 className="text-2xl sm:text-4xl font-extrabold text-white">Privacy Policy</h1>
-              <p className="text-xs text-gray-400 mt-1">Last Updated: July 2026 · PenduGPT (Proprietorship / Khushpreet Singh)</p>
+              <p className="text-xs text-gray-400 mt-1">Last Updated: August 2026 · PenduGPT (Proprietorship / Khushpreet Singh)</p>
             </div>
           </div>
 

@@ -22,7 +22,7 @@ function ShippingPolicyPage() {
             <Truck className="h-8 w-8 text-[#d4f934]" />
             <div>
               <h1 className="text-2xl sm:text-4xl font-extrabold text-white">Shipping & Digital Access Delivery Policy</h1>
-              <p className="text-xs text-gray-400 mt-1">Last Updated: July 2026 · PenduGPT (Proprietorship / Khushpreet Singh)</p>
+              <p className="text-xs text-gray-400 mt-1">Last Updated: August 2026 · PenduGPT (Proprietorship / Khushpreet Singh)</p>
             </div>
           </div>
 
@@ -31,7 +31,7 @@ function ShippingPolicyPage() {
             <section className="bg-[#0c0c0c] border border-[#d4f934]/40 p-5 rounded-2xl">
               <h2 className="text-base sm:text-lg font-black text-[#d4f934] mb-2">Instant Digital Access Overview</h2>
               <p className="text-gray-200 font-medium">
-                PenduGPT provides 100% digital educational training masterclasses and downloadable digital resource bundles. 
+                PenduGPT provides 100% digital educational video training masterclasses, Google Drive folder access, and downloadable digital developer resource bundles. 
                 <strong> No physical items or parcel shipments are involved.</strong>
               </p>
             </section>
@@ -39,12 +39,12 @@ function ShippingPolicyPage() {
             <section>
               <h2 className="text-base font-bold text-white mb-2">1. Delivery Mode & Process</h2>
               <p>
-                Upon completing payment of ₹99 via our payment gateway (Razorpay), your digital products and live session access are delivered electronically:
+                Upon completing payment of <strong>₹999 (regular ₹4,999)</strong> via our secure payment gateway (Razorpay), your digital access and Google Drive course repository are delivered electronically:
               </p>
               <ul className="mt-3 flex flex-col gap-2 pl-4 text-gray-300 list-disc">
-                <li><strong>Instant Screen Confirmation:</strong> Immediate redirection to the Enrollment Confirmation page with VIP group access links.</li>
-                <li><strong>Email Confirmation:</strong> Course onboarding instructions, invoice receipt, and downloadable prompt packs sent to your registered email address.</li>
-                <li><strong>WhatsApp / SMS Notification:</strong> Live session link and WhatsApp VIP community invite sent directly to your registered mobile number.</li>
+                <li><strong>Instant Screen Confirmation:</strong> Immediate redirection to the Enrollment Confirmation page with instant Google Drive folder access and VIP group links.</li>
+                <li><strong>Email Confirmation:</strong> Complete onboarding guide, invoice receipt, and downloadable 100+ prompt vaults sent to your registered email address.</li>
+                <li><strong>WhatsApp Notification:</strong> Masterclass access credentials and student community links sent directly to your registered mobile number.</li>
               </ul>
             </section>
 
@@ -54,16 +54,16 @@ function ShippingPolicyPage() {
                 <div className="rounded-xl border border-gray-800 bg-[#0a0a0a] p-4">
                   <div className="flex items-center gap-2 text-[#d4f934] font-bold mb-1">
                     <Clock className="h-4 w-4" />
-                    <span>Instant Digital Access</span>
+                    <span>Instant Digital Folder</span>
                   </div>
-                  <p className="text-xs text-gray-400">Digital downloads & bonus vault links are delivered immediately (0 to 5 minutes) post-payment.</p>
+                  <p className="text-xs text-gray-400">Google Drive course folder & bonus vault links are delivered immediately (0 to 5 minutes) post-payment.</p>
                 </div>
                 <div className="rounded-xl border border-gray-800 bg-[#0a0a0a] p-4">
                   <div className="flex items-center gap-2 text-[#d4f934] font-bold mb-1">
                     <CheckCircle2 className="h-4 w-4" />
-                    <span>Live Class Access</span>
+                    <span>HD Video Classes</span>
                   </div>
-                  <p className="text-xs text-gray-400">Live Masterclass webinar coordinates & calendar invites dispatched within 0 to 24 hours prior to session commencement.</p>
+                  <p className="text-xs text-gray-400">All 7 practical classes + Final Capstone project are unlocked instantly for self-paced lifetime viewing.</p>
                 </div>
               </div>
             </section>

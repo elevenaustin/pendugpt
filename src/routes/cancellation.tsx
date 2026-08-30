@@ -22,37 +22,37 @@ function CancellationPage() {
             <XCircle className="h-8 w-8 text-[#d4f934]" />
             <div>
               <h1 className="text-2xl sm:text-4xl font-extrabold text-white">Cancellation Policy</h1>
-              <p className="text-xs text-gray-400 mt-1">Last Updated: July 2026 · PenduGPT (Proprietorship / Khushpreet Singh)</p>
+              <p className="text-xs text-gray-400 mt-1">Last Updated: August 2026 · PenduGPT (Proprietorship / Khushpreet Singh)</p>
             </div>
           </div>
 
           <div className="flex flex-col gap-6 text-xs sm:text-sm text-gray-300 leading-relaxed">
             <section className="bg-[#0c0c0c] border border-gray-800 p-5 rounded-2xl">
-              <h2 className="text-base font-bold text-[#d4f934] mb-2">Order & Registration Cancellation</h2>
+              <h2 className="text-base font-bold text-[#d4f934] mb-2">Digital Masterclass & Order Cancellation</h2>
               <p className="text-gray-200">
-                PenduGPT provides instant electronic delivery of digital educational resources and masterclass seat reservation upon successful payment completion. 
-                Because digital bonus packs are delivered automatically within minutes of payment, order cancellations after payment completion are generally not permitted.
+                PenduGPT provides instant electronic access to our Google Drive masterclass folder (7 practical HD classes, source code repos, 100+ prompt pack) upon successful payment completion. 
+                Because digital assets and course files are delivered immediately, order cancellations after payment completion are generally not permitted.
               </p>
             </section>
 
             <section>
-              <h2 className="text-base font-bold text-white mb-2">1. Rescheduling & Missed Session Guarantee</h2>
+              <h2 className="text-base font-bold text-white mb-2">1. 100% Self-Paced Lifetime Access</h2>
               <p>
-                We understand that unexpected schedule conflicts occur. If you are unable to attend the live masterclass session on your registered date:
+                All 7 classes, capstone walkthroughs, and code repositories are provided with lifetime access via Google Drive. You can learn at your own pace without the pressure of strict live attendance times.
               </p>
               <ul className="mt-2 pl-4 list-disc space-y-1 text-gray-300">
-                <li><strong>Free Batch Transfer:</strong> You may request a free transfer to the next available live batch by notifying support at least 4 hours prior to session start.</li>
-                <li><strong>Lifetime Recording Access:</strong> All registered participants receive full recording access and replay video links to watch at their convenience.</li>
+                <li><strong>Lifetime Updates:</strong> As new AI tools and web techniques evolve, updated prompt vaults and templates are added directly to your shared Google Drive folder at zero extra charge.</li>
+                <li><strong>Dedicated Student Support:</strong> Inquiries, technical debugging questions, and client pitching reviews are supported via our VIP WhatsApp community.</li>
               </ul>
             </section>
 
             <section>
-              <h2 className="text-base font-bold text-white mb-2">2. Event Cancellation by Organizers</h2>
+              <h2 className="text-base font-bold text-white mb-2">2. Cancellation & Technical Non-Delivery Guarantee</h2>
               <p>
-                In the rare event that a masterclass session is canceled or postponed by PenduGPT due to technical emergencies or force majeure:
+                In the rare event that access to our course repository cannot be delivered due to technical failures that cannot be resolved within 48 hours:
               </p>
               <p className="mt-2">
-                Participants will be offered an immediate option of attending a rescheduled session or receiving a <strong>100% full refund</strong>. Refunds will be credited back to your original payment method within 5 to 7 business days as outlined in our <a href="/refund" className="text-[#d4f934] underline font-semibold">Refund Policy</a>.
+                Students will receive an immediate <strong>100% full refund</strong>. Refunds are credited back to your original source payment method within 5 to 7 business days as outlined in our <a href="/refund" className="text-[#d4f934] underline font-semibold">Refund Policy</a>.
               </p>
             </section>
 

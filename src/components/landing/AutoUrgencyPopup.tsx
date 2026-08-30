@@ -15,14 +15,14 @@ export function AutoUrgencyPopup({ onClaim }: AutoUrgencyPopupProps) {
   const strings = t.urgencyPopup || {
     badge: "LIMITED SPOTS ALERT",
     headlineA: "Only",
-    headlineB: "7 Seats Left",
-    headlineC: "At ₹99!",
-    description: "Special Demo Class enrollment is closing soon. Don't miss out on learning how to build AI websites!",
+    headlineB: "5 Seats Left",
+    headlineC: "At ₹999!",
+    description: "Complete AI Website Masterclass 80% discount offer is ending soon. Build & monetize AI websites in 7 days!",
     timerLabel: "OFFER EXPIRES IN",
-    originalPrice: "₹1,000",
-    offerPrice: "₹99 ONLY",
-    claimBtn: "Claim Your ₹99 Seat Now",
-    guarantee: "100% Money-Back Satisfaction Guarantee",
+    originalPrice: "₹4,999",
+    offerPrice: "₹999 ONLY",
+    claimBtn: "Claim Your ₹999 Masterclass Now",
+    guarantee: "100% Risk-Free Satisfaction Guarantee",
   };
 
   useEffect(() => {
