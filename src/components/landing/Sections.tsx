@@ -139,20 +139,30 @@ export function Hero() {
           )}
         </motion.h1>
 
-        {/* Subtitle */}
+        {/* Subtitle - Short & Punchy on Mobile */}
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="mx-auto mt-6 max-w-2xl text-base sm:text-lg lg:text-xl text-gray-300 font-normal leading-relaxed"
+          className="mx-auto mt-4 sm:mt-6 max-w-2xl text-sm sm:text-lg lg:text-xl text-gray-300 font-normal leading-relaxed"
         >
           {isPa ? (
             <>
-              ਇਸ ਮਾਸਟਰਕਲਾਸ ਤੋਂ ਬਾਅਦ ਤੁਸੀਂ <strong className="text-white font-bold">ਬਿਨਾਂ ਕੋਈ ਪੇਡ AI ਟੂਲ ਖਰੀਦੇ ਜਾਂ ਵਾਧੂ ਪੈਸਾ ਖਰਚੇ</strong>, 100% ਖੁਦ ਅਸੀਮਤ ਕਲਾਇੰਟ ਵੈੱਬਸਾਈਟਾਂ ਬਣਾਉਣ, ਡੋਮੇਨ 'ਤੇ ਲਾਈਵ ਕਰਨ ਅਤੇ ₹15k–₹50k ਕਮਾਉਣ ਦੇ ਕਾਬਲ ਹੋ ਜਾਵੋਗੇ।
+              <span className="sm:hidden">
+                ਬਿਨਾਂ ਕੋਈ ਮਹਿੰਗਾ AI ਟੂਲ ਖਰੀਦੇ, <strong className="text-white font-bold">100% ਖੁਦ ਵੈੱਬਸਾਈਟਾਂ ਬਣਾਓ</strong> ਅਤੇ ₹15k–₹50k ਕਮਾਉਣਾ ਸਿੱਖੋ।
+              </span>
+              <span className="hidden sm:inline">
+                ਇਸ ਮਾਸਟਰਕਲਾਸ ਤੋਂ ਬਾਅਦ ਤੁਸੀਂ <strong className="text-white font-bold">ਬਿਨਾਂ ਕੋਈ ਪੇਡ AI ਟੂਲ ਖਰੀਦੇ ਜਾਂ ਵਾਧੂ ਪੈਸਾ ਖਰਚੇ</strong>, 100% ਖੁਦ ਅਸੀਮਤ ਕਲਾਇੰਟ ਵੈੱਬਸਾਈਟਾਂ ਬਣਾਉਣ, ਡੋਮੇਨ 'ਤੇ ਲਾਈਵ ਕਰਨ ਅਤੇ ₹15k–₹50k ਕਮਾਉਣ ਦੇ ਕਾਬਲ ਹੋ ਜਾਵੋਗੇ।
+              </span>
             </>
           ) : (
             <>
-              After this masterclass, you can build production-ready websites <strong className="text-white font-bold">100% by yourself — without buying any paid AI tools or spending extra money</strong> on expensive subscriptions.
+              <span className="sm:hidden">
+                Build & deploy client websites <strong className="text-white font-bold">100% by yourself</strong> without buying any paid AI tools.
+              </span>
+              <span className="hidden sm:inline">
+                After this masterclass, you can build production-ready websites <strong className="text-white font-bold">100% by yourself — without buying any paid AI tools or spending extra money</strong> on expensive subscriptions.
+              </span>
             </>
           )}
         </motion.p>
@@ -162,13 +172,13 @@ export function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.3 }}
-          className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4"
+          className="mt-6 sm:mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4"
         >
           {/* Main ₹999 CTA Button */}
           <button
             type="button"
             onClick={openModal}
-            className="lime-button w-full sm:w-auto inline-flex items-center justify-center gap-3 rounded-full px-8 py-4 text-base sm:text-lg font-black text-black shadow-[0_0_40px_rgba(212,249,52,0.5)] cursor-pointer"
+            className="lime-button w-full sm:w-auto inline-flex items-center justify-center gap-2.5 sm:gap-3 rounded-full px-6 sm:px-8 py-3.5 sm:py-4 text-base sm:text-lg font-black text-black shadow-[0_0_40px_rgba(212,249,52,0.5)] cursor-pointer"
           >
             <span>
               {isPa ? "ਹੁਣੇ ਐਕਸੈਸ ਲਵੋ — " : "Start Learning Now — "}
@@ -183,22 +193,22 @@ export function Hero() {
           {/* Secondary Curriculum Jump */}
           <a
             href="#curriculum"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full border border-gray-800 bg-[#121212] px-6 py-4 text-sm font-bold text-gray-300 hover:text-white hover:border-[#d4f934]/50 hover:bg-[#181818] transition-all"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full border border-gray-800 bg-[#121212] px-5 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm font-bold text-gray-300 hover:text-white hover:border-[#d4f934]/50 hover:bg-[#181818] transition-all"
           >
             <BookOpen className="h-4 w-4 text-[#d4f934]" />
             <span>{isPa ? "ਸਿਲੇਬਸ ਦੇਖੋ (7 ਕਲਾਸਾਂ)" : "View 7-Class Syllabus"}</span>
           </a>
         </motion.div>
 
-        {/* Micro Trust Indicators — Ultra-Premium Glassmorphic Badges */}
+        {/* Micro Trust Indicators — Streamlined on Mobile */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.4 }}
-          className="mt-8 flex flex-wrap items-center justify-center gap-2.5 sm:gap-3 text-xs font-semibold"
+          className="mt-6 sm:mt-8 flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-xs font-semibold"
         >
           {/* Badge 1: Zero Paid AI Tools Required */}
-          <div className="flex items-center gap-2 rounded-full border border-[#d4f934]/60 bg-gradient-to-r from-[#1a230a] via-[#141b08] to-[#1a230a] px-3.5 py-1.5 text-white font-bold shadow-[0_0_20px_rgba(212,249,52,0.18)] hover:border-[#d4f934] transition-all">
+          <div className="flex items-center gap-1.5 sm:gap-2 rounded-full border border-[#d4f934]/60 bg-gradient-to-r from-[#1a230a] via-[#141b08] to-[#1a230a] px-3 sm:px-3.5 py-1 sm:py-1.5 text-white font-bold text-[11px] sm:text-xs shadow-[0_0_20px_rgba(212,249,52,0.18)] hover:border-[#d4f934] transition-all">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#d4f934] opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-[#d4f934]"></span>
@@ -206,13 +216,23 @@ export function Hero() {
             <CheckCircle2 className="h-3.5 w-3.5 text-[#d4f934]" />
             <span>
               {isPa
-                ? "🚫 ਬਿਨਾਂ ਕੋਈ ਪੇਡ AI ਟੂਲ ਖਰੀਦੇ (100% ਮੁਫ਼ਤ)"
-                : "🚫 Zero Paid AI Tools Needed (100% Free Workflow)"}
+                ? "🚫 ਬਿਨਾਂ ਕੋਈ ਪੇਡ AI ਟੂਲ (100% ਮੁਫ਼ਤ)"
+                : "🚫 Zero Paid AI Tools Needed"}
             </span>
           </div>
 
-          {/* Badge 2: One-time payment • Lifetime access */}
-          <div className="flex items-center gap-2 rounded-full border border-gray-800/90 bg-[#101318]/90 px-3.5 py-1.5 text-gray-300 font-medium hover:border-gray-700 hover:text-white transition-all shadow-sm">
+          {/* Badge 2: Google Drive course folder included */}
+          <div className="flex items-center gap-1.5 sm:gap-2 rounded-full border border-gray-800/90 bg-[#101318]/90 px-3 sm:px-3.5 py-1 sm:py-1.5 text-gray-300 font-medium text-[11px] sm:text-xs hover:border-gray-700 hover:text-white transition-all shadow-sm">
+            <CheckCircle2 className="h-3.5 w-3.5 text-[#d4f934]" />
+            <span>
+              {isPa
+                ? "📁 ਗੂਗਲ ਡਰਾਈਵ ਫੋਲਡਰ ਸ਼ਾਮਲ"
+                : "📁 Drive Course Folder Included"}
+            </span>
+          </div>
+
+          {/* Badge 3: One-time payment (Desktop) */}
+          <div className="hidden sm:flex items-center gap-2 rounded-full border border-gray-800/90 bg-[#101318]/90 px-3.5 py-1.5 text-gray-300 font-medium hover:border-gray-700 hover:text-white transition-all shadow-sm">
             <CheckCircle2 className="h-3.5 w-3.5 text-[#d4f934]" />
             <span>
               {isPa
@@ -221,18 +241,8 @@ export function Hero() {
             </span>
           </div>
 
-          {/* Badge 3: Google Drive course folder included */}
-          <div className="flex items-center gap-2 rounded-full border border-gray-800/90 bg-[#101318]/90 px-3.5 py-1.5 text-gray-300 font-medium hover:border-gray-700 hover:text-white transition-all shadow-sm">
-            <CheckCircle2 className="h-3.5 w-3.5 text-[#d4f934]" />
-            <span>
-              {isPa
-                ? "ਗੂਗਲ ਡਰਾਈਵ ਫੋਲਡਰ ਸ਼ਾਮਲ"
-                : "Google Drive Course Folder Included"}
-            </span>
-          </div>
-
-          {/* Badge 4: Build 100% by yourself */}
-          <div className="flex items-center gap-2 rounded-full border border-gray-800/90 bg-[#101318]/90 px-3.5 py-1.5 text-gray-300 font-medium hover:border-gray-700 hover:text-white transition-all shadow-sm">
+          {/* Badge 4: Build 100% by yourself (Desktop) */}
+          <div className="hidden sm:flex items-center gap-2 rounded-full border border-gray-800/90 bg-[#101318]/90 px-3.5 py-1.5 text-gray-300 font-medium hover:border-gray-700 hover:text-white transition-all shadow-sm">
             <CheckCircle2 className="h-3.5 w-3.5 text-[#d4f934]" />
             <span>
               {isPa
@@ -430,46 +440,43 @@ export function Stats() {
               </p>
             </div>
 
-            {/* 4 High-Converting Stat Tiles with Animated Numbers & Rich Visuals */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+            {/* 4 High-Converting Stat Tiles — 2x2 Grid on Mobile for Instant Scannability */}
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-6">
               {stats.map((s, i) => (
                 <div
                   key={i}
-                  className="relative rounded-2xl border border-gray-800/90 bg-gradient-to-b from-[#14161b]/90 to-[#0d0e12]/90 p-5 sm:p-6 text-center hover:border-[#d4f934]/60 hover:shadow-[0_0_30px_rgba(212,249,52,0.18)] hover:from-[#171b13] hover:to-[#0f1115] transition-all transform-gpu hover:-translate-y-1 flex flex-col items-center justify-between group"
+                  className="relative rounded-xl sm:rounded-2xl border border-gray-800/90 bg-gradient-to-b from-[#14161b]/90 to-[#0d0e12]/90 p-3.5 sm:p-6 text-center hover:border-[#d4f934]/60 hover:shadow-[0_0_30px_rgba(212,249,52,0.18)] hover:from-[#171b13] hover:to-[#0f1115] transition-all transform-gpu hover:-translate-y-1 flex flex-col items-center justify-between group"
                 >
                   {/* Top Tile Row: Icon + Badge */}
-                  <div className="w-full flex items-center justify-between mb-3">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#d4f934]/10 border border-[#d4f934]/30 shadow-inner group-hover:scale-110 transition-transform">
+                  <div className="w-full flex items-center justify-between mb-2 sm:mb-3">
+                    <div className="flex h-7 w-7 sm:h-9 sm:w-9 items-center justify-center rounded-lg sm:rounded-xl bg-[#d4f934]/10 border border-[#d4f934]/30 shadow-inner group-hover:scale-110 transition-transform">
                       {s.headerIcon}
                     </div>
-                    <span className="rounded-full bg-[#1b2207] border border-[#d4f934]/30 px-2.5 py-0.5 text-[10px] font-black text-[#d4f934]">
+                    <span className="rounded-full bg-[#1b2207] border border-[#d4f934]/30 px-1.5 sm:px-2.5 py-0.5 text-[8px] sm:text-[10px] font-black text-[#d4f934] truncate max-w-[85px] sm:max-w-none">
                       {s.badge}
                     </span>
                   </div>
 
                   {/* Big Animated Number Counter */}
-                  <div className="my-1.5 w-full">
-                    <div className="text-3xl sm:text-4xl font-display font-black text-white tracking-tight group-hover:text-[#d4f934] transition-colors">
+                  <div className="my-1 sm:my-1.5 w-full">
+                    <div className="text-xl sm:text-3xl lg:text-4xl font-display font-black text-white tracking-tight group-hover:text-[#d4f934] transition-colors">
                       {s.valueElement}
                     </div>
-                    <div className="mt-1 text-xs sm:text-sm font-extrabold text-gray-200">
+                    <div className="mt-0.5 sm:mt-1 text-[11px] sm:text-sm font-extrabold text-gray-200 line-clamp-1">
                       {s.label}
                     </div>
                   </div>
 
-                  {/* High Converting Embedded Visual */}
-                  {s.visual}
-
-                  {/* Benefit Highlight Tag */}
-                  <div className="w-full text-center">
-                    <span className="inline-block text-[10px] font-extrabold text-[#d4f934] bg-[#d4f934]/10 px-2 py-0.5 rounded-full border border-[#d4f934]/20">
-                      {s.highlight}
-                    </span>
+                  {/* High Converting Embedded Visual (Desktop & Tablets) */}
+                  <div className="hidden sm:block w-full">
+                    {s.visual}
                   </div>
 
-                  {/* Subtext */}
-                  <div className="mt-3 pt-2.5 border-t border-gray-800/80 w-full text-[11px] font-medium text-gray-400">
-                    {s.subtext}
+                  {/* Benefit Highlight Tag */}
+                  <div className="w-full text-center mt-1.5 sm:mt-0">
+                    <span className="inline-block text-[9px] sm:text-[10px] font-extrabold text-[#d4f934] bg-[#d4f934]/10 px-1.5 sm:px-2 py-0.5 rounded-full border border-[#d4f934]/20 truncate max-w-full">
+                      {s.highlight}
+                    </span>
                   </div>
                 </div>
               ))}
@@ -1339,11 +1346,11 @@ export function Bonuses() {
                       : "border-gray-800/90 bg-[#141416] hover:border-gray-700 hover:bg-[#18181b]"
                   )}
                 >
-                  <div className="flex items-start justify-between gap-2 mb-2">
-                    <div className="flex items-center gap-2.5 min-w-0">
+                  <div className="flex items-start justify-between gap-2 mb-1.5 sm:mb-2">
+                    <div className="flex items-center gap-2 sm:gap-2.5 min-w-0">
                       <div
                         className={cn(
-                          "flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border transition-colors",
+                          "flex h-8 w-8 sm:h-9 sm:w-9 shrink-0 items-center justify-center rounded-lg border transition-colors",
                           isSelected
                             ? "bg-[#d4f934] text-black border-[#d4f934]"
                             : "bg-[#202024] border-gray-700 text-gray-300 group-hover:text-[#d4f934]"
@@ -1369,7 +1376,7 @@ export function Bonuses() {
 
                     <span
                       className={cn(
-                        "rounded px-1.5 py-0.5 text-[9px] font-black uppercase shrink-0",
+                        "rounded px-1.5 py-0.5 text-[8px] sm:text-[9px] font-black uppercase shrink-0",
                         isSelected
                           ? "bg-[#d4f934] text-black"
                           : "bg-gray-800 text-gray-300"
@@ -1379,11 +1386,11 @@ export function Bonuses() {
                     </span>
                   </div>
 
-                  <p className="text-[11px] text-gray-400 line-clamp-2 leading-relaxed mt-1">
+                  <p className="hidden sm:block text-[11px] text-gray-400 line-clamp-2 leading-relaxed mt-1">
                     {folder.desc}
                   </p>
 
-                  <div className="mt-3 pt-2 border-t border-gray-800/80 flex items-center justify-between text-[10px] text-gray-400 font-medium">
+                  <div className="mt-2 pt-1.5 sm:mt-3 sm:pt-2 border-t border-gray-800/80 flex items-center justify-between text-[9px] sm:text-[10px] text-gray-400 font-medium">
                     <span>{folder.files}</span>
                     <span className="text-[#d4f934] font-bold flex items-center gap-0.5">
                       Included ✓
@@ -2343,34 +2350,34 @@ export function Showcase() {
           <span>{isPa ? "ਹੁਣ ਫੈਸਲਾ ਤੁਹਾਡਾ ਹੈ" : "THE CHOICE IS YOURS"}</span>
         </div>
 
-        <h2 className="text-3xl sm:text-5xl lg:text-6xl font-serif font-black tracking-tight text-white leading-tight">
+        <h2 className="text-2xl sm:text-5xl lg:text-6xl font-serif font-black tracking-tight text-white leading-tight">
           {isPa ? (
             <>
-              ਸਿਰਫ AI ਦੀਆਂ ਵੀਡੀਓਜ਼ ਦੇਖਣਾ ਬੰਦ ਕਰੋ। <br />
+              ਸਿਰਫ AI ਦੀਆਂ ਵੀਡੀਓਜ਼ ਦੇਖਣਾ ਬੰਦ ਕਰੋ। <br className="hidden sm:inline" />
               <span className="text-[#d4f934]">ਹੁਣ ਖੁਦ ਬਣਾਉਣਾ ਸ਼ੁਰੂ ਕਰੋ।</span>
             </>
           ) : (
             <>
-              Stop just watching people use AI. <br />
+              Stop just watching people use AI. <br className="hidden sm:inline" />
               <span className="text-[#d4f934]">Start building with it.</span>
             </>
           )}
         </h2>
 
-        <p className="mt-6 text-sm sm:text-lg text-gray-300 max-w-2xl mx-auto leading-relaxed">
+        <p className="mt-3 sm:mt-6 text-xs sm:text-lg text-gray-300 max-w-2xl mx-auto leading-relaxed">
           {isPa
-            ? "7 ਕਲਾਸਾਂ, ਪੂਰਾ ਗੂਗਲ ਡਰਾਈਵ ਫੋਲਡਰ, 100+ ਪ੍ਰੌਂਪਟਸ ਅਤੇ ਪੋਰਟਫੋਲੀਓ ਪ੍ਰੋਜੈਕਟਸ ਸਿਰਫ ₹999 ਵਿੱਚ ਪ੍ਰਾਪਤ ਕਰੋ।"
+            ? "7 ਕਲਾਸਾਂ, ਪੂਰਾ ਗੂਗਲ ਡਰਾਈਵ ਫੋਲਡਰ, 100+ ਪ੍ਰੌਂਪਟਸ ਅਤੇ ਪੋਰਟਫੋਲੀਓ ਪ੍ਰੋਜੈਕਟਸ ਸਿਰਫ਼ ₹999 ਵਿੱਚ ਪ੍ਰਾਪਤ ਕਰੋ।"
             : "Join hundreds of students and freelancers building client websites in 7 days. Instant lifetime access."}
         </p>
 
-        <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
           <button
             type="button"
             onClick={openModal}
-            className="lime-button w-full sm:w-auto inline-flex items-center justify-center gap-3 rounded-full py-4 px-9 text-base sm:text-lg font-black text-black shadow-[0_0_50px_rgba(212,249,52,0.6)] cursor-pointer"
+            className="lime-button w-full sm:w-auto inline-flex items-center justify-center gap-2.5 sm:gap-3 rounded-full py-3.5 sm:py-4 px-7 sm:px-9 text-base sm:text-lg font-black text-black shadow-[0_0_50px_rgba(212,249,52,0.6)] cursor-pointer"
           >
             <span>{isPa ? "₹999 → ਪੂਰਾ ਐਕਸੈਸ ਲਵੋ" : "₹999 → Get Full Masterclass Access"}</span>
-            <ArrowRight className="h-5 w-5" />
+            <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5" />
           </button>
         </div>
 
