@@ -40,7 +40,7 @@ export function PurchaseToast() {
     const initialTimer = setTimeout(() => {
       setIndex(0);
       setVisible(true);
-    }, 3500);
+    }, 4000);
 
     return () => clearTimeout(initialTimer);
   }, [dismissed]);
@@ -55,7 +55,7 @@ export function PurchaseToast() {
     const nextTimer = setTimeout(() => {
       setIndex((prev) => ((prev ?? 0) + 1) % PURCHASES.length);
       setVisible(true);
-    }, 13000);
+    }, 14000);
 
     return () => {
       clearTimeout(hideTimer);
@@ -71,11 +71,11 @@ export function PurchaseToast() {
     <AnimatePresence>
       {visible && (
         <motion.div
-          initial={{ opacity: 0, y: 30, scale: 0.92 }}
+          initial={{ opacity: 0, y: 20, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
-          exit={{ opacity: 0, y: 20, scale: 0.95 }}
-          transition={{ duration: 0.35, ease: "easeOut" }}
-          className="fixed bottom-20 left-3 right-3 sm:right-auto sm:left-6 sm:bottom-6 z-40 max-w-[360px] sm:w-auto rounded-2xl border border-[#d4f934]/40 bg-[#121417]/98 p-3 sm:p-3.5 shadow-[0_12px_40px_rgba(0,0,0,0.9),0_0_20px_rgba(212,249,52,0.15)] backdrop-blur-xl text-left"
+          exit={{ opacity: 0, y: 15, scale: 0.95 }}
+          transition={{ duration: 0.28, ease: "easeOut" }}
+          className="transform-gpu fixed bottom-20 left-3 right-3 sm:right-auto sm:left-6 sm:bottom-6 z-40 max-w-[360px] sm:w-auto rounded-2xl border border-[#d4f934]/40 bg-[#121417]/98 p-3 sm:p-3.5 shadow-[0_12px_40px_rgba(0,0,0,0.9),0_0_20px_rgba(212,249,52,0.15)] backdrop-blur-xl text-left"
         >
           <div className="flex items-center gap-3 relative">
             {/* Green Circular Shield Icon with Live Ripple Pulse */}
@@ -83,28 +83,28 @@ export function PurchaseToast() {
               <ShieldCheck className="h-5 w-5 sm:h-6 sm:w-6 text-[#d4f934]" />
             </div>
 
-              {/* Notification Details (Includes ₹999 Amount & Verified Status) */}
-              <div className="flex-1 pr-4">
-                <h4 className="text-xs sm:text-sm font-extrabold text-white leading-tight">
-                  {item.name} from {item.location}
-                </h4>
+            {/* Notification Details (Includes ₹999 Amount & Verified Status) */}
+            <div className="flex-1 pr-4">
+              <h4 className="text-xs sm:text-sm font-extrabold text-white leading-tight">
+                {item.name} from {item.location}
+              </h4>
 
-                <div className="flex items-center gap-1.5 text-xs text-gray-300 font-medium mt-0.5">
-                  <span className="text-white font-bold">₹999 Paid</span>
-                  <span>•</span>
-                  <span className="text-[#d4f934] font-bold">{isPa ? "ਮਾਸਟਰਕਲਾਸ ਐਕਸੈਸ ✓" : "Masterclass Access ✓"}</span>
-                </div>
-
-                <p className="text-[10px] text-gray-400 font-medium mt-0.5">
-                  {isPa ? "ਗੂਗਲ ਡਰਾਈਵ ਐਕਸੈਸ ਜਾਰੀ" : "Drive Folder Access Issued"} · {item.timeAgo}
-                </p>
+              <div className="flex items-center gap-1.5 text-xs text-gray-300 font-medium mt-0.5">
+                <span className="text-white font-bold">₹999 Paid</span>
+                <span>•</span>
+                <span className="text-[#d4f934] font-bold">{isPa ? "ਮਾਸਟਰਕਲਾਸ ਐਕਸੈਸ ✓" : "Masterclass Access ✓"}</span>
               </div>
+
+              <p className="text-[10px] text-gray-400 font-medium mt-0.5">
+                {isPa ? "ਗੂਗਲ ਡਰਾਈਵ ਐਕਸੈਸ ਜਾਰੀ" : "Drive Folder Access Issued"} · {item.timeAgo}
+              </p>
+            </div>
 
             {/* Close Button */}
             <button
               type="button"
               onClick={() => setDismissed(true)}
-              className="absolute -top-1 -right-1 p-1 text-gray-500 hover:text-white transition-colors"
+              className="absolute -top-1 -right-1 p-1 text-gray-500 hover:text-white transition-colors cursor-pointer"
               aria-label="Close notification"
             >
               <X className="h-3.5 w-3.5" />

@@ -1,4 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700;1,900&family=Outfit:wght@400;600;800;900&family=Inter:wght@400;600;700;800&display=swap');
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
@@ -7,7 +6,7 @@
 
 /*
  * PenduGPT design system — High-contrast dark theme with electric lime/yellow accents
- * Matching reference design with maximum rendering performance.
+ * Tuned for maximum FPS rendering, zero layout shifts, and rapid performance on all devices.
  */
 
 @theme inline {
@@ -40,9 +39,9 @@
   --color-lime: var(--lime);
   --color-glass: var(--glass);
   --color-glass-border: var(--glass-border);
-  --font-serif: "Playfair Display", Georgia, serif;
-  --font-display: "Outfit", "Satoshi", ui-sans-serif, system-ui, sans-serif;
-  --font-sans: "Inter", "Satoshi", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Playfair Display", "Times New Roman", Times, Georgia, serif;
+  --font-display: "Outfit", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 :root {
@@ -71,7 +70,7 @@
   --input: rgba(255, 255, 255, 0.08);
   --ring: #d4f934;
 
-  --glass: rgba(18, 18, 18, 0.85);
+  --glass: rgba(18, 18, 18, 0.88);
   --glass-border: rgba(212, 249, 52, 0.2);
 }
 
@@ -87,6 +86,7 @@
   html {
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
     background-color: #080808;
     color: #ffffff;
   }
@@ -96,7 +96,18 @@
     color: #ffffff;
     font-family: var(--font-sans);
     overflow-x: hidden;
-    will-change: auto;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Instant tap feedback with zero 300ms mobile delay */
+  button,
+  a,
+  input,
+  select,
+  textarea {
+    touch-action: manipulation;
   }
 
   h1,
@@ -112,12 +123,20 @@
     background: #d4f934;
     color: #000000;
   }
+
   img {
     content-visibility: auto;
   }
 }
 
+/* Offscreen section rendering optimization for low-end hardware */
+.lazy-section {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 650px;
+}
+
 @utility glass {
+  background: #111317;
   background: var(--glass);
   border: 1px solid var(--glass-border);
   backdrop-filter: blur(10px);
@@ -125,7 +144,8 @@
 }
 
 @utility glass-card {
-  background: rgba(18, 18, 18, 0.85);
+  background: #121316;
+  background: rgba(18, 18, 18, 0.88);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -140,21 +160,21 @@
 
 @keyframes cta-pulse-glow {
   0%, 100% {
-    box-shadow: 0 0 20px rgba(212, 249, 52, 0.4), 0 0 35px rgba(212, 249, 52, 0.2);
-    transform: scale(1);
+    box-shadow: 0 0 20px rgba(212, 249, 52, 0.35), 0 0 35px rgba(212, 249, 52, 0.18);
+    transform: translate3d(0, 0, 0) scale(1);
   }
   50% {
-    box-shadow: 0 0 45px rgba(212, 249, 52, 0.9), 0 0 65px rgba(212, 249, 52, 0.5);
-    transform: scale(1.03);
+    box-shadow: 0 0 45px rgba(212, 249, 52, 0.85), 0 0 65px rgba(212, 249, 52, 0.45);
+    transform: translate3d(0, 0, 0) scale(1.025);
   }
 }
 
 @keyframes cta-shimmer-sweep {
   0% {
-    transform: translateX(-120%) rotate(25deg);
+    transform: translate3d(-120%, 0, 0) rotate(25deg);
   }
   30%, 100% {
-    transform: translateX(250%) rotate(25deg);
+    transform: translate3d(250%, 0, 0) rotate(25deg);
   }
 }
 
@@ -165,9 +185,11 @@
   color: #000000;
   font-weight: 900;
   letter-spacing: -0.01em;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease, background 0.2s ease;
   animation: cta-pulse-glow 2.8s ease-in-out infinite;
   border: 1px solid rgba(255, 255, 255, 0.5);
+  contain: paint layout;
+  will-change: transform, box-shadow;
 
   &::before {
     content: '';
@@ -184,41 +206,41 @@
     );
     animation: cta-shimmer-sweep 3.2s ease-in-out infinite;
     pointer-events: none;
+    will-change: transform;
   }
 
   &:hover {
-    transform: translateY(-3px) scale(1.06) !important;
+    transform: translate3d(0, -3px, 0) scale(1.05) !important;
     box-shadow: 0 0 50px rgba(212, 249, 52, 1), 0 0 80px rgba(212, 249, 52, 0.6) !important;
     background: linear-gradient(135deg, #e8ff59 0%, #ffffff 50%, #d4f934 100%) !important;
   }
 
   &:active {
-    transform: translateY(1px) scale(0.97) !important;
+    transform: translate3d(0, 1px, 0) scale(0.97) !important;
   }
 }
 
-/* Infinite marquee animation for swiping reviews */
+/* Infinite GPU-accelerated marquee animation for swiping reviews */
 @keyframes marquee-left {
   0% {
-    transform: translateX(0%);
+    transform: translate3d(0, 0, 0);
   }
   100% {
-    transform: translateX(-50%);
+    transform: translate3d(-50%, 0, 0);
   }
 }
 
 .animate-marquee-left {
   display: flex;
   width: max-content;
-  animation: marquee-left 35s linear infinite;
+  animation: marquee-left 32s linear infinite;
   will-change: transform;
+  contain: layout paint style;
 }
 
 .animate-marquee-left:hover {
   animation-play-state: paused;
 }
-
-
 
 @utility lime-gradient-text {
   background: linear-gradient(135deg, #d4f934 0%, #a8e000 100%);
@@ -231,13 +253,13 @@
 }
 
 @keyframes float-soft {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(0, -8px, 0); }
 }
 
 @keyframes marquee-x {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
 }
 
 @utility animate-float {
@@ -313,15 +335,8 @@ body.modal-open .skeleton-shimmer {
 
 /* Hardware GPU layer promotion for smooth 60fps rendering */
 .transform-gpu {
-  transform: translateZ(0);
+  transform: translate3d(0, 0, 0);
   will-change: transform;
-}
-
-/* Disable automatic text size adjustment on mobile orientation change & enable smooth scrolling */
-html {
-  -webkit-text-size-adjust: 100%;
-  text-size-adjust: 100%;
-  scroll-behavior: smooth;
 }
 
 /* Ensure mobile form fields never trigger browser layout auto-zoom */
@@ -335,24 +350,4 @@ html {
   textarea {
     font-size: 16px !important;
   }
-}
-
-/* Infinite horizontal review marquee (Right to Left) */
-@keyframes marquee-left {
-  0% {
-    transform: translateX(0%);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-}
-
-.animate-marquee-left {
-  display: flex;
-  width: max-content;
-  animation: marquee-left 32s linear infinite;
-}
-
-.animate-marquee-left:hover {
-  animation-play-state: paused;
 }

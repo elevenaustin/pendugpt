@@ -326,10 +326,10 @@ export function Stats() {
         <div className="flex items-center justify-between py-2 px-3 rounded-xl bg-black/50 border border-gray-800 my-2.5 w-full">
           {/* Avatar stack */}
           <div className="flex -space-x-2">
-            <img src={student1} alt="Student" className="h-6 w-6 rounded-full border border-[#d4f934]/60 object-cover" />
-            <img src={student2} alt="Student" className="h-6 w-6 rounded-full border border-[#d4f934]/60 object-cover" />
-            <img src={student3} alt="Student" className="h-6 w-6 rounded-full border border-[#d4f934]/60 object-cover" />
-            <img src={student4} alt="Student" className="h-6 w-6 rounded-full border border-[#d4f934]/60 object-cover" />
+            <img src={student1} alt="Student" width="24" height="24" loading="lazy" decoding="async" className="h-6 w-6 rounded-full border border-[#d4f934]/60 object-cover" />
+            <img src={student2} alt="Student" width="24" height="24" loading="lazy" decoding="async" className="h-6 w-6 rounded-full border border-[#d4f934]/60 object-cover" />
+            <img src={student3} alt="Student" width="24" height="24" loading="lazy" decoding="async" className="h-6 w-6 rounded-full border border-[#d4f934]/60 object-cover" />
+            <img src={student4} alt="Student" width="24" height="24" loading="lazy" decoding="async" className="h-6 w-6 rounded-full border border-[#d4f934]/60 object-cover" />
           </div>
           <div className="flex items-center gap-1.5 text-[11px] font-bold text-gray-200">
             <span className="flex h-1.5 w-1.5 rounded-full bg-green-400 animate-pulse" />
@@ -517,7 +517,7 @@ export function HeroTestimonialProof() {
   const { openModal } = useEnrollmentModal();
 
   return (
-    <section className="py-10 sm:py-16 bg-[#080808] relative overflow-hidden border-t border-gray-800/80">
+    <section className="lazy-section py-10 sm:py-16 bg-[#080808] relative overflow-hidden border-t border-gray-800/80">
       {/* Background glow */}
       <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
         <div className="h-64 w-3/4 rounded-full bg-[#d4f934]/5 blur-[120px]" />
@@ -553,8 +553,8 @@ export function HeroTestimonialProof() {
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4 }}
+            viewport={{ once: true, margin: "-10px" }}
+            transition={{ duration: 0.3 }}
             className="rounded-3xl border-2 border-[#d4f934]/40 bg-[#0d1015] p-3.5 sm:p-4 shadow-[0_20px_60px_rgba(0,0,0,0.85)] flex flex-col justify-between"
           >
             {/* Top WhatsApp Header */}
@@ -572,9 +572,10 @@ export function HeroTestimonialProof() {
               <img
                 src="/whatsapp-review-1.jpg"
                 alt="Real WhatsApp Chat Review - Paras Ghai"
-                loading="eager"
+                loading="lazy"
                 decoding="async"
-                fetchPriority="high"
+                width="480"
+                height="420"
                 className="w-full h-auto max-h-[420px] object-cover rounded-xl"
               />
             </div>
@@ -591,8 +592,8 @@ export function HeroTestimonialProof() {
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4, delay: 0.1 }}
+            viewport={{ once: true, margin: "-10px" }}
+            transition={{ duration: 0.3, delay: 0.08 }}
             className="rounded-3xl border-2 border-[#d4f934]/40 bg-[#0d1015] p-3.5 sm:p-4 shadow-[0_20px_60px_rgba(0,0,0,0.85)] flex flex-col justify-between"
           >
             {/* Top WhatsApp Header */}
@@ -612,6 +613,8 @@ export function HeroTestimonialProof() {
                 alt="Real WhatsApp Chat Review - MALHI"
                 loading="lazy"
                 decoding="async"
+                width="480"
+                height="420"
                 className="w-full h-auto max-h-[420px] object-cover rounded-xl"
               />
             </div>
@@ -677,7 +680,7 @@ export function TheProblem() {
   ];
 
   return (
-    <section className="py-16 sm:py-24 bg-[#07080a] border-t border-gray-800/80 relative overflow-hidden">
+    <section className="lazy-section py-16 sm:py-24 bg-[#07080a] border-t border-gray-800/80 relative overflow-hidden">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative">
         <SectionTitle
           tag={isPa ? "ਅਸਲ ਸਮੱਸਿਆ" : "THE REAL PROBLEM"}
@@ -791,7 +794,7 @@ export function Audience() {
   ];
 
   return (
-    <section id="outcomes" className="py-20 sm:py-28 bg-[#080808]">
+    <section id="outcomes" className="lazy-section py-20 sm:py-28 bg-[#080808]">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionTitle
           tag={isPa ? "ਪੂਰਾ ਬਦਲਾਅ" : "THE TRANSFORMATION"}
@@ -993,7 +996,7 @@ export function Curriculum() {
   ];
 
   return (
-    <section id="curriculum" className="py-20 sm:py-28 bg-[#080808] border-t border-gray-800/80 relative overflow-hidden">
+    <section id="curriculum" className="lazy-section py-20 sm:py-28 bg-[#080808] border-t border-gray-800/80 relative overflow-hidden">
       {/* Background ambient lighting */}
       <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
         <div className="h-96 w-4/5 rounded-full bg-[#d4f934]/5 blur-[140px]" />
@@ -1306,7 +1309,7 @@ export function Bonuses() {
   ];
 
   return (
-    <section id="included" className="py-20 sm:py-28 bg-[#080808]">
+    <section id="included" className="lazy-section py-20 sm:py-28 bg-[#080808]">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionTitle
           tag={isPa ? "ਪੂਰਾ ਲਰਨਿੰਗ ਸਿਸਟਮ" : "THE COMPLETE SYSTEM"}
@@ -1618,7 +1621,7 @@ export function Testimonials() {
   ];
 
   return (
-    <section id="proof" className="py-20 sm:py-28 bg-[#0a0a0a] border-t border-gray-800/80 overflow-hidden">
+    <section id="proof" className="lazy-section py-20 sm:py-28 bg-[#0a0a0a] border-t border-gray-800/80 overflow-hidden">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionTitle
           tag={isPa ? "ਅਸਲ ਵਿਦਿਆਰਥੀਆਂ ਦੇ ਨਤੀਜੇ" : "REAL STUDENT PROOF"}
@@ -1636,8 +1639,8 @@ export function Testimonials() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4 }}
+            viewport={{ once: true, margin: "-10px" }}
+            transition={{ duration: 0.3 }}
             className="rounded-3xl border-2 border-[#d4f934]/40 bg-[#111b21] p-3.5 sm:p-5 shadow-[0_20px_60px_rgba(0,0,0,0.85)] flex flex-col justify-between relative group"
           >
             {/* Top WhatsApp Chat Window Header */}
@@ -1660,6 +1663,8 @@ export function Testimonials() {
                 alt="Real WhatsApp Chat Review - Paras Ghai"
                 loading="lazy"
                 decoding="async"
+                width="480"
+                height="460"
                 className="w-full h-auto max-h-[460px] object-cover rounded-xl transition-transform duration-300 group-hover:scale-[1.02]"
               />
             </div>
@@ -1682,8 +1687,8 @@ export function Testimonials() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4, delay: 0.1 }}
+            viewport={{ once: true, margin: "-10px" }}
+            transition={{ duration: 0.3, delay: 0.08 }}
             className="rounded-3xl border-2 border-[#d4f934]/40 bg-[#111b21] p-3.5 sm:p-5 shadow-[0_20px_60px_rgba(0,0,0,0.85)] flex flex-col justify-between relative group"
           >
             {/* Top WhatsApp Chat Window Header */}
@@ -1706,6 +1711,8 @@ export function Testimonials() {
                 alt="Real WhatsApp Chat Review - MALHI"
                 loading="lazy"
                 decoding="async"
+                width="480"
+                height="460"
                 className="w-full h-auto max-h-[460px] object-cover rounded-xl transition-transform duration-300 group-hover:scale-[1.02]"
               />
             </div>
@@ -1730,8 +1737,8 @@ export function Testimonials() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4, delay: 0.15 }}
+            viewport={{ once: true, margin: "-10px" }}
+            transition={{ duration: 0.3, delay: 0.12 }}
             className="w-full max-w-md rounded-3xl border-2 border-[#d4f934]/40 bg-[#111b21] p-3.5 sm:p-5 shadow-[0_20px_60px_rgba(0,0,0,0.85)] flex flex-col justify-between relative group"
           >
             {/* Top WhatsApp Chat Window Header */}
@@ -1754,6 +1761,8 @@ export function Testimonials() {
                 alt="Real WhatsApp Chat Review - Akash"
                 loading="lazy"
                 decoding="async"
+                width="480"
+                height="460"
                 className="w-full h-auto max-h-[460px] object-cover rounded-xl transition-transform duration-300 group-hover:scale-[1.02]"
               />
             </div>
@@ -1892,7 +1901,7 @@ export function Instructor() {
   const isPa = lang === "pa";
 
   return (
-    <section className="py-20 sm:py-28 bg-[#0a0a0a] border-t border-gray-800/80">
+    <section className="lazy-section py-20 sm:py-28 bg-[#0a0a0a] border-t border-gray-800/80">
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         <SectionTitle
           tag={isPa ? "ਸੰਸਥਾਪਕ ਬਾਰੇ" : "WHO'S BEHIND PENDUGPT?"}
@@ -2030,7 +2039,7 @@ export function Offer() {
   ];
 
   return (
-    <section id="pricing" className="py-20 sm:py-28 bg-[#080808]">
+    <section id="pricing" className="lazy-section py-20 sm:py-28 bg-[#080808]">
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
         {/* Main High-Converting Pricing Card */}
         <div className="relative rounded-3xl border-2 border-[#d4f934]/70 bg-gradient-to-b from-[#18200d] via-[#101012] to-[#0a0a0a] p-6 sm:p-12 text-center shadow-[0_0_80px_rgba(212,249,52,0.25)] overflow-hidden">
@@ -2156,7 +2165,7 @@ export function Faq() {
   ];
 
   return (
-    <section id="faq" className="py-20 sm:py-28 bg-[#0a0a0a] border-t border-gray-800/80">
+    <section id="faq" className="lazy-section py-20 sm:py-28 bg-[#0a0a0a] border-t border-gray-800/80">
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
         <SectionTitle
           tag={isPa ? "ਸਵਾਲ-ਜਵਾਬ" : "FAQ"}
@@ -2267,7 +2276,7 @@ export function TwoPathsComparison() {
   };
 
   return (
-    <section className="py-20 sm:py-28 bg-[#060709] border-t border-gray-800/80 relative overflow-hidden">
+    <section className="lazy-section py-20 sm:py-28 bg-[#060709] border-t border-gray-800/80 relative overflow-hidden">
       {/* Background ambient split glow */}
       <div className="pointer-events-none absolute inset-0 flex justify-between">
         <div className="h-96 w-96 rounded-full bg-red-950/20 blur-[140px] -left-20" />
@@ -2408,7 +2417,7 @@ export function Showcase() {
   const { openModal } = useEnrollmentModal();
 
   return (
-    <section className="relative py-20 sm:py-28 bg-gradient-to-b from-[#080808] via-[#12170a] to-[#080808] border-t border-gray-800/80 text-center overflow-hidden">
+    <section className="lazy-section relative py-20 sm:py-28 bg-gradient-to-b from-[#080808] via-[#12170a] to-[#080808] border-t border-gray-800/80 text-center overflow-hidden">
       {/* Background glow */}
       <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
         <div className="h-96 w-96 rounded-full bg-[#d4f934]/15 blur-[120px]" />

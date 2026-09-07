@@ -2,13 +2,17 @@ import { motion, useReducedMotion } from "framer-motion";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
-/** Lightweight background ambient glow. */
+/** Lightweight background ambient glow with strict CSS containment */
 export function Aurora({ className }: { variant?: string; className?: string }) {
   return (
     <div aria-hidden className={cn("pointer-events-none absolute inset-0 overflow-hidden", className)}>
       <div
-        className="absolute -top-[20%] left-1/2 -translate-x-1/2 h-[500px] w-[800px] rounded-full opacity-20 blur-[100px]"
-        style={{ background: "radial-gradient(circle, #d4f934 0%, transparent 70%)" }}
+        className="absolute -top-[20%] left-1/2 -translate-x-1/2 h-[450px] w-[700px] rounded-full opacity-20 blur-[100px] pointer-events-none"
+        style={{
+          background: "radial-gradient(circle, #d4f934 0%, transparent 70%)",
+          transform: "translate3d(-50%, 0, 0)",
+          willChange: "transform",
+        }}
       />
     </div>
   );
@@ -18,7 +22,7 @@ export function Aurora({ className }: { variant?: string; className?: string }) 
 export function Reveal({
   children,
   delay = 0,
-  y = 12,
+  y = 10,
   className,
 }: {
   children: ReactNode;
@@ -32,8 +36,8 @@ export function Reveal({
       className={cn("transform-gpu", className)}
       initial={reduce ? false : { opacity: 0, y }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-20px" }}
-      transition={{ duration: 0.22, delay, ease: "easeOut" }}
+      viewport={{ once: true, margin: "-10px" }}
+      transition={{ duration: 0.2, delay, ease: "easeOut" }}
     >
       {children}
     </motion.div>
@@ -83,7 +87,7 @@ export function SectionShell({
   aurora?: boolean;
 }) {
   return (
-    <section id={id} className={cn("relative overflow-hidden px-4 py-16 sm:px-6 md:py-24", className)}>
+    <section id={id} className={cn("lazy-section relative overflow-hidden px-4 py-16 sm:px-6 md:py-24", className)}>
       <Aurora />
       <div className="relative mx-auto w-full max-w-6xl">{children}</div>
     </section>
@@ -103,7 +107,7 @@ export function Counter({ value, suffix = "" }: { value: number; suffix?: string
       (entries) => {
         if (!entries[0].isIntersecting || done.current) return;
         done.current = true;
-        const duration = 1000;
+        const duration = 800;
         const start = performance.now();
         const tick = (now: number) => {
           const p = Math.min((now - start) / duration, 1);
@@ -113,7 +117,7 @@ export function Counter({ value, suffix = "" }: { value: number; suffix?: string
         };
         requestAnimationFrame(tick);
       },
-      { threshold: 0.2 },
+      { threshold: 0.15 },
     );
     observer.observe(node);
     return () => observer.disconnect();
@@ -132,7 +136,7 @@ export function CursorGlow() {
   const glowRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (window.matchMedia("(pointer: coarse)").matches) return;
+    if (typeof window === "undefined" || window.matchMedia("(pointer: coarse)").matches) return;
     let frameId: number;
 
     const onMove = (e: PointerEvent) => {
@@ -160,6 +164,7 @@ export function CursorGlow() {
       style={{
         background: "radial-gradient(circle, rgba(212,249,52,0.18), transparent 70%)",
         willChange: "transform",
+        contain: "layout paint style",
       }}
     />
   );
@@ -168,4 +173,3 @@ export function CursorGlow() {
 export function FloatingOrbs() {
   return null;
 }
-
