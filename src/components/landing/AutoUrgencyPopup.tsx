@@ -14,18 +14,18 @@ export function AutoUrgencyPopup({ onClaim }: AutoUrgencyPopupProps) {
   const [seconds, setSeconds] = useState(55);
 
   const strings = {
-    badge: isPa ? "ਸੀਮਤ ਸੀਟਾਂ ਦੀ ਚੇਤਾਵਨੀ" : "LIMITED SPOTS ALERT",
-    headlineA: isPa ? "ਸਿਰਫ਼" : "Only",
-    headlineB: isPa ? "5 ਸੀਟਾਂ ਬਾਕੀ" : "5 Seats Left",
-    headlineC: isPa ? "₹999 ਵਿੱਚ!" : "At ₹999!",
+    badge: isPa ? "🔴 ₹999 ਸੀਟਾਂ ਫੁੱਲ • 50% ਛੋਟ ਲਾਈਵ" : "🔴 ₹999 SLOTS FULL • 50% OFF LIVE",
+    headlineA: isPa ? "₹999 ਬੈਚ ਫੁੱਲ ਹੋ ਗਿਆ!" : "₹999 Batch Sold Out!",
+    headlineB: isPa ? "50% ਛੋਟ ਨਾਲ ਦਾਖਲਾ ਲਵੋ" : "Enroll with 50% OFF",
+    headlineC: isPa ? "(ਸਿਰਫ਼ ₹2,499)" : "(Only ₹2,499)",
     description: isPa
-      ? "ਸੰਪੂਰਨ AI ਵੈੱਬਸਾਈਟ ਮਾਸਟਰਕਲਾਸ (7 ਕਲਾਸਾਂ + ਗੂਗਲ ਡਰਾਈਵ ਫੋਲਡਰ) 80% ਛੋਟ ਆਫਰ ਜਲਦੀ ਬੰਦ ਹੋ ਰਿਹਾ ਹੈ!"
-      : "Complete AI Website Masterclass (7 Classes + Google Drive Vault) 80% discount is ending soon!",
-    timerLabel: isPa ? "ਆਫਰ ਖ਼ਤਮ ਹੋਣ ਵਿੱਚ:" : "OFFER EXPIRES IN",
+      ? "₹999 ਅਰਲੀ ਬਰਡ ਆਫਰ ਦੀਆਂ ਸਾਰੀਆਂ ਸੀਟਾਂ ਫੁੱਲ ਹੋ ਚੁੱਕੀਆਂ ਹਨ। ਵਿਦਿਆਰਥੀਆਂ ਦੀ ਭਾਰੀ ਮੰਗ ਕਰਕੇ ਅਸੀਂ ਅਗਲੇ ਬੈਚ ਲਈ ਸੀਮਤ 50% ਛੋਟ (₹2,499) ਖੋਲ੍ਹੀ ਹੈ!"
+      : "All early bird ₹999 slots have been claimed. Due to overwhelming demand, we unlocked a limited 50% OFF admission batch (₹2,499)!",
+    timerLabel: isPa ? "50% ਛੋਟ ਖ਼ਤਮ ਹੋਣ ਵਿੱਚ:" : "50% OFF EXPIRES IN",
     originalPrice: "₹4,999",
-    offerPrice: isPa ? "ਸਿਰਫ਼ ₹999" : "₹999 ONLY",
-    claimBtn: isPa ? "ਮਾਸਟਰਕਲਾਸ ਐਕਸੈਸ ਲਵੋ — ₹999" : "Claim Your ₹999 Masterclass Now",
-    guarantee: isPa ? "100% ਰਿਸਕ-ਫ੍ਰੀ ਸੰਤੁਸ਼ਟੀ ਗਾਰੰਟੀ" : "100% Risk-Free Satisfaction Guarantee",
+    offerPrice: isPa ? "ਸਿਰਫ਼ ₹2,499" : "₹2,499 ONLY",
+    claimBtn: isPa ? "50% ਛੋਟ ਨਾਲ ਦਾਖਲਾ ਲਵੋ — ₹2,499" : "Enroll with 50% OFF — ₹2,499",
+    guarantee: isPa ? "100% ਰਿਸਕ-ਫ੍ਰੀ ਸੰਤੁਸ਼ਟੀ ਗਾਰੰਟੀ • ਲਾਈਫਟਾਈਮ ਐਕਸੈਸ" : "100% Risk-Free Satisfaction Guarantee • Lifetime Access",
   };
 
   useEffect(() => {

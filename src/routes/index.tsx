@@ -26,16 +26,16 @@ import {
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "PenduGPT — Build Websites 100% By Yourself (Zero Paid AI Tools Needed) ₹999" },
+      { title: "PenduGPT — Build Websites 100% By Yourself (Zero Paid AI Tools) | 50% OFF" },
       {
         name: "description",
         content:
-          "Learn how to create websites 100% by yourself without buying any paid AI tools or spending extra money. Master AI prompts, code customization, live deployment, and client outreach for just ₹999.",
+          "Learn how to create websites 100% by yourself without buying any paid AI tools or spending extra money. Master AI prompts, code customization, live deployment, and client outreach. ₹999 slots full — Enroll with 50% OFF (₹2,499).",
       },
-      { property: "og:title", content: "PenduGPT — Build Websites By Yourself (Zero Paid AI Tools) ₹999" },
+      { property: "og:title", content: "PenduGPT — Build Websites By Yourself (Zero Paid AI Tools) | 50% OFF" },
       {
         property: "og:description",
-        content: "Build unlimited production-ready AI websites by yourself with zero paid tool subscriptions and start earning from clients.",
+        content: "Build unlimited production-ready AI websites by yourself with zero paid tool subscriptions. ₹999 early bird full — enroll with 50% OFF now.",
       },
       { property: "og:url", content: "https://pendugpt.shop" },
     ],
@@ -50,26 +50,26 @@ function StickyMobileDock() {
   const { openModal } = useEnrollmentModal();
 
   return (
-    <div className="fixed inset-x-0 bottom-0 z-50 p-3 sm:hidden bg-[#090b0e]/95 border-t border-[#d4f934]/40 backdrop-blur-xl shadow-[0_-10px_30px_rgba(0,0,0,0.8)]">
-      <div className="flex items-center justify-between gap-3 max-w-md mx-auto">
-        <div className="text-left">
+    <div className="fixed inset-x-0 bottom-0 z-50 p-2.5 sm:hidden bg-[#090b0e]/95 border-t border-[#d4f934]/40 backdrop-blur-xl shadow-[0_-10px_30px_rgba(0,0,0,0.8)]">
+      <div className="flex items-center justify-between gap-2.5 max-w-md mx-auto">
+        <div className="text-left shrink-0">
           <div className="flex items-center gap-1.5">
-            <span className="line-through decoration-red-500 decoration-2 text-[11px] text-gray-400 font-bold">
+            <span className="line-through decoration-red-500 decoration-2 text-[10px] text-gray-400 font-bold">
               ₹4,999
             </span>
-            <span className="text-lg font-black text-[#d4f934]">₹999</span>
+            <span className="text-base font-black text-[#d4f934]">₹2,499</span>
           </div>
-          <span className="text-[10px] text-gray-300 font-bold block">
-            {isPa ? "ਲਾਈਫਟਾਈਮ ਐਕਸੈਸ" : "Lifetime Access"}
+          <span className="text-[9px] text-red-400 font-extrabold block">
+            {isPa ? "🔴 ₹999 ਸੀਟਾਂ ਫੁੱਲ (50% ਛੋਟ)" : "🔴 ₹999 Full (50% OFF)"}
           </span>
         </div>
 
         <button
           type="button"
           onClick={openModal}
-          className="lime-button flex-1 py-3 px-5 rounded-full text-xs font-black text-black flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(212,249,52,0.5)] cursor-pointer tracking-wider uppercase"
+          className="lime-button flex-1 py-3 px-3 rounded-full text-[11px] font-black text-black flex items-center justify-center gap-1.5 shadow-[0_0_20px_rgba(212,249,52,0.5)] cursor-pointer tracking-wide uppercase"
         >
-          <span>{isPa ? "ਐਕਸੈਸ ਲਵੋ (₹999)" : "GET FULL ACCESS →"}</span>
+          <span>{isPa ? "ਦਾਖਲਾ ਲਵੋ (₹2,499) →" : "ENROLL (50% OFF) →"}</span>
         </button>
       </div>
     </div>

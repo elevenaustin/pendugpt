@@ -95,20 +95,20 @@ export function Hero() {
           className="hidden sm:inline-flex group items-center gap-2.5 rounded-full bg-[#0d1015]/95 border border-[#d4f934]/50 p-1 pr-4 text-xs font-semibold text-gray-200 shadow-[0_0_30px_rgba(212,249,52,0.22)] backdrop-blur-xl mb-6 cursor-pointer hover:border-[#d4f934] hover:shadow-[0_0_40px_rgba(212,249,52,0.4)] transition-all duration-300 transform-gpu hover:scale-[1.02]"
         >
           {/* Inner Highlight Pill */}
-          <div className="inline-flex items-center gap-1.5 rounded-full bg-[#d4f934] px-3 py-1 text-[11px] font-black text-black shadow-sm">
+          <div className="inline-flex items-center gap-1.5 rounded-full bg-red-600 px-3 py-1 text-[11px] font-black text-white shadow-sm animate-pulse">
             <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-black opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-black"></span>
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
             </span>
             <span className="uppercase tracking-wide font-mono">
-              {isPa ? "ਲਾਈਵ ਬੈਚ" : "MASTERCLASS ACCESS"}
+              {isPa ? "🔴 ₹999 ਸੀਟਾਂ ਫੁੱਲ" : "🔴 ₹999 SLOTS FULL"}
             </span>
           </div>
 
           {/* Right Offer Text */}
           <div className="flex items-center gap-2">
             <span className="font-extrabold text-white text-[12px] sm:text-xs">
-              {isPa ? "80% ਛੋਟ • ਸਿਰਫ ₹999" : "80% OFF • Lifetime Access ₹999"}
+              {isPa ? "50% ਛੋਟ ਬੈਚ ਲਾਈਵ • ₹2,499" : "50% OFF Batch Live • Lifetime Access ₹2,499"}
             </span>
             <ArrowRight className="h-3.5 w-3.5 text-[#d4f934] transition-transform duration-200 group-hover:translate-x-1" />
           </div>
@@ -174,18 +174,18 @@ export function Hero() {
           transition={{ duration: 0.5, delay: 0.3 }}
           className="mt-6 sm:mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4"
         >
-          {/* Main ₹999 CTA Button */}
+          {/* Main 50% OFF CTA Button */}
           <button
             type="button"
             onClick={openModal}
             className="lime-button w-full sm:w-auto inline-flex items-center justify-center gap-2.5 sm:gap-3 rounded-full px-6 sm:px-8 py-3.5 sm:py-4 text-base sm:text-lg font-black text-black shadow-[0_0_40px_rgba(212,249,52,0.5)] cursor-pointer"
           >
             <span>
-              {isPa ? "ਹੁਣੇ ਐਕਸੈਸ ਲਵੋ — " : "Start Learning Now — "}
+              {isPa ? "50% ਛੋਟ ਨਾਲ ਦਾਖਲਾ ਲਵੋ — " : "Enroll with 50% OFF — "}
               <span className="line-through decoration-red-600 decoration-2 text-black/70 text-sm sm:text-base font-bold mr-1">
                 ₹4,999
               </span>
-              <span className="text-black font-black text-lg sm:text-xl">₹999</span>
+              <span className="text-black font-black text-lg sm:text-xl">₹2,499</span>
             </span>
             <ArrowRight className="h-5 w-5" />
           </button>
@@ -498,7 +498,7 @@ export function Stats() {
                 onClick={openModal}
                 className="lime-button px-5 py-2 rounded-full text-xs font-black text-black inline-flex items-center gap-2 cursor-pointer shrink-0 shadow-[0_0_20px_rgba(212,249,52,0.35)]"
               >
-                <span>{isPa ? "ਹੁਣੇ ਐਨਰੋਲ ਕਰੋ — ₹999" : "Claim ₹999 Access Now"}</span>
+                <span>{isPa ? "ਦਾਖਲਾ ਲਵੋ — ₹2,499 (50% ਛੋਟ)" : "Enroll with 50% OFF — ₹2,499"}</span>
                 <ArrowRight className="h-3.5 w-3.5" />
               </button>
             </div>
@@ -638,7 +638,7 @@ export function HeroTestimonialProof() {
             onClick={openModal}
             className="text-[#d4f934] font-bold hover:underline inline-flex items-center gap-1 cursor-pointer shrink-0 text-xs"
           >
-            Start Building with PenduGPT for ₹999 <ArrowRight className="h-3.5 w-3.5" />
+            {isPa ? "50% ਛੋਟ ਨਾਲ ਸ਼ੁਰੂ ਕਰੋ (₹2,499)" : "Start Building with 50% OFF (₹2,499)"} <ArrowRight className="h-3.5 w-3.5" />
           </button>
         </div>
       </div>
@@ -837,7 +837,7 @@ export function Audience() {
                 {isPa ? "ਪੂਰਾ ਪੈਕੇਜ" : "ALL-IN-ONE PACK"}
               </span>
               <h3 className="text-lg font-black text-white mt-1">
-                {isPa ? "ਸਾਰੀਆਂ 7 ਕਲਾਸਾਂ ਸਿਰਫ ₹999 ਵਿੱਚ" : "All 7 Classes Included in ₹999"}
+                {isPa ? "ਸਾਰੀਆਂ 7 ਕਲਾਸਾਂ 50% ਛੋਟ ਨਾਲ (₹2,499)" : "All 7 Classes (50% OFF — ₹2,499)"}
               </h3>
               <p className="mt-2 text-xs text-gray-400">
                 {isPa
@@ -850,7 +850,7 @@ export function Audience() {
               onClick={openModal}
               className="lime-button mt-4 w-full py-3 px-4 rounded-xl text-xs font-black text-black cursor-pointer flex items-center justify-center gap-2"
             >
-              <span>{isPa ? "ਹੁਣੇ ਸ਼ੁਰੂ ਕਰੋ (₹999)" : "Start Learning Now (₹999)"}</span>
+              <span>{isPa ? "50% ਛੋਟ ਨਾਲ ਦਾਖਲਾ ਲਵੋ (₹2,499)" : "Enroll with 50% OFF (₹2,499)"}</span>
               <ArrowRight className="h-4 w-4" />
             </button>
           </div>
@@ -1142,7 +1142,7 @@ export function Curriculum() {
             onClick={openModal}
             className="lime-button shrink-0 py-3.5 px-7 rounded-full text-sm font-black text-black shadow-md cursor-pointer flex items-center justify-center gap-2"
           >
-            <span>{isPa ? "ਹੁਣੇ ਐਨਰੋਲ ਕਰੋ — ₹999" : "Start Learning Now — ₹999"}</span>
+            <span>{isPa ? "50% ਛੋਟ ਨਾਲ ਦਾਖਲਾ ਲਵੋ — ₹2,499" : "Enroll with 50% OFF — ₹2,499"}</span>
             <ArrowRight className="h-4 w-4" />
           </button>
         </div>
@@ -1495,7 +1495,7 @@ export function Bonuses() {
               onClick={openModal}
               className="lime-button shrink-0 py-2.5 px-5 rounded-full text-xs font-black text-black cursor-pointer shadow-md flex items-center gap-1.5"
             >
-              <span>Get Drive Access (₹999)</span>
+              <span>{isPa ? "Drive ਐਕਸੈਸ ਲਵੋ (₹2,499)" : "Get Drive Access (50% OFF — ₹2,499)"}</span>
               <ArrowRight className="h-3.5 w-3.5" />
             </button>
           </div>
@@ -2021,7 +2021,7 @@ export function Instructor() {
   );
 }
 
-/* --------------------------------- 9. ₹999 MASTER OFFER SECTION --------------------------------- */
+/* --------------------------------- 9. 50% OFF MASTER OFFER SECTION (₹999 SLOTS FULL) --------------------------------- */
 export function Offer() {
   const { lang } = useI18n();
   const isPa = lang === "pa";
@@ -2040,73 +2040,165 @@ export function Offer() {
 
   return (
     <section id="pricing" className="lazy-section py-20 sm:py-28 bg-[#080808]">
-      <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-        {/* Main High-Converting Pricing Card */}
-        <div className="relative rounded-3xl border-2 border-[#d4f934]/70 bg-gradient-to-b from-[#18200d] via-[#101012] to-[#0a0a0a] p-6 sm:p-12 text-center shadow-[0_0_80px_rgba(212,249,52,0.25)] overflow-hidden">
-          {/* Top Launch Pill */}
-          <div className="inline-flex items-center gap-2 rounded-full bg-[#d4f934] px-4 py-1 text-xs font-black text-black uppercase tracking-wider mb-6 shadow-md">
-            <Flame className="h-4 w-4 fill-black" />
-            <span>{isPa ? "ਸਪੈਸ਼ਲ ਲਾਂਚ ਆਫਰ • 80% ਛੋਟ" : "SPECIAL LAUNCH OFFER • 80% OFF"}</span>
+      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+        
+        {/* 🚨 ATTENTION-GRABBING SCARCITY & NOTICE BANNER */}
+        <div className="mb-10 rounded-3xl border-2 border-red-500/50 bg-gradient-to-r from-red-950/70 via-[#160a0a] to-red-950/70 p-5 sm:p-7 shadow-[0_0_50px_rgba(239,68,68,0.25)] text-center relative overflow-hidden">
+          <div className="inline-flex items-center gap-2 rounded-full bg-red-600 px-3.5 py-1 text-xs font-black text-white uppercase tracking-wider mb-3 shadow-md animate-pulse">
+            <Flame className="h-4 w-4 fill-white" />
+            <span>{isPa ? "🔴 ₹999 ਆਫਰ ਅਪਡੇਟ" : "🔴 ₹999 OFFER UPDATE"}</span>
           </div>
 
-          <h2 className="text-3xl sm:text-5xl font-serif font-black tracking-tight text-white">
-            {isPa ? "ਸੰਪੂਰਨ AI ਮਾਸਟਰਕਲਾਸ — ₹999" : "Complete AI Masterclass — ₹999"}
-          </h2>
-
-          <p className="mt-3 text-sm sm:text-base text-gray-300 font-medium">
+          <h3 className="text-xl sm:text-2xl font-black text-white">
             {isPa
-              ? "ਇੱਕ ਵਾਰ ਭੁਗਤਾਨ • ਬਿਨਾਂ ਕੋਈ ਪੇਡ ਟੂਲ ਖਰੀਦੇ ਖੁਦ ਬਣਾਓ • ਲਾਈਫਟਾਈਮ ਐਕਸੈਸ"
-              : "One-time payment • Build 100% by yourself • Zero paid software subscriptions"}
+              ? "₹999 ਅਰਲੀ ਬਰਡ ਆਫਰ ਦੀਆਂ ਸਾਰੀਆਂ ਸੀਟਾਂ ਫੁੱਲ ਹੋ ਚੁੱਕੀਆਂ ਹਨ!"
+              : "The ₹999 Early Bird Batch Slots Are 100% FULL!"}
+          </h3>
+
+          <p className="mt-2 text-xs sm:text-sm text-gray-200 max-w-2xl mx-auto leading-relaxed">
+            {isPa ? (
+              <>
+                ਵਿਦਿਆਰਥੀਆਂ ਦੇ ਭਾਰੀ ਹੁੰਗਾਰੇ ਕਰਕੇ ₹999 ਦੀਆਂ ਸਾਰੀਆਂ 100 ਸੀਟਾਂ ਬੁੱਕ ਹੋ ਗਈਆਂ ਹਨ। ਤੁਸੀਂ{" "}
+                <span className="text-red-400 font-bold">ਅਗਲੇ ਬੈਚ ਲਈ ਬਾਅਦ 'ਚ ਕੋਸ਼ਿਸ਼ ਕਰ ਸਕਦੇ ਹੋ</span>{" "}
+                ਜਾਂ ਅੱਜ ਹੀ <strong className="text-[#d4f934] font-black underline">50% ਛੋਟ ਵਾਲੀ ਫੀਸ (₹2,499)</strong> ਨਾਲ ਦਾਖਲਾ ਲੈ ਸਕਦੇ ਹੋ!
+              </>
+            ) : (
+              <>
+                Due to overwhelming demand, all 100 promotional ₹999 seats have been claimed. You may{" "}
+                <span className="text-red-400 font-bold">try again later for future batches</span>{" "}
+                OR enroll in the active batch with the{" "}
+                <strong className="text-[#d4f934] font-black underline">50% OFF Admission Fee (₹2,499)</strong> before regular price returns!
+              </>
+            )}
           </p>
+        </div>
 
-          {/* Pricing Numbers Hero */}
-          <div className="my-8 rounded-2xl border border-gray-800 bg-[#0d0d0d]/90 p-6 max-w-md mx-auto">
-            <div className="text-xs font-black text-gray-400 uppercase tracking-wider mb-1">
-              {isPa ? "ਕੁੱਲ ਕੀਮਤ" : "TOTAL BUNDLE VALUE"}
-            </div>
-            <div className="flex items-center justify-center gap-3">
-              <span className="line-through decoration-red-600 decoration-4 text-gray-500 font-extrabold text-2xl sm:text-3xl">
-                ₹4,999
-              </span>
-              <span className="text-4xl sm:text-6xl font-black text-[#d4f934] font-display">
-                ₹999
-              </span>
-            </div>
-            <span className="inline-block mt-2 rounded-full bg-green-950 border border-green-500/40 px-3 py-0.5 text-[11px] font-bold text-green-400">
-              {isPa ? "ਤੁਸੀਂ ₹4,000 ਦੀ ਬਚਤ ਕਰ ਰਹੇ ਹੋ (80% ਛੋਟ)" : "You Save ₹4,000 Today (80% Discount)"}
-            </span>
-          </div>
-
-          {/* Feature Checklist */}
-          <div className="max-w-xl mx-auto text-left space-y-3 mb-8">
-            {checklist.map((item, idx) => (
-              <div key={idx} className="flex items-start gap-3 text-xs sm:text-sm text-gray-200">
-                <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#d4f934]/20 text-[#d4f934] mt-0.5">
-                  <Check className="h-3.5 w-3.5 stroke-[3]" />
-                </div>
-                <span>{item}</span>
+        {/* DUAL-TIER COMPARISON GRID */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+          
+          {/* TIER 1: EARLY BIRD (₹999) - SOLD OUT / LOCKED */}
+          <div className="lg:col-span-5 rounded-3xl border border-gray-800 bg-[#0d0f12]/80 p-6 sm:p-8 flex flex-col justify-between opacity-75 relative overflow-hidden">
+            <div className="pointer-events-none absolute inset-0 bg-black/40 backdrop-blur-[1px]" />
+            
+            <div className="relative z-10 text-left">
+              <div className="inline-flex items-center gap-1.5 rounded-full bg-red-950 border border-red-500/40 px-3 py-0.5 text-[10px] font-black uppercase text-red-400 mb-4">
+                <Lock className="h-3 w-3" />
+                <span>{isPa ? "100/100 ਸੀਟਾਂ ਫੁੱਲ • ਬੰਦ" : "100/100 SLOTS FULL • CLOSED"}</span>
               </div>
-            ))}
+
+              <h4 className="text-xl font-bold text-gray-300">
+                {isPa ? "ਅਰਲੀ ਬਰਡ ਲਾਂਚ ਬੈਚ" : "Early Bird Launch Batch"}
+              </h4>
+
+              <div className="my-4 flex items-baseline gap-2">
+                <span className="line-through decoration-red-600 decoration-3 text-3xl font-black text-gray-500">
+                  ₹999
+                </span>
+                <span className="text-xs font-bold text-red-400 uppercase">
+                  {isPa ? "ਸੀਟਾਂ ਖਤਮ" : "Sold Out"}
+                </span>
+              </div>
+
+              <p className="text-xs text-gray-400 leading-relaxed mb-6">
+                {isPa
+                  ? "ਇਸ ਬੈਚ ਦਾ ਕੋਟਾ ਪੂਰਾ ਹੋ ਚੁੱਕਾ ਹੈ। ਅਗਲੇ ਬੈਚ ਦੇ ਐਲਾਨ ਲਈ ਉਡੀਕ ਕਰੋ ਜਾਂ ਨਾਲ ਵਾਲੇ 50% ਛੋਟ ਬੈਚ ਵਿੱਚ ਦਾਖਲਾ ਲਵੋ।"
+                  : "Promotional quota filled. Please check back for future batches or join the active 50% discount batch."}
+              </p>
+
+              <div className="space-y-2.5 text-xs text-gray-500">
+                <div className="flex items-center gap-2">
+                  <span className="h-1.5 w-1.5 rounded-full bg-red-500" />
+                  <span>{isPa ? "100 ਸੀਟਾਂ ਮੁਕੰਮਲ" : "100/100 Seats Claimed"}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="h-1.5 w-1.5 rounded-full bg-red-500" />
+                  <span>{isPa ? "ਨਵਾਂ ਦਾਖਲਾ ਬੰਦ" : "New Admissions Closed"}</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="relative z-10 mt-6 pt-4 border-t border-gray-800/80">
+              <button
+                disabled
+                className="w-full py-3 px-4 rounded-xl text-xs font-bold bg-gray-900 border border-gray-800 text-gray-500 cursor-not-allowed text-center"
+              >
+                {isPa ? "🔴 ਸੀਟਾਂ ਫੁੱਲ (ਬਾਅਦ 'ਚ ਕੋਸ਼ਿਸ਼ ਕਰੋ)" : "🔴 Slots Full (Try Again Later)"}
+              </button>
+            </div>
           </div>
 
-          {/* Primary Action Button */}
-          <button
-            type="button"
-            onClick={openModal}
-            className="lime-button w-full sm:w-auto min-w-[280px] inline-flex items-center justify-center gap-3 rounded-full py-4 px-8 text-base sm:text-lg font-black text-black shadow-[0_0_40px_rgba(212,249,52,0.6)] cursor-pointer"
-          >
-            <span>{isPa ? "ਹੁਣੇ ਐਕਸੈਸ ਲਵੋ (₹999)" : "Start Learning Now — ₹999"}</span>
-            <ArrowRight className="h-5 w-5" />
-          </button>
+          {/* TIER 2: ACTIVE BATCH (50% OFF — ₹2,499) - RECOMMENDED & GLOWING */}
+          <div className="lg:col-span-7 rounded-3xl border-2 border-[#d4f934] bg-gradient-to-b from-[#18220c] via-[#101215] to-[#0a0a0a] p-6 sm:p-10 text-center shadow-[0_0_80px_rgba(212,249,52,0.3)] relative overflow-hidden flex flex-col justify-between">
+            {/* Top Accent Pill */}
+            <div>
+              <div className="inline-flex items-center gap-2 rounded-full bg-[#d4f934] px-4 py-1 text-xs font-black text-black uppercase tracking-wider mb-4 shadow-md">
+                <Flame className="h-4 w-4 fill-black" />
+                <span>{isPa ? "🔥 50% ਛੋਟ ਸਪੈਸ਼ਲ ਦਾਖਲਾ • ਸੀਮਤ ਸੀਟਾਂ" : "🔥 50% OFF SPECIAL ADMISSION • ACTIVE"}</span>
+              </div>
 
-          <p className="mt-4 text-xs text-gray-400 flex items-center justify-center gap-1.5">
-            <Lock className="h-3.5 w-3.5 text-[#d4f934]" />
-            <span>
-              {isPa
-                ? "Razorpay ਦੁਆਰਾ 100% ਸੁਰੱਖਿਅਤ ਪੇਮੈਂਟ • ਤੁਰੰਤ WhatsApp ਤੇ Drive ਲਿੰਕ"
-                : "100% Secure Razorpay Checkout • Instant Access via WhatsApp & Google Drive"}
-            </span>
-          </p>
+              <h3 className="text-2xl sm:text-4xl font-serif font-black tracking-tight text-white">
+                {isPa ? "ਸੰਪੂਰਨ AI ਮਾਸਟਰਕਲਾਸ" : "Complete AI Masterclass"}
+              </h3>
+
+              <p className="mt-2 text-xs sm:text-sm text-gray-300 font-medium">
+                {isPa
+                  ? "ਇੱਕ ਵਾਰ ਭੁਗਤਾਨ • ਬਿਨਾਂ ਕੋਈ ਪੇਡ ਟੂਲ ਖਰੀਦੇ ਖੁਦ ਬਣਾਓ • ਲਾਈਫਟਾਈਮ ਐਕਸੈਸ"
+                  : "One-time fee • Build 100% by yourself • Zero tool subscriptions • Lifetime access"}
+              </p>
+
+              {/* Pricing Numbers Hero */}
+              <div className="my-6 rounded-2xl border border-[#d4f934]/30 bg-[#0d0d0d]/90 p-5 max-w-sm mx-auto">
+                <div className="text-[11px] font-black text-gray-400 uppercase tracking-wider mb-1">
+                  {isPa ? "ਅਸਲ ਕੀਮਤ vs 50% ਛੋਟ ਫੀਸ" : "REGULAR PRICE VS 50% OFF FEE"}
+                </div>
+                <div className="flex items-center justify-center gap-3">
+                  <span className="line-through decoration-red-600 decoration-4 text-gray-500 font-extrabold text-2xl sm:text-3xl">
+                    ₹4,999
+                  </span>
+                  <span className="text-4xl sm:text-5xl font-black text-[#d4f934] font-display">
+                    ₹2,499
+                  </span>
+                </div>
+                <span className="inline-block mt-2 rounded-full bg-green-950 border border-green-500/40 px-3 py-0.5 text-[11px] font-bold text-green-400">
+                  {isPa ? "ਤੁਸੀਂ ₹2,500 ਦੀ ਬਚਤ ਕਰ ਰਹੇ ਹੋ (50% ਛੋਟ)" : "You Save ₹2,500 Today (50% Discount)"}
+                </span>
+              </div>
+
+              {/* Feature Checklist */}
+              <div className="max-w-md mx-auto text-left space-y-2.5 mb-8">
+                {checklist.map((item, idx) => (
+                  <div key={idx} className="flex items-start gap-2.5 text-xs sm:text-[13px] text-gray-200">
+                    <div className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[#d4f934]/20 text-[#d4f934] mt-0.5">
+                      <Check className="h-3 w-3 stroke-[3]" />
+                    </div>
+                    <span>{item}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              {/* Primary Action Button */}
+              <button
+                type="button"
+                onClick={openModal}
+                className="lime-button w-full inline-flex items-center justify-center gap-3 rounded-full py-4 px-8 text-base sm:text-lg font-black text-black shadow-[0_0_40px_rgba(212,249,52,0.6)] cursor-pointer hover:scale-[1.02] transition-transform"
+              >
+                <span>{isPa ? "50% ਛੋਟ ਨਾਲ ਦਾਖਲਾ ਲਵੋ — ₹2,499" : "Enroll with 50% OFF — ₹2,499"}</span>
+                <ArrowRight className="h-5 w-5" />
+              </button>
+
+              <p className="mt-3 text-xs text-gray-400 flex items-center justify-center gap-1.5">
+                <Lock className="h-3.5 w-3.5 text-[#d4f934]" />
+                <span>
+                  {isPa
+                    ? "Razorpay ਦੁਆਰਾ 100% ਸੁਰੱਖਿਅਤ ਪੇਮੈਂਟ • ਤੁਰੰਤ WhatsApp ਤੇ Drive ਲਿੰਕ"
+                    : "100% Secure Razorpay Checkout • Instant Access via WhatsApp & Google Drive"}
+                </span>
+              </p>
+            </div>
+          </div>
+
         </div>
       </div>
     </section>
@@ -2127,16 +2219,22 @@ export function Faq() {
         : "Not at all! After this masterclass, you will build unlimited websites completely by yourself without buying any paid AI tools or recurring software subscriptions ($20-$50/month). We teach you 100% free and open developer workflows so you never spend extra money.",
     },
     {
+      q: isPa ? "₹999 ਆਫਰ ਦਾ ਕੀ ਹੋਇਆ? ਕੀ ਮੈਨੂੰ ₹999 ਵਿੱਚ ਮਿਲ ਸਕਦਾ ਹੈ?" : "What happened to the ₹999 offer?",
+      a: isPa
+        ? "ਸ਼ੁਰੂਆਤੀ ₹999 ਵਾਲੇ ਪ੍ਰਮੋਸ਼ਨਲ ਬੈਚ ਦੀਆਂ ਸਾਰੀਆਂ 100 ਸੀਟਾਂ ਫੁੱਲ ਹੋ ਚੁੱਕੀਆਂ ਹਨ। ਗੰਭੀਰ ਸਿੱਖਿਆਰਥੀਆਂ ਦੀ ਮੰਗ ਨੂੰ ਧਿਆਨ ਵਿੱਚ ਰੱਖਦੇ ਹੋਏ ਅਸੀਂ ਮੌਜੂਦਾ ਬੈਚ ਲਈ 50% ਛੋਟ (₹2,499) ਦਾ ਸਪੈਸ਼ਲ ਦਾਖਲਾ ਖੋਲ੍ਹਿਆ ਹੈ। ਤੁਸੀਂ ਅਗਲੇ ਪ੍ਰਮੋਸ਼ਨਲ ਬੈਚ ਲਈ ਬਾਅਦ 'ਚ ਕੋਸ਼ਿਸ਼ ਕਰ ਸਕਦੇ ਹੋ ਜਾਂ ਹੁਣੇ ₹2,499 ਨਾਲ ਲਾਈਫਟਾਈਮ ਐਕਸੈਸ ਲੈ ਸਕਦੇ ਹੋ।"
+        : "The introductory ₹999 promotional batch of 100 seats reached 100% capacity and is now closed. To accommodate dedicated learners, we unlocked the active batch at a 50% discount (₹2,499 instead of ₹4,999). You can wait to try again in future batches or secure lifetime admission at 50% OFF today.",
+    },
+    {
       q: isPa ? "ਕੀ ਮੈਨੂੰ ਕੋਡਿੰਗ ਆਉਣੀ ਜ਼ਰੂਰੀ ਹੈ?" : "Do I need prior coding experience?",
       a: isPa
         ? "ਬਿਲਕੁਲ ਨਹੀਂ! ਇਹ ਮਾਸਟਰਕਲਾਸ 100% ਸ਼ੁਰੂਆਤੀ ਲੋਕਾਂ ਲਈ ਤਿਆਰ ਕੀਤੀ ਗਈ ਹੈ। ਅਸੀਂ ਆਧੁਨਿਕ AI ਪ੍ਰੌਂਪਟਸ ਅਤੇ ਵਿਜ਼ੂਅਲ ਟੂਲਸ ਨਾਲ ਕੰਮ ਕਰਨਾ ਸਿਖਾਉਂਦੇ ਹਾਂ ਜਿਸ ਵਿੱਚ ਕੋਈ ਮੁਸ਼ਕਲ ਕੋਡਿੰਗ ਨਹੀਂ ਲੱਗਦੀ।"
         : "Not at all! This masterclass is designed from scratch for absolute beginners. We teach visual AI building and pro code customization without requiring traditional complex coding syntax.",
     },
     {
-      q: isPa ? "ਭੁਗਤਾਨ ਤੋਂ ਬਾਅਦ ਮੈਨੂੰ ਕਲਾਸਾਂ ਕਿਵੇਂ ਮਿਲਣਗੀਆਂ?" : "How and when will I receive course access after paying ₹999?",
+      q: isPa ? "ਭੁਗਤਾਨ ਤੋਂ ਬਾਅਦ ਮੈਨੂੰ ਕਲਾਸਾਂ ਕਿਵੇਂ ਮਿਲਣਗੀਆਂ?" : "How and when will I receive course access after paying ₹2,499?",
       a: isPa
-        ? "₹999 ਦੀ ਪੇਮੈਂਟ ਪੂਰੀ ਹੁੰਦੇ ਹੀ ਤੁਹਾਡੇ WhatsApp ਅਤੇ ਸਕ੍ਰੀਨ 'ਤੇ ਗੂਗਲ ਡਰਾਈਵ ਕੋਰਸ ਫੋਲਡਰ ਦਾ ਡਾਇਰੈਕਟ ਲਿੰਕ ਖੁੱਲ੍ਹ ਜਾਵੇਗਾ। ਤੁਸੀਂ ਤੁਰੰਤ ਸਾਰੀਆਂ ਕਲਾਸਾਂ ਦੇਖ ਸਕਦੇ ਹੋ।"
-        : "Immediately after completing your ₹999 payment, you will receive instant access to the Google Drive course folder containing all recordings, source files, and prompts, plus an automatic WhatsApp invite.",
+        ? "₹2,499 ਦੀ ਪੇਮੈਂਟ ਪੂਰੀ ਹੁੰਦੇ ਹੀ ਤੁਹਾਡੇ WhatsApp ਅਤੇ ਸਕ੍ਰੀਨ 'ਤੇ ਗੂਗਲ ਡਰਾਈਵ ਕੋਰਸ ਫੋਲਡਰ ਦਾ ਡਾਇਰੈਕਟ ਲਿੰਕ ਖੁੱਲ੍ਹ ਜਾਵੇਗਾ। ਤੁਸੀਂ ਤੁਰੰਤ ਸਾਰੀਆਂ ਕਲਾਸਾਂ ਦੇਖ ਸਕਦੇ ਹੋ।"
+        : "Immediately after completing your ₹2,499 payment, you will receive instant access to the Google Drive course folder containing all recordings, source files, and prompts, plus an automatic WhatsApp invite.",
     },
     {
       q: isPa ? "ਕੀ ਇਹ ਲਾਈਵ ਕਲਾਸਾਂ ਹਨ ਜਾਂ ਰਿਕਾਰਡਡ?" : "Are the classes live or recorded?",
@@ -2151,10 +2249,10 @@ export function Faq() {
         : "A laptop or desktop computer is recommended for hands-on website building and customization. You can watch the lessons on any device, including your smartphone.",
     },
     {
-      q: isPa ? "ਕੀ ਇਹ ਵਨ-ਟਾਈਮ ਫੀਸ ਹੈ ਜਾਂ ਮਹੀਨਾਵਾਰ?" : "Is it really a one-time payment of ₹999?",
+      q: isPa ? "ਕੀ ਇਹ ਵਨ-ਟਾਈਮ ਫੀਸ ਹੈ ਜਾਂ ਮਹੀਨਾਵਾਰ?" : "Is it really a one-time payment of ₹2,499?",
       a: isPa
-        ? "ਹਾਂਜੀ, ਸਿਰਫ ₹999 ਦਾ ਇੱਕ ਵਾਰ ਭੁਗਤਾਨ ਹੈ। ਕੋਈ ਮਾਸਿਕ ਫੀਸ ਜਾਂ ਲੁਕਵਾਂ ਖਰਚਾ ਨਹੀਂ ਹੈ। ਤੁਹਾਨੂੰ ਲਾਈਫਟਾਈਮ ਐਕਸੈਸ ਮਿਲੇਗਾ।"
-        : "Yes, exactly ₹999 one-time. No hidden subscriptions, no recurring renewal charges. You get lifetime access to all current and future updates.",
+        ? "ਹਾਂਜੀ, ਸਿਰਫ ₹2,499 ਦਾ ਇੱਕ ਵਾਰ ਭੁਗਤਾਨ ਹੈ। ਕੋਈ ਮਾਸਿਕ ਫੀਸ ਜਾਂ ਲੁਕਵਾਂ ਖਰਚਾ ਨਹੀਂ ਹੈ। ਤੁਹਾਨੂੰ ਲਾਈਫਟਾਈਮ ਐਕਸੈਸ ਮਿਲੇਗਾ।"
+        : "Yes, exactly ₹2,499 one-time. No hidden subscriptions, no recurring renewal charges. You get lifetime access to all current and future updates.",
     },
     {
       q: isPa ? "ਜੇਕਰ ਮੈਨੂੰ ਕੋਈ ਸਵਾਲ ਜਾਂ ਮੁਸ਼ਕਲ ਆਵੇ ਤਾਂ ਸਪੋਰਟ ਮਿਲੇਗੀ?" : "What if I get stuck while building?",
@@ -2399,7 +2497,7 @@ export function TwoPathsComparison() {
                 onClick={openModal}
                 className="lime-button w-full py-4 px-6 rounded-2xl text-sm sm:text-base font-black text-black shadow-[0_0_30px_rgba(212,249,52,0.5)] cursor-pointer flex items-center justify-center gap-2"
               >
-                <span>{isPa ? "ਰਸਤਾ 2 ਚੁਣੋ — ਸਿਰਫ ₹999 ਵਿੱਚ ਸ਼ੁਰੂ ਕਰੋ" : "Choose Path B — Get Full Access for ₹999"}</span>
+                <span>{isPa ? "ਰਸਤਾ 2 ਚੁਣੋ — 50% ਛੋਟ ਨਾਲ ਦਾਖਲਾ ਲਵੋ (₹2,499)" : "Choose Path B — Enroll with 50% OFF (₹2,499)"}</span>
                 <ArrowRight className="h-4 w-4" />
               </button>
             </div>
@@ -2445,8 +2543,8 @@ export function Showcase() {
 
         <p className="mt-3 sm:mt-6 text-xs sm:text-lg text-gray-300 max-w-2xl mx-auto leading-relaxed">
           {isPa
-            ? "7 ਕਲਾਸਾਂ, ਪੂਰਾ ਗੂਗਲ ਡਰਾਈਵ ਫੋਲਡਰ, 100+ ਪ੍ਰੌਂਪਟਸ ਅਤੇ ਪੋਰਟਫੋਲੀਓ ਪ੍ਰੋਜੈਕਟਸ ਸਿਰਫ਼ ₹999 ਵਿੱਚ ਪ੍ਰਾਪਤ ਕਰੋ।"
-            : "Join hundreds of students and freelancers building client websites in 7 days. Instant lifetime access."}
+            ? "7 ਕਲਾਸਾਂ, ਪੂਰਾ ਗੂਗਲ ਡਰਾਈਵ ਫੋਲਡਰ, 100+ ਪ੍ਰੌਂਪਟਸ ਅਤੇ ਪੋਰਟਫੋਲੀਓ ਪ੍ਰੋਜੈਕਟਸ 50% ਛੋਟ (₹2,499) ਵਿੱਚ ਪ੍ਰਾਪਤ ਕਰੋ।"
+            : "Join hundreds of students and freelancers building client websites with 50% OFF (₹2,499). Instant lifetime access."}
         </p>
 
         <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
@@ -2455,7 +2553,7 @@ export function Showcase() {
             onClick={openModal}
             className="lime-button w-full sm:w-auto inline-flex items-center justify-center gap-2.5 sm:gap-3 rounded-full py-3.5 sm:py-4 px-7 sm:px-9 text-base sm:text-lg font-black text-black shadow-[0_0_50px_rgba(212,249,52,0.6)] cursor-pointer"
           >
-            <span>{isPa ? "₹999 → ਪੂਰਾ ਐਕਸੈਸ ਲਵੋ" : "₹999 → Get Full Masterclass Access"}</span>
+            <span>{isPa ? "50% ਛੋਟ ਨਾਲ ਦਾਖਲਾ ਲਵੋ — ₹2,499 →" : "Enroll with 50% OFF — ₹2,499 →"}</span>
             <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5" />
           </button>
         </div>
