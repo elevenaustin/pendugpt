@@ -19,7 +19,7 @@ type I18nValue = {
 const I18nContext = createContext<I18nValue | null>(null);
 
 export function I18nProvider({ children }: { children: ReactNode }) {
-  const [lang, setLangState] = useState<Lang>("en");
+  const [lang, setLangState] = useState<Lang>("pa");
   const [chosen, setChosen] = useState(false);
   const [hydrated, setHydrated] = useState(false);
 

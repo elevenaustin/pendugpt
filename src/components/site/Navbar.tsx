@@ -53,18 +53,18 @@ export function Navbar() {
         className="w-full max-w-full overflow-hidden bg-[#d4f934] text-black py-1 sm:py-1.5 px-2 sm:px-3 text-center text-[10px] sm:text-xs font-black tracking-tight border-b border-black/10 shadow-md flex items-center justify-center gap-1.5 sm:gap-2 cursor-pointer hover:bg-[#c6ec22] transition-colors select-none"
       >
         <span className="inline-flex items-center gap-1 rounded-full bg-red-600 px-1.5 sm:px-2 py-0.5 text-[9px] sm:text-[10px] font-black uppercase tracking-wider text-white shrink-0 animate-pulse">
-          🔴 {lang === "pa" ? "₹999 ਸੀਟਾਂ ਫੁੱਲ" : "₹999 SLOTS FULL"}
+          🔴 {lang === "pa" ? "ਸਪੈਸ਼ਲ ਆਫਰ" : "SPECIAL OFFER"}
         </span>
         <span className="font-extrabold truncate text-[11px] sm:text-xs">
           {lang === "pa" ? (
             <>
-              <span className="sm:hidden">50% ਛੋਟ ਬੈਚ ਲਾਈਵ — <span className="line-through text-black/70">₹4,999</span> <strong>₹2,499</strong></span>
-              <span className="hidden sm:inline">₹999 ਆਫਰ ਫੁੱਲ ਹੋ ਗਿਆ ਹੈ • <strong>50% ਛੋਟ ਨਾਲ ਦਾਖਲਾ ਲਵੋ:</strong> <span className="line-through decoration-red-600 decoration-2 text-black/80 font-bold">₹4,999</span> <span className="font-black text-black">₹2,499</span></span>
+              <span className="sm:hidden">ਸਪੈਸ਼ਲ ਬੈਚ — <span className="line-through text-black/70">₹5,000</span> <strong>ਫਲੈਟ ₹997</strong></span>
+              <span className="hidden sm:inline">ਪਿਛਲੀ ਕਲਾਸ ₹5,000 ਸੀ • <strong>ਸਪੈਸ਼ਲ ਆਫਰ ਫਲੈਟ ₹997:</strong> <span className="line-through decoration-red-600 decoration-2 text-black/80 font-bold">₹5,000</span> <span className="font-black text-black">₹997 (80% ਛੋਟ)</span></span>
             </>
           ) : (
             <>
-              <span className="sm:hidden">50% OFF Batch Active — <span className="line-through text-black/70">₹4,999</span> <strong>₹2,499</strong></span>
-              <span className="hidden sm:inline">₹999 Early Bird Closed • <strong>Enroll with 50% OFF:</strong> <span className="line-through decoration-red-600 decoration-2 text-black/80 font-bold">₹4,999</span> <span className="font-black text-black">₹2,499</span></span>
+              <span className="sm:hidden">Special Batch — <span className="line-through text-black/70">₹5,000</span> <strong>Flat ₹997</strong></span>
+              <span className="hidden sm:inline">Previous Class Was ₹5,000 • <strong>Special Admission Offer:</strong> <span className="line-through decoration-red-600 decoration-2 text-black/80 font-bold">₹5,000</span> <span className="font-black text-black">₹997 ONLY (80% OFF)</span></span>
             </>
           )}
         </span>
@@ -99,11 +99,11 @@ export function Navbar() {
             <a href="#proof" className="hover:text-[#d4f934] transition-colors">
               {lang === "pa" ? "ਵਿਦਿਆਰਥੀਆਂ ਦੇ ਨਤੀਜੇ" : "Student Proof"}
             </a>
-            <a href="#outcomes" className="hover:text-[#d4f934] transition-colors">
-              {lang === "pa" ? "ਤੁਸੀਂ ਕੀ ਸਿੱਖੋਗੇ" : "What You'll Learn"}
+            <a href="#pricing" className="hover:text-[#d4f934] transition-colors">
+              {lang === "pa" ? "ਦਾਖਲਾ ਫੀਸ" : "Pricing"}
             </a>
             <a href="#faq" className="hover:text-[#d4f934] transition-colors">
-              {lang === "pa" ? "ਸਵਾਲ-ਜਵਾਬ" : "FAQ"}
+              {lang === "pa" ? "ਸਵਾਲ-ਜਵਾਬ" : "FAQs"}
             </a>
           </div>
 
@@ -146,11 +146,11 @@ export function Navbar() {
               <span>
                 {lang === "pa" ? (
                   <>
-                    50% ਛੋਟ ਨਾਲ ਦਾਖਲਾ — <span className="line-through decoration-red-600 decoration-2 text-black/80 font-bold">₹4,999</span> <span className="font-black text-black">₹2,499</span>
+                    ਦਾਖਲਾ ਲਵੋ — <span className="line-through decoration-red-600 decoration-2 text-black/80 font-bold">₹5,000</span> <span className="font-black text-black">₹997</span>
                   </>
                 ) : (
                   <>
-                    Enroll (50% OFF) — <span className="line-through decoration-red-600 decoration-2 text-black/80 font-bold">₹4,999</span> <span className="font-black text-black">₹2,499</span>
+                    Enroll Now — <span className="line-through decoration-red-600 decoration-2 text-black/80 font-bold">₹5,000</span> <span className="font-black text-black">₹997</span>
                   </>
                 )}
               </span>

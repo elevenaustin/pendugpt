@@ -14,17 +14,17 @@ export function AutoUrgencyPopup({ onClaim }: AutoUrgencyPopupProps) {
   const [seconds, setSeconds] = useState(55);
 
   const strings = {
-    badge: isPa ? "🔴 ₹999 ਸੀਟਾਂ ਫੁੱਲ • 50% ਛੋਟ ਲਾਈਵ" : "🔴 ₹999 SLOTS FULL • 50% OFF LIVE",
-    headlineA: isPa ? "₹999 ਬੈਚ ਫੁੱਲ ਹੋ ਗਿਆ!" : "₹999 Batch Sold Out!",
-    headlineB: isPa ? "50% ਛੋਟ ਨਾਲ ਦਾਖਲਾ ਲਵੋ" : "Enroll with 50% OFF",
-    headlineC: isPa ? "(ਸਿਰਫ਼ ₹2,499)" : "(Only ₹2,499)",
+    badge: isPa ? "🔴 ਸਪੈਸ਼ਲ ਬੈਚ ਦਾਖਲਾ • ₹4,003 ਦੀ ਬਚਤ" : "🔴 SPECIAL BATCH ADMISSION • SAVE ₹4,003",
+    headlineA: isPa ? "ਪਿਛਲੀ ਕਲਾਸ ₹5,000 ਸੀ!" : "Previous Batch Was ₹5,000!",
+    headlineB: isPa ? "ਸਪੈਸ਼ਲ ਫਲੈਟ ₹997 ਆਫਰ" : "Special Flat ₹997 Price",
+    headlineC: isPa ? "(80% ਛੋਟ)" : "(80% OFF)",
     description: isPa
-      ? "₹999 ਅਰਲੀ ਬਰਡ ਆਫਰ ਦੀਆਂ ਸਾਰੀਆਂ ਸੀਟਾਂ ਫੁੱਲ ਹੋ ਚੁੱਕੀਆਂ ਹਨ। ਵਿਦਿਆਰਥੀਆਂ ਦੀ ਭਾਰੀ ਮੰਗ ਕਰਕੇ ਅਸੀਂ ਅਗਲੇ ਬੈਚ ਲਈ ਸੀਮਤ 50% ਛੋਟ (₹2,499) ਖੋਲ੍ਹੀ ਹੈ!"
-      : "All early bird ₹999 slots have been claimed. Due to overwhelming demand, we unlocked a limited 50% OFF admission batch (₹2,499)!",
-    timerLabel: isPa ? "50% ਛੋਟ ਖ਼ਤਮ ਹੋਣ ਵਿੱਚ:" : "50% OFF EXPIRES IN",
-    originalPrice: "₹4,999",
-    offerPrice: isPa ? "ਸਿਰਫ਼ ₹2,499" : "₹2,499 ONLY",
-    claimBtn: isPa ? "50% ਛੋਟ ਨਾਲ ਦਾਖਲਾ ਲਵੋ — ₹2,499" : "Enroll with 50% OFF — ₹2,499",
+      ? "ਸਿਰਫ ਇਸ ਸੀਮਤ ਬੈਚ ਲਈ, ਪੂਰੀ AI ਵੈੱਬਸਾਈਟ ਮਾਸਟਰਕਲਾਸ + ਸਾਰੇ ਰਿਸੋਰਸਿਜ਼ ਫਲੈਟ ₹997 ਵਿੱਚ ਪ੍ਰਾਪਤ ਕਰੋ!"
+      : "For this special batch, unlock the complete AI Website Masterclass + all Drive templates for just flat ₹997 with lifetime access!",
+    timerLabel: isPa ? "ਸਪੈਸ਼ਲ ਆਫਰ ਖ਼ਤਮ ਹੋਣ ਵਿੱਚ:" : "SPECIAL OFFER EXPIRES IN",
+    originalPrice: "₹5,000",
+    offerPrice: isPa ? "ਸਿਰਫ਼ ₹997" : "₹997 ONLY",
+    claimBtn: isPa ? "ਫਲੈਟ ₹997 ਨਾਲ ਦਾਖਲਾ ਲਵੋ →" : "Enroll for Flat ₹997 Now →",
     guarantee: isPa ? "100% ਰਿਸਕ-ਫ੍ਰੀ ਸੰਤੁਸ਼ਟੀ ਗਾਰੰਟੀ • ਲਾਈਫਟਾਈਮ ਐਕਸੈਸ" : "100% Risk-Free Satisfaction Guarantee • Lifetime Access",
   };
 

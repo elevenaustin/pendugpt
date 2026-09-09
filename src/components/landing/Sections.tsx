@@ -4,6 +4,7 @@ import student1 from "@/assets/student-1.jpg";
 import student2 from "@/assets/student-2.jpg";
 import student3 from "@/assets/student-3.jpg";
 import student4 from "@/assets/student-4.jpg";
+import VimeoPlayer from "@vimeo/player";
 import {
   ArrowRight,
   Check,
@@ -26,6 +27,10 @@ import {
   Lock,
   MessageCircle,
   Play,
+  Pause,
+  Volume2,
+  VolumeX,
+  Maximize,
   Terminal,
   Zap,
   TrendingUp,
@@ -71,44 +76,314 @@ export function SectionTitle({
   );
 }
 
-/* --------------------------------- 1. HERO SECTION --------------------------------- */
+/* --------------------------------- HERO VIDEO PLAYER --------------------------------- */
+export function HeroVideoPlayer() {
+  const { lang } = useI18n();
+  const isPa = lang === "pa";
+  // Main masterclass video for both languages
+  const videoId = "1225344856";
+
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const playerRef = useRef<VimeoPlayer | null>(null);
+  const playCountRef = useRef(0);
+
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [isMuted, setIsMuted] = useState(true);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const [showControls, setShowControls] = useState(true);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+  const [showSoundTooltip, setShowSoundTooltip] = useState(true);
+  const hideControlsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    let player: VimeoPlayer | null = null;
+    setIsVideoLoaded(false);
+    setCurrentTime(0);
+    playCountRef.current = 0;
+
+    if (iframeRef.current) {
+      player = new VimeoPlayer(iframeRef.current);
+      playerRef.current = player;
+
+      player.setLoop(false).catch(() => {});
+
+      player.on("play", () => setIsPlaying(true));
+      player.on("pause", () => setIsPlaying(false));
+      player.on("timeupdate", (data: { seconds: number }) => setCurrentTime(data.seconds));
+      player.on("ended", async () => {
+        playCountRef.current += 1;
+        if (playCountRef.current < 2) {
+          // Play a second time
+          try {
+            await player?.setCurrentTime(0);
+            await player?.play();
+            setIsPlaying(true);
+          } catch (err) {
+            console.error("Error auto-replaying video:", err);
+          }
+        } else {
+          // Finished playing twice, pause automatically
+          try {
+            await player?.pause();
+            setIsPlaying(false);
+            setShowControls(true);
+          } catch (err) {
+            console.error("Error pausing video:", err);
+          }
+        }
+      });
+
+      player.on("loaded", async () => {
+        setIsVideoLoaded(true);
+        try {
+          const dur = await player.getDuration();
+          setDuration(dur);
+        } catch {}
+      });
+
+      player.setMuted(true).then(() => {
+        setIsMuted(true);
+        player?.play().then(() => setIsPlaying(true)).catch(() => setIsPlaying(false));
+      });
+    }
+
+    return () => {
+      if (hideControlsTimeoutRef.current) clearTimeout(hideControlsTimeoutRef.current);
+      if (player) {
+        player.destroy().catch(() => {});
+      }
+    };
+  }, [videoId]);
+
+  const togglePlay = (e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
+    const player = playerRef.current;
+    if (!player) return;
+
+    if (isPlaying) {
+      player.pause().then(() => setIsPlaying(false));
+    } else {
+      if (duration > 0 && currentTime >= duration - 0.5) {
+        player.setCurrentTime(0).then(() => {
+          player.play().then(() => setIsPlaying(true));
+        });
+      } else {
+        player.play().then(() => setIsPlaying(true));
+      }
+    }
+  };
+
+  const toggleMute = (e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
+    const player = playerRef.current;
+    if (!player) return;
+
+    const nextMuted = !isMuted;
+    setShowSoundTooltip(false);
+    player.setMuted(nextMuted).then(() => {
+      setIsMuted(nextMuted);
+      if (!nextMuted) {
+        player.setVolume(1);
+      }
+    });
+  };
+
+  const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const time = parseFloat(e.target.value);
+    if (playerRef.current) {
+      playerRef.current.setCurrentTime(time).then(() => {
+        setCurrentTime(time);
+      });
+    }
+  };
+
+  const toggleFullscreen = (e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
+    if (!containerRef.current) return;
+    if (!document.fullscreenElement) {
+      containerRef.current.requestFullscreen().then(() => setIsFullscreen(true)).catch(() => {});
+    } else {
+      document.exitFullscreen().then(() => setIsFullscreen(false)).catch(() => {});
+    }
+  };
+
+  const handleMouseMove = () => {
+    setShowControls(true);
+    if (hideControlsTimeoutRef.current) clearTimeout(hideControlsTimeoutRef.current);
+    hideControlsTimeoutRef.current = setTimeout(() => {
+      if (isPlaying) {
+        setShowControls(false);
+      }
+    }, 2500);
+  };
+
+  const formatTime = (secs: number) => {
+    if (isNaN(secs) || secs < 0) return "0:00";
+    const minutes = Math.floor(secs / 60);
+    const remainingSeconds = Math.floor(secs % 60);
+    return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`;
+  };
+
+  const progressPercent = duration > 0 ? (currentTime / duration) * 100 : 0;
+
+  return (
+    <div
+      ref={containerRef}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={() => isPlaying && setShowControls(false)}
+      className="group relative aspect-video w-full overflow-hidden rounded-2xl sm:rounded-3xl border-2 border-[#d4f934] bg-black shadow-[0_0_50px_rgba(212,249,52,0.35)] select-none cursor-pointer"
+      onClick={togglePlay}
+    >
+      {/* Vimeo Iframe fitting completely into the container */}
+      <div className="absolute inset-0 w-full h-full overflow-hidden flex items-center justify-center bg-black pointer-events-none">
+        <iframe
+          key={videoId}
+          ref={iframeRef}
+          src={`https://player.vimeo.com/video/${videoId}?autoplay=1&loop=0&byline=0&title=0&portrait=0&muted=1&controls=0`}
+          className="w-full h-full border-0 rounded-2xl sm:rounded-3xl"
+          allow="autoplay; fullscreen; picture-in-picture"
+          title={isPa ? "PenduGPT ਪੰਜਾਬੀ ਮਾਸਟਰਕਲਾਸ ਡੈਮੋ" : "PenduGPT Masterclass Demo"}
+          loading="eager"
+        />
+      </div>
+
+      {/* Floating Click to Unmute Sound Tooltip */}
+      {showSoundTooltip && isMuted && (
+        <div
+          onClick={toggleMute}
+          className="absolute top-3 sm:top-4 right-3 sm:right-4 z-40 flex items-center gap-2 rounded-full bg-black/90 border border-[#d4f934] px-3.5 py-1.5 text-[11px] sm:text-xs font-black text-[#d4f934] shadow-[0_0_20px_rgba(212,249,52,0.4)] backdrop-blur-md animate-bounce cursor-pointer hover:scale-105 transition-transform"
+        >
+          <VolumeX className="h-3.5 w-3.5 text-[#d4f934]" />
+          <span>{isPa ? "🔊 ਆਵਾਜ਼ ਸੁਣਨ ਲਈ ਕਲਿੱਕ ਕਰੋ" : "🔊 Click for Sound"}</span>
+        </div>
+      )}
+
+      {/* Center Huge Play/Pause Touch Overlay Button */}
+      {(!isPlaying || showControls) && (
+        <button
+          type="button"
+          onClick={togglePlay}
+          aria-label={isPlaying ? "Pause Video" : "Play Video"}
+          className="absolute inset-0 m-auto h-16 w-16 sm:h-20 sm:w-20 z-20 flex items-center justify-center rounded-full bg-black/60 border-2 border-[#d4f934] text-[#d4f934] shadow-[0_0_30px_rgba(212,249,52,0.5)] backdrop-blur-md transition-all duration-300 hover:scale-110 hover:bg-black/80 cursor-pointer"
+        >
+          {isPlaying ? (
+            <Pause className="h-8 w-8 sm:h-10 sm:w-10 fill-[#d4f934] text-[#d4f934]" />
+          ) : (
+            <Play className="h-8 w-8 sm:h-10 sm:w-10 fill-[#d4f934] text-[#d4f934] translate-x-0.5" />
+          )}
+        </button>
+      )}
+
+      {/* Custom Landing Page Controls Overlay Bar */}
+      <div
+        className={cn(
+          "absolute bottom-0 inset-x-0 z-30 flex flex-col gap-2 p-3 sm:p-4 bg-gradient-to-t from-black/95 via-black/80 to-transparent backdrop-blur-sm transition-opacity duration-300",
+          showControls || !isPlaying ? "opacity-100" : "opacity-0 pointer-events-none"
+        )}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Progress Bar / Scrubber */}
+        <div className="relative flex items-center group/bar cursor-pointer">
+          <div className="h-1.5 w-full rounded-full bg-gray-700/80 overflow-hidden relative">
+            <div
+              className="h-full bg-gradient-to-r from-lime-400 to-[#d4f934] rounded-full shadow-[0_0_8px_rgba(212,249,52,0.8)] transition-all duration-100"
+              style={{ width: `${progressPercent}%` }}
+            />
+          </div>
+          <input
+            type="range"
+            min={0}
+            max={duration || 100}
+            step={0.1}
+            value={currentTime}
+            onChange={handleSeek}
+            aria-label="Seek Video Timeline"
+            className="absolute inset-0 h-4 w-full opacity-0 cursor-pointer"
+          />
+        </div>
+
+        {/* Lower Controls Row */}
+        <div className="flex items-center justify-between text-xs text-white pt-1">
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={togglePlay}
+              className="hover:text-[#d4f934] transition cursor-pointer"
+              aria-label={isPlaying ? "Pause" : "Play"}
+            >
+              {isPlaying ? <Pause className="h-4 w-4 fill-current" /> : <Play className="h-4 w-4 fill-current" />}
+            </button>
+
+            <button
+              type="button"
+              onClick={toggleMute}
+              className="hover:text-[#d4f934] transition flex items-center gap-1.5 cursor-pointer font-semibold text-[11px]"
+              aria-label={isMuted ? "Unmute" : "Mute"}
+            >
+              {isMuted ? <VolumeX className="h-4 w-4 text-red-400" /> : <Volume2 className="h-4 w-4 text-[#d4f934]" />}
+              <span>{isMuted ? (isPa ? "ਮਿਊਟ" : "Muted") : (isPa ? "ਆਵਾਜ਼ ਚਾਲੂ" : "Sound On")}</span>
+            </button>
+
+            <span className="font-mono text-[11px] text-gray-300">
+              {formatTime(currentTime)} / {formatTime(duration)}
+            </span>
+          </div>
+
+          <button
+            type="button"
+            onClick={toggleFullscreen}
+            className="hover:text-[#d4f934] transition cursor-pointer p-1"
+            aria-label="Toggle Fullscreen"
+          >
+            <Maximize className="h-4 w-4" />
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* --------------------------------- 1. HERO SECTION (TITLE + VIDEO FORMAT) --------------------------------- */
 export function Hero() {
   const { lang } = useI18n();
   const isPa = lang === "pa";
   const { openModal } = useEnrollmentModal();
 
   return (
-    <section className="relative pt-28 pb-16 sm:pt-36 sm:pb-24 overflow-hidden">
+    <section className="relative pt-28 pb-16 sm:pt-34 sm:pb-24 overflow-hidden bg-[#080808]">
       {/* Background ambient lighting */}
       <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-        <div className="h-[380px] w-[380px] sm:h-[600px] sm:w-[600px] rounded-full bg-[#d4f934]/10 blur-[130px]" />
+        <div className="h-[380px] w-[380px] sm:h-[600px] sm:w-[600px] rounded-full bg-[#d4f934]/10 blur-[140px]" />
         <div className="absolute top-1/4 -left-20 h-72 w-72 rounded-full bg-cyan-500/10 blur-[120px]" />
       </div>
 
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
-        {/* Launch Discount Badge — Dual Pill (Desktop & Tablets only, hidden on mobile) */}
+      <div className="relative mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 text-center">
+        {/* Launch Discount Badge — Dual Pill */}
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
           onClick={openModal}
-          className="hidden sm:inline-flex group items-center gap-2.5 rounded-full bg-[#0d1015]/95 border border-[#d4f934]/50 p-1 pr-4 text-xs font-semibold text-gray-200 shadow-[0_0_30px_rgba(212,249,52,0.22)] backdrop-blur-xl mb-6 cursor-pointer hover:border-[#d4f934] hover:shadow-[0_0_40px_rgba(212,249,52,0.4)] transition-all duration-300 transform-gpu hover:scale-[1.02]"
+          className="inline-flex group items-center gap-2.5 rounded-full bg-[#0d1015]/95 border border-[#d4f934]/50 p-1 pr-4 text-xs font-semibold text-gray-200 shadow-[0_0_30px_rgba(212,249,52,0.22)] backdrop-blur-xl mb-6 cursor-pointer hover:border-[#d4f934] hover:shadow-[0_0_40px_rgba(212,249,52,0.4)] transition-all duration-300 transform-gpu hover:scale-[1.02]"
         >
           {/* Inner Highlight Pill */}
-          <div className="inline-flex items-center gap-1.5 rounded-full bg-red-600 px-3 py-1 text-[11px] font-black text-white shadow-sm animate-pulse">
+          <div className="inline-flex items-center gap-1.5 rounded-full bg-[#d4f934] px-3 py-1 text-[11px] font-black text-black shadow-sm">
             <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-black opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-black"></span>
             </span>
             <span className="uppercase tracking-wide font-mono">
-              {isPa ? "🔴 ₹999 ਸੀਟਾਂ ਫੁੱਲ" : "🔴 ₹999 SLOTS FULL"}
+              {isPa ? "ਸਪੈਸ਼ਲ ਬੈਚ" : "SPECIAL BATCH"}
             </span>
           </div>
 
           {/* Right Offer Text */}
           <div className="flex items-center gap-2">
             <span className="font-extrabold text-white text-[12px] sm:text-xs">
-              {isPa ? "50% ਛੋਟ ਬੈਚ ਲਾਈਵ • ₹2,499" : "50% OFF Batch Live • Lifetime Access ₹2,499"}
+              {isPa ? "ਪਿਛਲੀ ਕਲਾਸ ₹5,000 ਸੀ • ਫਲੈਟ ₹997 Only" : "Previous Batch Was ₹5,000 • Flat ₹997 Only (80% OFF)"}
             </span>
             <ArrowRight className="h-3.5 w-3.5 text-[#d4f934] transition-transform duration-200 group-hover:translate-x-1" />
           </div>
@@ -119,136 +394,157 @@ export function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="mx-auto max-w-4xl font-serif text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-white leading-[1.08]"
+          className="mx-auto max-w-4xl font-serif text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-[1.14]"
         >
           {isPa ? (
             <>
-              ਸਿਰਫ AI ਦੀਆਂ ਵੀਡੀਓਜ਼ ਨਾ ਦੇਖੋ, <br className="hidden sm:inline" />
+              AI ਨਾਲ ਵੈੱਬਸਾਈਟਾਂ ਬਣਾਓ <br className="hidden sm:inline" />
               <span className="text-[#d4f934] drop-shadow-[0_0_35px_rgba(212,249,52,0.4)]">
-                ਖੁਦ ਵੈੱਬਸਾਈਟਾਂ ਬਣਾਓ
-              </span>{" "}
-              ਅਤੇ ਕਮਾਈ ਸ਼ੁਰੂ ਕਰੋ।
+                ਕਲਾਇੰਟਸ ਨੂੰ ਵੇਚੋ ਅਤੇ ਡਾਲਰਾਂ ਵਿੱਚ ਕਮਾਓ
+              </span>
             </>
           ) : (
             <>
-              Stop just watching people use AI. <br className="hidden sm:inline" />
+              Create Websites with AI <br className="hidden sm:inline" />
               <span className="text-[#d4f934] drop-shadow-[0_0_35px_rgba(212,249,52,0.4)]">
-                Start building with it.
+                Sell to Clients and Earn in Dollars
               </span>
             </>
           )}
         </motion.h1>
 
-        {/* Subtitle - Short & Punchy on Mobile */}
+        {/* Subtitle */}
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="mx-auto mt-4 sm:mt-6 max-w-2xl text-sm sm:text-lg lg:text-xl text-gray-300 font-normal leading-relaxed"
+          className="mx-auto mt-4 max-w-3xl text-sm sm:text-lg text-gray-300 font-normal leading-relaxed"
         >
           {isPa ? (
             <>
-              <span className="sm:hidden">
-                ਬਿਨਾਂ ਕੋਈ ਮਹਿੰਗਾ AI ਟੂਲ ਖਰੀਦੇ, <strong className="text-white font-bold">100% ਖੁਦ ਵੈੱਬਸਾਈਟਾਂ ਬਣਾਓ</strong> ਅਤੇ ₹15k–₹50k ਕਮਾਉਣਾ ਸਿੱਖੋ।
-              </span>
-              <span className="hidden sm:inline">
-                ਇਸ ਮਾਸਟਰਕਲਾਸ ਤੋਂ ਬਾਅਦ ਤੁਸੀਂ <strong className="text-white font-bold">ਬਿਨਾਂ ਕੋਈ ਪੇਡ AI ਟੂਲ ਖਰੀਦੇ ਜਾਂ ਵਾਧੂ ਪੈਸਾ ਖਰਚੇ</strong>, 100% ਖੁਦ ਅਸੀਮਤ ਕਲਾਇੰਟ ਵੈੱਬਸਾਈਟਾਂ ਬਣਾਉਣ, ਡੋਮੇਨ 'ਤੇ ਲਾਈਵ ਕਰਨ ਅਤੇ ₹15k–₹50k ਕਮਾਉਣ ਦੇ ਕਾਬਲ ਹੋ ਜਾਵੋਗੇ।
-              </span>
+              ਸਿੱਖੋ ਕਿਵੇਂ AI ਨਾਲ ਮਿੰਟਾਂ ਵਿੱਚ ਸ਼ਾਨਦਾਰ ਵੈੱਬਸਾਈਟਾਂ ਤਿਆਰ ਕਰਕੇ ਦੇਸੀ ਅਤੇ ਵਿਦੇਸ਼ੀ ਕਲਾਇੰਟਸ ਨੂੰ ਵੇਚਣਾ ਹੈ — ਬਿਨਾਂ ਕਿਸੇ ਕੋਡਿੰਗ ਜਾਂ ਪੇਡ ਟੂਲਸ ਦੇ ਆਪਣਾ ਗਲੋਬਲ ਫ੍ਰੀਲਾਂਸ ਕੰਮ ਸ਼ੁਰੂ ਕਰੋ।
             </>
           ) : (
             <>
-              <span className="sm:hidden">
-                Build & deploy client websites <strong className="text-white font-bold">100% by yourself</strong> without buying any paid AI tools.
-              </span>
-              <span className="hidden sm:inline">
-                After this masterclass, you can build production-ready websites <strong className="text-white font-bold">100% by yourself — without buying any paid AI tools or spending extra money</strong> on expensive subscriptions.
-              </span>
+              Learn how to build modern client websites in minutes with AI, close high-paying international clients, and build a profitable online business with zero coding.
             </>
           )}
         </motion.p>
 
-        {/* Pricing Card & CTA Pill */}
+        {/* ✨ Sleek, Unified Trust & Highlights Strip */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.25 }}
+          className="mt-6 inline-flex flex-wrap items-center justify-center gap-3 sm:gap-6 rounded-full bg-[#0d1015]/90 border border-gray-800/90 py-2 px-5 backdrop-blur-md text-xs text-gray-300 shadow-md"
+        >
+          <div className="flex items-center gap-2">
+            <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#d4f934]/15 text-[#d4f934]">
+              <Globe className="h-3.5 w-3.5" />
+            </span>
+            <span className="font-semibold text-gray-200">
+              {isPa ? "ਅੰਤਰਰਾਸ਼ਟਰੀ ਕਲਾਇੰਟਸ" : "International Clients"}
+            </span>
+          </div>
+          <span className="hidden sm:inline text-gray-700 font-bold">•</span>
+          <div className="flex items-center gap-2">
+            <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#d4f934]/15 text-[#d4f934]">
+              <Sparkles className="h-3.5 w-3.5" />
+            </span>
+            <span className="font-bold text-[#d4f934]">
+              {isPa ? "ਡਾਲਰ ਪੇਆਊਟਸ" : "Direct Dollar Payouts"}
+            </span>
+          </div>
+          <span className="hidden sm:inline text-gray-700 font-bold">•</span>
+          <div className="flex items-center gap-2">
+            <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#d4f934]/15 text-[#d4f934]">
+              <Check className="h-3.5 w-3.5" />
+            </span>
+            <span className="font-semibold text-gray-200">
+              {isPa ? "ਜ਼ੀਰੋ ਕੋਡਿੰਗ ਦੀ ਲੋੜ" : "Zero Coding Experience"}
+            </span>
+          </div>
+        </motion.div>
+
+        {/* 🎬 HIGH-CONVERTING HERO VIDEO PLAYER ON TOP */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.96 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.55, delay: 0.25 }}
+          className="mt-6 sm:mt-8 max-w-4xl mx-auto"
+        >
+          <HeroVideoPlayer />
+        </motion.div>
+
+        {/* Attractive Price Card & CTA Button */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="mt-6 sm:mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4"
+          transition={{ duration: 0.5, delay: 0.35 }}
+          className="mt-6 sm:mt-8 flex flex-col items-center justify-center gap-3"
         >
-          {/* Main 50% OFF CTA Button */}
-          <button
-            type="button"
-            onClick={openModal}
-            className="lime-button w-full sm:w-auto inline-flex items-center justify-center gap-2.5 sm:gap-3 rounded-full px-6 sm:px-8 py-3.5 sm:py-4 text-base sm:text-lg font-black text-black shadow-[0_0_40px_rgba(212,249,52,0.5)] cursor-pointer"
-          >
-            <span>
-              {isPa ? "50% ਛੋਟ ਨਾਲ ਦਾਖਲਾ ਲਵੋ — " : "Enroll with 50% OFF — "}
-              <span className="line-through decoration-red-600 decoration-2 text-black/70 text-sm sm:text-base font-bold mr-1">
-                ₹4,999
-              </span>
-              <span className="text-black font-black text-lg sm:text-xl">₹2,499</span>
+          {/* Slashed Price Badge Bar */}
+          <div className="inline-flex items-center gap-2.5 rounded-2xl bg-[#11140e] border border-[#d4f934]/40 px-4 py-2 text-center shadow-lg">
+            <span className="text-xs text-gray-400 font-bold uppercase tracking-wider">
+              {isPa ? "ਪਿਛਲੀ ਫੀਸ:" : "Regular Price:"}
             </span>
-            <ArrowRight className="h-5 w-5" />
-          </button>
+            <span className="line-through decoration-red-600 decoration-2 text-gray-400 font-black text-sm sm:text-base">
+              ₹5,000
+            </span>
+            <span className="text-gray-500 font-bold">→</span>
+            <span className="text-[#d4f934] font-black text-xl sm:text-2xl font-display">
+              ₹997 ONLY
+            </span>
+            <span className="rounded-full bg-[#d4f934]/20 border border-[#d4f934]/50 px-2 py-0.5 text-[10px] font-black text-[#d4f934] uppercase">
+              Save ₹4,003 (80% OFF)
+            </span>
+          </div>
 
-          {/* Secondary Curriculum Jump */}
-          <a
-            href="#curriculum"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full border border-gray-800 bg-[#121212] px-5 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm font-bold text-gray-300 hover:text-white hover:border-[#d4f934]/50 hover:bg-[#181818] transition-all"
-          >
-            <BookOpen className="h-4 w-4 text-[#d4f934]" />
-            <span>{isPa ? "ਸਿਲੇਬਸ ਦੇਖੋ (7 ਕਲਾਸਾਂ)" : "View 7-Class Syllabus"}</span>
-          </a>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full sm:w-auto">
+            {/* Main Flat ₹997 CTA Button */}
+            <button
+              type="button"
+              onClick={openModal}
+              className="lime-button w-full sm:w-auto inline-flex items-center justify-center gap-2.5 sm:gap-3 rounded-full px-7 sm:px-9 py-3.5 sm:py-4 text-base sm:text-lg font-black text-black shadow-[0_0_40px_rgba(212,249,52,0.5)] cursor-pointer"
+            >
+              <span>{isPa ? "ਫਲੈਟ ₹997 ਨਾਲ ਦਾਖਲਾ ਲਵੋ →" : "Enroll for Flat ₹997 (Lifetime Access) →"}</span>
+              <ArrowRight className="h-5 w-5" />
+            </button>
+
+            {/* Secondary Curriculum Jump */}
+            <a
+              href="#curriculum"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full border border-gray-800 bg-[#121212] px-5 sm:px-6 py-3.5 sm:py-4 text-xs sm:text-sm font-bold text-gray-300 hover:text-white hover:border-[#d4f934]/50 hover:bg-[#181818] transition-all"
+            >
+              <BookOpen className="h-4 w-4 text-[#d4f934]" />
+              <span>{isPa ? "ਸਿਲੇਬਸ ਦੇਖੋ (7 ਕਲਾਸਾਂ)" : "View 7-Class Syllabus"}</span>
+            </a>
+          </div>
         </motion.div>
 
-        {/* Micro Trust Indicators — Streamlined on Mobile */}
+        {/* Micro Trust Indicators */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
+          transition={{ duration: 0.5, delay: 0.45 }}
           className="mt-6 sm:mt-8 flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-xs font-semibold"
         >
-          {/* Badge 1: Zero Paid AI Tools Required */}
-          <div className="flex items-center gap-1.5 sm:gap-2 rounded-full border border-[#d4f934]/60 bg-gradient-to-r from-[#1a230a] via-[#141b08] to-[#1a230a] px-3 sm:px-3.5 py-1 sm:py-1.5 text-white font-bold text-[11px] sm:text-xs shadow-[0_0_20px_rgba(212,249,52,0.18)] hover:border-[#d4f934] transition-all">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#d4f934] opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#d4f934]"></span>
-            </span>
+          {/* Badge 1 */}
+          <div className="flex items-center gap-1.5 sm:gap-2 rounded-full border border-[#d4f934]/60 bg-gradient-to-r from-[#1a230a] via-[#141b08] to-[#1a230a] px-3 sm:px-3.5 py-1 sm:py-1.5 text-white font-bold text-[11px] sm:text-xs shadow-[0_0_20px_rgba(212,249,52,0.18)]">
             <CheckCircle2 className="h-3.5 w-3.5 text-[#d4f934]" />
-            <span>
-              {isPa
-                ? "🚫 ਬਿਨਾਂ ਕੋਈ ਪੇਡ AI ਟੂਲ (100% ਮੁਫ਼ਤ)"
-                : "🚫 Zero Paid AI Tools Needed"}
-            </span>
+            <span>{isPa ? "🚫 ਬਿਨਾਂ ਕੋਈ ਪੇਡ AI ਟੂਲ (100% ਮੁਫ਼ਤ)" : "🚫 Zero Paid AI Tools Needed"}</span>
           </div>
 
-          {/* Badge 2: Google Drive course folder included */}
-          <div className="flex items-center gap-1.5 sm:gap-2 rounded-full border border-gray-800/90 bg-[#101318]/90 px-3 sm:px-3.5 py-1 sm:py-1.5 text-gray-300 font-medium text-[11px] sm:text-xs hover:border-gray-700 hover:text-white transition-all shadow-sm">
+          {/* Badge 2 */}
+          <div className="flex items-center gap-1.5 sm:gap-2 rounded-full border border-gray-800/90 bg-[#101318]/90 px-3 sm:px-3.5 py-1 sm:py-1.5 text-gray-300 font-medium text-[11px] sm:text-xs">
             <CheckCircle2 className="h-3.5 w-3.5 text-[#d4f934]" />
-            <span>
-              {isPa
-                ? "📁 ਗੂਗਲ ਡਰਾਈਵ ਫੋਲਡਰ ਸ਼ਾਮਲ"
-                : "📁 Drive Course Folder Included"}
-            </span>
+            <span>{isPa ? "📁 ਗੂਗਲ ਡਰਾਈਵ ਫੋਲਡਰ ਸ਼ਾਮਲ" : "📁 Complete Drive Folder Included"}</span>
           </div>
 
-          {/* Badge 3: One-time payment (Desktop) */}
-          <div className="hidden sm:flex items-center gap-2 rounded-full border border-gray-800/90 bg-[#101318]/90 px-3.5 py-1.5 text-gray-300 font-medium hover:border-gray-700 hover:text-white transition-all shadow-sm">
+          {/* Badge 3 */}
+          <div className="flex items-center gap-1.5 sm:gap-2 rounded-full border border-gray-800/90 bg-[#101318]/90 px-3 sm:px-3.5 py-1 sm:py-1.5 text-gray-300 font-medium text-[11px] sm:text-xs">
             <CheckCircle2 className="h-3.5 w-3.5 text-[#d4f934]" />
-            <span>
-              {isPa
-                ? "ਇੱਕ ਵਾਰ ਭੁਗਤਾਨ • ਲਾਈਫਟਾਈਮ ਐਕਸੈਸ"
-                : "One-Time Payment • Lifetime Access"}
-            </span>
-          </div>
-
-          {/* Badge 4: Build 100% by yourself (Desktop) */}
-          <div className="hidden sm:flex items-center gap-2 rounded-full border border-gray-800/90 bg-[#101318]/90 px-3.5 py-1.5 text-gray-300 font-medium hover:border-gray-700 hover:text-white transition-all shadow-sm">
-            <CheckCircle2 className="h-3.5 w-3.5 text-[#d4f934]" />
-            <span>
-              {isPa
-                ? "100% ਖੁਦ ਬਣਾਓ (Beginner Friendly)"
-                : "Build 100% By Yourself (Zero Code Barrier)"}
-            </span>
+            <span>{isPa ? "ਇੱਕ ਵਾਰ ਭੁਗਤਾਨ • ਲਾਈਫਟਾਈਮ ਐਕਸੈਸ" : "One-Time ₹997 • Lifetime Access"}</span>
           </div>
         </motion.div>
       </div>
@@ -387,9 +683,9 @@ export function Stats() {
       id: "offer",
       headerIcon: <ShieldCheck className="h-5 w-5 text-[#d4f934]" />,
       badge: "🏷️ 80% Discount",
-      valueElement: <CountUp end={999} prefix="₹" duration={1.5} />,
+      valueElement: <CountUp end={997} prefix="₹" duration={1.5} />,
       label: isPa ? "ਇੱਕ ਵਾਰ ਭੁਗਤਾਨ (ਲਾਈਫਟਾਈਮ)" : "One-Time (Lifetime Access)",
-      subtext: isPa ? "ਗੂਗਲ ਡਰਾਈਵ ਫੋਲਡਰ ਐਕਸੈਸ" : "Slashed from ₹4,999 today",
+      subtext: isPa ? "ਪਿਛਲੀ ਕਲਾਸ ₹5,000 ਸੀ" : "Slashed from ₹5,000 today",
       visual: (
         <div className="flex items-center justify-between py-2 px-3 rounded-xl bg-black/50 border border-gray-800 my-2.5 w-full text-[11px] font-bold">
           <span className="text-gray-300 text-[10px] flex items-center gap-1">📁 Drive Folder</span>
@@ -498,7 +794,7 @@ export function Stats() {
                 onClick={openModal}
                 className="lime-button px-5 py-2 rounded-full text-xs font-black text-black inline-flex items-center gap-2 cursor-pointer shrink-0 shadow-[0_0_20px_rgba(212,249,52,0.35)]"
               >
-                <span>{isPa ? "ਦਾਖਲਾ ਲਵੋ — ₹2,499 (50% ਛੋਟ)" : "Enroll with 50% OFF — ₹2,499"}</span>
+                <span>{isPa ? "ਦਾਖਲਾ ਲਵੋ — ਫਲੈਟ ₹997" : "Enroll Now — Flat ₹997"}</span>
                 <ArrowRight className="h-3.5 w-3.5" />
               </button>
             </div>
@@ -638,7 +934,7 @@ export function HeroTestimonialProof() {
             onClick={openModal}
             className="text-[#d4f934] font-bold hover:underline inline-flex items-center gap-1 cursor-pointer shrink-0 text-xs"
           >
-            {isPa ? "50% ਛੋਟ ਨਾਲ ਸ਼ੁਰੂ ਕਰੋ (₹2,499)" : "Start Building with 50% OFF (₹2,499)"} <ArrowRight className="h-3.5 w-3.5" />
+            {isPa ? "ਫਲੈਟ ₹997 ਨਾਲ ਸ਼ੁਰੂ ਕਰੋ" : "Start Building for Flat ₹997"} <ArrowRight className="h-3.5 w-3.5" />
           </button>
         </div>
       </div>
@@ -837,7 +1133,7 @@ export function Audience() {
                 {isPa ? "ਪੂਰਾ ਪੈਕੇਜ" : "ALL-IN-ONE PACK"}
               </span>
               <h3 className="text-lg font-black text-white mt-1">
-                {isPa ? "ਸਾਰੀਆਂ 7 ਕਲਾਸਾਂ 50% ਛੋਟ ਨਾਲ (₹2,499)" : "All 7 Classes (50% OFF — ₹2,499)"}
+                {isPa ? "ਸਾਰੀਆਂ 7 ਕਲਾਸਾਂ ਫਲੈਟ ₹997 ਨਾਲ" : "All 7 Classes (Flat ₹997 Only)"}
               </h3>
               <p className="mt-2 text-xs text-gray-400">
                 {isPa
@@ -850,7 +1146,7 @@ export function Audience() {
               onClick={openModal}
               className="lime-button mt-4 w-full py-3 px-4 rounded-xl text-xs font-black text-black cursor-pointer flex items-center justify-center gap-2"
             >
-              <span>{isPa ? "50% ਛੋਟ ਨਾਲ ਦਾਖਲਾ ਲਵੋ (₹2,499)" : "Enroll with 50% OFF (₹2,499)"}</span>
+              <span>{isPa ? "ਫਲੈਟ ₹997 ਨਾਲ ਦਾਖਲਾ ਲਵੋ" : "Enroll for Flat ₹997"}</span>
               <ArrowRight className="h-4 w-4" />
             </button>
           </div>
@@ -1142,7 +1438,7 @@ export function Curriculum() {
             onClick={openModal}
             className="lime-button shrink-0 py-3.5 px-7 rounded-full text-sm font-black text-black shadow-md cursor-pointer flex items-center justify-center gap-2"
           >
-            <span>{isPa ? "50% ਛੋਟ ਨਾਲ ਦਾਖਲਾ ਲਵੋ — ₹2,499" : "Enroll with 50% OFF — ₹2,499"}</span>
+            <span>{isPa ? "ਫਲੈਟ ₹997 ਨਾਲ ਦਾਖਲਾ ਲਵੋ (ਅਸਲ ₹5,000)" : "Enroll for Flat ₹997 (Save ₹4,003)"}</span>
             <ArrowRight className="h-4 w-4" />
           </button>
         </div>
@@ -1291,7 +1587,7 @@ export function Bonuses() {
     {
       icon: <Rocket className="h-6 w-6 text-[#d4f934]" />,
       badge: "Production Ready",
-      valuation: isPa ? "ਮੁੱਲ: ₹2,499" : "Value: ₹2,499",
+      valuation: isPa ? "ਮੁੱਲ: ₹5,000" : "Value: ₹5,000",
       title: isPa ? "ਅਸਲ ਪ੍ਰੈਕਟੀਕਲ ਪ੍ਰੋਜੈਕਟਸ" : "Practical Real-World Projects",
       desc: isPa
         ? "ਕਲਾਇੰਟ-ਲੈਵਲ ਦੇ ਅਸਲ ਪ੍ਰੋਜੈਕਟਸ ਜੋ ਤੁਸੀਂ ਤੁਰੰਤ ਆਪਣੇ ਪੋਰਟਫੋਲੀਓ ਵਿੱਚ ਦਿਖਾ ਕੇ ਕਲਾਇੰਟ ਲੈ ਸਕਦੇ ਹੋ।"
@@ -1303,8 +1599,8 @@ export function Bonuses() {
       valuation: isPa ? "ਮੁੱਲ: ਲਾਈਫਟਾਈਮ" : "Value: Priceless",
       title: isPa ? "ਲਾਈਫਟਾਈਮ ਐਕਸੈਸ" : "Lifetime Access & Updates",
       desc: isPa
-        ? "ਸਿਰਫ ₹999 ਦਾ ਇੱਕ ਵਾਰ ਭੁਗਤਾਨ — ਕੋਈ ਮਹੀਨਾਵਾਰ ਫੀਸ ਨਹੀਂ ਅਤੇ ਭਵਿੱਖ ਦੇ ਸਾਰੇ ਅੱਪਡੇਟਸ ਮੁਫਤ।"
-        : "One-time payment of ₹999 with zero recurring subscriptions and perpetual access to all future masterclass additions.",
+        ? "ਸਿਰਫ ₹997 ਦਾ ਇੱਕ ਵਾਰ ਭੁਗਤਾਨ — ਕੋਈ ਮਹੀਨਾਵਾਰ ਫੀਸ ਨਹੀਂ ਅਤੇ ਭਵਿੱਖ ਦੇ ਸਾਰੇ ਅੱਪਡੇਟਸ ਮੁਫਤ।"
+        : "One-time payment of flat ₹997 with zero recurring subscriptions and perpetual access to all masterclass materials.",
     },
   ];
 
@@ -1399,7 +1695,7 @@ export function Bonuses() {
 
             <div className="flex items-center gap-2 text-xs text-gray-400">
               <span className="rounded-full bg-[#1b2207] border border-[#d4f934]/40 px-3.5 py-1 text-[11px] font-bold text-[#d4f934]">
-                🔒 Instant Auto-Unlock on ₹999 Payment
+                🔒 Instant Auto-Unlock on ₹997 Payment
               </span>
             </div>
           </div>
@@ -1495,7 +1791,7 @@ export function Bonuses() {
               onClick={openModal}
               className="lime-button shrink-0 py-2.5 px-5 rounded-full text-xs font-black text-black cursor-pointer shadow-md flex items-center gap-1.5"
             >
-              <span>{isPa ? "Drive ਐਕਸੈਸ ਲਵੋ (₹2,499)" : "Get Drive Access (50% OFF — ₹2,499)"}</span>
+              <span>{isPa ? "Drive ਐਕਸੈਸ ਲਵੋ (₹997)" : "Get Drive Access (Flat ₹997 Only)"}</span>
               <ArrowRight className="h-3.5 w-3.5" />
             </button>
           </div>
@@ -1519,7 +1815,7 @@ export function Bonuses() {
             </div>
 
             <div className="flex items-center gap-2 rounded-2xl bg-[#182012] border border-[#d4f934]/40 px-4 py-2 text-xs font-black text-[#d4f934] shrink-0">
-              <span>{isPa ? "ਕੁੱਲ ਮੁੱਲ: ₹15,000+ (ਅੱਜ ₹999 ch ਮੁਫਤ)" : "Total Value: ₹15,000+ (100% Free with ₹999)"}</span>
+              <span>{isPa ? "ਕੁੱਲ ਮੁੱਲ: ₹15,000+ (ਅੱਜ ₹997 'ਚ ਮੁਫਤ)" : "Total Value: ₹15,000+ (100% Free with ₹997)"}</span>
             </div>
           </div>
 
@@ -1614,7 +1910,7 @@ export function Testimonials() {
       avatar: student4,
       tag: "Store Owner",
       quote:
-        "Agencies were asking ₹30,000 just to design my boutique store website. I watched this ₹999 masterclass, prompts copy-paste kite, and launched my entire product catalog myself in a weekend! Super easy and practical.",
+        "Agencies were asking ₹30,000 just to design my boutique store website. I watched this ₹997 masterclass, prompts copy-paste kite, and launched my entire product catalog myself in a weekend! Super easy and practical.",
       verified: true,
       rating: 5,
     },
@@ -1800,7 +2096,7 @@ export function Testimonials() {
             </div>
           </div>
           <span className="shrink-0 rounded-full bg-[#1b2207] border border-[#d4f934]/40 px-3.5 py-1.5 text-xs font-black text-[#d4f934]">
-            Included with ₹999 Plan ✓
+            {isPa ? "₹997 ਦਾਖਲੇ ਨਾਲ ਸ਼ਾਮਲ ✓" : "Included with ₹997 Admission ✓"}
           </span>
         </div>
 
@@ -2021,7 +2317,7 @@ export function Instructor() {
   );
 }
 
-/* --------------------------------- 9. 50% OFF MASTER OFFER SECTION (₹999 SLOTS FULL) --------------------------------- */
+/* --------------------------------- 9. FLAT ₹997 SPECIAL MASTERCLASS OFFER --------------------------------- */
 export function Offer() {
   const { lang } = useI18n();
   const isPa = lang === "pa";
@@ -2040,165 +2336,87 @@ export function Offer() {
 
   return (
     <section id="pricing" className="lazy-section py-20 sm:py-28 bg-[#080808]">
-      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
         
-        {/* 🚨 ATTENTION-GRABBING SCARCITY & NOTICE BANNER */}
-        <div className="mb-10 rounded-3xl border-2 border-red-500/50 bg-gradient-to-r from-red-950/70 via-[#160a0a] to-red-950/70 p-5 sm:p-7 shadow-[0_0_50px_rgba(239,68,68,0.25)] text-center relative overflow-hidden">
-          <div className="inline-flex items-center gap-2 rounded-full bg-red-600 px-3.5 py-1 text-xs font-black text-white uppercase tracking-wider mb-3 shadow-md animate-pulse">
-            <Flame className="h-4 w-4 fill-white" />
-            <span>{isPa ? "🔴 ₹999 ਆਫਰ ਅਪਡੇਟ" : "🔴 ₹999 OFFER UPDATE"}</span>
-          </div>
-
-          <h3 className="text-xl sm:text-2xl font-black text-white">
-            {isPa
-              ? "₹999 ਅਰਲੀ ਬਰਡ ਆਫਰ ਦੀਆਂ ਸਾਰੀਆਂ ਸੀਟਾਂ ਫੁੱਲ ਹੋ ਚੁੱਕੀਆਂ ਹਨ!"
-              : "The ₹999 Early Bird Batch Slots Are 100% FULL!"}
-          </h3>
-
-          <p className="mt-2 text-xs sm:text-sm text-gray-200 max-w-2xl mx-auto leading-relaxed">
-            {isPa ? (
-              <>
-                ਵਿਦਿਆਰਥੀਆਂ ਦੇ ਭਾਰੀ ਹੁੰਗਾਰੇ ਕਰਕੇ ₹999 ਦੀਆਂ ਸਾਰੀਆਂ 100 ਸੀਟਾਂ ਬੁੱਕ ਹੋ ਗਈਆਂ ਹਨ। ਤੁਸੀਂ{" "}
-                <span className="text-red-400 font-bold">ਅਗਲੇ ਬੈਚ ਲਈ ਬਾਅਦ 'ਚ ਕੋਸ਼ਿਸ਼ ਕਰ ਸਕਦੇ ਹੋ</span>{" "}
-                ਜਾਂ ਅੱਜ ਹੀ <strong className="text-[#d4f934] font-black underline">50% ਛੋਟ ਵਾਲੀ ਫੀਸ (₹2,499)</strong> ਨਾਲ ਦਾਖਲਾ ਲੈ ਸਕਦੇ ਹੋ!
-              </>
-            ) : (
-              <>
-                Due to overwhelming demand, all 100 promotional ₹999 seats have been claimed. You may{" "}
-                <span className="text-red-400 font-bold">try again later for future batches</span>{" "}
-                OR enroll in the active batch with the{" "}
-                <strong className="text-[#d4f934] font-black underline">50% OFF Admission Fee (₹2,499)</strong> before regular price returns!
-              </>
-            )}
-          </p>
-        </div>
-
-        {/* DUAL-TIER COMPARISON GRID */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+        {/* Glowing Masterclass Admission Card */}
+        <div className="rounded-3xl border-2 border-[#d4f934] bg-gradient-to-b from-[#18220c] via-[#101215] to-[#0a0a0a] p-6 sm:p-12 text-center shadow-[0_0_90px_rgba(212,249,52,0.35)] relative overflow-hidden flex flex-col justify-between">
           
-          {/* TIER 1: EARLY BIRD (₹999) - SOLD OUT / LOCKED */}
-          <div className="lg:col-span-5 rounded-3xl border border-gray-800 bg-[#0d0f12]/80 p-6 sm:p-8 flex flex-col justify-between opacity-75 relative overflow-hidden">
-            <div className="pointer-events-none absolute inset-0 bg-black/40 backdrop-blur-[1px]" />
-            
-            <div className="relative z-10 text-left">
-              <div className="inline-flex items-center gap-1.5 rounded-full bg-red-950 border border-red-500/40 px-3 py-0.5 text-[10px] font-black uppercase text-red-400 mb-4">
-                <Lock className="h-3 w-3" />
-                <span>{isPa ? "100/100 ਸੀਟਾਂ ਫੁੱਲ • ਬੰਦ" : "100/100 SLOTS FULL • CLOSED"}</span>
+          {/* Subtle Ambient Glow */}
+          <div className="pointer-events-none absolute -top-32 -right-32 h-72 w-72 rounded-full bg-[#d4f934]/15 blur-[100px]" />
+          <div className="pointer-events-none absolute -bottom-32 -left-32 h-72 w-72 rounded-full bg-[#d4f934]/10 blur-[100px]" />
+
+          {/* Top Badge */}
+          <div className="relative z-10">
+            <div className="inline-flex items-center gap-2 rounded-full bg-[#d4f934] px-4 py-1.5 text-xs font-black text-black uppercase tracking-wider mb-4 shadow-lg">
+              <Flame className="h-4 w-4 fill-black" />
+              <span>{isPa ? "🔥 ਸਪੈਸ਼ਲ ਬੈਚ ਦਾਖਲਾ • 80% ਛੋਟ" : "🔥 SPECIAL BATCH ADMISSION • 80% OFF"}</span>
+            </div>
+
+            <h3 className="text-2xl sm:text-5xl font-serif font-black tracking-tight text-white leading-tight">
+              {isPa ? "ਸੰਪੂਰਨ AI ਵੈੱਬਸਾਈਟ ਮਾਸਟਰਕਲਾਸ" : "Complete AI Website Masterclass"}
+            </h3>
+
+            <p className="mt-3 text-xs sm:text-base text-gray-300 font-medium max-w-xl mx-auto">
+              {isPa
+                ? "ਪਿਛਲੀ ਕਲਾਸ ਦੀ ਫੀਸ ₹5,000 ਸੀ — ਅੱਜ ਸਪੈਸ਼ਲ ਬੈਚ ਵਿੱਚ ਸਿਰਫ਼ ਫਲੈਟ ₹997 ਵਿੱਚ ਲਾਈਫਟਾਈਮ ਦਾਖਲਾ ਲਵੋ!"
+                : "Previous class tuition was ₹5,000 — Secure your lifetime admission for flat ₹997 today!"}
+            </p>
+
+            {/* Pricing Hero Box */}
+            <div className="my-8 rounded-2xl border border-[#d4f934]/40 bg-[#0d0d0d]/90 p-6 sm:p-8 max-w-md mx-auto shadow-inner">
+              <div className="text-[11px] sm:text-xs font-black text-gray-400 uppercase tracking-wider mb-2">
+                {isPa ? "ਪਿਛਲੀ ਕਲਾਸ ਦੀ ਕੀਮਤ vs ਅੱਜ ਦੀ ਸਪੈਸ਼ਲ ਫੀਸ" : "PREVIOUS CLASS PRICE VS SPECIAL OFFER"}
               </div>
-
-              <h4 className="text-xl font-bold text-gray-300">
-                {isPa ? "ਅਰਲੀ ਬਰਡ ਲਾਂਚ ਬੈਚ" : "Early Bird Launch Batch"}
-              </h4>
-
-              <div className="my-4 flex items-baseline gap-2">
-                <span className="line-through decoration-red-600 decoration-3 text-3xl font-black text-gray-500">
-                  ₹999
+              <div className="flex items-center justify-center gap-4">
+                <span className="line-through decoration-red-600 decoration-4 text-gray-500 font-extrabold text-2xl sm:text-4xl">
+                  ₹5,000
                 </span>
-                <span className="text-xs font-bold text-red-400 uppercase">
-                  {isPa ? "ਸੀਟਾਂ ਖਤਮ" : "Sold Out"}
+                <span className="text-4xl sm:text-6xl font-black text-[#d4f934] font-display">
+                  ₹997
+                </span>
+                <span className="text-xs sm:text-sm font-black text-white uppercase bg-red-600/90 px-2 py-1 rounded-md">
+                  ONLY
                 </span>
               </div>
-
-              <p className="text-xs text-gray-400 leading-relaxed mb-6">
-                {isPa
-                  ? "ਇਸ ਬੈਚ ਦਾ ਕੋਟਾ ਪੂਰਾ ਹੋ ਚੁੱਕਾ ਹੈ। ਅਗਲੇ ਬੈਚ ਦੇ ਐਲਾਨ ਲਈ ਉਡੀਕ ਕਰੋ ਜਾਂ ਨਾਲ ਵਾਲੇ 50% ਛੋਟ ਬੈਚ ਵਿੱਚ ਦਾਖਲਾ ਲਵੋ।"
-                  : "Promotional quota filled. Please check back for future batches or join the active 50% discount batch."}
-              </p>
-
-              <div className="space-y-2.5 text-xs text-gray-500">
-                <div className="flex items-center gap-2">
-                  <span className="h-1.5 w-1.5 rounded-full bg-red-500" />
-                  <span>{isPa ? "100 ਸੀਟਾਂ ਮੁਕੰਮਲ" : "100/100 Seats Claimed"}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="h-1.5 w-1.5 rounded-full bg-red-500" />
-                  <span>{isPa ? "ਨਵਾਂ ਦਾਖਲਾ ਬੰਦ" : "New Admissions Closed"}</span>
-                </div>
+              <div className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-green-950 border border-green-500/40 px-3.5 py-1 text-xs font-black text-green-400">
+                <Sparkles className="h-3.5 w-3.5" />
+                <span>{isPa ? "ਤੁਸੀਂ ₹4,003 ਦੀ ਸਿੱਧੀ ਬਚਤ ਕਰ ਰਹੇ ਹੋ (80% ਛੋਟ)" : "You Save ₹4,003 Today (80% Discount)"}</span>
               </div>
             </div>
 
-            <div className="relative z-10 mt-6 pt-4 border-t border-gray-800/80">
-              <button
-                disabled
-                className="w-full py-3 px-4 rounded-xl text-xs font-bold bg-gray-900 border border-gray-800 text-gray-500 cursor-not-allowed text-center"
-              >
-                {isPa ? "🔴 ਸੀਟਾਂ ਫੁੱਲ (ਬਾਅਦ 'ਚ ਕੋਸ਼ਿਸ਼ ਕਰੋ)" : "🔴 Slots Full (Try Again Later)"}
-              </button>
-            </div>
-          </div>
-
-          {/* TIER 2: ACTIVE BATCH (50% OFF — ₹2,499) - RECOMMENDED & GLOWING */}
-          <div className="lg:col-span-7 rounded-3xl border-2 border-[#d4f934] bg-gradient-to-b from-[#18220c] via-[#101215] to-[#0a0a0a] p-6 sm:p-10 text-center shadow-[0_0_80px_rgba(212,249,52,0.3)] relative overflow-hidden flex flex-col justify-between">
-            {/* Top Accent Pill */}
-            <div>
-              <div className="inline-flex items-center gap-2 rounded-full bg-[#d4f934] px-4 py-1 text-xs font-black text-black uppercase tracking-wider mb-4 shadow-md">
-                <Flame className="h-4 w-4 fill-black" />
-                <span>{isPa ? "🔥 50% ਛੋਟ ਸਪੈਸ਼ਲ ਦਾਖਲਾ • ਸੀਮਤ ਸੀਟਾਂ" : "🔥 50% OFF SPECIAL ADMISSION • ACTIVE"}</span>
-              </div>
-
-              <h3 className="text-2xl sm:text-4xl font-serif font-black tracking-tight text-white">
-                {isPa ? "ਸੰਪੂਰਨ AI ਮਾਸਟਰਕਲਾਸ" : "Complete AI Masterclass"}
-              </h3>
-
-              <p className="mt-2 text-xs sm:text-sm text-gray-300 font-medium">
-                {isPa
-                  ? "ਇੱਕ ਵਾਰ ਭੁਗਤਾਨ • ਬਿਨਾਂ ਕੋਈ ਪੇਡ ਟੂਲ ਖਰੀਦੇ ਖੁਦ ਬਣਾਓ • ਲਾਈਫਟਾਈਮ ਐਕਸੈਸ"
-                  : "One-time fee • Build 100% by yourself • Zero tool subscriptions • Lifetime access"}
-              </p>
-
-              {/* Pricing Numbers Hero */}
-              <div className="my-6 rounded-2xl border border-[#d4f934]/30 bg-[#0d0d0d]/90 p-5 max-w-sm mx-auto">
-                <div className="text-[11px] font-black text-gray-400 uppercase tracking-wider mb-1">
-                  {isPa ? "ਅਸਲ ਕੀਮਤ vs 50% ਛੋਟ ਫੀਸ" : "REGULAR PRICE VS 50% OFF FEE"}
-                </div>
-                <div className="flex items-center justify-center gap-3">
-                  <span className="line-through decoration-red-600 decoration-4 text-gray-500 font-extrabold text-2xl sm:text-3xl">
-                    ₹4,999
-                  </span>
-                  <span className="text-4xl sm:text-5xl font-black text-[#d4f934] font-display">
-                    ₹2,499
-                  </span>
-                </div>
-                <span className="inline-block mt-2 rounded-full bg-green-950 border border-green-500/40 px-3 py-0.5 text-[11px] font-bold text-green-400">
-                  {isPa ? "ਤੁਸੀਂ ₹2,500 ਦੀ ਬਚਤ ਕਰ ਰਹੇ ਹੋ (50% ਛੋਟ)" : "You Save ₹2,500 Today (50% Discount)"}
-                </span>
-              </div>
-
-              {/* Feature Checklist */}
-              <div className="max-w-md mx-auto text-left space-y-2.5 mb-8">
-                {checklist.map((item, idx) => (
-                  <div key={idx} className="flex items-start gap-2.5 text-xs sm:text-[13px] text-gray-200">
-                    <div className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[#d4f934]/20 text-[#d4f934] mt-0.5">
-                      <Check className="h-3 w-3 stroke-[3]" />
-                    </div>
-                    <span>{item}</span>
+            {/* Feature Checklist */}
+            <div className="max-w-lg mx-auto text-left grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
+              {checklist.map((item, idx) => (
+                <div key={idx} className="flex items-start gap-2.5 text-xs sm:text-sm text-gray-200">
+                  <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#d4f934]/20 text-[#d4f934] mt-0.5">
+                    <Check className="h-3.5 w-3.5 stroke-[3]" />
                   </div>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              {/* Primary Action Button */}
-              <button
-                type="button"
-                onClick={openModal}
-                className="lime-button w-full inline-flex items-center justify-center gap-3 rounded-full py-4 px-8 text-base sm:text-lg font-black text-black shadow-[0_0_40px_rgba(212,249,52,0.6)] cursor-pointer hover:scale-[1.02] transition-transform"
-              >
-                <span>{isPa ? "50% ਛੋਟ ਨਾਲ ਦਾਖਲਾ ਲਵੋ — ₹2,499" : "Enroll with 50% OFF — ₹2,499"}</span>
-                <ArrowRight className="h-5 w-5" />
-              </button>
-
-              <p className="mt-3 text-xs text-gray-400 flex items-center justify-center gap-1.5">
-                <Lock className="h-3.5 w-3.5 text-[#d4f934]" />
-                <span>
-                  {isPa
-                    ? "Razorpay ਦੁਆਰਾ 100% ਸੁਰੱਖਿਅਤ ਪੇਮੈਂਟ • ਤੁਰੰਤ WhatsApp ਤੇ Drive ਲਿੰਕ"
-                    : "100% Secure Razorpay Checkout • Instant Access via WhatsApp & Google Drive"}
-                </span>
-              </p>
+                  <span className="leading-snug">{item}</span>
+                </div>
+              ))}
             </div>
           </div>
 
+          <div className="relative z-10">
+            {/* Primary Action Button */}
+            <button
+              type="button"
+              onClick={openModal}
+              className="lime-button w-full max-w-lg inline-flex items-center justify-center gap-3 rounded-full py-4 sm:py-5 px-8 text-base sm:text-xl font-black text-black shadow-[0_0_50px_rgba(212,249,52,0.65)] cursor-pointer hover:scale-[1.02] transition-transform"
+            >
+              <span>{isPa ? "ਫਲੈਟ ₹997 ਵਿੱਚ ਦਾਖਲਾ ਲਵੋ (Save ₹4,003)" : "Enroll for Flat ₹997 (Save ₹4,003)"}</span>
+              <ArrowRight className="h-5 w-5 sm:h-6 sm:w-6" />
+            </button>
+
+            <p className="mt-4 text-xs text-gray-400 flex items-center justify-center gap-2">
+              <Lock className="h-3.5 w-3.5 text-[#d4f934]" />
+              <span>
+                {isPa
+                  ? "Razorpay ਦੁਆਰਾ 100% ਸੁਰੱਖਿਅਤ ਪੇਮੈਂਟ • ਤੁਰੰਤ WhatsApp ਤੇ Google Drive ਲਿੰਕ"
+                  : "100% Secure Razorpay Checkout • Instant Access via WhatsApp & Google Drive"}
+              </span>
+            </p>
+          </div>
         </div>
       </div>
     </section>
@@ -2219,10 +2437,10 @@ export function Faq() {
         : "Not at all! After this masterclass, you will build unlimited websites completely by yourself without buying any paid AI tools or recurring software subscriptions ($20-$50/month). We teach you 100% free and open developer workflows so you never spend extra money.",
     },
     {
-      q: isPa ? "₹999 ਆਫਰ ਦਾ ਕੀ ਹੋਇਆ? ਕੀ ਮੈਨੂੰ ₹999 ਵਿੱਚ ਮਿਲ ਸਕਦਾ ਹੈ?" : "What happened to the ₹999 offer?",
+      q: isPa ? "ਕੀ ਪਿਛਲੀ ਕਲਾਸ ₹5,000 ਦੀ ਸੀ ਅਤੇ ਹੁਣ ਸਿਰਫ਼ ਫਲੈਟ ₹997 ਹੈ?" : "Was the previous class ₹5,000 and is it now flat ₹997?",
       a: isPa
-        ? "ਸ਼ੁਰੂਆਤੀ ₹999 ਵਾਲੇ ਪ੍ਰਮੋਸ਼ਨਲ ਬੈਚ ਦੀਆਂ ਸਾਰੀਆਂ 100 ਸੀਟਾਂ ਫੁੱਲ ਹੋ ਚੁੱਕੀਆਂ ਹਨ। ਗੰਭੀਰ ਸਿੱਖਿਆਰਥੀਆਂ ਦੀ ਮੰਗ ਨੂੰ ਧਿਆਨ ਵਿੱਚ ਰੱਖਦੇ ਹੋਏ ਅਸੀਂ ਮੌਜੂਦਾ ਬੈਚ ਲਈ 50% ਛੋਟ (₹2,499) ਦਾ ਸਪੈਸ਼ਲ ਦਾਖਲਾ ਖੋਲ੍ਹਿਆ ਹੈ। ਤੁਸੀਂ ਅਗਲੇ ਪ੍ਰਮੋਸ਼ਨਲ ਬੈਚ ਲਈ ਬਾਅਦ 'ਚ ਕੋਸ਼ਿਸ਼ ਕਰ ਸਕਦੇ ਹੋ ਜਾਂ ਹੁਣੇ ₹2,499 ਨਾਲ ਲਾਈਫਟਾਈਮ ਐਕਸੈਸ ਲੈ ਸਕਦੇ ਹੋ।"
-        : "The introductory ₹999 promotional batch of 100 seats reached 100% capacity and is now closed. To accommodate dedicated learners, we unlocked the active batch at a 50% discount (₹2,499 instead of ₹4,999). You can wait to try again in future batches or secure lifetime admission at 50% OFF today.",
+        ? "ਹਾਂਜੀ! ਸਾਡੀਆਂ ਪਿਛਲੀਆਂ ਕਲਾਸਾਂ ਦਾ ਰੈਗੂਲਰ ਮੁੱਲ ₹5,000 ਸੀ। ਪੰਜਾਬ ਅਤੇ ਪੇਂਡੂ ਨੌਜਵਾਨਾਂ ਨੂੰ ਤਕਨੀਕੀ ਤੌਰ 'ਤੇ ਮਜ਼ਬੂਤ ਬਣਾਉਣ ਲਈ ਇਸ ਸਪੈਸ਼ਲ ਬੈਚ ਦੀ ਦਾਖਲਾ ਫੀਸ ਫਲੈਟ ₹997 ਰੱਖੀ ਗਈ ਹੈ (80% ਛੋਟ / ₹4,003 ਦੀ ਬਚਤ)। ਇਸ ਵਿੱਚ ਸਾਰੀਆਂ 7 ਕਲਾਸਾਂ, ਗੂਗਲ ਡਰਾਈਵ ਅਤੇ ਸਾਰੇ ਪ੍ਰੌਂਪਟਸ ਸ਼ਾਮਲ ਹਨ।"
+        : "Yes! The standard tuition for previous batches was ₹5,000. To make advanced AI web creation accessible to all ambitious learners and freelancers, this special batch is offered at flat ₹997 (80% OFF / Save ₹4,003). All 7 classes and Drive resources are included.",
     },
     {
       q: isPa ? "ਕੀ ਮੈਨੂੰ ਕੋਡਿੰਗ ਆਉਣੀ ਜ਼ਰੂਰੀ ਹੈ?" : "Do I need prior coding experience?",
@@ -2231,10 +2449,10 @@ export function Faq() {
         : "Not at all! This masterclass is designed from scratch for absolute beginners. We teach visual AI building and pro code customization without requiring traditional complex coding syntax.",
     },
     {
-      q: isPa ? "ਭੁਗਤਾਨ ਤੋਂ ਬਾਅਦ ਮੈਨੂੰ ਕਲਾਸਾਂ ਕਿਵੇਂ ਮਿਲਣਗੀਆਂ?" : "How and when will I receive course access after paying ₹2,499?",
+      q: isPa ? "ਭੁਗਤਾਨ ਤੋਂ ਬਾਅਦ ਮੈਨੂੰ ਕਲਾਸਾਂ ਕਿਵੇਂ ਮਿਲਣਗੀਆਂ?" : "How and when will I receive course access after paying ₹997?",
       a: isPa
-        ? "₹2,499 ਦੀ ਪੇਮੈਂਟ ਪੂਰੀ ਹੁੰਦੇ ਹੀ ਤੁਹਾਡੇ WhatsApp ਅਤੇ ਸਕ੍ਰੀਨ 'ਤੇ ਗੂਗਲ ਡਰਾਈਵ ਕੋਰਸ ਫੋਲਡਰ ਦਾ ਡਾਇਰੈਕਟ ਲਿੰਕ ਖੁੱਲ੍ਹ ਜਾਵੇਗਾ। ਤੁਸੀਂ ਤੁਰੰਤ ਸਾਰੀਆਂ ਕਲਾਸਾਂ ਦੇਖ ਸਕਦੇ ਹੋ।"
-        : "Immediately after completing your ₹2,499 payment, you will receive instant access to the Google Drive course folder containing all recordings, source files, and prompts, plus an automatic WhatsApp invite.",
+        ? "ਫਲੈਟ ₹997 ਦੀ ਪੇਮੈਂਟ ਪੂਰੀ ਹੁੰਦੇ ਹੀ ਤੁਹਾਡੇ WhatsApp ਅਤੇ ਸਕ੍ਰੀਨ 'ਤੇ ਗੂਗਲ ਡਰਾਈਵ ਕੋਰਸ ਫੋਲਡਰ ਦਾ ਡਾਇਰੈਕਟ ਲਿੰਕ ਖੁੱਲ੍ਹ ਜਾਵੇਗਾ। ਤੁਸੀਂ ਤੁਰੰਤ ਸਾਰੀਆਂ ਕਲਾਸਾਂ ਦੇਖ ਸਕਦੇ ਹੋ।"
+        : "Immediately after completing your flat ₹997 payment, you will receive instant access to the Google Drive course folder containing all recordings, source files, and prompts, plus an automatic WhatsApp invite.",
     },
     {
       q: isPa ? "ਕੀ ਇਹ ਲਾਈਵ ਕਲਾਸਾਂ ਹਨ ਜਾਂ ਰਿਕਾਰਡਡ?" : "Are the classes live or recorded?",
@@ -2249,10 +2467,10 @@ export function Faq() {
         : "A laptop or desktop computer is recommended for hands-on website building and customization. You can watch the lessons on any device, including your smartphone.",
     },
     {
-      q: isPa ? "ਕੀ ਇਹ ਵਨ-ਟਾਈਮ ਫੀਸ ਹੈ ਜਾਂ ਮਹੀਨਾਵਾਰ?" : "Is it really a one-time payment of ₹2,499?",
+      q: isPa ? "ਕੀ ਇਹ ਵਨ-ਟਾਈਮ ਫੀਸ ਹੈ ਜਾਂ ਮਹੀਨਾਵਾਰ?" : "Is it really a one-time payment of ₹997?",
       a: isPa
-        ? "ਹਾਂਜੀ, ਸਿਰਫ ₹2,499 ਦਾ ਇੱਕ ਵਾਰ ਭੁਗਤਾਨ ਹੈ। ਕੋਈ ਮਾਸਿਕ ਫੀਸ ਜਾਂ ਲੁਕਵਾਂ ਖਰਚਾ ਨਹੀਂ ਹੈ। ਤੁਹਾਨੂੰ ਲਾਈਫਟਾਈਮ ਐਕਸੈਸ ਮਿਲੇਗਾ।"
-        : "Yes, exactly ₹2,499 one-time. No hidden subscriptions, no recurring renewal charges. You get lifetime access to all current and future updates.",
+        ? "ਹਾਂਜੀ, ਸਿਰਫ ਫਲੈਟ ₹997 ਦਾ ਇੱਕ ਵਾਰ ਭੁਗਤਾਨ ਹੈ। ਕੋਈ ਮਾਸਿਕ ਫੀਸ ਜਾਂ ਲੁਕਵਾਂ ਖਰਚਾ ਨਹੀਂ ਹੈ। ਤੁਹਾਨੂੰ ਲਾਈਫਟਾਈਮ ਐਕਸੈਸ ਮਿਲੇਗਾ।"
+        : "Yes, exactly flat ₹997 one-time. No hidden subscriptions, no recurring renewal charges. You get lifetime access to all current and future updates.",
     },
     {
       q: isPa ? "ਜੇਕਰ ਮੈਨੂੰ ਕੋਈ ਸਵਾਲ ਜਾਂ ਮੁਸ਼ਕਲ ਆਵੇ ਤਾਂ ਸਪੋਰਟ ਮਿਲੇਗੀ?" : "What if I get stuck while building?",
@@ -2497,7 +2715,7 @@ export function TwoPathsComparison() {
                 onClick={openModal}
                 className="lime-button w-full py-4 px-6 rounded-2xl text-sm sm:text-base font-black text-black shadow-[0_0_30px_rgba(212,249,52,0.5)] cursor-pointer flex items-center justify-center gap-2"
               >
-                <span>{isPa ? "ਰਸਤਾ 2 ਚੁਣੋ — 50% ਛੋਟ ਨਾਲ ਦਾਖਲਾ ਲਵੋ (₹2,499)" : "Choose Path B — Enroll with 50% OFF (₹2,499)"}</span>
+                <span>{isPa ? "ਰਸਤਾ 2 ਚੁਣੋ — ਫਲੈਟ ₹997 ਨਾਲ ਦਾਖਲਾ ਲਵੋ" : "Choose Path B — Enroll for Flat ₹997"}</span>
                 <ArrowRight className="h-4 w-4" />
               </button>
             </div>
@@ -2531,20 +2749,20 @@ export function Showcase() {
           {isPa ? (
             <>
               ਸਿਰਫ AI ਦੀਆਂ ਵੀਡੀਓਜ਼ ਦੇਖਣਾ ਬੰਦ ਕਰੋ। <br className="hidden sm:inline" />
-              <span className="text-[#d4f934]">ਹੁਣ ਖੁਦ ਬਣਾਉਣਾ ਸ਼ੁਰੂ ਕਰੋ।</span>
+              <span className="text-[#d4f934]">ਵੈੱਬਸਾਈਟਾਂ ਬਣਾ ਕੇ ਡਾਲਰਾਂ ਵਿੱਚ ਕਮਾਓ।</span>
             </>
           ) : (
             <>
-              Stop just watching people use AI. <br className="hidden sm:inline" />
-              <span className="text-[#d4f934]">Start building with it.</span>
+              Stop just watching AI videos. <br className="hidden sm:inline" />
+              <span className="text-[#d4f934]">Build websites and earn in Dollars.</span>
             </>
           )}
         </h2>
 
         <p className="mt-3 sm:mt-6 text-xs sm:text-lg text-gray-300 max-w-2xl mx-auto leading-relaxed">
           {isPa
-            ? "7 ਕਲਾਸਾਂ, ਪੂਰਾ ਗੂਗਲ ਡਰਾਈਵ ਫੋਲਡਰ, 100+ ਪ੍ਰੌਂਪਟਸ ਅਤੇ ਪੋਰਟਫੋਲੀਓ ਪ੍ਰੋਜੈਕਟਸ 50% ਛੋਟ (₹2,499) ਵਿੱਚ ਪ੍ਰਾਪਤ ਕਰੋ।"
-            : "Join hundreds of students and freelancers building client websites with 50% OFF (₹2,499). Instant lifetime access."}
+            ? "ਸਾਰੀਆਂ 7 ਕਲਾਸਾਂ, ਗੂਗਲ ਡਰਾਈਵ ਫੋਲਡਰ, 100+ AI ਪ੍ਰੌਂਪਟਸ ਅਤੇ ਕਲਾਇੰਟ ਆਊਟਰੀਚ ਕਿੱਟ ਫਲੈਟ ₹997 ਵਿੱਚ ਪ੍ਰਾਪਤ ਕਰੋ।"
+            : "Get all 7 HD masterclass modules, Google Drive lifetime vault, 100+ AI prompts, and client-closing scripts for flat ₹997 (slashed from ₹5,000)."}
         </p>
 
         <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
@@ -2553,7 +2771,7 @@ export function Showcase() {
             onClick={openModal}
             className="lime-button w-full sm:w-auto inline-flex items-center justify-center gap-2.5 sm:gap-3 rounded-full py-3.5 sm:py-4 px-7 sm:px-9 text-base sm:text-lg font-black text-black shadow-[0_0_50px_rgba(212,249,52,0.6)] cursor-pointer"
           >
-            <span>{isPa ? "50% ਛੋਟ ਨਾਲ ਦਾਖਲਾ ਲਵੋ — ₹2,499 →" : "Enroll with 50% OFF — ₹2,499 →"}</span>
+            <span>{isPa ? "ਫਲੈਟ ₹997 ਨਾਲ ਦਾਖਲਾ ਲਵੋ — Save ₹4,003 →" : "Enroll for Flat ₹997 — Save ₹4,003 →"}</span>
             <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5" />
           </button>
         </div>

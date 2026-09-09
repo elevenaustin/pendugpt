@@ -26,16 +26,16 @@ import {
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "PenduGPT — Build Websites 100% By Yourself (Zero Paid AI Tools) | 50% OFF" },
+      { title: "PenduGPT — Create Websites with AI, Sell to Clients and Earn in Dollars | Flat ₹997" },
       {
         name: "description",
         content:
-          "Learn how to create websites 100% by yourself without buying any paid AI tools or spending extra money. Master AI prompts, code customization, live deployment, and client outreach. ₹999 slots full — Enroll with 50% OFF (₹2,499).",
+          "Learn how to build premium client websites with AI, close international clients on Upwork and Fiverr, and earn in Dollars. Zero coding required. Previous class was ₹5,000 — Special batch flat ₹997 only.",
       },
-      { property: "og:title", content: "PenduGPT — Build Websites By Yourself (Zero Paid AI Tools) | 50% OFF" },
+      { property: "og:title", content: "PenduGPT — Create Websites with AI and Earn in Dollars | Flat ₹997" },
       {
         property: "og:description",
-        content: "Build unlimited production-ready AI websites by yourself with zero paid tool subscriptions. ₹999 early bird full — enroll with 50% OFF now.",
+        content: "Build high-converting websites with AI, sell to global clients, and earn in Dollars. Previous class was ₹5,000 — Special batch flat ₹997 only.",
       },
       { property: "og:url", content: "https://pendugpt.shop" },
     ],
@@ -55,12 +55,12 @@ function StickyMobileDock() {
         <div className="text-left shrink-0">
           <div className="flex items-center gap-1.5">
             <span className="line-through decoration-red-500 decoration-2 text-[10px] text-gray-400 font-bold">
-              ₹4,999
+              ₹5,000
             </span>
-            <span className="text-base font-black text-[#d4f934]">₹2,499</span>
+            <span className="text-base font-black text-[#d4f934]">₹997</span>
           </div>
-          <span className="text-[9px] text-red-400 font-extrabold block">
-            {isPa ? "🔴 ₹999 ਸੀਟਾਂ ਫੁੱਲ (50% ਛੋਟ)" : "🔴 ₹999 Full (50% OFF)"}
+          <span className="text-[9px] text-green-400 font-extrabold block">
+            {isPa ? "🔴 ਸਪੈਸ਼ਲ ਬੈਚ (80% ਛੋਟ)" : "🔴 Save ₹4,003 (80% OFF)"}
           </span>
         </div>
 
@@ -69,7 +69,7 @@ function StickyMobileDock() {
           onClick={openModal}
           className="lime-button flex-1 py-3 px-3 rounded-full text-[11px] font-black text-black flex items-center justify-center gap-1.5 shadow-[0_0_20px_rgba(212,249,52,0.5)] cursor-pointer tracking-wide uppercase"
         >
-          <span>{isPa ? "ਦਾਖਲਾ ਲਵੋ (₹2,499) →" : "ENROLL (50% OFF) →"}</span>
+          <span>{isPa ? "ਦਾਖਲਾ ਲਵੋ (₹997) →" : "ENROLL NOW (₹997) →"}</span>
         </button>
       </div>
     </div>
@@ -117,7 +117,7 @@ function LandingPageInner() {
         {/* 11 — FREQUENTLY ASKED QUESTIONS (FAQ) */}
         <Faq />
 
-        {/* 12 — ₹999 OFFER & FINAL POWER CTA BUTTONS */}
+        {/* 12 — FLAT ₹997 OFFER & FINAL POWER CTA BUTTONS */}
         <Offer />
         <Showcase />
       </main>
