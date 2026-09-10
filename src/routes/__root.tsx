@@ -107,6 +107,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "dns-prefetch", href: "https://api.razorpay.com" },
       { rel: "preconnect", href: "https://player.vimeo.com" },
       { rel: "dns-prefetch", href: "https://player.vimeo.com" },
+      { rel: "preconnect", href: "https://f.vimeocdn.com", crossOrigin: "anonymous" },
+      { rel: "dns-prefetch", href: "https://f.vimeocdn.com" },
+      { rel: "preconnect", href: "https://i.vimeocdn.com", crossOrigin: "anonymous" },
+      { rel: "dns-prefetch", href: "https://i.vimeocdn.com" },
+      { rel: "preconnect", href: "https://vod-progressive.akamaized.net", crossOrigin: "anonymous" },
+      { rel: "dns-prefetch", href: "https://vod-progressive.akamaized.net" },
       {
         rel: "stylesheet",
         href: appCss,

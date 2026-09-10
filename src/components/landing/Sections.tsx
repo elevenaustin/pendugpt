@@ -110,11 +110,21 @@ export function HeroVideoPlayer() {
 
       player.setLoop(false).catch(() => {});
 
-      player.on("play", () => setIsPlaying(true));
+      player.on("play", () => {
+        setIsPlaying(true);
+        setIsVideoLoaded(true);
+      });
+      player.on("playing", () => {
+        setIsPlaying(true);
+        setIsVideoLoaded(true);
+      });
       player.on("pause", () => {
         setIsPlaying(false);
       });
-      player.on("timeupdate", (data: { seconds: number }) => setCurrentTime(data.seconds));
+      player.on("timeupdate", (data: { seconds: number }) => {
+        setCurrentTime(data.seconds);
+        if (!isVideoLoaded) setIsVideoLoaded(true);
+      });
 
       player.on("ended", async () => {
         playCountRef.current += 1;
@@ -153,6 +163,11 @@ export function HeroVideoPlayer() {
         } catch {}
       });
 
+      // Quick fallback: reveal iframe after 500ms so video is visible instantly
+      const fastRevealTimer = setTimeout(() => {
+        setIsVideoLoaded(true);
+      }, 500);
+
       // Attempt UNMUTED playback instantly as page loads
       player
         .setMuted(false)
@@ -164,6 +179,7 @@ export function HeroVideoPlayer() {
         })
         .then(() => {
           setIsPlaying(true);
+          setIsVideoLoaded(true);
         })
         .catch(() => {
           // Fallback if browser blocks unmuted autoplay without interaction:
@@ -173,9 +189,16 @@ export function HeroVideoPlayer() {
           player
             ?.setMuted(true)
             .then(() => player?.play())
-            .then(() => setIsPlaying(true))
+            .then(() => {
+              setIsPlaying(true);
+              setIsVideoLoaded(true);
+            })
             .catch(() => {});
         });
+
+      return () => {
+        clearTimeout(fastRevealTimer);
+      };
     }
 
     const handleUnmuteEvent = () => {
@@ -293,28 +316,32 @@ export function HeroVideoPlayer() {
       className="group relative aspect-video w-full overflow-hidden rounded-2xl sm:rounded-3xl border-2 border-[#d4f934] bg-black shadow-[0_0_50px_rgba(212,249,52,0.35)] select-none cursor-pointer"
       onClick={togglePlay}
     >
-      {/* Video Loading Skeleton Shimmer Placeholder */}
-      {!isVideoLoaded && (
-        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-[#0d0d0d] skeleton-shimmer">
-          <div className="h-16 w-16 sm:h-20 sm:w-20 rounded-full border-2 border-[#d4f934]/40 flex items-center justify-center bg-black/60 shadow-[0_0_30px_rgba(212,249,52,0.2)]">
-            <Play className="h-8 w-8 text-[#d4f934] translate-x-0.5 opacity-60 animate-pulse" />
-          </div>
-          <span className="mt-3 text-xs font-bold text-gray-400 tracking-wider uppercase">
-            {isPa ? "ਵੀਡੀਓ ਲੋਡ ਹੋ ਰਹੀ ਹੈ..." : "Loading Masterclass..."}
-          </span>
+      {/* Video Loading Skeleton Shimmer Placeholder (Fades out smoothly) */}
+      <div
+        className={cn(
+          "absolute inset-0 z-10 flex flex-col items-center justify-center bg-[#0d0d0d] skeleton-shimmer transition-opacity duration-300 pointer-events-none",
+          isVideoLoaded ? "opacity-0" : "opacity-100"
+        )}
+      >
+        <div className="h-16 w-16 sm:h-20 sm:w-20 rounded-full border-2 border-[#d4f934]/40 flex items-center justify-center bg-black/60 shadow-[0_0_30px_rgba(212,249,52,0.2)]">
+          <Play className="h-8 w-8 text-[#d4f934] translate-x-0.5 opacity-60 animate-pulse" />
         </div>
-      )}
+        <span className="mt-3 text-xs font-bold text-gray-400 tracking-wider uppercase">
+          {isPa ? "ਵੀਡੀਓ ਲੋਡ ਹੋ ਰਹੀ ਹੈ..." : "Loading Masterclass..."}
+        </span>
+      </div>
 
       {/* Vimeo Iframe fitting completely into the container */}
       <div className="absolute inset-0 w-full h-full overflow-hidden flex items-center justify-center bg-black pointer-events-none">
         <iframe
           key={videoId}
           ref={iframeRef}
-          src={`https://player.vimeo.com/video/${videoId}?autoplay=1&loop=0&byline=0&title=0&portrait=0&muted=0&controls=0`}
+          src={`https://player.vimeo.com/video/${videoId}?autoplay=1&muted=0&loop=0&autopause=0&byline=0&title=0&portrait=0&controls=0&playsinline=1&dnt=1&quality=auto&transparent=0`}
           className="w-full h-full border-0 rounded-2xl sm:rounded-3xl"
-          allow="autoplay; fullscreen; picture-in-picture"
+          allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
           title={isPa ? "PenduGPT ਪੰਜਾਬੀ ਮਾਸਟਰਕਲਾਸ ਡੈਮੋ" : "PenduGPT Masterclass Demo"}
           loading="eager"
+          onLoad={() => setIsVideoLoaded(true)}
         />
       </div>
 
