@@ -33,13 +33,30 @@ export function AutoUrgencyPopup({ onClaim }: AutoUrgencyPopupProps) {
     const hasSeen = sessionStorage.getItem("pendugpt_urgency_shown");
     if (hasSeen) return;
 
-    // Trigger popup after exactly 10 seconds of opening site
-    const timer = setTimeout(() => {
-      setIsOpen(true);
-      sessionStorage.setItem("pendugpt_urgency_shown", "true");
-    }, 10000);
+    // Trigger popup strictly AFTER the video pauses (after 2 plays complete)
+    const handleVideoPaused = () => {
+      const alreadyShown = sessionStorage.getItem("pendugpt_urgency_shown");
+      if (!alreadyShown) {
+        setIsOpen(true);
+        sessionStorage.setItem("pendugpt_urgency_shown", "true");
+      }
+    };
 
-    return () => clearTimeout(timer);
+    window.addEventListener("video-paused-after-2-plays", handleVideoPaused);
+
+    // Fallback timer only if user has been on page for a long duration (120s) without video completion
+    const fallbackTimer = setTimeout(() => {
+      const alreadyShown = sessionStorage.getItem("pendugpt_urgency_shown");
+      if (!alreadyShown) {
+        setIsOpen(true);
+        sessionStorage.setItem("pendugpt_urgency_shown", "true");
+      }
+    }, 120000);
+
+    return () => {
+      window.removeEventListener("video-paused-after-2-plays", handleVideoPaused);
+      clearTimeout(fallbackTimer);
+    };
   }, []);
 
   // Ticking countdown timer

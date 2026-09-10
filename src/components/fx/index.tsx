@@ -173,3 +173,5 @@ export function CursorGlow() {
 export function FloatingOrbs() {
   return null;
 }
+
+export { WebsiteSkeleton } from "./WebsiteSkeleton";

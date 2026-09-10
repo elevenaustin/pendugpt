@@ -53,11 +53,11 @@ interface Lead {
 
 // Pre-seeded sample leads for demonstration fallback
 const SAMPLE_LEADS: Lead[] = [
-  { id: "LEAD-9481", name: "Jaspreet Singh", countryCode: "+91", mobile: "9876543210", gender: "Male", date: "2026-07-27 01:45", amount: "₹99", status: "Paid" },
-  { id: "LEAD-9482", name: "Harpreet Kaur", countryCode: "+91", mobile: "9812345678", gender: "Female", date: "2026-07-27 01:52", amount: "₹99", status: "Paid" },
-  { id: "LEAD-9483", name: "Gurwinder Singh", countryCode: "+1", mobile: "6045550199", gender: "Male", date: "2026-07-27 02:01", amount: "₹99", status: "Paid" },
-  { id: "LEAD-9484", name: "Simranjit Kaur", countryCode: "+44", mobile: "7911123456", gender: "Female", date: "2026-07-27 02:10", amount: "₹99", status: "Paid" },
-  { id: "LEAD-9485", name: "Amanpreet Dhillon", countryCode: "+91", mobile: "9780011223", gender: "Male", date: "2026-07-27 02:14", amount: "₹99", status: "Paid" },
+  { id: "LEAD-9481", name: "Jaspreet Singh", countryCode: "+91", mobile: "9876543210", gender: "Male", date: "2026-07-27 01:45", amount: "₹997", status: "Paid & Confirmed" },
+  { id: "LEAD-9482", name: "Harpreet Kaur", countryCode: "+91", mobile: "9812345678", gender: "Female", date: "2026-07-27 01:52", amount: "₹997", status: "Paid & Enrolled" },
+  { id: "LEAD-9483", name: "Gurwinder Singh", countryCode: "+1", mobile: "6045550199", gender: "Male", date: "2026-07-27 02:01", amount: "₹997", status: "Number Entered (Unpaid)" },
+  { id: "LEAD-9484", name: "Simranjit Kaur", countryCode: "+44", mobile: "7911123456", gender: "Female", date: "2026-07-27 02:10", amount: "₹997", status: "Paid & Confirmed" },
+  { id: "LEAD-9485", name: "Amanpreet Dhillon", countryCode: "+91", mobile: "9780011223", gender: "Male", date: "2026-07-27 02:14", amount: "₹997", status: "Payment Dismissed / Unpaid" },
 ];
 
 function AdminPage() {
@@ -70,6 +70,7 @@ function AdminPage() {
   const [followedUpMap, setFollowedUpMap] = useState<Record<string, boolean>>({});
   const [searchQuery, setSearchQuery] = useState("");
   const [genderFilter, setGenderFilter] = useState("All");
+  const [statusFilter, setStatusFilter] = useState("All");
   const [followupFilter, setFollowupFilter] = useState("All");
   const [isLoading, setIsLoading] = useState(true);
 
@@ -148,8 +149,8 @@ function AdminPage() {
             date: item.created_at
               ? new Date(item.created_at).toISOString().replace("T", " ").substring(0, 16)
               : new Date().toISOString().substring(0, 16),
-            amount: "₹99",
-            status: item.status || "Paid",
+            amount: "₹997",
+            status: item.status || "Paid & Confirmed",
           };
         });
       }
@@ -266,17 +267,27 @@ function AdminPage() {
 
     const matchesGender = genderFilter === "All" || lead.gender === genderFilter;
 
+    const isPaid = (lead.status || "").toLowerCase().includes("paid");
+    const isUnpaid = !isPaid;
+
+    const matchesStatus =
+      statusFilter === "All" ||
+      (statusFilter === "Paid" && isPaid) ||
+      (statusFilter === "Unpaid" && isUnpaid);
+
     const matchesFollowup =
       followupFilter === "All" ||
       (followupFilter === "FollowedUp" && lead.followedUp) ||
       (followupFilter === "Pending" && !lead.followedUp);
 
-    return matchesSearch && matchesGender && matchesFollowup;
+    return matchesSearch && matchesGender && matchesStatus && matchesFollowup;
   });
 
   // Calculate Metrics
   const totalLeads = leads.length;
-  const totalRevenue = totalLeads * 99;
+  const paidLeadsCount = leads.filter((l) => (l.status || "").toLowerCase().includes("paid")).length;
+  const unpaidLeadsCount = totalLeads - paidLeadsCount;
+  const totalRevenue = paidLeadsCount * 997;
   const maleCount = leads.filter((l) => l.gender === "Male").length;
   const femaleCount = leads.filter((l) => l.gender === "Female").length;
   const followedUpCount = leads.filter((l) => l.followedUp).length;
@@ -468,7 +479,9 @@ function AdminPage() {
               <Users className="h-5 w-5 text-[#d4f934]" />
             </div>
             <div className="text-3xl font-black text-white">{totalLeads}</div>
-            <p className="text-[11px] text-gray-400 mt-1 font-medium">Registered Students</p>
+            <p className="text-[11px] text-gray-400 mt-1 font-medium">
+              {paidLeadsCount} Paid • {unpaidLeadsCount} Pending
+            </p>
           </div>
 
           <div className="rounded-2xl border border-gray-800 bg-[#121212] p-5">
@@ -479,7 +492,7 @@ function AdminPage() {
             <div className="text-3xl font-black text-[#d4f934]">
               ₹{totalRevenue.toLocaleString()}
             </div>
-            <p className="text-[11px] text-gray-400 mt-1 font-medium">₹99 per enrollment</p>
+            <p className="text-[11px] text-gray-400 mt-1 font-medium">₹997 per paid admission</p>
           </div>
 
           <div className="rounded-2xl border border-gray-800 bg-[#121212] p-5">
@@ -522,15 +535,28 @@ function AdminPage() {
           {/* Left: Search & Filters */}
           <div className="flex flex-wrap items-center gap-3 flex-1 min-w-[280px]">
             {/* Search Input */}
-            <div className="relative flex-1 min-w-[200px]">
+            <div className="relative flex-1 min-w-[180px]">
               <Search className="absolute left-3.5 top-3 h-4 w-4 text-gray-500" />
               <input
                 type="text"
-                placeholder="Search by student name or mobile..."
+                placeholder="Search by name or mobile..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full rounded-xl border border-gray-800 bg-[#0a0a0a] pl-9 pr-3.5 py-2.5 text-xs font-bold text-white placeholder-gray-500 focus:border-[#d4f934] focus:outline-none transition"
               />
+            </div>
+
+            {/* Payment Status Filter */}
+            <div className="flex items-center gap-2">
+              <select
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value)}
+                className="rounded-xl border border-gray-800 bg-[#0a0a0a] px-3 py-2.5 text-xs font-bold text-white outline-none cursor-pointer focus:border-[#d4f934]"
+              >
+                <option value="All">All Statuses ({totalLeads})</option>
+                <option value="Paid">🟢 Paid ({paidLeadsCount})</option>
+                <option value="Unpaid">🟠 Number Entered / Pending ({unpaidLeadsCount})</option>
+              </select>
             </div>
 
             {/* Follow-up Status Filter */}
@@ -541,7 +567,7 @@ function AdminPage() {
                 onChange={(e) => setFollowupFilter(e.target.value)}
                 className="rounded-xl border border-gray-800 bg-[#0a0a0a] px-3 py-2.5 text-xs font-bold text-white outline-none cursor-pointer focus:border-[#d4f934]"
               >
-                <option value="All">All Follow-up Status</option>
+                <option value="All">All Outreach Status</option>
                 <option value="FollowedUp">✅ Messaged / Followed Up</option>
                 <option value="Pending">⏳ Pending Follow-up</option>
               </select>
@@ -605,7 +631,7 @@ function AdminPage() {
                   <th className="p-4">Gender</th>
                   <th className="p-4">Registration Date</th>
                   <th className="p-4">Amount</th>
-                  <th className="p-4">Payment</th>
+                  <th className="p-4">Payment Status</th>
                   <th className="p-4 text-right print:hidden">Actions & Community Followup</th>
                 </tr>
               </thead>
@@ -646,101 +672,111 @@ function AdminPage() {
                     </td>
                   </tr>
                 ) : (
-                  filteredLeads.map((lead) => (
-                    <tr
-                      key={lead.id}
-                      className={cn(
-                        "transition-all duration-150 border-l-4",
-                        lead.followedUp
-                          ? "bg-emerald-950/15 border-l-emerald-500 hover:bg-emerald-950/25"
-                          : "border-l-transparent hover:bg-gray-800/30"
-                      )}
-                    >
-                      <td className="p-4 font-mono text-[#d4f934] font-bold">{lead.id}</td>
-                      <td className="p-4 font-bold text-white">
-                        <div className="flex items-center gap-2">
-                          <span>{lead.name}</span>
-                          {lead.followedUp && (
-                            <span
-                              className="inline-flex items-center gap-0.5 rounded-full bg-emerald-500/20 border border-emerald-500/40 px-1.5 py-0.5 text-[9px] font-extrabold text-emerald-400"
-                              title="Community Followed Up"
-                            >
-                              <CheckCircle2 className="h-2.5 w-2.5" />
-                              <span>Done</span>
+                  filteredLeads.map((lead) => {
+                    const isPaidLead = (lead.status || "").toLowerCase().includes("paid");
+                    return (
+                      <tr
+                        key={lead.id}
+                        className={cn(
+                          "transition-all duration-150 border-l-4",
+                          lead.followedUp
+                            ? "bg-emerald-950/15 border-l-emerald-500 hover:bg-emerald-950/25"
+                            : "border-l-transparent hover:bg-gray-800/30"
+                        )}
+                      >
+                        <td className="p-4 font-mono text-[#d4f934] font-bold">{lead.id}</td>
+                        <td className="p-4 font-bold text-white">
+                          <div className="flex items-center gap-2">
+                            <span>{lead.name}</span>
+                            {lead.followedUp && (
+                              <span
+                                className="inline-flex items-center gap-0.5 rounded-full bg-emerald-500/20 border border-emerald-500/40 px-1.5 py-0.5 text-[9px] font-extrabold text-emerald-400"
+                                title="Community Followed Up"
+                              >
+                                <CheckCircle2 className="h-2.5 w-2.5" />
+                                <span>Done</span>
+                              </span>
+                            )}
+                          </div>
+                        </td>
+                        <td className="p-4">
+                          <span className="inline-flex items-center gap-1 font-bold text-gray-200">
+                            <span className="text-gray-400">{lead.countryCode}</span> {lead.mobile}
+                          </span>
+                        </td>
+                        <td className="p-4">
+                          <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-gray-800 text-gray-300">
+                            {lead.gender}
+                          </span>
+                        </td>
+                        <td className="p-4 text-gray-400">{lead.date}</td>
+                        <td className="p-4 font-bold text-white">{lead.amount}</td>
+                        <td className="p-4">
+                          {isPaidLead ? (
+                            <span className="inline-flex items-center gap-1 rounded-full bg-green-950/80 border border-green-500/40 px-2.5 py-0.5 text-[10px] font-extrabold text-green-400">
+                              <CheckCircle2 className="h-3 w-3" />
+                              <span>{lead.status}</span>
+                            </span>
+                          ) : (
+                            <span className="inline-flex items-center gap-1 rounded-full bg-amber-950/80 border border-amber-500/40 px-2.5 py-0.5 text-[10px] font-extrabold text-amber-300">
+                              <Clock className="h-3 w-3 text-amber-400" />
+                              <span>{lead.status || "Pending Payment"}</span>
                             </span>
                           )}
-                        </div>
-                      </td>
-                      <td className="p-4">
-                        <span className="inline-flex items-center gap-1 font-bold text-gray-200">
-                          <span className="text-gray-400">{lead.countryCode}</span> {lead.mobile}
-                        </span>
-                      </td>
-                      <td className="p-4">
-                        <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-gray-800 text-gray-300">
-                          {lead.gender}
-                        </span>
-                      </td>
-                      <td className="p-4 text-gray-400">{lead.date}</td>
-                      <td className="p-4 font-bold text-white">{lead.amount}</td>
-                      <td className="p-4">
-                        <span className="inline-flex items-center gap-1 rounded-full bg-green-950/80 border border-green-500/40 px-2.5 py-0.5 text-[10px] font-extrabold text-green-400">
-                          <CheckCircle2 className="h-3 w-3" />
-                          <span>{lead.status}</span>
-                        </span>
-                      </td>
-                      <td className="p-4 text-right print:hidden">
-                        <div className="inline-flex items-center justify-end gap-2">
-                          {/* Follow-up Mark Toggle Button (Left of WhatsApp button) */}
-                          <button
-                            type="button"
-                            onClick={() => toggleFollowUp(lead)}
-                            className={cn(
-                              "inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-[11px] font-bold transition-all duration-200 cursor-pointer border shadow-sm",
-                              lead.followedUp
-                                ? "bg-emerald-950/90 text-emerald-400 border-emerald-500/50 hover:bg-emerald-900/60 shadow-[0_0_12px_rgba(16,185,129,0.25)]"
-                                : "bg-amber-950/40 text-amber-300/90 border-amber-500/30 hover:bg-amber-900/50 hover:text-amber-200"
-                            )}
-                            title={
-                              lead.followedUp
-                                ? "Click to toggle OFF (Mark as Pending)"
-                                : "Click to toggle ON (Mark as Messaged / Followed Up)"
-                            }
-                          >
-                            {lead.followedUp ? (
-                              <>
-                                <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
-                                <span>Messaged</span>
-                              </>
-                            ) : (
-                              <>
-                                <Clock className="h-3.5 w-3.5 text-amber-400 shrink-0" />
-                                <span>Mark Followed Up</span>
-                              </>
-                            )}
-                          </button>
+                        </td>
+                        <td className="p-4 text-right print:hidden">
+                          <div className="inline-flex items-center justify-end gap-2">
+                            {/* Follow-up Mark Toggle Button */}
+                            <button
+                              type="button"
+                              onClick={() => toggleFollowUp(lead)}
+                              className={cn(
+                                "inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-[11px] font-bold transition-all duration-200 cursor-pointer border shadow-sm",
+                                lead.followedUp
+                                  ? "bg-emerald-950/90 text-emerald-400 border-emerald-500/50 hover:bg-emerald-900/60 shadow-[0_0_12px_rgba(16,185,129,0.25)]"
+                                  : "bg-amber-950/40 text-amber-300/90 border-amber-500/30 hover:bg-amber-900/50 hover:text-amber-200"
+                              )}
+                              title={
+                                lead.followedUp
+                                  ? "Click to toggle OFF (Mark as Pending)"
+                                  : "Click to toggle ON (Mark as Messaged / Followed Up)"
+                              }
+                            >
+                              {lead.followedUp ? (
+                                <>
+                                  <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
+                                  <span>Messaged</span>
+                                </>
+                              ) : (
+                                <>
+                                  <Clock className="h-3.5 w-3.5 text-amber-400 shrink-0" />
+                                  <span>Mark Followed Up</span>
+                                </>
+                              )}
+                            </button>
 
-                          {/* WhatsApp Direct Chat Link */}
-                          <a
-                            href={`https://wa.me/${lead.countryCode.replace(
-                              "+",
-                              ""
-                            )}${lead.mobile}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            onClick={() => {
-                              if (!lead.followedUp) toggleFollowUp(lead);
-                            }}
-                            className="inline-flex items-center gap-1 rounded-lg border border-green-600/40 bg-green-950/40 px-2.5 py-1 text-[11px] font-bold text-green-400 hover:bg-green-600 hover:text-white transition"
-                            title="Open WhatsApp chat and auto-mark as Followed Up"
-                          >
-                            <MessageSquare className="h-3 w-3" />
-                            <span>WhatsApp</span>
-                          </a>
-                        </div>
-                      </td>
-                    </tr>
-                  ))
+                            {/* WhatsApp Direct Chat Link */}
+                            <a
+                              href={`https://wa.me/${lead.countryCode.replace(
+                                "+",
+                                ""
+                              )}${lead.mobile}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              onClick={() => {
+                                if (!lead.followedUp) toggleFollowUp(lead);
+                              }}
+                              className="inline-flex items-center gap-1 rounded-lg border border-green-600/40 bg-green-950/40 px-2.5 py-1 text-[11px] font-bold text-green-400 hover:bg-green-600 hover:text-white transition"
+                              title="Open WhatsApp chat and auto-mark as Followed Up"
+                            >
+                              <MessageSquare className="h-3 w-3" />
+                              <span>WhatsApp</span>
+                            </a>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })
                 )}
               </tbody>
             </table>

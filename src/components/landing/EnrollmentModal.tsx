@@ -1,5 +1,19 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { ArrowRight, CheckCircle2, Lock, MessageCircle, ShieldCheck, User, X, AlertTriangle, RefreshCw, Laptop, Smartphone, ExternalLink } from "lucide-react";
+import {
+  ArrowRight,
+  CheckCircle2,
+  Lock,
+  MessageCircle,
+  ShieldCheck,
+  User,
+  X,
+  AlertTriangle,
+  RefreshCw,
+  Laptop,
+  Smartphone,
+  ExternalLink,
+  Sparkles,
+} from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 import { supabase } from "@/integrations/supabase/client";
@@ -55,6 +69,111 @@ const loadRazorpayScript = () => {
     script.onerror = () => resolve(false);
     document.body.appendChild(script);
   });
+};
+
+/**
+ * Universal Lead Tracker:
+ * Records each number submission immediately (Unpaid / Pending Payment)
+ * and updates when paid, enrolled, or cancelled.
+ */
+const recordLeadStage = async ({
+  mobileNum,
+  code,
+  studentName,
+  leadStatus,
+  payId,
+  studentGender,
+  studentLaptop,
+}: {
+  mobileNum: string;
+  code: string;
+  studentName?: string;
+  leadStatus: string;
+  payId?: string;
+  studentGender?: string;
+  studentLaptop?: string;
+}) => {
+  const formattedDate = new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
+  const cleanMobile = mobileNum.trim().replace(/\D/g, "");
+  const fullWhatsapp = `${code} ${cleanMobile}`;
+  const leadId = payId || `LEAD-${cleanMobile.slice(-4)}-${Date.now().toString(36).toUpperCase()}`;
+
+  // 1. Update LocalStorage (Instant Sync for Admin Portal)
+  try {
+    const existingLeads: any[] = JSON.parse(localStorage.getItem("pendugpt_leads") || "[]");
+    const existingIndex = existingLeads.findIndex(
+      (l) => l.mobile === cleanMobile || (payId && (l.id === payId || l.paymentId === payId))
+    );
+
+    const leadObject = {
+      id: leadId,
+      name: studentName || `Student (${code} ${cleanMobile})`,
+      countryCode: code,
+      mobile: cleanMobile,
+      gender: studentGender || (leadStatus.includes("Paid") ? "Paid" : "Pending"),
+      hasLaptop: studentLaptop || "Pending",
+      date: formattedDate,
+      amount: "₹997",
+      status: leadStatus,
+      paymentId: payId || "",
+    };
+
+    if (existingIndex >= 0) {
+      existingLeads[existingIndex] = { ...existingLeads[existingIndex], ...leadObject };
+      localStorage.setItem("pendugpt_leads", JSON.stringify(existingLeads));
+    } else {
+      localStorage.setItem("pendugpt_leads", JSON.stringify([leadObject, ...existingLeads]));
+    }
+  } catch (err) {
+    console.warn("LocalStorage lead save note:", err);
+  }
+
+  // 2. Insert or update Supabase Registrations Table
+  try {
+    await supabase.from("registrations").insert({
+      full_name: studentName || `Student (${code} ${cleanMobile})`,
+      whatsapp: `${code}${cleanMobile}`,
+      amount_inr: 997,
+      status: leadStatus,
+      payment_ref: payId || `INIT_${cleanMobile}`,
+      age: 24,
+      district: "Direct Lead",
+      state: "Punjab / Online",
+      occupation: "AI Website Student",
+      email: `lead_${cleanMobile}@pendugpt.shop`,
+      has_laptop: studentLaptop === "Yes",
+      language: "pa/en",
+    } as any);
+  } catch (err) {
+    console.warn("Supabase lead capture note:", err);
+  }
+
+  // 3. Notify Google Sheets Webhook
+  const googleWebhookUrl =
+    import.meta.env.VITE_GOOGLE_SHEETS_WEBHOOK_URL ||
+    "https://script.google.com/macros/s/AKfycbynvD1F1Fs9fTPkEa7IygX2zA3S8BajsZZVur3Pg5_9yi8AiUIkD1mUCOXWxNHnFOdycQ/exec";
+
+  if (googleWebhookUrl) {
+    try {
+      fetch(googleWebhookUrl, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          date: formattedDate,
+          lead_id: leadId,
+          payment_id: payId || "Pending",
+          name: studentName || "Student",
+          whatsapp: fullWhatsapp,
+          gender: studentGender || "N/A",
+          has_laptop: studentLaptop || "N/A",
+          amount: "₹997",
+          course: "PenduGPT Full Masterclass (Flat ₹997)",
+          status: leadStatus,
+        }),
+      }).catch(() => {});
+    } catch {}
+  }
 };
 
 export function EnrollmentProvider({ children }: { children: React.ReactNode }) {
@@ -118,7 +237,6 @@ Please confirm my masterclass enrollment and grant full access to the resources 
     return `https://wa.me/${supportWhatsapp}?text=${encodeURIComponent(msg)}`;
   };
 
-
   // Preload Razorpay script on component mount
   useEffect(() => {
     loadRazorpayScript();
@@ -173,6 +291,13 @@ Please confirm my masterclass enrollment and grant full access to the resources 
   const initiateRazorpayPayment = async (mobileNum: string) => {
     setIsProcessing(true);
     setErrors({});
+
+    // Record lead immediately in backend as "Number Entered / Pending Payment"
+    await recordLeadStage({
+      mobileNum,
+      code: countryCode,
+      leadStatus: "Number Entered (Unpaid)",
+    });
 
     const scriptLoaded = await loadRazorpayScript();
     if (!scriptLoaded) {
@@ -243,6 +368,11 @@ Please confirm my masterclass enrollment and grant full access to the resources 
         ondismiss: function () {
           setIsProcessing(false);
           setStep("failed");
+          recordLeadStage({
+            mobileNum,
+            code: countryCode,
+            leadStatus: "Payment Dismissed / Unpaid",
+          });
         },
       },
       handler: async function (response: any) {
@@ -252,37 +382,13 @@ Please confirm my masterclass enrollment and grant full access to the resources 
         setIsProcessing(false);
         setStep(2);
 
-        // IMMEDIATELY save payment captured lead to Supabase to prevent zero dropoff
-        try {
-          await supabase.from("registrations").insert({
-            name: `Paid Student (${countryCode} ${mobileNum})`,
-            country_code: countryCode,
-            mobile: mobileNum,
-            gender: "Paid",
-          });
-        } catch (err) {
-          console.error("Instant payment save error:", err);
-        }
-
-        // Instant notification to webhook
-        const googleWebhookUrl = import.meta.env.VITE_GOOGLE_SHEETS_WEBHOOK_URL || "https://script.google.com/macros/s/AKfycbynvD1F1Fs9fTPkEa7IygX2zA3S8BajsZZVur3Pg5_9yi8AiUIkD1mUCOXWxNHnFOdycQ/exec";
-        if (googleWebhookUrl) {
-          try {
-            fetch(googleWebhookUrl, {
-              method: "POST",
-              mode: "no-cors",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                date: new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }),
-                payment_id: rzpPaymentId,
-                whatsapp: `${countryCode} ${mobileNum}`,
-                amount: "₹997",
-                course: "PenduGPT Full Masterclass (Flat ₹997)",
-                status: "Razorpay Payment Captured",
-              }),
-            });
-          } catch (e) {}
-        }
+        // Update lead as PAID in backend & localStorage & webhook
+        await recordLeadStage({
+          mobileNum,
+          code: countryCode,
+          leadStatus: "Paid & Confirmed",
+          payId: rzpPaymentId,
+        });
       },
     };
 
@@ -292,6 +398,11 @@ Please confirm my masterclass enrollment and grant full access to the resources 
         console.error("Razorpay Payment Failed:", response.error);
         setIsProcessing(false);
         setStep("failed");
+        recordLeadStage({
+          mobileNum,
+          code: countryCode,
+          leadStatus: "Payment Failed / Error",
+        });
       });
       rzp.open();
     } catch (err) {
@@ -301,6 +412,12 @@ Please confirm my masterclass enrollment and grant full access to the resources 
       setPaymentId(mockPayId);
       setIsProcessing(false);
       setStep(2);
+      recordLeadStage({
+        mobileNum,
+        code: countryCode,
+        leadStatus: "Paid & Confirmed (Demo)",
+        payId: mockPayId,
+      });
     }
   };
 
@@ -338,65 +455,18 @@ Please confirm my masterclass enrollment and grant full access to the resources 
     const formattedDate = new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
     setRegistrationTime(formattedDate);
 
-    const fullMobile = `${countryCode} ${mobile.trim()}`;
     const laptopStatus = hasLaptop === "Yes" ? "Yes (Laptop/PC 💻)" : "No (Mobile / Manage 📱)";
 
-    const payload = {
-      date: formattedDate,
-      payment_id: paymentId || `pay_id_${Date.now()}`,
-      name: name.trim(),
-      whatsapp: fullMobile,
-      gender: gender,
-      has_laptop: laptopStatus,
-      amount: "₹997",
-      status: "Paid & Confirmed (Flat ₹997)",
-    };
-
-    // 1. Save locally to localStorage for Super Admin Portal
-    try {
-      const newLead = {
-        id: payload.payment_id,
-        name: name.trim(),
-        countryCode,
-        mobile: mobile.trim(),
-        gender,
-        hasLaptop: laptopStatus,
-        date: formattedDate,
-        amount: "₹997",
-        status: "Paid",
-      };
-      const existing = JSON.parse(localStorage.getItem("pendugpt_leads") || "[]");
-      localStorage.setItem("pendugpt_leads", JSON.stringify([newLead, ...existing]));
-    } catch (err) {
-      console.error("Failed to save local lead:", err);
-    }
-
-    // 2. Insert or update in live Supabase database table with full profile details
-    try {
-      await supabase.from("registrations").insert({
-        name: name.trim(),
-        country_code: countryCode,
-        mobile: mobile.trim(),
-        gender: gender,
-      });
-    } catch (err) {
-      console.log("Supabase insert log:", err);
-    }
-
-    // 3. Send payload to Google Sheets Webhook URL if configured
-    const googleWebhookUrl = import.meta.env.VITE_GOOGLE_SHEETS_WEBHOOK_URL || "https://script.google.com/macros/s/AKfycbynvD1F1Fs9fTPkEa7IygX2zA3S8BajsZZVur3Pg5_9yi8AiUIkD1mUCOXWxNHnFOdycQ/exec";
-    if (googleWebhookUrl) {
-      try {
-        await fetch(googleWebhookUrl, {
-          method: "POST",
-          mode: "no-cors",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        });
-      } catch (err) {
-        console.error("Google Sheets Webhook Error:", err);
-      }
-    }
+    // Update lead with profile details in all backend systems
+    await recordLeadStage({
+      mobileNum: mobile,
+      code: countryCode,
+      studentName: name.trim(),
+      leadStatus: "Paid & Enrolled",
+      payId: paymentId || `pay_id_${Date.now()}`,
+      studentGender: gender,
+      studentLaptop: laptopStatus,
+    });
 
     setIsProcessing(false);
     setErrors({});
@@ -411,8 +481,8 @@ Please confirm my masterclass enrollment and grant full access to the resources 
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-sm md:backdrop-blur-md transform-gpu overflow-y-auto animate-fadeIn">
           
-          {/* Clean & Sleek Mid-Centered Modal Box */}
-          <div className="relative w-full max-w-sm my-auto max-h-[92vh] overflow-y-auto rounded-2xl border border-gray-800 bg-[#121212] p-5 sm:p-6 shadow-2xl text-white transition-all transform-gpu text-left custom-scrollbar">
+          {/* Clean & Sleek High-End Modal Box */}
+          <div className="relative w-full max-w-sm my-auto max-h-[92vh] overflow-y-auto rounded-3xl border border-[#d4f934]/30 bg-gradient-to-b from-[#14180d] via-[#101114] to-[#0a0a0c] p-5 sm:p-6 shadow-[0_0_50px_rgba(212,249,52,0.15)] text-white transition-all transform-gpu text-left custom-scrollbar">
             
             {/* Top Minimal Close Ghost Button */}
             <button
@@ -423,60 +493,55 @@ Please confirm my masterclass enrollment and grant full access to the resources 
               <X className="h-4 w-4" />
             </button>
 
-            {/* ------------------- STEP 1: MOBILE NUMBER ENTRY & RAZORPAY PAYMENT ------------------- */}
+            {/* ------------------- STEP 1: ULTRA-CLEAN HIGH-END NUMBER ENTRY ------------------- */}
             {step === 1 && (
               <div>
                 {isProcessing ? (
-                  <div className="py-8 flex flex-col items-center justify-center text-center space-y-3">
-                    <div className="h-10 w-10 rounded-full border-3 border-[#d4f934] border-t-transparent animate-spin" />
+                  <div className="py-8 flex flex-col items-center justify-center text-center space-y-3.5">
+                    <div className="h-10 w-10 rounded-full border-3 border-[#d4f934] border-t-transparent animate-spin shadow-[0_0_20px_rgba(212,249,52,0.4)]" />
                     <div>
                       <h3 className="text-sm font-bold text-white">
-                        {isPa ? "Razorpay ਪੇਮੈਂਟ ਖੁੱਲ੍ਹ ਰਹੀ ਹੈ..." : "Opening Razorpay Checkout..."}
+                        {isPa ? "ਸੁਰੱਖਿਅਤ ਪੇਮੈਂਟ ਖੁੱਲ੍ਹ ਰਹੀ ਹੈ..." : "Opening Secure Checkout..."}
                       </h3>
-                      <p className="text-xs text-gray-400 mt-0.5">
-                        {isPa ? "ਕਿਰਪਾ ਕਰਕੇ ₹997 ਦਾ ਭੁਗਤਾਨ ਪੂਰਾ ਕਰੋ" : "Complete ₹997 payment in Razorpay popup..."}
+                      <p className="text-xs text-gray-400 mt-1">
+                        {isPa ? "Razorpay ਵਿੱਚ ₹997 ਦਾ ਭੁਗਤਾਨ ਪੂਰਾ ਕਰੋ" : "Complete ₹997 admission payment in popup..."}
                       </p>
                     </div>
                   </div>
                 ) : (
                   <div>
-                    {/* Header with Flat ₹997 & Slashed ₹5,000 Notice */}
-                    <div className="mb-4">
-                      <div className="flex flex-wrap items-center gap-1.5 mb-2">
-                        <span className="inline-flex items-center gap-1 rounded-full bg-red-600/20 border border-red-500/50 px-2 py-0.5 text-[9px] font-black uppercase tracking-wider text-red-400">
-                          🔴 {isPa ? "ਸਪੈਸ਼ਲ ਬੈਚ ਦਾਖਲਾ" : "SPECIAL BATCH ADMISSION"}
-                        </span>
-                        <span className="inline-flex items-center gap-1.5 rounded-full bg-[#d4f934]/15 border border-[#d4f934]/40 px-2.5 py-0.5 text-[10px] font-extrabold text-[#d4f934]">
-                          <span className="line-through decoration-red-600 decoration-2 text-gray-400 font-bold">₹5,000</span>
-                          <span className="font-black text-white">₹997 ONLY (80% OFF)</span>
-                        </span>
+                    {/* Header: Minimal, Attractive, Clean */}
+                    <div className="mb-4 text-left">
+                      <div className="inline-flex items-center gap-1.5 rounded-full bg-[#d4f934]/15 border border-[#d4f934]/40 px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-[#d4f934] mb-2">
+                        <Sparkles className="h-3 w-3 text-[#d4f934]" />
+                        <span>{isPa ? "ਸਪੈਸ਼ਲ ਬੈਚ • ਫਲੈਟ ₹997" : "SPECIAL BATCH • FLAT ₹997"}</span>
                       </div>
-                      <h2 className="text-xl font-black text-white mt-1">
-                        {isPa ? "ਮੋਬਾਈਲ ਨੰਬਰ ਦਰਜ ਕਰੋ" : "Enter WhatsApp Number"}
+                      <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight">
+                        {isPa ? "ਦਾਖਲੇ ਲਈ ਮੋਬਾਈਲ ਨੰਬਰ ਭਰੋ" : "Enter WhatsApp Number"}
                       </h2>
                       <p className="text-xs text-gray-400 mt-1">
                         {isPa
-                          ? "ਪਿਛਲੀ ਕਲਾਸ ਦੀ ਫੀਸ ₹5,000 ਸੀ। ਸਪੈਸ਼ਲ ਆਫਰ ਤਹਿਤ ਫਲੈਟ ₹997 'ਚ ਲਾਈਫਟਾਈਮ ਐਕਸੈਸ ਲਵੋ। Drive ਲਿੰਕ WhatsApp 'ਤੇ ਮਿਲੇਗਾ:"
-                          : "Previous class price was ₹5,000. Get complete lifetime access for flat ₹997 only. We will send full access on WhatsApp:"}
+                          ? "ਮਾਸਟਰਕਲਾਸ ਤੇ Google Drive ਲਿੰਕ ਤੁਹਾਡੇ WhatsApp 'ਤੇ ਮਿਲੇਗਾ।"
+                          : "We will send your masterclass access & Drive vault to this WhatsApp."}
                       </p>
                     </div>
 
                     <form onSubmit={handleMobileSubmit} className="space-y-4">
                       <div>
                         <label className="block text-[11px] font-bold uppercase tracking-wider text-gray-400 mb-1.5">
-                          {isPa ? "ਮੋਬਾਈਲ ਨੰਬਰ (WhatsApp)" : "Mobile Number (WhatsApp)"}
+                          {isPa ? "WhatsApp ਮੋਬਾਈਲ ਨੰਬਰ" : "WhatsApp Mobile Number"}
                         </label>
                         
-                        {/* Sleek Worldwide Country Code Input Group with text-base to prevent mobile auto-zoom */}
-                        <div className="flex items-center rounded-xl border border-gray-700 bg-[#0a0a0a] focus-within:border-[#d4f934] transition overflow-hidden">
+                        {/* Sleek Worldwide Country Code Input Group */}
+                        <div className="flex items-center rounded-2xl border-2 border-gray-800 bg-[#09090b] focus-within:border-[#d4f934] focus-within:shadow-[0_0_20px_rgba(212,249,52,0.25)] transition-all overflow-hidden">
                           <select
                             value={countryCode}
                             onChange={(e) => setCountryCode(e.target.value)}
-                            className="w-24 shrink-0 bg-[#1a1a1a] px-2 py-3 border-r border-gray-700 text-base sm:text-xs font-bold text-white outline-none cursor-pointer hover:bg-gray-800 transition text-center"
+                            className="w-24 shrink-0 bg-[#16171a] px-2 py-3.5 border-r border-gray-800 text-sm font-black text-white outline-none cursor-pointer hover:bg-gray-800 transition text-center"
                           >
                             {COUNTRY_CODES.map((c, idx) => (
-                              <option key={`${c.code}-${idx}`} value={c.code} className="bg-[#141414] text-white py-1">
-                                {c.flag} {c.code} ({c.name})
+                              <option key={`${c.code}-${idx}`} value={c.code} className="bg-[#141416] text-white py-1">
+                                {c.flag} {c.code}
                               </option>
                             ))}
                           </select>
@@ -487,26 +552,30 @@ Please confirm my masterclass enrollment and grant full access to the resources 
                             placeholder="9876543210"
                             value={mobile}
                             onChange={(e) => setMobile(e.target.value.replace(/\D/g, ""))}
-                            className="flex-1 min-w-0 bg-transparent px-3 py-3 text-base font-bold text-white placeholder-gray-600 focus:outline-none tracking-wide"
+                            className="flex-1 min-w-0 bg-transparent px-3.5 py-3.5 text-base sm:text-lg font-bold text-white placeholder-gray-600 focus:outline-none tracking-wide"
                             autoFocus
                           />
                         </div>
                         {errors.mobile && <p className="text-xs text-red-400 mt-1.5 font-medium">{errors.mobile}</p>}
                       </div>
 
+                      {/* Attractive Clean Join Now Button */}
                       <button
                         type="submit"
-                        className="w-full flex items-center justify-center gap-2 rounded-xl py-3.5 px-4 text-sm font-black text-black bg-[#d4f934] hover:bg-[#c2e828] transition cursor-pointer shadow-md"
+                        className="lime-button w-full flex items-center justify-center gap-2 rounded-2xl py-3.5 px-5 text-sm sm:text-base font-black text-black shadow-[0_0_25px_rgba(212,249,52,0.4)] cursor-pointer hover:scale-[1.02] active:scale-[0.98] transition-all mt-1"
                       >
-                        <span>{isPa ? "ਪੇਮੈਂਟ ਲਈ ਅੱਗੇ ਵਧੋ (₹997) →" : "Proceed to Pay Flat ₹997 →"}</span>
+                        <span>{isPa ? "ਹੁਣੇ ਜੁੜੋ (ਫਲੈਟ ₹997) →" : "Join Now — Flat ₹997 →"}</span>
+                        <ArrowRight className="h-4 w-4" />
                       </button>
 
                       <div className="flex items-center justify-center gap-1.5 text-[11px] text-gray-400 pt-1">
-                        <Lock className="h-3 w-3 text-gray-400" />
-                        <span>{isPa ? "Razorpay 100% ਸੁਰੱਖਿਅਤ ਪੇਮੈਂਟ" : "100% PCI-DSS Secure Razorpay Payment"}</span>
+                        <Lock className="h-3 w-3 text-[#d4f934]" />
+                        <span className="font-semibold text-gray-300">
+                          {isPa ? "100% ਸੁਰੱਖਿਅਤ Razorpay ਪੇਮੈਂਟ" : "100% PCI-DSS Secure Razorpay Checkout"}
+                        </span>
                       </div>
                       <p className="text-[10px] text-gray-500 text-center pt-0.5">
-                        By continuing, you agree to PenduGPT's <a href="/terms" target="_blank" className="underline hover:text-[#d4f934]">Terms</a>, <a href="/privacy" target="_blank" className="underline hover:text-[#d4f934]">Privacy</a> & <a href="/refund" target="_blank" className="underline hover:text-[#d4f934]">Refund Policy</a>.
+                        By joining, you agree to PenduGPT's <a href="/terms" target="_blank" className="underline hover:text-[#d4f934]">Terms</a> & <a href="/refund" target="_blank" className="underline hover:text-[#d4f934]">Refund Policy</a>.
                       </p>
                     </form>
                   </div>

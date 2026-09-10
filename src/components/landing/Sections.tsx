@@ -89,13 +89,13 @@ export function HeroVideoPlayer() {
   const playCountRef = useRef(0);
 
   const [isPlaying, setIsPlaying] = useState(true);
-  const [isMuted, setIsMuted] = useState(true);
+  const [isMuted, setIsMuted] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [showControls, setShowControls] = useState(true);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
-  const [showSoundTooltip, setShowSoundTooltip] = useState(true);
+  const [showSoundTooltip, setShowSoundTooltip] = useState(false);
   const hideControlsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
@@ -111,8 +111,11 @@ export function HeroVideoPlayer() {
       player.setLoop(false).catch(() => {});
 
       player.on("play", () => setIsPlaying(true));
-      player.on("pause", () => setIsPlaying(false));
+      player.on("pause", () => {
+        setIsPlaying(false);
+      });
       player.on("timeupdate", (data: { seconds: number }) => setCurrentTime(data.seconds));
+
       player.on("ended", async () => {
         playCountRef.current += 1;
         if (playCountRef.current < 2) {
@@ -125,13 +128,19 @@ export function HeroVideoPlayer() {
             console.error("Error auto-replaying video:", err);
           }
         } else {
-          // Finished playing twice, pause automatically
+          // Finished playing twice -> Automatically PAUSE and MUTE
           try {
+            await player?.setMuted(true);
+            setIsMuted(true);
             await player?.pause();
             setIsPlaying(false);
             setShowControls(true);
+            // Notify urgency popup to appear immediately after video pauses
+            if (typeof window !== "undefined") {
+              window.dispatchEvent(new CustomEvent("video-paused-after-2-plays"));
+            }
           } catch (err) {
-            console.error("Error pausing video:", err);
+            console.error("Error pausing video after 2 plays:", err);
           }
         }
       });
@@ -144,13 +153,60 @@ export function HeroVideoPlayer() {
         } catch {}
       });
 
-      player.setMuted(true).then(() => {
-        setIsMuted(true);
-        player?.play().then(() => setIsPlaying(true)).catch(() => setIsPlaying(false));
-      });
+      // Attempt UNMUTED playback instantly as page loads
+      player
+        .setMuted(false)
+        .then(() => {
+          player?.setVolume(1).catch(() => {});
+          setIsMuted(false);
+          setShowSoundTooltip(false);
+          return player?.play();
+        })
+        .then(() => {
+          setIsPlaying(true);
+        })
+        .catch(() => {
+          // Fallback if browser blocks unmuted autoplay without interaction:
+          // Start playing muted and listen for the first user interaction anywhere to unmute
+          setIsMuted(true);
+          setShowSoundTooltip(true);
+          player
+            ?.setMuted(true)
+            .then(() => player?.play())
+            .then(() => setIsPlaying(true))
+            .catch(() => {});
+        });
     }
 
+    const handleUnmuteEvent = () => {
+      if (playerRef.current && playCountRef.current < 2) {
+        playerRef.current
+          .setMuted(false)
+          .then(() => {
+            playerRef.current?.setVolume(1).catch(() => {});
+            setIsMuted(false);
+            setShowSoundTooltip(false);
+          })
+          .catch(() => {});
+      }
+    };
+
+    const handleFirstUserInteraction = () => {
+      handleUnmuteEvent();
+    };
+
+    window.addEventListener("unmute-video", handleUnmuteEvent);
+    window.addEventListener("click", handleFirstUserInteraction, { once: true });
+    window.addEventListener("touchstart", handleFirstUserInteraction, { once: true });
+    window.addEventListener("scroll", handleFirstUserInteraction, { once: true });
+    window.addEventListener("keydown", handleFirstUserInteraction, { once: true });
+
     return () => {
+      window.removeEventListener("unmute-video", handleUnmuteEvent);
+      window.removeEventListener("click", handleFirstUserInteraction);
+      window.removeEventListener("touchstart", handleFirstUserInteraction);
+      window.removeEventListener("scroll", handleFirstUserInteraction);
+      window.removeEventListener("keydown", handleFirstUserInteraction);
       if (hideControlsTimeoutRef.current) clearTimeout(hideControlsTimeoutRef.current);
       if (player) {
         player.destroy().catch(() => {});
@@ -237,12 +293,24 @@ export function HeroVideoPlayer() {
       className="group relative aspect-video w-full overflow-hidden rounded-2xl sm:rounded-3xl border-2 border-[#d4f934] bg-black shadow-[0_0_50px_rgba(212,249,52,0.35)] select-none cursor-pointer"
       onClick={togglePlay}
     >
+      {/* Video Loading Skeleton Shimmer Placeholder */}
+      {!isVideoLoaded && (
+        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-[#0d0d0d] skeleton-shimmer">
+          <div className="h-16 w-16 sm:h-20 sm:w-20 rounded-full border-2 border-[#d4f934]/40 flex items-center justify-center bg-black/60 shadow-[0_0_30px_rgba(212,249,52,0.2)]">
+            <Play className="h-8 w-8 text-[#d4f934] translate-x-0.5 opacity-60 animate-pulse" />
+          </div>
+          <span className="mt-3 text-xs font-bold text-gray-400 tracking-wider uppercase">
+            {isPa ? "ਵੀਡੀਓ ਲੋਡ ਹੋ ਰਹੀ ਹੈ..." : "Loading Masterclass..."}
+          </span>
+        </div>
+      )}
+
       {/* Vimeo Iframe fitting completely into the container */}
       <div className="absolute inset-0 w-full h-full overflow-hidden flex items-center justify-center bg-black pointer-events-none">
         <iframe
           key={videoId}
           ref={iframeRef}
-          src={`https://player.vimeo.com/video/${videoId}?autoplay=1&loop=0&byline=0&title=0&portrait=0&muted=1&controls=0`}
+          src={`https://player.vimeo.com/video/${videoId}?autoplay=1&loop=0&byline=0&title=0&portrait=0&muted=0&controls=0`}
           className="w-full h-full border-0 rounded-2xl sm:rounded-3xl"
           allow="autoplay; fullscreen; picture-in-picture"
           title={isPa ? "PenduGPT ਪੰਜਾਬੀ ਮਾਸਟਰਕਲਾਸ ਡੈਮੋ" : "PenduGPT Masterclass Demo"}
