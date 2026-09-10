@@ -151,13 +151,17 @@ export function HeroVideoPlayer() {
       player.on("ended", async () => {
         playCountRef.current += 1;
         if (playCountRef.current < 2) {
-          // Play a second time
+          // Play a second time with full audio
           try {
             await player?.setCurrentTime(0);
+            await player?.setMuted(false);
+            await player?.setVolume(1);
+            setIsMuted(false);
+            setShowSoundTooltip(false);
             await player?.play();
             setIsPlaying(true);
           } catch (err) {
-            console.error("Error auto-replaying video:", err);
+            console.error("Error auto-replaying video with audio:", err);
           }
         } else {
           // Finished playing twice -> Automatically PAUSE and MUTE

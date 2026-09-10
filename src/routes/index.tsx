@@ -136,9 +136,37 @@ function LandingPageInner() {
 }
 
 function Landing() {
+  const [showSkeleton, setShowSkeleton] = useState(true);
+
+  useEffect(() => {
+    // Show full-page shimmer skeleton briefly on initial page load so user experiences instant visual feedback
+    const timer = setTimeout(() => {
+      setShowSkeleton(false);
+    }, 450);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <EnrollmentProvider>
-      <LandingPageInner />
+      {/* Background/Live Website: Mounted immediately so Video Iframe pre-buffers at t=0 */}
+      <div className={showSkeleton ? "opacity-0" : "opacity-100 transition-opacity duration-300"}>
+        <LandingPageInner />
+      </div>
+
+      {/* Full-Website Animated Skeleton Screen Overlay on Initial Load */}
+      <AnimatePresence>
+        {showSkeleton && (
+          <motion.div
+            key="full-website-skeleton-overlay"
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.35, ease: "easeOut" }}
+            className="fixed inset-0 z-[999] overflow-y-auto bg-[#080808] pointer-events-none"
+          >
+            <WebsiteSkeleton />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </EnrollmentProvider>
   );
 }
