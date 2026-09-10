@@ -98,6 +98,28 @@ export function HeroVideoPlayer() {
   const [showSoundTooltip, setShowSoundTooltip] = useState(false);
   const hideControlsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
+  const unmuteAndPlay = () => {
+    const player = playerRef.current;
+    if (!player || playCountRef.current >= 2) return;
+
+    player
+      .setMuted(false)
+      .then(() => {
+        player.setVolume(1).catch(() => {});
+        setIsMuted(false);
+        setShowSoundTooltip(false);
+      })
+      .catch((err) => {
+        console.warn("Audio unmute waiting for user interaction:", err);
+      });
+
+    player.getPaused().then((isPaused) => {
+      if (isPaused && playCountRef.current < 2) {
+        player.play().then(() => setIsPlaying(true)).catch(() => {});
+      }
+    }).catch(() => {});
+  };
+
   useEffect(() => {
     let player: VimeoPlayer | null = null;
     setIsVideoLoaded(false);
@@ -163,12 +185,12 @@ export function HeroVideoPlayer() {
         } catch {}
       });
 
-      // Quick fallback: reveal iframe after 500ms so video is visible instantly
+      // Quick fallback: reveal iframe immediately so video is visible with 0 delay
       const fastRevealTimer = setTimeout(() => {
         setIsVideoLoaded(true);
-      }, 500);
+      }, 300);
 
-      // Attempt UNMUTED playback instantly as page loads
+      // Attempt UNMUTED playback instantly on load
       player
         .setMuted(false)
         .then(() => {
@@ -182,10 +204,10 @@ export function HeroVideoPlayer() {
           setIsVideoLoaded(true);
         })
         .catch(() => {
-          // Fallback if browser blocks unmuted autoplay without interaction:
-          // Start playing muted and listen for the first user interaction anywhere to unmute
+          // If browser restricts unmuted autoplay until user interaction:
           setIsMuted(true);
           setShowSoundTooltip(true);
+          // Play muted instantly with zero delay
           player
             ?.setMuted(true)
             .then(() => player?.play())
@@ -201,41 +223,40 @@ export function HeroVideoPlayer() {
       };
     }
 
-    const handleUnmuteEvent = () => {
-      if (playerRef.current && playCountRef.current < 2) {
-        playerRef.current
-          .setMuted(false)
-          .then(() => {
-            playerRef.current?.setVolume(1).catch(() => {});
-            setIsMuted(false);
-            setShowSoundTooltip(false);
-          })
-          .catch(() => {});
-      }
+    const handleUserInteractionUnmute = () => {
+      unmuteAndPlay();
     };
 
-    const handleFirstUserInteraction = () => {
-      handleUnmuteEvent();
-    };
-
-    window.addEventListener("unmute-video", handleUnmuteEvent);
-    window.addEventListener("click", handleFirstUserInteraction, { once: true });
-    window.addEventListener("touchstart", handleFirstUserInteraction, { once: true });
-    window.addEventListener("scroll", handleFirstUserInteraction, { once: true });
-    window.addEventListener("keydown", handleFirstUserInteraction, { once: true });
+    window.addEventListener("unmute-video", handleUserInteractionUnmute);
+    window.addEventListener("user-gesture-unmute", handleUserInteractionUnmute);
+    window.addEventListener("click", handleUserInteractionUnmute, { capture: true });
+    window.addEventListener("touchstart", handleUserInteractionUnmute, { capture: true });
+    window.addEventListener("pointerdown", handleUserInteractionUnmute, { capture: true });
+    window.addEventListener("keydown", handleUserInteractionUnmute, { capture: true });
 
     return () => {
-      window.removeEventListener("unmute-video", handleUnmuteEvent);
-      window.removeEventListener("click", handleFirstUserInteraction);
-      window.removeEventListener("touchstart", handleFirstUserInteraction);
-      window.removeEventListener("scroll", handleFirstUserInteraction);
-      window.removeEventListener("keydown", handleFirstUserInteraction);
+      window.removeEventListener("unmute-video", handleUserInteractionUnmute);
+      window.removeEventListener("user-gesture-unmute", handleUserInteractionUnmute);
+      window.removeEventListener("click", handleUserInteractionUnmute, { capture: true });
+      window.removeEventListener("touchstart", handleUserInteractionUnmute, { capture: true });
+      window.removeEventListener("pointerdown", handleUserInteractionUnmute, { capture: true });
+      window.removeEventListener("keydown", handleUserInteractionUnmute, { capture: true });
       if (hideControlsTimeoutRef.current) clearTimeout(hideControlsTimeoutRef.current);
       if (player) {
         player.destroy().catch(() => {});
       }
     };
   }, [videoId]);
+
+  const handleContainerClick = (e: React.MouseEvent) => {
+    if (isMuted) {
+      // If currently muted, clicking the video should UNMUTE it and ensure playing!
+      e.stopPropagation();
+      unmuteAndPlay();
+      return;
+    }
+    togglePlay(e);
+  };
 
   const togglePlay = (e?: React.MouseEvent) => {
     if (e) e.stopPropagation();
@@ -265,9 +286,12 @@ export function HeroVideoPlayer() {
     player.setMuted(nextMuted).then(() => {
       setIsMuted(nextMuted);
       if (!nextMuted) {
-        player.setVolume(1);
+        player.setVolume(1).catch(() => {});
+        if (!isPlaying && playCountRef.current < 2) {
+          player.play().then(() => setIsPlaying(true)).catch(() => {});
+        }
       }
-    });
+    }).catch(() => {});
   };
 
   const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -314,7 +338,7 @@ export function HeroVideoPlayer() {
       onMouseMove={handleMouseMove}
       onMouseLeave={() => isPlaying && setShowControls(false)}
       className="group relative aspect-video w-full overflow-hidden rounded-2xl sm:rounded-3xl border-2 border-[#d4f934] bg-black shadow-[0_0_50px_rgba(212,249,52,0.35)] select-none cursor-pointer"
-      onClick={togglePlay}
+      onClick={handleContainerClick}
     >
       {/* Video Loading Skeleton Shimmer Placeholder (Fades out smoothly) */}
       <div
@@ -336,7 +360,7 @@ export function HeroVideoPlayer() {
         <iframe
           key={videoId}
           ref={iframeRef}
-          src={`https://player.vimeo.com/video/${videoId}?autoplay=1&muted=0&loop=0&autopause=0&byline=0&title=0&portrait=0&controls=0&playsinline=1&dnt=1&quality=auto&transparent=0`}
+          src={`https://player.vimeo.com/video/${videoId}?autoplay=1&muted=1&loop=0&autopause=0&byline=0&title=0&portrait=0&controls=0&playsinline=1&dnt=1&quality=auto&transparent=0`}
           className="w-full h-full border-0 rounded-2xl sm:rounded-3xl"
           allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
           title={isPa ? "PenduGPT ਪੰਜਾਬੀ ਮਾਸਟਰਕਲਾਸ ਡੈਮੋ" : "PenduGPT Masterclass Demo"}
@@ -345,31 +369,51 @@ export function HeroVideoPlayer() {
         />
       </div>
 
-      {/* Floating Click to Unmute Sound Tooltip */}
-      {showSoundTooltip && isMuted && (
-        <div
-          onClick={toggleMute}
-          className="absolute top-3 sm:top-4 right-3 sm:right-4 z-40 flex items-center gap-2 rounded-full bg-black/90 border border-[#d4f934] px-3.5 py-1.5 text-[11px] sm:text-xs font-black text-[#d4f934] shadow-[0_0_20px_rgba(212,249,52,0.4)] backdrop-blur-md animate-bounce cursor-pointer hover:scale-105 transition-transform"
+      {/* High-Visibility Floating Click to Unmute Sound Badge */}
+      {isMuted && (
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            unmuteAndPlay();
+          }}
+          className="absolute top-3 sm:top-4 right-3 sm:right-4 z-40 flex items-center gap-2 rounded-full bg-black/95 border-2 border-[#d4f934] px-3.5 sm:px-4 py-1.5 sm:py-2 text-[11px] sm:text-xs font-black text-[#d4f934] shadow-[0_0_25px_rgba(212,249,52,0.6)] backdrop-blur-md cursor-pointer hover:scale-105 active:scale-95 transition-all"
         >
-          <VolumeX className="h-3.5 w-3.5 text-[#d4f934]" />
-          <span>{isPa ? "🔊 ਆਵਾਜ਼ ਸੁਣਨ ਲਈ ਕਲਿੱਕ ਕਰੋ" : "🔊 Click for Sound"}</span>
-        </div>
+          <VolumeX className="h-4 w-4 text-[#d4f934] animate-bounce" />
+          <span>{isPa ? "🔊 ਆਵਾਜ਼ ਚਾਲੂ ਕਰੋ (ਟੈਪ ਕਰੋ)" : "🔊 TAP FOR SOUND"}</span>
+          <span className="flex h-2 w-2 relative">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#d4f934] opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-[#d4f934]"></span>
+          </span>
+        </button>
       )}
 
-      {/* Center Huge Play/Pause Touch Overlay Button */}
-      {(!isPlaying || showControls) && (
+      {/* Center Huge Play/Pause Touch Overlay Button (Only when paused, or when controls active and unmuted) */}
+      {!isPlaying && (
         <button
           type="button"
           onClick={togglePlay}
-          aria-label={isPlaying ? "Pause Video" : "Play Video"}
-          className="absolute inset-0 m-auto h-16 w-16 sm:h-20 sm:w-20 z-20 flex items-center justify-center rounded-full bg-black/60 border-2 border-[#d4f934] text-[#d4f934] shadow-[0_0_30px_rgba(212,249,52,0.5)] backdrop-blur-md transition-all duration-300 hover:scale-110 hover:bg-black/80 cursor-pointer"
+          aria-label="Play Video"
+          className="absolute inset-0 m-auto h-16 w-16 sm:h-20 sm:w-20 z-20 flex items-center justify-center rounded-full bg-black/70 border-2 border-[#d4f934] text-[#d4f934] shadow-[0_0_35px_rgba(212,249,52,0.6)] backdrop-blur-md transition-all duration-300 hover:scale-110 hover:bg-black/90 cursor-pointer"
         >
-          {isPlaying ? (
-            <Pause className="h-8 w-8 sm:h-10 sm:w-10 fill-[#d4f934] text-[#d4f934]" />
-          ) : (
-            <Play className="h-8 w-8 sm:h-10 sm:w-10 fill-[#d4f934] text-[#d4f934] translate-x-0.5" />
-          )}
+          <Play className="h-8 w-8 sm:h-10 sm:w-10 fill-[#d4f934] text-[#d4f934] translate-x-0.5" />
         </button>
+      )}
+
+      {/* Center Muted Pulsing Prompt Overlay */}
+      {isMuted && isPlaying && (
+        <div
+          onClick={(e) => {
+            e.stopPropagation();
+            unmuteAndPlay();
+          }}
+          className="absolute inset-x-0 bottom-16 sm:bottom-20 z-20 flex justify-center pointer-events-auto cursor-pointer"
+        >
+          <div className="flex items-center gap-2 rounded-full bg-black/85 border border-[#d4f934]/60 px-4 py-2 text-xs font-bold text-white shadow-[0_0_20px_rgba(212,249,52,0.3)] backdrop-blur-md animate-pulse hover:border-[#d4f934] transition">
+            <Volume2 className="h-4 w-4 text-[#d4f934]" />
+            <span>{isPa ? "ਆਵਾਜ਼ ਸੁਣਨ ਲਈ ਸਕ੍ਰੀਨ 'ਤੇ ਟੈਪ ਕਰੋ" : "Tap anywhere to turn sound on"}</span>
+          </div>
+        </div>
       )}
 
       {/* Custom Landing Page Controls Overlay Bar */}
@@ -418,8 +462,8 @@ export function HeroVideoPlayer() {
               className="hover:text-[#d4f934] transition flex items-center gap-1.5 cursor-pointer font-semibold text-[11px]"
               aria-label={isMuted ? "Unmute" : "Mute"}
             >
-              {isMuted ? <VolumeX className="h-4 w-4 text-red-400" /> : <Volume2 className="h-4 w-4 text-[#d4f934]" />}
-              <span>{isMuted ? (isPa ? "ਮਿਊਟ" : "Muted") : (isPa ? "ਆਵਾਜ਼ ਚਾਲੂ" : "Sound On")}</span>
+              {isMuted ? <VolumeX className="h-4 w-4 text-red-400 animate-pulse" /> : <Volume2 className="h-4 w-4 text-[#d4f934]" />}
+              <span>{isMuted ? (isPa ? "🔊 ਆਵਾਜ਼ ਚਾਲੂ ਕਰੋ" : "🔊 Turn Sound On") : (isPa ? "ਆਵਾਜ਼ ਚਾਲੂ" : "Sound On")}</span>
             </button>
 
             <span className="font-mono text-[11px] text-gray-300">

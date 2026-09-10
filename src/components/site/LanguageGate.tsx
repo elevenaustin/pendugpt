@@ -10,6 +10,7 @@ export function LanguageGate() {
     setLang(lang);
     if (typeof window !== "undefined") {
       window.dispatchEvent(new CustomEvent("unmute-video"));
+      window.dispatchEvent(new CustomEvent("user-gesture-unmute"));
     }
   };
 

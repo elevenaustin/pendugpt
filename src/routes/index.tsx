@@ -80,87 +80,57 @@ function StickyMobileDock() {
 
 function LandingPageInner() {
   const { openModal } = useEnrollmentModal();
-  const [isPageLoading, setIsPageLoading] = useState(true);
-
-  useEffect(() => {
-    // Show skeleton screen loading effect on initial load, then smoothly reveal
-    const timer = setTimeout(() => {
-      setIsPageLoading(false);
-    }, 450);
-
-    return () => clearTimeout(timer);
-  }, []);
 
   return (
     <div className="relative min-h-screen overflow-x-hidden bg-[#080808] text-white selection:bg-[#d4f934] selection:text-black">
-      <AnimatePresence mode="wait">
-        {isPageLoading ? (
-          <motion.div
-            key="skeleton"
-            initial={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
-          >
-            <WebsiteSkeleton />
-          </motion.div>
-        ) : (
-          <motion.div
-            key="content"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
-          >
-            <CursorGlow />
-            <Navbar />
-            <main>
-              {/* 01 — HERO (Main Text & Start Learning Now Button) */}
-              <Hero />
+      <CursorGlow />
+      <Navbar />
+      <main>
+        {/* 01 — HERO (Main Text & Start Learning Now Button) */}
+        <Hero />
 
-              {/* 02 — QUICK STUDENT PROOF ("ਸਭ ਤੋਂ ਪਹਿਲਾਂ ਸਾਡੇ ਵਿਦਿਆਰਥੀਆਂ ਦੀ ਗੱਲ ਸੁਣੋ / ਦੇਖੋ" + 2 WhatsApp Screenshots) */}
-              <HeroTestimonialProof />
+        {/* 02 — QUICK STUDENT PROOF ("ਸਭ ਤੋਂ ਪਹਿਲਾਂ ਸਾਡੇ ਵਿਦਿਆਰਥੀਆਂ ਦੀ ਗੱਲ ਸੁਣੋ / ਦੇਖੋ" + 2 WhatsApp Screenshots) */}
+        <HeroTestimonialProof />
 
-              {/* 03 — WHAT YOU WILL LEARN (7-Class Step-by-Step Curriculum) */}
-              <Curriculum />
+        {/* 03 — WHAT YOU WILL LEARN (7-Class Step-by-Step Curriculum) */}
+        <Curriculum />
 
-              {/* 04 — THE ZERO-EXPENSE AI FORMULA (2x2 Stats Dashboard) */}
-              <Stats />
+        {/* 04 — THE ZERO-EXPENSE AI FORMULA (2x2 Stats Dashboard) */}
+        <Stats />
 
-              {/* 05 — THE REAL PROBLEM (Tutorial & Subscription Traps) */}
-              <TheProblem />
+        {/* 05 — THE REAL PROBLEM (Tutorial & Subscription Traps) */}
+        <TheProblem />
 
-              {/* 06 — THE TRANSFORMATION (Build → Create → Deploy → Sell → Earn) */}
-              <Audience />
+        {/* 06 — THE TRANSFORMATION (Build → Create → Deploy → Sell → Earn) */}
+        <Audience />
 
-              {/* 07 — THE COMPLETE SYSTEM (Google Drive Vault + 6 Bonus Deliverables) */}
-              <Bonuses />
+        {/* 07 — THE COMPLETE SYSTEM (Google Drive Vault + 6 Bonus Deliverables) */}
+        <Bonuses />
 
-              {/* 08 — EXTENDED STUDENT TESTIMONIALS (Akash & Student Reviews) */}
-              <Testimonials />
+        {/* 08 — EXTENDED STUDENT TESTIMONIALS (Akash & Student Reviews) */}
+        <Testimonials />
 
-              {/* 09 — THE COMPARISON SECTION (Path A: Reels vs Path B: Build & Earn) */}
-              <TwoPathsComparison />
+        {/* 09 — THE COMPARISON SECTION (Path A: Reels vs Path B: Build & Earn) */}
+        <TwoPathsComparison />
 
-              {/* 10 — ABOUT US / INSTRUCTOR CREDIBILITY (Khushpreet Singh) */}
-              <Instructor />
+        {/* 10 — ABOUT US / INSTRUCTOR CREDIBILITY (Khushpreet Singh) */}
+        <Instructor />
 
-              {/* 11 — FREQUENTLY ASKED QUESTIONS (FAQ) */}
-              <Faq />
+        {/* 11 — FREQUENTLY ASKED QUESTIONS (FAQ) */}
+        <Faq />
 
-              {/* 12 — FLAT ₹997 OFFER & FINAL POWER CTA BUTTONS */}
-              <Offer />
-              <Showcase />
-            </main>
-            <Footer />
+        {/* 12 — FLAT ₹997 OFFER & FINAL POWER CTA BUTTONS */}
+        <Offer />
+        <Showcase />
+      </main>
+      <Footer />
 
-            {/* Floating Notifications & Urgency */}
-            <PurchaseToast />
-            <AutoUrgencyPopup onClaim={() => openModal()} />
+      {/* Floating Notifications & Urgency */}
+      <PurchaseToast />
+      <AutoUrgencyPopup onClaim={() => openModal()} />
 
-            {/* Mobile Sticky Bar */}
-            <StickyMobileDock />
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Mobile Sticky Bar */}
+      <StickyMobileDock />
     </div>
   );
 }
