@@ -44,7 +44,7 @@ function TermsPage() {
             <section className="bg-[#0c0c0c] border border-gray-800 p-5 rounded-2xl">
               <h2 className="text-base font-bold text-[#d4f934] mb-2">3. Pricing, Payments & Currency</h2>
               <p className="text-gray-200">
-                All prices for our masterclass and digital bundles are displayed in <strong>Indian Rupees (INR - ₹)</strong>. The current lifetime admission fee is <strong>flat ₹997 (80% discount slashed from previous class price ₹5,000)</strong> inclusive of applicable taxes. Payments are processed securely using PCI-DSS compliant third-party payment gateways (Razorpay). You agree to provide current, complete, and accurate purchase information.
+                All prices for our masterclass and digital bundles are displayed in <strong>Indian Rupees (INR - ₹)</strong>. The current lifetime admission fee is <strong>flat ₹2,499 (88% discount slashed from regular price ₹20,000)</strong> inclusive of applicable taxes. Payments are processed securely using PCI-DSS compliant third-party payment gateways (Razorpay). You agree to provide current, complete, and accurate purchase information.
               </p>
             </section>
 

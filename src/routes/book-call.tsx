@@ -214,11 +214,19 @@ Please confirm my 1-on-1 booking and share available calendar time slots!`;
         // Save lead to Supabase
         try {
           await supabase.from("registrations").insert({
-            name: `45-Min Call: ${name.trim()} (${topic})`,
-            country_code: countryCode,
-            mobile: cleanedMobile,
-            gender: "Paid ₹499",
-          });
+            full_name: `45-Min Call: ${name.trim()} (${topic})`,
+            whatsapp: fullMobile,
+            amount_inr: 499,
+            status: "45-Min Private Call Booked & Paid",
+            payment_ref: rzpPaymentId,
+            age: 24,
+            district: "Direct Booking",
+            state: "Punjab / Online",
+            occupation: "1-on-1 Mentorship",
+            email: `call_${cleanedMobile}@pendugpt.shop`,
+            has_laptop: true,
+            language: "pa/en",
+          } as any);
         } catch (err) {}
 
         // Send to Webhook
@@ -244,12 +252,6 @@ Please confirm my 1-on-1 booking and share available calendar time slots!`;
 
         setIsProcessing(false);
         setStep("success");
-      },
-      modal: {
-        ondismiss: function () {
-          setIsProcessing(false);
-          setStep("form");
-        },
       },
     };
 

@@ -53,11 +53,11 @@ interface Lead {
 
 // Pre-seeded sample leads for demonstration fallback
 const SAMPLE_LEADS: Lead[] = [
-  { id: "LEAD-9481", name: "Jaspreet Singh", countryCode: "+91", mobile: "9876543210", gender: "Male", date: "2026-07-27 01:45", amount: "₹997", status: "Paid & Confirmed" },
-  { id: "LEAD-9482", name: "Harpreet Kaur", countryCode: "+91", mobile: "9812345678", gender: "Female", date: "2026-07-27 01:52", amount: "₹997", status: "Paid & Enrolled" },
-  { id: "LEAD-9483", name: "Gurwinder Singh", countryCode: "+1", mobile: "6045550199", gender: "Male", date: "2026-07-27 02:01", amount: "₹997", status: "Number Entered (Unpaid)" },
-  { id: "LEAD-9484", name: "Simranjit Kaur", countryCode: "+44", mobile: "7911123456", gender: "Female", date: "2026-07-27 02:10", amount: "₹997", status: "Paid & Confirmed" },
-  { id: "LEAD-9485", name: "Amanpreet Dhillon", countryCode: "+91", mobile: "9780011223", gender: "Male", date: "2026-07-27 02:14", amount: "₹997", status: "Payment Dismissed / Unpaid" },
+  { id: "LEAD-9481", name: "Jaspreet Singh", countryCode: "+91", mobile: "9876543210", gender: "Male", date: "2026-07-27 01:45", amount: "₹2,499", status: "Paid & Confirmed" },
+  { id: "LEAD-9482", name: "Harpreet Kaur", countryCode: "+91", mobile: "9812345678", gender: "Female", date: "2026-07-27 01:52", amount: "₹2,499", status: "Paid & Enrolled" },
+  { id: "LEAD-9483", name: "Gurwinder Singh", countryCode: "+1", mobile: "6045550199", gender: "Male", date: "2026-07-27 02:01", amount: "₹2,499", status: "Number Entered (Unpaid)" },
+  { id: "LEAD-9484", name: "Simranjit Kaur", countryCode: "+44", mobile: "7911123456", gender: "Female", date: "2026-07-27 02:10", amount: "₹2,499", status: "Paid & Confirmed" },
+  { id: "LEAD-9485", name: "Amanpreet Dhillon", countryCode: "+91", mobile: "9780011223", gender: "Male", date: "2026-07-27 02:14", amount: "₹2,499", status: "Payment Dismissed / Unpaid" },
 ];
 
 function AdminPage() {
@@ -149,7 +149,7 @@ function AdminPage() {
             date: item.created_at
               ? new Date(item.created_at).toISOString().replace("T", " ").substring(0, 16)
               : new Date().toISOString().substring(0, 16),
-            amount: "₹997",
+            amount: item.amount_inr ? `₹${item.amount_inr}` : "₹2,499",
             status: item.status || "Paid & Confirmed",
           };
         });
@@ -170,11 +170,11 @@ function AdminPage() {
       );
 
       // Attach followedUp boolean to each lead
-      const mappedLeads = uniqueLeads.map((l) => {
-        const isFollowedUp =
-          !!mergedFollowups[l.id] ||
-          (l.mobile && !!mergedFollowups[l.mobile]) ||
-          (l.rawId && !!mergedFollowups[l.rawId]);
+      const mappedLeads: Lead[] = uniqueLeads.map((l) => {
+        const isFollowedUp: boolean =
+          Boolean(mergedFollowups[l.id]) ||
+          Boolean(l.mobile && mergedFollowups[l.mobile]) ||
+          Boolean(l.rawId && mergedFollowups[l.rawId]);
 
         return {
           ...l,
@@ -287,7 +287,7 @@ function AdminPage() {
   const totalLeads = leads.length;
   const paidLeadsCount = leads.filter((l) => (l.status || "").toLowerCase().includes("paid")).length;
   const unpaidLeadsCount = totalLeads - paidLeadsCount;
-  const totalRevenue = paidLeadsCount * 997;
+  const totalRevenue = paidLeadsCount * 2499;
   const maleCount = leads.filter((l) => l.gender === "Male").length;
   const femaleCount = leads.filter((l) => l.gender === "Female").length;
   const followedUpCount = leads.filter((l) => l.followedUp).length;
@@ -492,7 +492,7 @@ function AdminPage() {
             <div className="text-3xl font-black text-[#d4f934]">
               ₹{totalRevenue.toLocaleString()}
             </div>
-            <p className="text-[11px] text-gray-400 mt-1 font-medium">₹997 per paid admission</p>
+            <p className="text-[11px] text-gray-400 mt-1 font-medium">₹2,499 per paid admission</p>
           </div>
 
           <div className="rounded-2xl border border-gray-800 bg-[#121212] p-5">

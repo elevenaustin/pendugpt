@@ -113,7 +113,7 @@ const recordLeadStage = async ({
       gender: studentGender || (leadStatus.includes("Paid") ? "Paid" : "Pending"),
       hasLaptop: studentLaptop || "Pending",
       date: formattedDate,
-      amount: "₹997",
+      amount: "₹2,499",
       status: leadStatus,
       paymentId: payId || "",
     };
@@ -133,7 +133,7 @@ const recordLeadStage = async ({
     await supabase.from("registrations").insert({
       full_name: studentName || `Student (${code} ${cleanMobile})`,
       whatsapp: `${code}${cleanMobile}`,
-      amount_inr: 997,
+      amount_inr: 2499,
       status: leadStatus,
       payment_ref: payId || `INIT_${cleanMobile}`,
       age: 24,
@@ -167,8 +167,8 @@ const recordLeadStage = async ({
           whatsapp: fullWhatsapp,
           gender: studentGender || "N/A",
           has_laptop: studentLaptop || "N/A",
-          amount: "₹997",
-          course: "PenduGPT Full Masterclass (Flat ₹997)",
+          amount: "₹2,499",
+          course: "PenduGPT Complete AI Website Masterclass (Flat ₹2,499 - All Recorded Sessions)",
           status: leadStatus,
         }),
       }).catch(() => {});
@@ -221,18 +221,18 @@ export function EnrollmentProvider({ children }: { children: React.ReactNode }) 
       timeZone: "Asia/Kolkata",
     });
 
-    const msg = `🎉 *PenduGPT AI Website Full Masterclass - Payment Successful* 🎉
+    const msg = `🎉 *PenduGPT AI Website Complete Masterclass - Payment Successful* 🎉
 
 👤 *Customer Name:* ${name || "Student"}
 📱 *WhatsApp Number:* ${countryCode} ${mobile}
 👨‍👩‍👧 *Gender:* ${gender || "N/A"}
 💻 *Laptop/PC:* ${hasLaptop || "N/A"}
-💳 *Amount Paid:* ₹997 (Special Admission Fee - Slashed from ₹5,000)
+💳 *Amount Paid:* ₹2,499 (Special Launch Fee - Slashed from ₹20,000)
 🆔 *Transaction ID:* ${paymentId || "Confirmed"}
 📅 *Transaction Date & Time:* ${timeStr}
-📚 *Course:* Complete AI Website Masterclass (7 Classes + Final Capstone + Drive Folder + Prompts)
+📚 *Course:* Complete AI Website Masterclass (All 7 HD Recorded Classes + Final Capstone + Google Drive Vault + Prompts)
 
-Please confirm my masterclass enrollment and grant full access to the resources & VIP community!`;
+Please confirm my masterclass enrollment and grant instant access to all recorded sessions, resources & VIP community!`;
 
     return `https://wa.me/${supportWhatsapp}?text=${encodeURIComponent(msg)}`;
   };
@@ -310,16 +310,16 @@ Please confirm my masterclass enrollment and grant full access to the resources 
 
     const options = {
       key: razorpayKey,
-      amount: 99700, // ₹997 in paise (Special Admission Offer)
+      amount: 249900, // ₹2,499 in paise (Slashed from ₹20,000)
       currency: "INR",
-      name: "PenduGPT AI Full Masterclass",
-      description: "Complete AI Web Building Masterclass + Resources (Special Flat ₹997)",
+      name: "PenduGPT AI Complete Masterclass",
+      description: "Complete AI Web Building Masterclass (All Recorded Sessions) - Special Flat ₹2,499",
       image: "/favicon.svg",
       prefill: {
         contact: `${countryCode}${mobileNum}`,
       },
       notes: {
-        course: "PenduGPT AI Website Masterclass (₹997 - Lifetime Access)",
+        course: "PenduGPT AI Complete Masterclass (₹2,499 - All Recorded Sessions)",
         mobile: `${countryCode} ${mobileNum}`,
       },
       theme: {
@@ -504,7 +504,7 @@ Please confirm my masterclass enrollment and grant full access to the resources 
                         {isPa ? "ਸੁਰੱਖਿਅਤ ਪੇਮੈਂਟ ਖੁੱਲ੍ਹ ਰਹੀ ਹੈ..." : "Opening Secure Checkout..."}
                       </h3>
                       <p className="text-xs text-gray-400 mt-1">
-                        {isPa ? "Razorpay ਵਿੱਚ ₹997 ਦਾ ਭੁਗਤਾਨ ਪੂਰਾ ਕਰੋ" : "Complete ₹997 admission payment in popup..."}
+                        {isPa ? "Razorpay ਵਿੱਚ ₹2,499 ਦਾ ਭੁਗਤਾਨ ਪੂਰਾ ਕਰੋ" : "Complete ₹2,499 masterclass payment in popup..."}
                       </p>
                     </div>
                   </div>
@@ -514,15 +514,15 @@ Please confirm my masterclass enrollment and grant full access to the resources 
                     <div className="mb-4 text-left">
                       <div className="inline-flex items-center gap-1.5 rounded-full bg-[#d4f934]/15 border border-[#d4f934]/40 px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-[#d4f934] mb-2">
                         <Sparkles className="h-3 w-3 text-[#d4f934]" />
-                        <span>{isPa ? "ਸਪੈਸ਼ਲ ਬੈਚ • ਫਲੈਟ ₹997" : "SPECIAL BATCH • FLAT ₹997"}</span>
+                        <span>{isPa ? "ਸੰਪੂਰਨ ਮਾਸਟਰਕਲਾਸ • ਫਲੈਟ ₹2,499" : "COMPLETE MASTERCLASS • FLAT ₹2,499"}</span>
                       </div>
                       <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight">
                         {isPa ? "ਦਾਖਲੇ ਲਈ ਮੋਬਾਈਲ ਨੰਬਰ ਭਰੋ" : "Enter WhatsApp Number"}
                       </h2>
                       <p className="text-xs text-gray-400 mt-1">
                         {isPa
-                          ? "ਮਾਸਟਰਕਲਾਸ ਤੇ Google Drive ਲਿੰਕ ਤੁਹਾਡੇ WhatsApp 'ਤੇ ਮਿਲੇਗਾ।"
-                          : "We will send your masterclass access & Drive vault to this WhatsApp."}
+                          ? "ਸੰਪੂਰਨ ਮਾਸਟਰਕਲਾਸ (ਸਾਰੀਆਂ ਰਿਕਾਰਡਡ ਕਲਾਸਾਂ) ਤੇ Google Drive ਲਿੰਕ ਤੁਹਾਡੇ WhatsApp 'ਤੇ ਮਿਲੇਗਾ।"
+                          : "Instant access to Complete Masterclass (all recorded sessions) & Drive vault will be sent to your WhatsApp."}
                       </p>
                     </div>
 
@@ -564,7 +564,7 @@ Please confirm my masterclass enrollment and grant full access to the resources 
                         type="submit"
                         className="lime-button w-full flex items-center justify-center gap-2 rounded-2xl py-3.5 px-5 text-sm sm:text-base font-black text-black shadow-[0_0_25px_rgba(212,249,52,0.4)] cursor-pointer hover:scale-[1.02] active:scale-[0.98] transition-all mt-1"
                       >
-                        <span>{isPa ? "ਹੁਣੇ ਜੁੜੋ (ਫਲੈਟ ₹997) →" : "Join Now — Flat ₹997 →"}</span>
+                        <span>{isPa ? "ਹੁਣੇ ਜੁੜੋ (ਫਲੈਟ ₹2,499) →" : "Get Instant Access — Flat ₹2,499 →"}</span>
                         <ArrowRight className="h-4 w-4" />
                       </button>
 
@@ -596,8 +596,8 @@ Please confirm my masterclass enrollment and grant full access to the resources 
                   </h3>
                   <p className="text-xs text-gray-300 mt-1">
                     {isPa
-                      ? "ਤੁਹਾਡਾ ₹997 ਦਾ ਭੁਗਤਾਨ ਪੂਰਾ ਨਹੀਂ ਹੋਇਆ। ਘਬਰਾਓ ਨਾ, ਤੁਹਾਡੀ ਸੀਟ ਅਜੇ ਸੁਰੱਖਿਅਤ ਹੈ।"
-                      : "Your masterclass enrollment payment of ₹997 was not completed."}
+                      ? "ਤੁਹਾਡਾ ₹2,499 ਦਾ ਭੁਗਤਾਨ ਪੂਰਾ ਨਹੀਂ ਹੋਇਆ। ਘਬਰਾਓ ਨਾ, ਤੁਹਾਡੀ ਸੀਟ ਅਜੇ ਸੁਰੱਖਿਅਤ ਹੈ।"
+                      : "Your masterclass enrollment payment of ₹2,499 was not completed."}
                   </p>
                 </div>
 
@@ -618,7 +618,7 @@ Please confirm my masterclass enrollment and grant full access to the resources 
                     className="w-full flex items-center justify-center gap-2 rounded-xl py-3.5 px-4 text-sm font-black text-black bg-[#d4f934] hover:bg-[#c2e828] transition cursor-pointer shadow-lg"
                   >
                     <RefreshCw className="h-4 w-4" />
-                    <span>{isPa ? "ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ (Retry Pay ₹997) 🔄" : "Retry Payment ₹997 🔄"}</span>
+                    <span>{isPa ? "ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ (Retry Pay ₹2,499) 🔄" : "Retry Payment ₹2,499 🔄"}</span>
                   </button>
 
                   <button
@@ -652,13 +652,13 @@ Please confirm my masterclass enrollment and grant full access to the resources 
                     <div className="mb-4">
                       <div className="inline-flex items-center gap-1.5 rounded-full bg-green-950/80 border border-green-500/50 px-2.5 py-0.5 text-[11px] font-bold text-green-400 mb-2">
                         <CheckCircle2 className="h-3.5 w-3.5" />
-                        <span>{isPa ? "ਭੁਗਤਾਨ ਸਫਲ ਰਿਹਾ (₹997 Received)" : "Payment Successful (₹997 Received)"}</span>
+                        <span>{isPa ? "ਭੁਗਤਾਨ ਸਫਲ ਰਿਹਾ (₹2,499 Received)" : "Payment Successful (₹2,499 Received)"}</span>
                       </div>
                       <h2 className="text-lg font-black text-white">
                         {isPa ? "ਆਪਣਾ ਵੇਰਵਾ ਭਰੋ" : "Complete Your Profile"}
                       </h2>
                       <p className="text-xs text-gray-400 mt-1">
-                        {isPa ? "ਮਾਸਟਰਕਲਾਸ ਐਕਸੈਸ ਜਾਰੀ ਕਰਨ ਲਈ ਆਪਣਾ ਨਾਮ ਅਤੇ ਲਿੰਗ ਚੁਣੋ:" : "Enter your name and details to issue your masterclass access:"}
+                        {isPa ? "ਸੰਪੂਰਨ ਮਾਸਟਰਕਲਾਸ ਐਕਸੈਸ ਜਾਰੀ ਕਰਨ ਲਈ ਆਪਣਾ ਨਾਮ ਅਤੇ ਲਿੰਗ ਚੁਣੋ:" : "Enter your name and details to issue your masterclass instant access:"}
                       </p>
                     </div>
 
@@ -798,7 +798,7 @@ Please confirm my masterclass enrollment and grant full access to the resources 
                   className="w-full flex items-center justify-center gap-2.5 rounded-xl py-3.5 px-4 text-xs sm:text-sm font-black text-white bg-[#25D366] hover:bg-[#20bd5a] transition cursor-pointer shadow-[0_0_25px_rgba(37,211,102,0.45)] animate-pulse"
                 >
                   <MessageCircle className="h-5 w-5 text-white fill-white shrink-0" />
-                  <span>{isPa ? "Masterclass Drive ਲਿੰਕ ਲਵੋ 💬" : "Get Masterclass Drive Link on WhatsApp 💬"}</span>
+                  <span>{isPa ? "Masterclass Drive ਲਿੰਕ ਲਵੋ 💬" : "Get Complete Masterclass Drive Link on WhatsApp 💬"}</span>
                   <ExternalLink className="h-3.5 w-3.5 ml-0.5 text-white/80" />
                 </a>
 
@@ -832,7 +832,7 @@ Please confirm my masterclass enrollment and grant full access to the resources 
                   </div>
                   <div className="flex justify-between pt-0.5">
                     <span className="text-gray-400">Payment Status:</span>
-                    <span className="text-green-400 font-bold uppercase">Paid (₹997 - Lifetime Access) ✔</span>
+                    <span className="text-green-400 font-bold uppercase">Paid (₹2,499 - All Recorded Sessions) ✔</span>
                   </div>
                 </div>
 

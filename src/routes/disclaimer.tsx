@@ -30,7 +30,7 @@ function DisclaimerPage() {
             <section>
               <h2 className="text-base font-bold text-white mb-2">1. Educational & Informational Purpose Only</h2>
               <p>
-                All information, tutorials, AI prompt guides, website templates, and live masterclass sessions provided by PenduGPT are intended strictly for educational, skill-development, and informational purposes. Nothing contained on our platform constitutes financial, legal, or professional business advice.
+                All information, tutorials, AI prompt guides, website templates, and masterclass recorded sessions provided by PenduGPT are intended strictly for educational, skill-development, and informational purposes. Nothing contained on our platform constitutes financial, legal, or professional business advice.
               </p>
             </section>
 

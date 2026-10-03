@@ -14,18 +14,18 @@ export function AutoUrgencyPopup({ onClaim }: AutoUrgencyPopupProps) {
   const [seconds, setSeconds] = useState(55);
 
   const strings = {
-    badge: isPa ? "🔴 ਸਪੈਸ਼ਲ ਬੈਚ ਦਾਖਲਾ • ₹4,003 ਦੀ ਬਚਤ" : "🔴 SPECIAL BATCH ADMISSION • SAVE ₹4,003",
-    headlineA: isPa ? "ਪਿਛਲੀ ਕਲਾਸ ₹5,000 ਸੀ!" : "Previous Batch Was ₹5,000!",
-    headlineB: isPa ? "ਸਪੈਸ਼ਲ ਫਲੈਟ ₹997 ਆਫਰ" : "Special Flat ₹997 Price",
-    headlineC: isPa ? "(80% ਛੋਟ)" : "(80% OFF)",
+    badge: isPa ? "🔴 ਸੰਪੂਰਨ ਮਾਸਟਰਕਲਾਸ • ₹17,501 ਦੀ ਬਚਤ" : "🔴 COMPLETE MASTERCLASS • SAVE ₹17,501 (88% OFF)",
+    headlineA: isPa ? "ਨਿਯਮਿਤ ਮੁੱਲ ₹20,000!" : "Regular Price ₹20,000!",
+    headlineB: isPa ? "ਸਪੈਸ਼ਲ ਫਲੈਟ ₹2,499 ਆਫਰ" : "Special Flat ₹2,499 Price",
+    headlineC: isPa ? "(88% ਛੋਟ)" : "(88% OFF)",
     description: isPa
-      ? "ਸਿਰਫ ਇਸ ਸੀਮਤ ਬੈਚ ਲਈ, ਪੂਰੀ AI ਵੈੱਬਸਾਈਟ ਮਾਸਟਰਕਲਾਸ + ਸਾਰੇ ਰਿਸੋਰਸਿਜ਼ ਫਲੈਟ ₹997 ਵਿੱਚ ਪ੍ਰਾਪਤ ਕਰੋ!"
-      : "For this special batch, unlock the complete AI Website Masterclass + all Drive templates for just flat ₹997 with lifetime access!",
+      ? "ਸੰਪੂਰਨ ਮਾਸਟਰਕਲਾਸ (ਸਾਰੀਆਂ ਰਿਕਾਰਡਡ ਕਲਾਸਾਂ) + ਸਾਰੇ ਟੂਲਜ਼ ਤੇ Google Drive ਰਿਸੋਰਸਿਜ਼ ਫਲੈਟ ₹2,499 ਵਿੱਚ ਤੁਰੰਤ ਪ੍ਰਾਪਤ ਕਰੋ!"
+      : "Unlock instant access to the Complete Masterclass (all recorded sessions) + Google Drive resource vault for just flat ₹2,499!",
     timerLabel: isPa ? "ਸਪੈਸ਼ਲ ਆਫਰ ਖ਼ਤਮ ਹੋਣ ਵਿੱਚ:" : "SPECIAL OFFER EXPIRES IN",
-    originalPrice: "₹5,000",
-    offerPrice: isPa ? "ਸਿਰਫ਼ ₹997" : "₹997 ONLY",
-    claimBtn: isPa ? "ਫਲੈਟ ₹997 ਨਾਲ ਦਾਖਲਾ ਲਵੋ →" : "Enroll for Flat ₹997 Now →",
-    guarantee: isPa ? "100% ਰਿਸਕ-ਫ੍ਰੀ ਸੰਤੁਸ਼ਟੀ ਗਾਰੰਟੀ • ਲਾਈਫਟਾਈਮ ਐਕਸੈਸ" : "100% Risk-Free Satisfaction Guarantee • Lifetime Access",
+    originalPrice: "₹20,000",
+    offerPrice: isPa ? "ਸਿਰਫ਼ ₹2,499" : "₹2,499 ONLY",
+    claimBtn: isPa ? "ਫਲੈਟ ₹2,499 ਨਾਲ ਤੁਰੰਤ ਐਕਸੈਸ ਲਵੋ →" : "Get Instant Access for Flat ₹2,499 →",
+    guarantee: isPa ? "100% ਰਿਸਕ-ਫ੍ਰੀ ਸੰਤੁਸ਼ਟੀ ਗਾਰੰਟੀ • ਸਾਰੀਆਂ ਰਿਕਾਰਡਡ ਕਲਾਸਾਂ ਸ਼ਾਮਲ" : "100% Risk-Free Satisfaction Guarantee • All Recorded Sessions Included",
   };
 
   useEffect(() => {

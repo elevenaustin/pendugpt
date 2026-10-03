@@ -223,11 +223,19 @@ Please grant my full masterclass access and add me to the VIP community group!`;
         // Save to Supabase
         try {
           await supabase.from("registrations").insert({
-            name: `Full Class: ${name.trim()}`,
-            country_code: countryCode,
-            mobile: cleanedMobile,
-            gender: `Paid ₹4,999 (${gender})`,
-          });
+            full_name: `Full Class: ${name.trim()}`,
+            whatsapp: fullMobile,
+            amount_inr: 4999,
+            status: `Full Class Enrolled & Paid (${gender})`,
+            payment_ref: rzpPaymentId,
+            age: 24,
+            district: "Direct Enrollment",
+            state: "Punjab / Online",
+            occupation: "Full Class Student",
+            email: `fullclass_${cleanedMobile}@pendugpt.shop`,
+            has_laptop: true,
+            language: "pa/en",
+          } as any);
         } catch (err) {}
 
         // Send to Webhook
@@ -253,11 +261,6 @@ Please grant my full masterclass access and add me to the VIP community group!`;
 
         setIsProcessing(false);
         setStep("success");
-      },
-      modal: {
-        ondismiss: function () {
-          setIsProcessing(false);
-        },
       },
     };
 

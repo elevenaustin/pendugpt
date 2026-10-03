@@ -36,9 +36,9 @@ function CancellationPage() {
             </section>
 
             <section>
-              <h2 className="text-base font-bold text-white mb-2">1. 100% Self-Paced Lifetime Access</h2>
+              <h2 className="text-base font-bold text-white mb-2">1. 100% Self-Paced Lifetime Access (All Recorded Sessions)</h2>
               <p>
-                All 7 classes, capstone walkthroughs, and code repositories are provided with lifetime access via Google Drive. You can learn at your own pace without the pressure of strict live attendance times.
+                All 7 classes, capstone walkthroughs, and code repositories are provided with instant lifetime recorded access via Google Drive. You can learn at your own pace anytime, anywhere.
               </p>
               <ul className="mt-2 pl-4 list-disc space-y-1 text-gray-300">
                 <li><strong>Lifetime Updates:</strong> As new AI tools and web techniques evolve, updated prompt vaults and templates are added directly to your shared Google Drive folder at zero extra charge.</li>

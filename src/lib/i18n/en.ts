@@ -14,20 +14,20 @@ export const en = {
     hint: "You can change this anytime from the menu.",
   },
   urgencyPopup: {
-    badge: "LIMITED SPOTS ALERT",
-    headlineA: "Only",
-    headlineB: "7 Seats Left",
-    headlineC: "At ₹99!",
-    description: "Special Demo Class enrollment is closing soon. Don't miss out on learning how to build AI websites!",
-    timerLabel: "OFFER EXPIRES IN",
-    originalPrice: "₹1,000",
-    offerPrice: "₹99 ONLY",
-    claimBtn: "Claim Your ₹99 Seat Now",
+    badge: "SPECIAL BATCH ADMISSION",
+    headlineA: "Regular Price ₹20,000",
+    headlineB: "Special Admission",
+    headlineC: "At ₹2,499!",
+    description: "Complete Masterclass enrollment is open. Get instant access to all recorded sessions, Drive vault, and master AI website building!",
+    timerLabel: "SPECIAL OFFER EXPIRES IN",
+    originalPrice: "₹20,000",
+    offerPrice: "₹2,499 ONLY",
+    claimBtn: "Claim Your ₹2,499 Seat Now",
     guarantee: "100% Money-Back Satisfaction Guarantee",
   },
   nav: {
     curriculum: "Curriculum",
-    demo: "Live Demo",
+    demo: "Masterclass Demo",
     testimonials: "Testimonials",
     pricing: "Pricing",
     faq: "FAQ",
@@ -37,40 +37,40 @@ export const en = {
     language: "Language",
   },
   hero: {
-    badge: "UPCOMING LIVE DEMO CLASS",
-    titleA: "Join The Live Demo Class &",
+    badge: "COMPLETE AI WEBSITE MASTERCLASS",
+    titleA: "Get Instant Access to Complete Masterclass &",
     titleB: "Learn AI Website Building",
     subtitle:
-      "Join our live demo class and learn how to build professional AI-powered websites without coding, publish them online, and start getting freelance clients.",
+      "Get instant access to the Complete Masterclass with all recorded sessions. Learn how to build professional AI-powered websites without coding, publish them online, and start getting freelance clients.",
     bullets: [
       "No Coding Required",
       "Beginner Friendly",
-      "Live Practical Session",
+      "All Recorded Sessions Included",
       "Build Real Websites",
       "Learn Modern AI Tools",
     ],
-    primary: "Enroll in Masterclass — Flat ₹997",
+    primary: "Enroll in Masterclass — Flat ₹2,499",
     secondary: "Watch Preview",
-    videoCaption: "Preview: what you will learn in the live masterclass",
+    videoCaption: "Preview: what you will learn in the complete masterclass",
     videoFallback: "Preview video coming soon",
   },
   limitedSpots: {
     eyebrow: "HIGH DEMAND SPECIAL BATCH",
     title: "Limited Seats Available For Masterclass",
-    subtitle: "Previous class was ₹5,000 — Grab your seat now at flat ₹997 before the batch closes.",
+    subtitle: "Regular price is ₹20,000 — Grab instant access now at flat ₹2,499 before this batch closes.",
     seatsRemaining: "Seats Remaining",
     seatsFilled: "Batch Capacity Filled",
     closingSoon: "Enrollment Closing Soon",
-    cta: "Enroll in Masterclass Now — Flat ₹997",
-    guarantee: "100% Satisfaction Guarantee · Instant Access to All 7 Classes & Google Drive Vault",
+    cta: "Enroll in Masterclass Now — Flat ₹2,499",
+    guarantee: "100% Satisfaction Guarantee · Instant Access to All Recorded Sessions & Google Drive Vault",
   },
   price: {
     fee: "Masterclass Admission Fee",
     only: "only",
-    original: "₹5,000",
-    now: "₹997",
+    original: "₹20,000",
+    now: "₹2,499",
     limited: "Special Batch Offer",
-    save: "80% OFF",
+    save: "88% OFF",
   },
   stats: {
     title: "A fast-growing community",
@@ -96,9 +96,9 @@ export const en = {
     ],
   },
   showcase: {
-    eyebrow: "Live showcase",
+    eyebrow: "Project showcase",
     title: "The kind of websites you will build",
-    subtitle: "Real layouts, built live with AI in minutes.",
+    subtitle: "Real layouts, built with AI in minutes.",
     items: [
       "Restaurant Website",
       "Gym Website",
@@ -112,7 +112,7 @@ export const en = {
     ],
   },
   demo: {
-    eyebrow: "Live demo",
+    eyebrow: "AI Demo",
     title: "From one prompt to a real website",
     subtitle: "Type an idea. Watch it become a professional page.",
     promptLabel: "Your prompt",
@@ -126,17 +126,17 @@ export const en = {
     generating: "Building your website…",
     before: "Before",
     after: "After",
-    note: "Demo animation. The real workflow is taught step by step in the live class.",
+    note: "Demo animation. The real workflow is taught step by step in all recorded masterclass sessions.",
   },
   curriculum: {
     eyebrow: "Curriculum",
-    title: "Everything covered in the live session",
+    title: "Everything covered in the complete masterclass",
     subtitle: "A clear path from your first prompt to your first client conversation.",
     items: [
       { t: "Introduction", d: "How AI website building actually works today." },
       { t: "AI Website Generation", d: "Turning a simple idea into a full website." },
       { t: "Website Editing", d: "Changing text, sections, colours and images." },
-      { t: "Publishing", d: "Taking your website live on the internet." },
+      { t: "Publishing", d: "Taking your website online worldwide." },
       { t: "Hosting", d: "Understanding where your website lives." },
       { t: "Domain", d: "Connecting a professional custom domain." },
       { t: "Client Acquisition", d: "How freelancers professionally approach clients." },
@@ -167,7 +167,7 @@ export const en = {
   },
   bonuses: {
     eyebrow: "Bonuses",
-    title: "Included with your ₹99 registration",
+    title: "Included with your ₹2,499 registration",
     items: [
       { t: "Prompt Library", d: "Ready-to-use prompts for fast results." },
       { t: "Website Templates", d: "Starting points for common businesses." },
@@ -175,7 +175,7 @@ export const en = {
       { t: "Pricing Calculator", d: "Price your work with confidence." },
       { t: "Certificate", d: "Certificate of participation." },
       { t: "Private Community", d: "Learn together on WhatsApp." },
-      { t: "Lifetime Recording", d: "Rewatch the session anytime." },
+      { t: "Lifetime Recording", d: "All Recorded Sessions — Rewatch anytime with lifetime access." },
     ],
   },
   instructor: {
@@ -202,14 +202,14 @@ export const en = {
       { n: "Simran K.", c: "Amritsar", q: "I always thought websites need coding. Turns out I just needed the right tools and guidance." },
       { n: "Gurjot S.", c: "Patiala", q: "Made a page for my father's shop. Customers now find us online." },
       { n: "Navdeep K.", c: "Jalandhar", q: "The client approach part was the most valuable for me as a beginner freelancer." },
-      { n: "Manpreet S.", c: "Bathinda", q: "Clear, practical and no time wasting. Worth way more than ₹997." },
+      { n: "Manpreet S.", c: "Bathinda", q: "Clear, practical and no time wasting. Worth way more than ₹2,499." },
       { n: "Ravneet K.", c: "Mohali", q: "The templates and prompt library saved me hours on my first project." },
     ],
   },
   offer: {
     eyebrow: "Special Batch Offer",
-    title: "Enroll for Flat ₹997",
-    subtitle: "Previous class price was ₹5,000. Save ₹4,003 today before this batch closes.",
+    title: "Enroll for Flat ₹2,499",
+    subtitle: "Regular price is ₹20,000. Save ₹17,501 today with instant access to all recorded sessions.",
     countdown: "Offer ends in",
     days: "Days",
     hours: "Hours",
@@ -217,8 +217,8 @@ export const en = {
     seconds: "Sec",
     seatsLeft: "seats left in this batch",
     seatsFilled: "% seats filled",
-    cta: "Enroll Now for Flat ₹997",
-    includes: "Includes all 7 HD classes, recordings, 100+ prompt templates, and Google Drive access.",
+    cta: "Enroll Now for Flat ₹2,499 — Instant Access",
+    includes: "Includes all 7 HD recorded classes, capstone project, 100+ prompt templates, and Google Drive access.",
     secure: "Secure payment",
     upi: "UPI • Cards • Net Banking • GPay • PhonePe",
   },
@@ -241,7 +241,7 @@ export const en = {
     and: "and",
     terms: "Terms & Conditions",
     consentB: ".",
-    submit: "Continue to Payment — ₹997",
+    submit: "Continue to Payment — ₹2,499",
     submitting: "Saving your details…",
     placeholders: {
       fullName: "Jaspreet Singh",
@@ -269,17 +269,17 @@ export const en = {
     eyebrow: "FAQ",
     title: "Questions, answered",
     items: [
-      { q: "Do I need coding knowledge?", a: "No. The entire class is designed for complete beginners. You describe what you want in plain language and the AI tools build it." },
-      { q: "What language is the class in?", a: "The class is taught in simple Punjabi mixed with English so everyone can follow comfortably." },
-      { q: "How long is the masterclass?", a: "It includes 7 comprehensive practical HD classes plus a final capstone project and live Q&A." },
+      { q: "Do I need coding knowledge?", a: "No. The entire masterclass is designed for complete beginners. You describe what you want in plain language and the AI tools build it." },
+      { q: "What language is the class in?", a: "The masterclass is taught in simple Punjabi mixed with English so everyone can follow comfortably." },
+      { q: "How long is the masterclass?", a: "It includes 7 comprehensive practical HD recorded classes plus a final capstone project and walkthroughs." },
       { q: "What do I need to join?", a: "A smartphone or laptop with a stable internet connection. A laptop or PC is recommended for practice." },
-      { q: "Can I join from a mobile phone?", a: "Yes, you can attend from mobile. For building and editing websites, a laptop or PC is much more comfortable." },
-      { q: "Will I get the recording?", a: "Yes. Registered participants get lifetime access to the session recordings and Google Drive folder." },
-      { q: "Is ₹997 the full price?", a: "Yes, flat ₹997 is the complete admission fee (slashed from regular ₹5,000). There are zero hidden or recurring charges." },
-      { q: "Will I earn money after this class?", a: "This class teaches you a valuable skill and how freelancers work professionally. Income is never guaranteed and depends entirely on your effort, practice and consistency." },
-      { q: "Do I get a certificate?", a: "Yes, a certificate of participation is provided after the session." },
-      { q: "How will I receive the class link?", a: "The joining link is shared on your registered WhatsApp number and screen immediately after payment." },
-      { q: "What if I miss the live session?", a: "You can watch the full recording, which stays available to you with lifetime access." },
+      { q: "Can I join from a mobile phone?", a: "Yes, you can watch all recorded sessions on mobile. For building and editing websites, a laptop or PC is much more comfortable." },
+      { q: "Will I get the recorded sessions?", a: "Yes! You get instant lifetime access to all recorded sessions, templates, and the complete Google Drive folder immediately after enrollment." },
+      { q: "Is ₹2,499 the full price?", a: "Yes, flat ₹2,499 is the complete admission fee (slashed from regular ₹20,000). There are zero hidden or recurring charges." },
+      { q: "Will I earn money after this class?", a: "This masterclass teaches you a valuable skill and how freelancers work professionally. Income is never guaranteed and depends entirely on your effort, practice and consistency." },
+      { q: "Do I get a certificate?", a: "Yes, a certificate of completion is provided after the masterclass." },
+      { q: "How will I receive the course access?", a: "Instant access to the complete masterclass folder and all recorded sessions is shared on your registered WhatsApp number and screen immediately after payment." },
+      { q: "Can I learn at my own pace?", a: "Yes! All 7 practical classes are pre-recorded in HD and available with lifetime access so you can watch, pause, and rewind whenever convenient." },
       { q: "Which AI tools will be used?", a: "Modern AI website building tools that are beginner friendly. Everything is demonstrated step by step." },
       { q: "Do I need to buy a domain or hosting?", a: "Not for the class. We explain how publishing, hosting and domains work so you can decide later." },
       { q: "Is there any refund?", a: "Please read our Refund Policy. Because this is a digital masterclass with instant Drive access, refunds are subject to policy." },
@@ -290,12 +290,12 @@ export const en = {
   urgency: {
     recent: "just registered from",
     ago: "min ago",
-    exitTitle: "Wait — your ₹997 seat is still open",
-    exitBody: "Previous class price was ₹5,000. This special batch closes soon and the price will return to regular ₹5,000. Secure your seat now.",
-    exitCta: "Claim my ₹997 Seat",
+    exitTitle: "Wait — your ₹2,499 seat is still open",
+    exitBody: "Regular price is ₹20,000. This special batch closes soon and the price will return to regular ₹20,000. Secure your instant access to all recorded sessions now.",
+    exitCta: "Claim my ₹2,499 Seat",
     exitDismiss: "No thanks",
-    stickyCta: "Enroll for Flat ₹997",
-    stickyStrike: "₹5,000",
+    stickyCta: "Enroll for Flat ₹2,499",
+    stickyStrike: "₹20,000",
   },
   trust: {
     secure: "Secure Payment",
@@ -307,9 +307,9 @@ export const en = {
     title: "Complete your registration",
     subtitle: "You are one step away from your seat.",
     summary: "Order summary",
-    item: "AI Website Building Masterclass (All 7 Classes)",
+    item: "Complete AI Website Masterclass (All Recorded Sessions + Drive Vault)",
     total: "Total payable",
-    pay: "Pay Flat ₹997 Securely",
+    pay: "Pay Flat ₹2,499 Securely",
     processing: "Processing payment…",
     methods: "UPI • Cards • Net Banking • Google Pay • PhonePe",
     placeholder: "Payment gateway is active and secure.",
@@ -319,13 +319,13 @@ export const en = {
   },
   thankyou: {
     title: "You're in!",
-    subtitle: "Your seat for the live AI Website Building Demo Class is confirmed.",
+    subtitle: "Your enrollment for the Complete AI Website Masterclass (All Recorded Sessions) is confirmed.",
     step1: "Join the private WhatsApp community",
-    step1d: "All updates, resources and the joining link are shared there.",
+    step1d: "All updates, resources and masterclass Drive links are shared there.",
     step2: "Check your WhatsApp and email",
-    step2d: "We have sent your confirmation and details.",
-    step3: "Come prepared",
-    step3d: "Keep a laptop or PC ready if you have one, and join on time.",
+    step2d: "We have sent your confirmation and instant access details.",
+    step3: "Start Learning Immediately",
+    step3d: "Access all recorded sessions, download project starter kits, and learn at your own pace.",
     cta: "Join WhatsApp Community",
     home: "Back to home",
   },
@@ -364,13 +364,13 @@ export const en = {
       title: "About Us",
       description: "PenduGPT is a digital education brand teaching AI website building in Punjabi and English.",
       intro:
-        "PenduGPT was created for the learner who was always told that technology is 'not for people like us'. We teach modern AI skills in plain Punjabi and English, with practical live sessions.",
+        "PenduGPT was created for the learner who was always told that technology is 'not for people like us'. We teach modern AI skills in plain Punjabi and English, with comprehensive recorded sessions.",
       sections: [
         {
           h: "What we do",
           p: [
-            "We run live, practical masterclasses that teach people how to build professional websites using modern AI tools — without writing code.",
-            "Our sessions are recorded and shared with participants, along with templates, prompts and community support.",
+            "We provide practical recorded masterclasses that teach people how to build professional websites using modern AI tools — without writing code.",
+            "Our sessions are recorded in HD and shared with participants, along with templates, prompts and community support.",
           ],
         },
         {
@@ -388,8 +388,8 @@ export const en = {
         {
           h: "Business details",
           p: [
-            "Business name: PenduGPT (placeholder)",
-            "Registered address: [Business Address Placeholder], Punjab, India",
+            "Business name: PenduGPT (Proprietor: Khushpreet Singh)",
+            "Registered address: Sangrur, Punjab, India - 148001",
             "GSTIN: [GST Placeholder]",
           ],
         },
@@ -403,18 +403,18 @@ export const en = {
         {
           h: "Support channels",
           p: [
-            "Email: [Support Email Placeholder]",
-            "Phone / WhatsApp: [Support Phone Placeholder]",
+            "Email: igkhushishere@gmail.com",
+            "Phone / WhatsApp: +91 77175 26430",
             "Instagram: @pendugpt",
           ],
         },
         {
           h: "Registered address",
-          p: ["PenduGPT, [Business Address Placeholder], Punjab, India"],
+          p: ["PenduGPT, Sangrur, Punjab, India - 148001"],
         },
         {
           h: "Response time",
-          p: ["We usually respond within 24 working hours. During live batch weeks, replies may take slightly longer."],
+          p: ["We usually respond within 24 working hours."],
         },
       ],
     },
@@ -435,9 +435,9 @@ export const en = {
         {
           h: "How we use your information",
           p: [
-            "To confirm your registration and send you the joining link, reminders and session resources.",
+            "To confirm your registration and send you instant Google Drive masterclass access, templates and session resources.",
             "To provide support and respond to your questions.",
-            "To share occasional updates about future classes. You may opt out at any time.",
+            "To share occasional updates about future modules. You may opt out at any time.",
           ],
         },
         {
@@ -455,7 +455,7 @@ export const en = {
         {
           h: "Your rights",
           p: [
-            "You may request access to, correction of, or deletion of your personal data by writing to [Support Email Placeholder]. We act on valid requests within a reasonable time.",
+            "You may request access to, correction of, or deletion of your personal data by writing to igkhushishere@gmail.com. We act on valid requests within a reasonable time.",
           ],
         },
         {
@@ -466,33 +466,33 @@ export const en = {
     },
     terms: {
       title: "Terms & Conditions",
-      description: "The terms that apply when you register for and attend a PenduGPT masterclass.",
+      description: "The terms that apply when you register for and access a PenduGPT masterclass.",
       intro:
-        "By registering for or attending a PenduGPT masterclass, you agree to these Terms & Conditions. Please read them carefully.",
+        "By registering for or accessing a PenduGPT masterclass, you agree to these Terms & Conditions. Please read them carefully.",
       sections: [
         {
           h: "Nature of service",
           p: [
-            "PenduGPT provides digital educational content in the form of live online sessions, recordings and downloadable resources. This is a digital service. No physical product is sold or shipped.",
+            "PenduGPT provides digital educational content in the form of recorded HD video sessions, templates and downloadable resources. This is a digital service. No physical product is sold or shipped.",
           ],
         },
         {
           h: "Registration and access",
           p: [
-            "Access is granted to the individual who registers. Your joining link is personal and must not be shared, resold or broadcast.",
-            "You are responsible for providing accurate contact details. We are not liable if you miss a session because of incorrect details.",
+            "Access is granted to the individual who registers. Your Google Drive access is personal and must not be shared, resold or broadcast.",
+            "You are responsible for providing accurate contact details. We are not liable if access is delayed because of incorrect details.",
           ],
         },
         {
           h: "Payments",
           p: [
-            "The registration fee is ₹99 for the current batch. Payments are processed by Razorpay. Prices may change for future batches.",
+            "The registration fee is flat ₹2,499 for the current batch (slashed from regular ₹20,000). Payments are processed by Razorpay. Prices may change for future batches.",
           ],
         },
         {
           h: "Recording policy",
           p: [
-            "Sessions may be recorded by us. By attending, you consent to your questions or chat messages appearing in a recording. You may not record, screen-capture, redistribute or republish our sessions.",
+            "All masterclass sessions are pre-recorded in HD and provided with lifetime access. You may not screen-capture, redistribute, resell or republish our sessions or proprietary prompt vaults.",
           ],
         },
         {
@@ -521,7 +521,7 @@ export const en = {
         },
         {
           h: "Governing law",
-          p: ["These terms are governed by the laws of India, with jurisdiction in the courts of Punjab, India."],
+          p: ["These terms are governed by the laws of India, with jurisdiction in the courts of Sangrur, Punjab, India."],
         },
       ],
     },
@@ -529,53 +529,52 @@ export const en = {
       title: "Refund Policy",
       description: "Refund eligibility for PenduGPT digital masterclass registrations.",
       intro:
-        "Because our masterclass is a digital live event with immediate access to resources and a community, refunds are limited. Please read before paying.",
+        "Because our masterclass is a digital self-paced product with instant access to all recorded sessions, templates and Google Drive vault, refunds are limited. Please read before paying.",
       sections: [
         {
           h: "Eligibility",
           p: [
-            "A full refund is available if you request it at least 24 hours before the scheduled start of the live session and you have not accessed the bonus resources or recording.",
-            "A full refund is provided if the session is cancelled by us and not rescheduled.",
+            "In eligible scenarios (such as duplicate payments or technical non-delivery), approved refunds are initiated within 24 to 48 hours and credited within 5 to 7 business days.",
+            "A full refund is provided if course materials cannot be delivered or accessed due to an irremediable technical failure on our platform.",
           ],
         },
         {
           h: "Not eligible",
           p: [
-            "Requests made after the live session has started or after the recording or resources have been accessed.",
-            "Failure to attend, poor internet connectivity on your side, or a change of mind after attending.",
+            "Requests made after accessing or downloading the course materials, prompt vault, or Google Drive folder.",
+            "Change of mind after enrollment.",
             "Duplicate payments are always refunded in full; contact support with the transaction details.",
           ],
         },
         {
           h: "How to request",
           p: [
-            "Email [Support Email Placeholder] from your registered email with your name, WhatsApp number and payment reference.",
+            "Email igkhushishere@gmail.com with your name, registered WhatsApp number and Razorpay payment reference.",
           ],
         },
         {
           h: "Processing time",
           p: [
-            "Approved refunds are initiated within 5-7 working days and credited to the original payment method. Bank processing may take additional time.",
+            "Approved refunds are initiated within 24-48 hours and credited to the original payment method within 5-7 business days.",
           ],
         },
       ],
     },
     cancellation: {
       title: "Cancellation Policy",
-      description: "How cancellations and rescheduling work for PenduGPT masterclasses.",
-      intro: "This policy explains cancellation by you and by us.",
+      description: "How cancellations work for PenduGPT masterclasses.",
+      intro: "This policy explains cancellation terms for our digital masterclass.",
       sections: [
         {
           h: "Cancellation by you",
           p: [
-            "You may cancel your registration up to 24 hours before the session start time by writing to [Support Email Placeholder]. Refunds follow our Refund Policy.",
+            "Because digital assets and course files are delivered immediately upon payment, order cancellations after payment completion are generally not permitted.",
           ],
         },
         {
-          h: "Cancellation or rescheduling by us",
+          h: "Technical non-delivery guarantee",
           p: [
-            "In rare cases such as technical failure or an emergency, we may reschedule the session. Registered participants are informed on WhatsApp and email and automatically moved to the new date.",
-            "If you cannot attend the new date, you may request a full refund.",
+            "In the rare event that access to our course repository cannot be delivered due to technical failures that cannot be resolved within 48 hours, students will receive an immediate 100% full refund.",
           ],
         },
         {
@@ -594,20 +593,20 @@ export const en = {
         {
           h: "Digital delivery",
           p: [
-            "After successful payment, your registration is confirmed instantly on the Thank You page and via WhatsApp and email.",
-            "The live session joining link is delivered to your registered WhatsApp number and email before the session.",
+            "After successful payment of flat ₹2,499, your enrollment is confirmed instantly with immediate access to all recorded sessions, templates, and Google Drive vault.",
+            "Access details are delivered directly to your registered WhatsApp number and email within 0 to 5 minutes.",
           ],
         },
         {
           h: "Delivery timelines",
           p: [
-            "Confirmation is immediate. Session links are shared at least a few hours before the class. The recording and bonus resources are shared within 48 hours after the session.",
+            "Confirmation is immediate (0 to 5 minutes). All 7 practical recorded classes, capstone walkthroughs, and bonus prompt vaults are available instantly.",
           ],
         },
         {
           h: "Delivery issues",
           p: [
-            "If you do not receive your access details, check your spam folder and then contact [Support Email Placeholder] with your payment reference.",
+            "If you do not receive your access details, check your spam folder and contact igkhushishere@gmail.com with your payment reference.",
           ],
         },
       ],

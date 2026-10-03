@@ -47,7 +47,7 @@ export function Navbar() {
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 transition-all duration-300">
-      {/* High-Converting Electric Top Announcement Bar with Live Sales Timer */}
+      {/* High-Converting Electric Top Announcement Bar with Instant Access Timer */}
       <div 
         onClick={openModal}
         className="w-full max-w-full overflow-hidden bg-[#d4f934] text-black py-1 sm:py-1.5 px-2 sm:px-3 text-center text-[10px] sm:text-xs font-black tracking-tight border-b border-black/10 shadow-md flex items-center justify-center gap-1.5 sm:gap-2 cursor-pointer hover:bg-[#c6ec22] transition-colors select-none"
@@ -58,13 +58,13 @@ export function Navbar() {
         <span className="font-extrabold truncate text-[11px] sm:text-xs">
           {lang === "pa" ? (
             <>
-              <span className="sm:hidden">ਸਪੈਸ਼ਲ ਬੈਚ — <span className="line-through text-black/70">₹5,000</span> <strong>ਫਲੈਟ ₹997</strong></span>
-              <span className="hidden sm:inline">ਪਿਛਲੀ ਕਲਾਸ ₹5,000 ਸੀ • <strong>ਸਪੈਸ਼ਲ ਆਫਰ ਫਲੈਟ ₹997:</strong> <span className="line-through decoration-red-600 decoration-2 text-black/80 font-bold">₹5,000</span> <span className="font-black text-black">₹997 (80% ਛੋਟ)</span></span>
+              <span className="sm:hidden">ਸੰਪੂਰਨ ਮਾਸਟਰਕਲਾਸ — <span className="line-through text-black/70">₹20,000</span> <strong>ਫਲੈਟ ₹2,499</strong></span>
+              <span className="hidden sm:inline">ਨਿਯਮਿਤ ਮੁੱਲ ₹20,000 • <strong>ਸੰਪੂਰਨ ਮਾਸਟਰਕਲਾਸ ਰਿਕਾਰਡਡ ਐਕਸੈਸ:</strong> <span className="line-through decoration-red-600 decoration-2 text-black/80 font-bold">₹20,000</span> <span className="font-black text-black">₹2,499 (88% ਛੋਟ)</span></span>
             </>
           ) : (
             <>
-              <span className="sm:hidden">Special Batch — <span className="line-through text-black/70">₹5,000</span> <strong>Flat ₹997</strong></span>
-              <span className="hidden sm:inline">Previous Class Was ₹5,000 • <strong>Special Admission Offer:</strong> <span className="line-through decoration-red-600 decoration-2 text-black/80 font-bold">₹5,000</span> <span className="font-black text-black">₹997 ONLY (80% OFF)</span></span>
+              <span className="sm:hidden">Complete Masterclass — <span className="line-through text-black/70">₹20,000</span> <strong>Flat ₹2,499</strong></span>
+              <span className="hidden sm:inline">Regular Price ₹20,000 • <strong>Complete Masterclass (All Recorded Sessions):</strong> <span className="line-through decoration-red-600 decoration-2 text-black/80 font-bold">₹20,000</span> <span className="font-black text-black">₹2,499 ONLY (88% OFF)</span></span>
             </>
           )}
         </span>
@@ -146,11 +146,11 @@ export function Navbar() {
               <span>
                 {lang === "pa" ? (
                   <>
-                    ਦਾਖਲਾ ਲਵੋ — <span className="line-through decoration-red-600 decoration-2 text-black/80 font-bold">₹5,000</span> <span className="font-black text-black">₹997</span>
+                    ਦਾਖਲਾ ਲਵੋ — <span className="line-through decoration-red-600 decoration-2 text-black/80 font-bold">₹20,000</span> <span className="font-black text-black">₹2,499</span>
                   </>
                 ) : (
                   <>
-                    Enroll Now — <span className="line-through decoration-red-600 decoration-2 text-black/80 font-bold">₹5,000</span> <span className="font-black text-black">₹997</span>
+                    Get Instant Access — <span className="line-through decoration-red-600 decoration-2 text-black/80 font-bold">₹20,000</span> <span className="font-black text-black">₹2,499</span>
                   </>
                 )}
               </span>
