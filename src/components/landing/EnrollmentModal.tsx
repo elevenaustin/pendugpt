@@ -306,7 +306,7 @@ Please confirm my masterclass enrollment and grant instant access to all recorde
       return;
     }
 
-    const razorpayKey = import.meta.env.VITE_RAZORPAY_KEY_ID || "rzp_live_TIZdNUBnkz3PoA";
+    const razorpayKey = import.meta.env.VITE_RAZORPAY_KEY_ID || "rzp_live_TjWspxG8PkRKlr";
 
     const options = {
       key: razorpayKey,

@@ -138,7 +138,7 @@ Please grant my full masterclass access and add me to the VIP community group!`;
       return;
     }
 
-    const razorpayKey = import.meta.env.VITE_RAZORPAY_KEY_ID || "rzp_live_TIZdNUBnkz3PoA";
+    const razorpayKey = import.meta.env.VITE_RAZORPAY_KEY_ID || "rzp_live_TjWspxG8PkRKlr";
 
     const options = {
       key: razorpayKey,
