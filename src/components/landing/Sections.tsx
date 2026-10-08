@@ -530,7 +530,7 @@ export function Hero() {
           {/* Right Offer Text */}
           <div className="flex items-center gap-2">
             <span className="font-extrabold text-white text-[12px] sm:text-xs">
-              {isPa ? "ਨਿਯਮਿਤ ਮੁੱਲ ₹20,000 • ਸੰਪੂਰਨ ਮਾਸਟਰਕਲਾਸ ਫਲੈਟ ₹2,499" : "Regular Price ₹20,000 • Complete Masterclass Flat ₹2,499 (88% OFF)"}
+              {isPa ? "ਨਿਯਮਿਤ ਮੁੱਲ ₹20,000 • ਸੰਪੂਰਨ ਮਾਸਟਰਕਲਾਸ ਫਲੈਟ ₹997" : "Regular Price ₹20,000 • Complete Masterclass Flat ₹997 (95% OFF)"}
             </span>
             <ArrowRight className="h-3.5 w-3.5 text-[#d4f934] transition-transform duration-200 group-hover:translate-x-1" />
           </div>
@@ -640,21 +640,21 @@ export function Hero() {
             </span>
             <span className="text-gray-500 font-bold">→</span>
             <span className="text-[#d4f934] font-black text-xl sm:text-2xl font-display">
-              ₹2,499 ONLY
+              ₹997 ONLY
             </span>
             <span className="rounded-full bg-[#d4f934]/20 border border-[#d4f934]/50 px-2 py-0.5 text-[10px] font-black text-[#d4f934] uppercase">
-              Save ₹17,501 (88% OFF)
+              Save ₹19,003 (95% OFF)
             </span>
           </div>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full sm:w-auto">
-            {/* Main Flat ₹2,499 CTA Button */}
+            {/* Main Flat ₹997 CTA Button */}
             <button
               type="button"
               onClick={openModal}
               className="lime-button w-full sm:w-auto inline-flex items-center justify-center gap-2.5 sm:gap-3 rounded-full px-7 sm:px-9 py-3.5 sm:py-4 text-base sm:text-lg font-black text-black shadow-[0_0_40px_rgba(212,249,52,0.5)] cursor-pointer"
             >
-              <span>{isPa ? "ਫਲੈਟ ₹2,499 ਨਾਲ ਤੁਰੰਤ ਐਕਸੈਸ ਲਵੋ →" : "Get Instant Access for Flat ₹2,499 →"}</span>
+              <span>{isPa ? "ਫਲੈਟ ₹997 ਨਾਲ ਤੁਰੰਤ ਐਕਸੈਸ ਲਵੋ →" : "Get Instant Access for Flat ₹997 →"}</span>
               <ArrowRight className="h-5 w-5" />
             </button>
 
@@ -691,7 +691,7 @@ export function Hero() {
           {/* Badge 3 */}
           <div className="flex items-center gap-1.5 sm:gap-2 rounded-full border border-gray-800/90 bg-[#101318]/90 px-3 sm:px-3.5 py-1 sm:py-1.5 text-gray-300 font-medium text-[11px] sm:text-xs">
             <CheckCircle2 className="h-3.5 w-3.5 text-[#d4f934]" />
-            <span>{isPa ? "ਇੱਕ ਵਾਰ ਭੁਗਤਾਨ • ਸਾਰੀਆਂ ਰਿਕਾਰਡਡ ਕਲਾਸਾਂ ਸ਼ਾਮਲ" : "One-Time ₹2,499 • All Recorded Sessions Included"}</span>
+            <span>{isPa ? "ਇੱਕ ਵਾਰ ਭੁਗਤਾਨ • ਸਾਰੀਆਂ ਰਿਕਾਰਡਡ ਕਲਾਸਾਂ ਸ਼ਾਮਲ" : "One-Time ₹997 • All Recorded Sessions Included"}</span>
           </div>
         </motion.div>
       </div>
@@ -829,8 +829,8 @@ export function Stats() {
     {
       id: "offer",
       headerIcon: <ShieldCheck className="h-5 w-5 text-[#d4f934]" />,
-      badge: "🏷️ 88% Discount",
-      valueElement: <CountUp end={2499} prefix="₹" duration={1.5} />,
+      badge: "🏷️ 95% Discount",
+      valueElement: <CountUp end={997} prefix="₹" duration={1.5} />,
       label: isPa ? "ਇੱਕ ਵਾਰ ਭੁਗਤਾਨ (ਸਾਰੀਆਂ ਰਿਕਾਰਡਿੰਗਜ਼)" : "One-Time (All Recordings)",
       subtext: isPa ? "ਨਿਯਮਿਤ ਮੁੱਲ ₹20,000 ਤੋਂ ਘਟਾਇਆ" : "Slashed from ₹20,000 today",
       visual: (
@@ -941,7 +941,7 @@ export function Stats() {
                 onClick={openModal}
                 className="lime-button px-5 py-2 rounded-full text-xs font-black text-black inline-flex items-center gap-2 cursor-pointer shrink-0 shadow-[0_0_20px_rgba(212,249,52,0.35)]"
               >
-                <span>{isPa ? "ਦਾਖਲਾ ਲਵੋ — ਫਲੈਟ ₹2,499" : "Get Instant Access — Flat ₹2,499"}</span>
+                <span>{isPa ? "ਦਾਖਲਾ ਲਵੋ — ਫਲੈਟ ₹997" : "Get Instant Access — Flat ₹997"}</span>
                 <ArrowRight className="h-3.5 w-3.5" />
               </button>
             </div>
@@ -1081,7 +1081,7 @@ export function HeroTestimonialProof() {
             onClick={openModal}
             className="text-[#d4f934] font-bold hover:underline inline-flex items-center gap-1 cursor-pointer shrink-0 text-xs"
           >
-            {isPa ? "ਫਲੈਟ ₹2,499 ਨਾਲ ਸ਼ੁਰੂ ਕਰੋ" : "Start Learning for Flat ₹2,499"} <ArrowRight className="h-3.5 w-3.5" />
+            {isPa ? "ਫਲੈਟ ₹997 ਨਾਲ ਸ਼ੁਰੂ ਕਰੋ" : "Start Learning for Flat ₹997"} <ArrowRight className="h-3.5 w-3.5" />
           </button>
         </div>
       </div>
@@ -1280,7 +1280,7 @@ export function Audience() {
                 {isPa ? "ਪੂਰਾ ਪੈਕੇਜ" : "ALL-IN-ONE PACK"}
               </span>
               <h3 className="text-lg font-black text-white mt-1">
-                {isPa ? "ਸਾਰੀਆਂ 7 ਕਲਾਸਾਂ ਫਲੈਟ ₹2,499 ਨਾਲ" : "All 7 Classes (Flat ₹2,499 Only)"}
+                {isPa ? "ਸਾਰੀਆਂ 7 ਕਲਾਸਾਂ ਫਲੈਟ ₹997 ਨਾਲ" : "All 7 Classes (Flat ₹997 Only)"}
               </h3>
               <p className="mt-2 text-xs text-gray-400">
                 {isPa
@@ -1293,7 +1293,7 @@ export function Audience() {
               onClick={openModal}
               className="lime-button mt-4 w-full py-3 px-4 rounded-xl text-xs font-black text-black cursor-pointer flex items-center justify-center gap-2"
             >
-              <span>{isPa ? "ਫਲੈਟ ₹2,499 ਨਾਲ ਦਾਖਲਾ ਲਵੋ" : "Get Instant Access (₹2,499)"}</span>
+              <span>{isPa ? "ਫਲੈਟ ₹997 ਨਾਲ ਦਾਖਲਾ ਲਵੋ" : "Get Instant Access (₹997)"}</span>
               <ArrowRight className="h-4 w-4" />
             </button>
           </div>
@@ -1585,7 +1585,7 @@ export function Curriculum() {
             onClick={openModal}
             className="lime-button shrink-0 py-3.5 px-7 rounded-full text-sm font-black text-black shadow-md cursor-pointer flex items-center justify-center gap-2"
           >
-            <span>{isPa ? "ਫਲੈਟ ₹2,499 ਨਾਲ ਦਾਖਲਾ ਲਵੋ (Save ₹17,501)" : "Get Instant Access for Flat ₹2,499 (Save ₹17,501)"}</span>
+            <span>{isPa ? "ਫਲੈਟ ₹997 ਨਾਲ ਦਾਖਲਾ ਲਵੋ (Save ₹19,003)" : "Get Instant Access for Flat ₹997 (Save ₹19,003)"}</span>
             <ArrowRight className="h-4 w-4" />
           </button>
         </div>
@@ -1746,8 +1746,8 @@ export function Bonuses() {
       valuation: isPa ? "ਮੁੱਲ: ਲਾਈਫਟਾਈਮ" : "Value: Priceless",
       title: isPa ? "ਲਾਈਫਟਾਈਮ ਐਕਸੈਸ" : "Lifetime Access & Updates",
       desc: isPa
-        ? "ਸਿਰਫ ₹2,499 ਦਾ ਇੱਕ ਵਾਰ ਭੁਗਤਾਨ — ਕੋਈ ਮਹੀਨਾਵਾਰ ਫੀਸ ਨਹੀਂ ਅਤੇ ਭਵਿੱਖ ਦੇ ਸਾਰੇ ਅੱਪਡੇਟਸ ਮੁਫਤ।"
-        : "One-time payment of flat ₹2,499 with zero recurring subscriptions and perpetual access to all masterclass materials.",
+        ? "ਸਿਰਫ ₹997 ਦਾ ਇੱਕ ਵਾਰ ਭੁਗਤਾਨ — ਕੋਈ ਮਹੀਨਾਵਾਰ ਫੀਸ ਨਹੀਂ ਅਤੇ ਭਵਿੱਖ ਦੇ ਸਾਰੇ ਅੱਪਡੇਟਸ ਮੁਫਤ।"
+        : "One-time payment of flat ₹997 with zero recurring subscriptions and perpetual access to all masterclass materials.",
     },
   ];
 
@@ -1842,7 +1842,7 @@ export function Bonuses() {
 
             <div className="flex items-center gap-2 text-xs text-gray-400">
               <span className="rounded-full bg-[#1b2207] border border-[#d4f934]/40 px-3.5 py-1 text-[11px] font-bold text-[#d4f934]">
-                🔒 Instant Auto-Unlock on ₹2,499 Payment
+                🔒 Instant Auto-Unlock on ₹997 Payment
               </span>
             </div>
           </div>
@@ -1938,7 +1938,7 @@ export function Bonuses() {
               onClick={openModal}
               className="lime-button shrink-0 py-2.5 px-5 rounded-full text-xs font-black text-black cursor-pointer shadow-md flex items-center gap-1.5"
             >
-              <span>{isPa ? "Drive ਐਕਸੈਸ ਲਵੋ (₹2,499)" : "Get Drive Access (Flat ₹2,499 Only)"}</span>
+              <span>{isPa ? "Drive ਐਕਸੈਸ ਲਵੋ (₹997)" : "Get Drive Access (Flat ₹997 Only)"}</span>
               <ArrowRight className="h-3.5 w-3.5" />
             </button>
           </div>
@@ -1962,7 +1962,7 @@ export function Bonuses() {
             </div>
 
             <div className="flex items-center gap-2 rounded-2xl bg-[#182012] border border-[#d4f934]/40 px-4 py-2 text-xs font-black text-[#d4f934] shrink-0">
-              <span>{isPa ? "ਕੁੱਲ ਮੁੱਲ: ₹20,000+ (ਅੱਜ ₹2,499 'ਚ ਸ਼ਾਮਲ)" : "Total Value: ₹20,000+ (Included with ₹2,499)"}</span>
+              <span>{isPa ? "ਕੁੱਲ ਮੁੱਲ: ₹20,000+ (ਅੱਜ ₹997 'ਚ ਸ਼ਾਮਲ)" : "Total Value: ₹20,000+ (Included with ₹997)"}</span>
             </div>
           </div>
 
@@ -2057,7 +2057,7 @@ export function Testimonials() {
       avatar: student4,
       tag: "Store Owner",
       quote:
-        "Agencies were asking ₹30,000 just to design my boutique store website. I enrolled in this ₹2,499 masterclass, prompts copy-paste kite, and launched my entire product catalog myself in a weekend! Super easy and practical.",
+        "Agencies were asking ₹30,000 just to design my boutique store website. I enrolled in this ₹997 masterclass, prompts copy-paste kite, and launched my entire product catalog myself in a weekend! Super easy and practical.",
       verified: true,
       rating: 5,
     },
@@ -2243,7 +2243,7 @@ export function Testimonials() {
             </div>
           </div>
           <span className="shrink-0 rounded-full bg-[#1b2207] border border-[#d4f934]/40 px-3.5 py-1.5 text-xs font-black text-[#d4f934]">
-            {isPa ? "₹2,499 ਦਾਖਲੇ ਨਾਲ ਸ਼ਾਮਲ ✓" : "Included with ₹2,499 Admission ✓"}
+            {isPa ? "₹997 ਦਾਖਲੇ ਨਾਲ ਸ਼ਾਮਲ ✓" : "Included with ₹997 Admission ✓"}
           </span>
         </div>
 
@@ -2464,7 +2464,7 @@ export function Instructor() {
   );
 }
 
-/* --------------------------------- 9. FLAT ₹2,499 SPECIAL MASTERCLASS OFFER --------------------------------- */
+/* --------------------------------- 9. FLAT ₹997 SPECIAL MASTERCLASS OFFER --------------------------------- */
 export function Offer() {
   const { lang } = useI18n();
   const isPa = lang === "pa";
@@ -2496,7 +2496,7 @@ export function Offer() {
           <div className="relative z-10">
             <div className="inline-flex items-center gap-2 rounded-full bg-[#d4f934] px-4 py-1.5 text-xs font-black text-black uppercase tracking-wider mb-4 shadow-lg">
               <Flame className="h-4 w-4 fill-black" />
-              <span>{isPa ? "🔥 ਸੰਪੂਰਨ ਮਾਸਟਰਕਲਾਸ ਦਾਖਲਾ • 88% ਛੋਟ" : "🔥 COMPLETE MASTERCLASS ADMISSION • 88% OFF"}</span>
+              <span>{isPa ? "🔥 ਸੰਪੂਰਨ ਮਾਸਟਰਕਲਾਸ ਦਾਖਲਾ • 95% ਛੋਟ" : "🔥 COMPLETE MASTERCLASS ADMISSION • 95% OFF"}</span>
             </div>
 
             <h3 className="text-2xl sm:text-5xl font-serif font-black tracking-tight text-white leading-tight">
@@ -2505,8 +2505,8 @@ export function Offer() {
 
             <p className="mt-3 text-xs sm:text-base text-gray-300 font-medium max-w-xl mx-auto">
               {isPa
-                ? "ਨਿਯਮਿਤ ਮੁੱਲ ₹20,000 ਸੀ — ਅੱਜ ਸਪੈਸ਼ਲ ਬੈਚ ਵਿੱਚ ਸਿਰਫ਼ ਫਲੈਟ ₹2,499 ਵਿੱਚ ਸੰਪੂਰਨ ਮਾਸਟਰਕਲਾਸ ਰਿਕਾਰਡਡ ਐਕਸੈਸ ਲਵੋ!"
-                : "Regular price is ₹20,000 — Secure your instant access to the Complete Masterclass for flat ₹2,499 today!"}
+                ? "ਨਿਯਮਿਤ ਮੁੱਲ ₹20,000 ਸੀ — ਅੱਜ ਸਪੈਸ਼ਲ ਬੈਚ ਵਿੱਚ ਸਿਰਫ਼ ਫਲੈਟ ₹997 ਵਿੱਚ ਸੰਪੂਰਨ ਮਾਸਟਰਕਲਾਸ ਰਿਕਾਰਡਡ ਐਕਸੈਸ ਲਵੋ!"
+                : "Regular price is ₹20,000 — Secure your instant access to the Complete Masterclass for flat ₹997 today!"}
             </p>
 
             {/* Pricing Hero Box */}
@@ -2519,7 +2519,7 @@ export function Offer() {
                   ₹20,000
                 </span>
                 <span className="text-4xl sm:text-6xl font-black text-[#d4f934] font-display">
-                  ₹2,499
+                  ₹997
                 </span>
                 <span className="text-xs sm:text-sm font-black text-white uppercase bg-red-600/90 px-2 py-1 rounded-md">
                   ONLY
@@ -2527,7 +2527,7 @@ export function Offer() {
               </div>
               <div className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-green-950 border border-green-500/40 px-3.5 py-1 text-xs font-black text-green-400">
                 <Sparkles className="h-3.5 w-3.5" />
-                <span>{isPa ? "ਤੁਸੀਂ ₹17,501 ਦੀ ਸਿੱਧੀ ਬਚਤ ਕਰ ਰਹੇ ਹੋ (88% ਛੋਟ)" : "You Save ₹17,501 Today (88% Discount)"}</span>
+                <span>{isPa ? "ਤੁਸੀਂ ₹19,003 ਦੀ ਸਿੱਧੀ ਬਚਤ ਕਰ ਰਹੇ ਹੋ (95% ਛੋਟ)" : "You Save ₹19,003 Today (95% Discount)"}</span>
               </div>
             </div>
 
@@ -2551,7 +2551,7 @@ export function Offer() {
               onClick={openModal}
               className="lime-button w-full max-w-lg inline-flex items-center justify-center gap-3 rounded-full py-4 sm:py-5 px-8 text-base sm:text-xl font-black text-black shadow-[0_0_50px_rgba(212,249,52,0.65)] cursor-pointer hover:scale-[1.02] transition-transform"
             >
-              <span>{isPa ? "ਫਲੈਟ ₹2,499 ਵਿੱਚ ਦਾਖਲਾ ਲਵੋ (Save ₹17,501)" : "Get Instant Access for Flat ₹2,499 (Save ₹17,501)"}</span>
+              <span>{isPa ? "ਫਲੈਟ ₹997 ਵਿੱਚ ਦਾਖਲਾ ਲਵੋ (Save ₹19,003)" : "Get Instant Access for Flat ₹997 (Save ₹19,003)"}</span>
               <ArrowRight className="h-5 w-5 sm:h-6 sm:w-6" />
             </button>
 
@@ -2584,10 +2584,10 @@ export function Faq() {
         : "Not at all! After this masterclass, you will build unlimited websites completely by yourself without buying any paid AI tools or recurring software subscriptions ($20-$50/month). We teach you 100% free and open developer workflows so you never spend extra money.",
     },
     {
-      q: isPa ? "ਕੀ ਨਿਯਮਿਤ ਮੁੱਲ ₹20,000 ਹੈ ਅਤੇ ਹੁਣ ਸਿਰਫ਼ ਫਲੈਟ ₹2,499 ਹੈ?" : "Is the regular price ₹20,000 and is it now flat ₹2,499?",
+      q: isPa ? "ਕੀ ਨਿਯਮਿਤ ਮੁੱਲ ₹20,000 ਹੈ ਅਤੇ ਹੁਣ ਸਿਰਫ਼ ਫਲੈਟ ₹997 ਹੈ?" : "Is the regular price ₹20,000 and is it now flat ₹997?",
       a: isPa
-        ? "ਹਾਂਜੀ! ਸਾਡੀ ਸੰਪੂਰਨ ਮਾਸਟਰਕਲਾਸ ਦਾ ਨਿਯਮਿਤ ਮੁੱਲ ₹20,000 ਹੈ। ਪੰਜਾਬ ਅਤੇ ਪੇਂਡੂ ਨੌਜਵਾਨਾਂ ਨੂੰ ਤਕਨੀਕੀ ਤੌਰ 'ਤੇ ਮਜ਼ਬੂਤ ਬਣਾਉਣ ਲਈ ਇਸ ਸਪੈਸ਼ਲ ਲਾਂਚ ਆਫਰ ਤਹਿਤ ਦਾਖਲਾ ਫੀਸ ਫਲੈਟ ₹2,499 ਰੱਖੀ ਗਈ ਹੈ (88% ਛੋਟ / ₹17,501 ਦੀ ਬਚਤ)। ਇਸ ਵਿੱਚ ਸਾਰੀਆਂ 7 ਰਿਕਾਰਡਡ ਕਲਾਸਾਂ, ਕੈਪਸਟੋਨ, ਗੂਗਲ ਡਰਾਈਵ ਅਤੇ ਸਾਰੇ ਪ੍ਰੌਂਪਟਸ ਸ਼ਾਮਲ ਹਨ।"
-        : "Yes! The standard price for the Complete Masterclass is ₹20,000. To make advanced AI web creation accessible to all ambitious learners and freelancers, this special launch batch is offered at flat ₹2,499 (88% OFF / Save ₹17,501). All 7 recorded classes, capstone, and Drive vault are included.",
+        ? "ਹਾਂਜੀ! ਸਾਡੀ ਸੰਪੂਰਨ ਮਾਸਟਰਕਲਾਸ ਦਾ ਨਿਯਮਿਤ ਮੁੱਲ ₹20,000 ਹੈ। ਪੰਜਾਬ ਅਤੇ ਪੇਂਡੂ ਨੌਜਵਾਨਾਂ ਨੂੰ ਤਕਨੀਕੀ ਤੌਰ 'ਤੇ ਮਜ਼ਬੂਤ ਬਣਾਉਣ ਲਈ ਇਸ ਸਪੈਸ਼ਲ ਲਾਂਚ ਆਫਰ ਤਹਿਤ ਦਾਖਲਾ ਫੀਸ ਫਲੈਟ ₹997 ਰੱਖੀ ਗਈ ਹੈ (95% ਛੋਟ / ₹19,003 ਦੀ ਬਚਤ)। ਇਸ ਵਿੱਚ ਸਾਰੀਆਂ 7 ਰਿਕਾਰਡਡ ਕਲਾਸਾਂ, ਕੈਪਸਟੋਨ, ਗੂਗਲ ਡਰਾਈਵ ਅਤੇ ਸਾਰੇ ਪ੍ਰੌਂਪਟਸ ਸ਼ਾਮਲ ਹਨ।"
+        : "Yes! The standard price for the Complete Masterclass is ₹20,000. To make advanced AI web creation accessible to all ambitious learners and freelancers, this special launch batch is offered at flat ₹997 (95% OFF / Save ₹19,003). All 7 recorded classes, capstone, and Drive vault are included.",
     },
     {
       q: isPa ? "ਕੀ ਮੈਨੂੰ ਕੋਡਿੰਗ ਆਉਣੀ ਜ਼ਰੂਰੀ ਹੈ?" : "Do I need prior coding experience?",
@@ -2596,10 +2596,10 @@ export function Faq() {
         : "Not at all! This masterclass is designed from scratch for absolute beginners. We teach visual AI building and pro code customization without requiring traditional complex coding syntax.",
     },
     {
-      q: isPa ? "ਭੁਗਤਾਨ ਤੋਂ ਬਾਅਦ ਮੈਨੂੰ ਕਲਾਸਾਂ ਕਿਵੇਂ ਮਿਲਣਗੀਆਂ?" : "How and when will I receive course access after paying ₹2,499?",
+      q: isPa ? "ਭੁਗਤਾਨ ਤੋਂ ਬਾਅਦ ਮੈਨੂੰ ਕਲਾਸਾਂ ਕਿਵੇਂ ਮਿਲਣਗੀਆਂ?" : "How and when will I receive course access after paying ₹997?",
       a: isPa
-        ? "ਫਲੈਟ ₹2,499 ਦੀ ਪੇਮੈਂਟ ਪੂਰੀ ਹੁੰਦੇ ਹੀ ਤੁਹਾਡੇ WhatsApp ਅਤੇ ਸਕ੍ਰੀਨ 'ਤੇ ਗੂਗਲ ਡਰਾਈਵ ਕੋਰਸ ਫੋਲਡਰ ਦਾ ਡਾਇਰੈਕਟ ਲਿੰਕ ਖੁੱਲ੍ਹ ਜਾਵੇਗਾ। ਤੁਸੀਂ ਤੁਰੰਤ ਸਾਰੀਆਂ ਰਿਕਾਰਡਡ ਕਲਾਸਾਂ ਦੇਖ ਸਕਦੇ ਹੋ।"
-        : "Immediately after completing your flat ₹2,499 payment, you will receive instant access to the Complete Masterclass Google Drive folder containing all recorded sessions, source files, and prompts, plus an automatic WhatsApp confirmation.",
+        ? "ਫਲੈਟ ₹997 ਦੀ ਪੇਮੈਂਟ ਪੂਰੀ ਹੁੰਦੇ ਹੀ ਤੁਹਾਡੇ WhatsApp ਅਤੇ ਸਕ੍ਰੀਨ 'ਤੇ ਗੂਗਲ ਡਰਾਈਵ ਕੋਰਸ ਫੋਲਡਰ ਦਾ ਡਾਇਰੈਕਟ ਲਿੰਕ ਖੁੱਲ੍ਹ ਜਾਵੇਗਾ। ਤੁਸੀਂ ਤੁਰੰਤ ਸਾਰੀਆਂ ਰਿਕਾਰਡਡ ਕਲਾਸਾਂ ਦੇਖ ਸਕਦੇ ਹੋ।"
+        : "Immediately after completing your flat ₹997 payment, you will receive instant access to the Complete Masterclass Google Drive folder containing all recorded sessions, source files, and prompts, plus an automatic WhatsApp confirmation.",
     },
     {
       q: isPa ? "ਕੀ ਇਹ ਸਾਰੀਆਂ ਰਿਕਾਰਡਡ ਕਲਾਸਾਂ ਹਨ?" : "Are these recorded sessions?",
@@ -2614,10 +2614,10 @@ export function Faq() {
         : "A laptop or desktop computer is recommended for hands-on website building and customization. You can watch the lessons on any device, including your smartphone.",
     },
     {
-      q: isPa ? "ਕੀ ਇਹ ਵਨ-ਟਾਈਮ ਫੀਸ ਹੈ ਜਾਂ ਮਹੀਨਾਵਾਰ?" : "Is it really a one-time payment of ₹2,499?",
+      q: isPa ? "ਕੀ ਇਹ ਵਨ-ਟਾਈਮ ਫੀਸ ਹੈ ਜਾਂ ਮਹੀਨਾਵਾਰ?" : "Is it really a one-time payment of ₹997?",
       a: isPa
-        ? "ਹਾਂਜੀ, ਸਿਰਫ ਫਲੈਟ ₹2,499 ਦਾ ਇੱਕ ਵਾਰ ਭੁਗਤਾਨ ਹੈ। ਕੋਈ ਮਾਸਿਕ ਫੀਸ ਜਾਂ ਲੁਕਵਾਂ ਖਰਚਾ ਨਹੀਂ ਹੈ। ਤੁਹਾਨੂੰ ਸਾਰੀਆਂ ਰਿਕਾਰਡਡ ਕਲਾਸਾਂ ਦਾ ਲਾਈਫਟਾਈਮ ਐਕਸੈਸ ਮਿਲੇਗਾ।"
-        : "Yes, exactly flat ₹2,499 one-time. No hidden subscriptions, no recurring renewal charges. You get instant lifetime access to all recorded sessions and future updates.",
+        ? "ਹਾਂਜੀ, ਸਿਰਫ ਫਲੈਟ ₹997 ਦਾ ਇੱਕ ਵਾਰ ਭੁਗਤਾਨ ਹੈ। ਕੋਈ ਮਾਸਿਕ ਫੀਸ ਜਾਂ ਲੁਕਵਾਂ ਖਰਚਾ ਨਹੀਂ ਹੈ। ਤੁਹਾਨੂੰ ਸਾਰੀਆਂ ਰਿਕਾਰਡਡ ਕਲਾਸਾਂ ਦਾ ਲਾਈਫਟਾਈਮ ਐਕਸੈਸ ਮਿਲੇਗਾ।"
+        : "Yes, exactly flat ₹997 one-time. No hidden subscriptions, no recurring renewal charges. You get instant lifetime access to all recorded sessions and future updates.",
     },
     {
       q: isPa ? "ਜੇਕਰ ਮੈਨੂੰ ਕੋਈ ਸਵਾਲ ਜਾਂ ਮੁਸ਼ਕਲ ਆਵੇ ਤਾਂ ਸਪੋਰਟ ਮਿਲੇਗੀ?" : "What if I get stuck while building?",
@@ -2862,7 +2862,7 @@ export function TwoPathsComparison() {
                 onClick={openModal}
                 className="lime-button w-full py-4 px-6 rounded-2xl text-sm sm:text-base font-black text-black shadow-[0_0_30px_rgba(212,249,52,0.5)] cursor-pointer flex items-center justify-center gap-2"
               >
-                <span>{isPa ? "ਰਸਤਾ 2 ਚੁਣੋ — ਫਲੈਟ ₹2,499 ਨਾਲ ਦਾਖਲਾ ਲਵੋ" : "Choose Path B — Get Access for Flat ₹2,499"}</span>
+                <span>{isPa ? "ਰਸਤਾ 2 ਚੁਣੋ — ਫਲੈਟ ₹997 ਨਾਲ ਦਾਖਲਾ ਲਵੋ" : "Choose Path B — Get Access for Flat ₹997"}</span>
                 <ArrowRight className="h-4 w-4" />
               </button>
             </div>
@@ -2908,8 +2908,8 @@ export function Showcase() {
 
         <p className="mt-3 sm:mt-6 text-xs sm:text-lg text-gray-300 max-w-2xl mx-auto leading-relaxed">
           {isPa
-            ? "ਸਾਰੀਆਂ 7 ਰਿਕਾਰਡਡ ਕਲਾਸਾਂ, ਕੈਪਸਟੋਨ, ਗੂਗਲ ਡਰਾਈਵ ਫੋਲਡਰ, 100+ AI ਪ੍ਰੌਂਪਟਸ ਅਤੇ ਕਲਾਇੰਟ ਆਊਟਰੀਚ ਕਿੱਟ ਫਲੈਟ ₹2,499 ਵਿੱਚ ਪ੍ਰਾਪਤ ਕਰੋ।"
-            : "Get all 7 HD masterclass recorded modules, Google Drive lifetime vault, 100+ AI prompts, and client-closing scripts for flat ₹2,499 (slashed from ₹20,000)."}
+            ? "ਸਾਰੀਆਂ 7 ਰਿਕਾਰਡਡ ਕਲਾਸਾਂ, ਕੈਪਸਟੋਨ, ਗੂਗਲ ਡਰਾਈਵ ਫੋਲਡਰ, 100+ AI ਪ੍ਰੌਂਪਟਸ ਅਤੇ ਕਲਾਇੰਟ ਆਊਟਰੀਚ ਕਿੱਟ ਫਲੈਟ ₹997 ਵਿੱਚ ਪ੍ਰਾਪਤ ਕਰੋ।"
+            : "Get all 7 HD masterclass recorded modules, Google Drive lifetime vault, 100+ AI prompts, and client-closing scripts for flat ₹997 (slashed from ₹20,000)."}
         </p>
 
         <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
@@ -2918,7 +2918,7 @@ export function Showcase() {
             onClick={openModal}
             className="lime-button w-full sm:w-auto inline-flex items-center justify-center gap-2.5 sm:gap-3 rounded-full py-3.5 sm:py-4 px-7 sm:px-9 text-base sm:text-lg font-black text-black shadow-[0_0_50px_rgba(212,249,52,0.6)] cursor-pointer"
           >
-            <span>{isPa ? "ਫਲੈਟ ₹2,499 ਨਾਲ ਤੁਰੰਤ ਐਕਸੈਸ ਲਵੋ — Save ₹17,501 →" : "Get Instant Access for Flat ₹2,499 — Save ₹17,501 →"}</span>
+            <span>{isPa ? "ਫਲੈਟ ₹997 ਨਾਲ ਤੁਰੰਤ ਐਕਸੈਸ ਲਵੋ — Save ₹19,003 →" : "Get Instant Access for Flat ₹997 — Save ₹19,003 →"}</span>
             <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5" />
           </button>
         </div>

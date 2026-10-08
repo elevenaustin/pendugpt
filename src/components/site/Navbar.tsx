@@ -58,13 +58,13 @@ export function Navbar() {
         <span className="font-extrabold truncate text-[11px] sm:text-xs">
           {lang === "pa" ? (
             <>
-              <span className="sm:hidden">ਸੰਪੂਰਨ ਮਾਸਟਰਕਲਾਸ — <span className="line-through text-black/70">₹20,000</span> <strong>ਫਲੈਟ ₹2,499</strong></span>
-              <span className="hidden sm:inline">ਨਿਯਮਿਤ ਮੁੱਲ ₹20,000 • <strong>ਸੰਪੂਰਨ ਮਾਸਟਰਕਲਾਸ ਰਿਕਾਰਡਡ ਐਕਸੈਸ:</strong> <span className="line-through decoration-red-600 decoration-2 text-black/80 font-bold">₹20,000</span> <span className="font-black text-black">₹2,499 (88% ਛੋਟ)</span></span>
+              <span className="sm:hidden">ਸੰਪੂਰਨ ਮਾਸਟਰਕਲਾਸ — <span className="line-through text-black/70">₹20,000</span> <strong>ਫਲੈਟ ₹997</strong></span>
+              <span className="hidden sm:inline">ਨਿਯਮਿਤ ਮੁੱਲ ₹20,000 • <strong>ਸੰਪੂਰਨ ਮਾਸਟਰਕਲਾਸ ਰਿਕਾਰਡਡ ਐਕਸੈਸ:</strong> <span className="line-through decoration-red-600 decoration-2 text-black/80 font-bold">₹20,000</span> <span className="font-black text-black">₹997 (95% ਛੋਟ)</span></span>
             </>
           ) : (
             <>
-              <span className="sm:hidden">Complete Masterclass — <span className="line-through text-black/70">₹20,000</span> <strong>Flat ₹2,499</strong></span>
-              <span className="hidden sm:inline">Regular Price ₹20,000 • <strong>Complete Masterclass (All Recorded Sessions):</strong> <span className="line-through decoration-red-600 decoration-2 text-black/80 font-bold">₹20,000</span> <span className="font-black text-black">₹2,499 ONLY (88% OFF)</span></span>
+              <span className="sm:hidden">Complete Masterclass — <span className="line-through text-black/70">₹20,000</span> <strong>Flat ₹997</strong></span>
+              <span className="hidden sm:inline">Regular Price ₹20,000 • <strong>Complete Masterclass (All Recorded Sessions):</strong> <span className="line-through decoration-red-600 decoration-2 text-black/80 font-bold">₹20,000</span> <span className="font-black text-black">₹997 ONLY (95% OFF)</span></span>
             </>
           )}
         </span>
@@ -146,11 +146,11 @@ export function Navbar() {
               <span>
                 {lang === "pa" ? (
                   <>
-                    ਦਾਖਲਾ ਲਵੋ — <span className="line-through decoration-red-600 decoration-2 text-black/80 font-bold">₹20,000</span> <span className="font-black text-black">₹2,499</span>
+                    ਦਾਖਲਾ ਲਵੋ — <span className="line-through decoration-red-600 decoration-2 text-black/80 font-bold">₹20,000</span> <span className="font-black text-black">₹997</span>
                   </>
                 ) : (
                   <>
-                    Get Instant Access — <span className="line-through decoration-red-600 decoration-2 text-black/80 font-bold">₹20,000</span> <span className="font-black text-black">₹2,499</span>
+                    Get Instant Access — <span className="line-through decoration-red-600 decoration-2 text-black/80 font-bold">₹20,000</span> <span className="font-black text-black">₹997</span>
                   </>
                 )}
               </span>

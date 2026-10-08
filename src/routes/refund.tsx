@@ -42,7 +42,7 @@ function RefundPage() {
             <section>
               <h2 className="text-base font-bold text-white mb-2">1. Nature of Digital Products & Deliverables</h2>
               <p>
-                PenduGPT provides immediate digital enrollment for <strong>flat ₹2,499 (88% discount slashed from regular price ₹20,000)</strong>, granting students instant lifetime access to the complete Google Drive course folder, 7 practical HD classes, 1 Final Capstone project, 100+ tested AI website prompt templates, all source code starter kits, and client outreach handover kits.
+                PenduGPT provides immediate digital enrollment for <strong>flat ₹997 (95% discount slashed from regular price ₹20,000)</strong>, granting students instant lifetime access to the complete Google Drive course folder, 7 practical HD classes, 1 Final Capstone project, 100+ tested AI website prompt templates, all source code starter kits, and client outreach handover kits.
               </p>
               <p className="mt-2 text-gray-300">
                 Because digital downloads, Google Drive shared folders, and proprietary developer templates are non-returnable upon instant electronic delivery, change-of-mind refund requests after accessing or downloading the course materials are not accepted.

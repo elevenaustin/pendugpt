@@ -83,14 +83,14 @@ export function PurchaseToast() {
               <ShieldCheck className="h-5 w-5 sm:h-6 sm:w-6 text-[#d4f934]" />
             </div>
 
-            {/* Notification Details (Includes ₹2,499 Amount & Verified Status) */}
+            {/* Notification Details (Includes ₹997 Amount & Verified Status) */}
             <div className="flex-1 pr-4">
               <h4 className="text-xs sm:text-sm font-extrabold text-white leading-tight">
                 {item.name} from {item.location}
               </h4>
 
               <div className="flex items-center gap-1.5 text-xs text-gray-300 font-medium mt-0.5">
-                <span className="text-white font-bold">₹2,499 Paid</span>
+                <span className="text-white font-bold">₹997 Paid</span>
                 <span>•</span>
                 <span className="text-[#d4f934] font-bold">{isPa ? "ਸੰਪੂਰਨ ਮਾਸਟਰਕਲਾਸ ਐਕਸੈਸ ✓" : "Complete Masterclass Access ✓"}</span>
               </div>

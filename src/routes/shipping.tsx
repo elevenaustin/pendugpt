@@ -39,7 +39,7 @@ function ShippingPolicyPage() {
             <section>
               <h2 className="text-base font-bold text-white mb-2">1. Delivery Mode & Process</h2>
               <p>
-                Upon completing payment of <strong>flat ₹2,499 (88% discount slashed from regular price ₹20,000)</strong> via our secure payment gateway (Razorpay), your digital access and Google Drive course repository are delivered electronically:
+                Upon completing payment of <strong>flat ₹997 (95% discount slashed from regular price ₹20,000)</strong> via our secure payment gateway (Razorpay), your digital access and Google Drive course repository are delivered electronically:
               </p>
               <ul className="mt-3 flex flex-col gap-2 pl-4 text-gray-300 list-disc">
                 <li><strong>Instant Screen Confirmation:</strong> Immediate redirection to the Enrollment Confirmation page with instant Google Drive folder access and VIP group links.</li>
